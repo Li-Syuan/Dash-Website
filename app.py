@@ -1,6 +1,7 @@
 from dash import Dash
 from app_config import server_layout
 from app_server import server
+from auth import protect_layouts
 import dash_bootstrap_components as dbc
 
 app = Dash(
@@ -12,6 +13,8 @@ app = Dash(
 )
 
 app.layout = server_layout
+
+protect_layouts(default=True)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

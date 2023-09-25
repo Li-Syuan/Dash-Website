@@ -2,6 +2,7 @@ from dash import register_page,html,Output,Input,callback,dcc,ctx,no_update
 from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 from app_server import User,login_user,user_db
+from auth import unprotected,redirect_authenticated
 
 register_page(__name__, path = '/login',order = 101)
 
@@ -23,6 +24,8 @@ def username_password():
         dcc.Location(id = 'redirectHome')
     ]))
 
+@unprotected
+@redirect_authenticated("/")
 def layout():
     return dbc.Container(
         fluid = True,

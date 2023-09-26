@@ -86,12 +86,21 @@ def get_navbar():
     )
 
 def get_sidebar():
-    # for_all_link = ['page1']
-    
-    for_all_link = [
+    for_all_link = []
+    page1 = [
             dbc.NavLink(f"{page['name']} - {page['path']}", href=page["relative_path"])
-            for page in page_registry.values() if 'Page' in page['name']
+            for page in page_registry.values() if page['order'] == 1
         ]
+    page2 = [
+            dbc.NavLink(f"{page['name']} - {page['path']}", href=page["relative_path"])
+            for page in page_registry.values() if page['order'] == 2
+        ]
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            for_all_link = page1
+        if current_user.role != 'admin':
+            for_all_link = page2
+    
     return html.Div([
             html.H4("Outline", className="display-6"),
             html.Hr(),

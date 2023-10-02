@@ -1,46 +1,30 @@
 from flask import Flask
-from flask_login import login_user, LoginManager, UserMixin, current_user,login_manager,login_required
-from collections import namedtuple
-import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship, backref
+
 import flask_admin as admin
 from flask_admin.contrib import sqla
-makeuser = namedtuple('User',['password','role','org'])
+from dash import Dash,html
+# Create application
+app = Flask(__name__)
 
-user_db = {
-    'admin' : makeuser('admin','admin','A'),
-    'user1' : makeuser('user1','user','A'),
-    'user2' : makeuser('user2','user','B')
-}
+# Create dummy secrey key so we can use sessions
+app.config['SECRET_KEY'] = '123456790'
 
-class server_config:
-    SECRET_KEY = os.urandom(24)
-    SQLALCHEMY_DATABASE_URI= 'sqlite:///test.db'
-    SQLALCHEMY_ECHO = True
+# Create in-memory database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.db'
+app.config['SQLALCHEMY_ECHO'] = True
+db = SQLAlchemy(app)
 
-server = Flask(__name__)
-server.config.from_object(server_config)
 
-class User(UserMixin):
-    def __init__(self, username):
-        self.id = username
-        self.role = user_db.get(username).role
-        self.org = user_db.get(username).org
+# # Flask views
+# @app.route('/')
+# def index():
+#     return '<a href="/admin/">Click me to get to Admin!</a>'
 
-login_manager = LoginManager()
-login_manager.init_app(server)
-login_manager.login_view = "/login"
 
-@login_manager.user_loader
-def load_user(username):
-    return User(username)
-
-db = SQLAlchemy()
-db.init_app(server)
-
-class Users(db.Model):
+class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
@@ -61,7 +45,7 @@ class UserKeyword(db.Model):
     special_key = db.Column(db.String(50))
 
     # bidirectional attribute/collection of "user"/"user_keywords"
-    user = relationship(Users, backref=backref("user_keywords", cascade="all, delete-orphan"))
+    user = relationship(User, backref=backref("user_keywords", cascade="all, delete-orphan"))
 
     # reference to the "Keyword" object
     keyword = relationship("Keyword")
@@ -103,24 +87,29 @@ class KeywordAdmin(sqla.ModelView):
 
 
 # Create admin
-admin = admin.Admin(server, name='Example: SQLAlchemy Association Proxy', template_mode='bootstrap4')
-admin.add_view(UserAdmin(Users, db.session))
+admin = admin.Admin(app, name='Example: SQLAlchemy Association Proxy', template_mode='bootstrap4')
+admin.add_view(UserAdmin(User, db.session))
 admin.add_view(KeywordAdmin(Keyword, db.session))
 
-# if __name__ == '__main__':
+dash_app = Dash(__name__,server = app)
+dash_app.layout = html.Div([
+    html.H1('Hello')
+])
+
+if __name__ == '__main__':
 
     # Create DB
-with server.app_context():
-    db.create_all()
+    with app.app_context():
+        db.create_all()
 
-    # Add sample data
-# user = Users('log')
-# for kw in (Keyword('new_from_blammo'), Keyword('its_big')):
-#     user.keywords.append(kw)
+    # # Add sample data
+    # user = User('log')
+    # for kw in (Keyword('new_from_blammo'), Keyword('its_big')):
+    #     user.keywords.append(kw)
 
-# with server.app_context():
-#     db.session.add(user)
-#     db.session.commit()
+    # with app.app_context():
+    #     db.session.add(user)
+    #     db.session.commit()
 
-    # # Start app
-    # app.run(debug=True)
+    # Start app
+    dash_app.run(debug=True)

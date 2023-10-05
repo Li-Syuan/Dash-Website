@@ -89,7 +89,7 @@ def get_sidebar():
     for_all_link = []
     page1 = [
             dbc.NavLink(f"{page['name']} - {page['path']}", href=page["relative_path"])
-            for page in page_registry.values() if page['order'] == 1
+            for page in page_registry.values() if page['order'] in [1,3]
         ]
     page2 = [
             dbc.NavLink(f"{page['name']} - {page['path']}", href=page["relative_path"])

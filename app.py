@@ -13,7 +13,7 @@ app = Dash(
 )
 
 app.layout = server_layout
-
+# print(app.index_string)
 protect_layouts(default=True)
 
 if __name__ == '__main__':

@@ -1,0 +1,9 @@
+# Supported offline UI runtime, not a production/full transitive lock.
+-r requirements-demo.txt
+# The new integration adapters use Python stdlib sqlite3/csv (no Oracle/SMTP).
+# Existing company ORM/worker integration must select its verified matrix:
+# SQLAlchemy 1.4.29 OR 1.4.48; APScheduler 3.9.1 OR 3.10.1.
+# Neither ambiguous library is upgraded or required by the offline adapter.
+
+# XLSX adapter; does not alter company requirements.txt.
+openpyxl==3.1.5

@@ -244,3 +244,26 @@ keeps its original admin-only contract. New reports use synthetic data in demo;
 unsupported production providers fail closed. Schedules are settings and manual
 mock captures only, with no live engine, SMTP, LDAP or account administration.
 See `docs/ADMINISTRATION.md` for the walkthrough and production acceptance gates.
+
+## 2026-10-02 QSL revision confirmation and report wizard increment
+
+Final integrated snapshot: **520 tests passed on Python 3.8.20 and Python 3.10.21, Linux x86_64**. This preserves all 443 baseline cases (the direct-update HTTP test now exercises preview plus confirmation) and adds 77: 35 revision/import-preview service tests, 22 report-builder service tests and 20 HTTP UI flow tests. Final runs: 14.373 s (3.8), 14.053 s (3.10), both exit 0.
+
+Commands on each pinned runtime:
+
+```sh
+python -B -m unittest discover -s tests -q
+```
+
+Verified coverage:
+
+- Preview makes no persistent record/audit/history change; confirm applies only server-staged values. Owner/target-bound expiry, cancel, superseded token, replay, malformed state, revoked permission and optimistic version conflicts.
+- Immutable snapshots, actor/time/source-version, current-baseline migration, restore as new version, soft-deleted recovery, atomic rollback and concurrent winners. Import preview exercises the same normalization/lock/uniqueness checks as submission without retaining writes; preview counts cover the full batch and details cap at 10 rows.
+- Allowlisted synthetic source/columns/filter operations, strict schema version and unknown-setting rejection; literal text AND filtering, grouped counts, source/preview limits; owner-plus-organization isolation, versioned saves and persisted reload. No arbitrary SQL/Python/provider selection.
+- Real Flask test-client POST requests through Dash callback dispatch for the four-step wizard, save/load, cleared old previews, denied read/write, action-token mismatch, history, cancellation and stale updates.
+- Persistent launcher path survives restart without reseeding records; definitions and revisions remain. Temporary per-test application isolation is preserved.
+- Actual loopback launcher start with a temporary data directory: index, login, Dash layout and callback-dependency endpoints returned HTTP 200. Python 3.8 grammar parse passed for 31 runtime files, and tracked/untracked source whitespace checks passed.
+
+Limitations: these are offline service/HTTP tests, not browser-rendering or screenshot verification. The Windows command launcher and exact company Python 3.8.13 / Windows 3.10.4 were not executed. Oracle/LDAP/SMTP, actual company routes/adapters and deployment remain untested and unchanged. No new package dependency, external integration, live mail/scheduler operation or public deployment was introduced.
+
+New features are in `qa_portal_demo.py` at port 8051 `/QA_portal/`; `app.py` at port 8050 remains the prior reporting catalog. Read `docs/opus/REVISION_WIZARD_UPGRADE.md` before integration or choosing a persistent data directory.

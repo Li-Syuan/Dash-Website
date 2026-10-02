@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install the approved minimal runtime subset
-        run: python -m pip install -r requirements-demo.txt
+        run: python -m pip install -r requirements-qa-portal.txt
       - name: Run isolated regression and concurrency tests
         run: python -B -m unittest discover -s tests -v
       - name: Check whitespace errors

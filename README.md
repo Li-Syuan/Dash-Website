@@ -1,5 +1,7 @@
 # Report workspace — modular reporting foundation
 
+**QA Portal 最新增量：** QSL 修改前後差異、歷史版本還原、四步報表精靈。執行 `python -B qa_portal_demo.py`，開啟 `http://127.0.0.1:8051/QA_portal/`。詳見 [新版操作與整合指南](docs/opus/REVISION_WIZARD_UPGRADE.md)。主目錄 `app.py` 仍使用 8050。
+
 A modular Flask + Dash reporting foundation with an offline demo entrypoint. It preserves the
 known public example's routes, callback IDs and role/organization rules, with a
 consistent Bootstrap component shell, local design tokens and scoped in-app notifications. Default report data is

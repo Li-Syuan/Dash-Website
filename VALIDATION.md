@@ -49,3 +49,14 @@ safe remote testing; do not expose public demo credentials as production auth.
 
 Earlier handoff evidence: 10 tests and a loopback health check passed on Windows
 Python 3.12.12 before cloud migration. No Windows 3.10 browser pass was claimed.
+
+## CSS design refinement
+
+The second pass is CSS-only: richer navigation and hero hierarchy, report cards,
+table striping/filter/pagination states, forms, alerts, simulation empty state,
+hover/focus/disabled states, print layout, and 1100/800/560px responsive rules.
+Reduced-motion, high-contrast and forced-colors preferences are handled locally.
+All 20 tests pass on both isolated runtimes; live HTTP endpoints/assets return
+200; CSS delimiter/offline-reference/static accessibility checks pass. These
+checks do not establish browser layout or visual correctness. No runtime
+dependency, authentication rule, callback or report behavior changed in this pass.

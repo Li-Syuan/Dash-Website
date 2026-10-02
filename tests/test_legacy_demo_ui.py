@@ -48,6 +48,19 @@ class DemoTransportTests(unittest.TestCase):
         for field, value in zip(FIELDS, ['IC', 'SYN999', 'Synthetic Test', 'TW', 'Tainan', 'B', 'LEVEL 1']):
             values['qa-field-' + field] = value
         values.update(extra or {})
+        # Browser workflow now queries the target before update/delete and
+        # keeps create fields in a separate modal.
+        values.update({'qa-create-field-' + f: values.get('qa-field-' + f) for f in FIELDS})
+        if trigger in ('qa-update', 'qa-submit-update', 'qa-delete'):
+            is_delete = trigger == 'qa-delete'
+            target = values.get('qa-record-id', 1)
+            loaded = self.call('qa-delete-record.children' if is_delete else 'qa-load-status.children',
+                'qa-query-delete' if is_delete else 'qa-load-id',
+                {'qa-delete-id' if is_delete else 'qa-record-id': target})
+            loaded = loaded.get_json()['response']
+            proof_id = 'qa-loaded-delete' if is_delete else 'qa-loaded-update'
+            values[proof_id] = loaded.get(proof_id, {}).get('data')
+            values['qa-delete-id'] = target
         response = self.call('qa-status.children', trigger, values)
         self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
         return response.get_json()['response']
@@ -169,7 +182,8 @@ class DemoTransportTests(unittest.TestCase):
         self.login('outsider')
         result = self.call('qa-load-status.children', 'qa-load-id', {'qa-record-id': 1})
         self.assertEqual(result.status_code, 200)
-        self.assertNotIn('qa-field-Vendor_Code', result.get_json()['response'])
+        self.assertEqual(result.get_json()['response']['qa-field-Vendor_Code']['value'], '')
+        self.assertIsNone(result.get_json()['response']['qa-loaded-update']['data'])
 
 
 if __name__ == '__main__':

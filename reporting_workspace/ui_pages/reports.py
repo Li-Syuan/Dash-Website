@@ -1,4 +1,5 @@
 """Server-authorized report layout and explicit report/notification callbacks."""
+from flask import current_app
 from dash import html, dcc, Input, Output, no_update, dash_table
 import dash_bootstrap_components as dbc
 
@@ -11,9 +12,19 @@ from .shared import heading, request_id
 POLICY = AccessPolicy.require(roles=('admin',))
 
 
+def _record_view(runtime):
+    operations = current_app.extensions.get('operations_service')
+    if operations is not None:
+        try:
+            operations.record_usage(runtime.identity(), 'monthly-performance', 'report_view')
+        except Exception:
+            current_app.logger.warning('operations_usage_write_failed')
+
+
 def layout(runtime):
     try:
         rows = runtime.reports.rows(runtime.identity())
+        _record_view(runtime)
         event = runtime.notify.success('report.loaded', request_id=request_id())
     except ProviderUnavailable:
         rows = []
@@ -85,6 +96,7 @@ def register_callbacks(callbacks, runtime):
     def refresh_report(n):
         try:
             rows = runtime.reports.rows(runtime.identity())
+            _record_view(runtime)
         except ProviderUnavailable:
             return no_update, runtime.notify.error('report.failed', request_id=request_id())
         return rows, runtime.notify.success('report.loaded', request_id=request_id())

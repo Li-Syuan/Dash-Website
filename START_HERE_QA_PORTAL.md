@@ -1,30 +1,72 @@
-# QA Portal 完整離線整合包
+> 新增功能與 DONE 證據：[功能清單](FEATURE_TODO.md)；[營運中心交接](docs/opus/OPERATIONS_HANDOFF.md)。
 
-先讀 `docs/opus/INTEGRATION.md`，再依 `docs/opus/VALIDATION.md` 查看實際驗證范围。
-本包保留既有 demo 功能，加上公司 legacy 權限語意、安全 QSL CRUD/匯入匯出及 mock 郵件狀態流程。
-提供給 Opus 整合；**尚未接入公司正式系統、尚未部署，沒有真實寄信或正式授權異動**。
+> 維護表已恢復獨立 Create / Update / Delete / Upload 彈窗，Update/Delete 先 Query ID。見[原版操作對照](docs/opus/ORIGINAL_CRUD_PARITY.md)。
 
-## 新增功能
+# QA Portal：從主站登入開始
 
-新版加入 QSL 修改差異確認、可追溯歷史還原、四步報表建立精靈。操作與保存／升級方式請讀 `docs/opus/REVISION_WIZARD_UPGRADE.md`。這些新功能在下方 **8051 的 QA Portal 參考入口**；8050 主目錄沒有被替換。
+**現在只要啟動 `app.py`。** 本包的報表目錄、管理台與 QSL 維護／報表精靈已整合在同一個本機主站，共用一次登入。
+這是合成資料的離線整合版；**尚未接入公司正式系統、尚未部署，沒有真實寄信或正式授權異動**。
 
-## 執行入口
+## 1. 啟動主站
 
-- `python -B app.py` → `http://127.0.0.1:8050/login`：完整報表目錄／管理台、權限、維護、排程設定、稽核。既有公開 demo 帳號見 README。
-- `python -B qa_portal_demo.py` → `http://127.0.0.1:8051/QA_portal/`：公司規則相容參考頁。僅 synthetic 身分與資料，預設將合成資料與報表定義保存在本機 `instance/qa_portal_demo/`，重啟後保留。
+在新解壓的資料夾中，啟用相容的隔離 conda／Python 3.8 環境。若該環境尚未安裝依賴：
 
-先在隔離 Python3.8 虛擬環境安裝 `requirements-qa-portal.txt`。不要使用歷史 `requirements.txt` 升級公司環境。
-不要直接執行歷史 `test_admin.py`（它是舊資料庫範例，不是測試入口）。
+```powershell
+python -m pip install -r requirements-qa-portal.txt
+python -B app.py
+```
 
-## 自動測試
+Windows 也可在啟用環境後執行 `START_QA_ENHANCEMENTS.cmd`，它同樣啟動主站 `app.py`，不會自動安裝或升級套件。
 
-`python -B -m unittest discover -s tests -v`
+1. 開啟 `http://127.0.0.1:8050/login`。
+2. 使用 `demo-admin`／`demo-only` 登入。
+3. 點上方「QSL 維護 / 精靈」，或報表目錄中的「QSL 維護與報表精靈」。
+4. 進入 `http://127.0.0.1:8050/QA_portal/maintenance`；先按「重新查詢」。
 
-完整目錄與新相容參考頁是兩個 runnable 入口。這是刻意保留 baseline、提供逐步整合邊界，並非原公司所有報表的已遷移版本。
+不要使用歷史 `requirements.txt` 升級公司環境。舊資料庫範例 `test_admin.py` 已移除，測試請用下方 unittest 命令。預設只綁定 loopback；不要公開部署公開測試帳號。
 
-## 隱私與發佈
+## 2. 帳號與功能
 
-本 ZIP 不含 .git、實際 SQLite、credentials、真實公司資料或原聊天內容。
-只有合成測試 fixture。未對 Git remote push，未 publish/deploy。
+以下三個公開測試帳號的密碼都是 `demo-only`，僅供本機合成資料使用：
 
-`examples/qa_portal/qsl_new_rows.csv` 和 `.xlsx` 可直接用於參考頁匯入，兩筆為同供應商不同城市的合成資料，驗證五欄唯一鍵；同一批再次上傳應被拒絕為重複資料。
+- `demo-admin`：組織 A，可查詢／匯出、CRUD、匯入、版本還原、保存報表定義及操作 mock 郵件。
+- `demo-user-a`：組織 A，唯讀查詢／匯出及報表預覽；不能修改、匯入、讀取歷史或保存定義。
+- `demo-user-b`：組織 B，拒絕進入此 QSL 頁與其資料 callbacks。
+
+本頁使用主站 Flask-Login session，沒有第二次選身分或另一套登入。這個 demo 的管理員映射不等於公司正式 admin 擁有 CRUD 權限。
+
+同一頁包含既有 QSL 新增／修改／刪除、CSV／XLSX 匯入匯出，以及新增的修改差異確認、歷史還原、四步報表精靈和 mock 郵件流程。舊報表目錄、管理台、權限、排程設定、稽核與主題仍保留。
+
+- 修改：Update 彈窗 → Table ID → Query → 修改欄位 → Submit to update。差異預覽另可選用。
+- 還原：載入歷史 → 選版本 → 預覽差異 → 確認還原為新版本。
+- 匯入：上傳 CSV／XLSX → 檢查暫存摘要 → 提交；整批重新驗證，有錯誤時回滾。
+- 精靈：選來源 → 選欄位 → 設篩選／分組 → 預覽後保存。
+
+`examples/qa_portal/qsl_new_rows.csv` 和 `.xlsx` 可直接匯入。兩筆為同供應商不同城市的合成資料，用來檢查五欄唯一鍵；同一批再次上傳應被拒絕為重複資料。
+
+## 3. 保存位置
+
+主站預設保存至本包的 `instance/workspace.sqlite`；QSL 相關資料放在它的同層目錄 `instance/workspace.sqlite.qa/`：
+
+- `qsl.sqlite`：合成 QSL、稽核、歷史與暫存 token
+- `report_builder.sqlite`：報表定義
+- `jobs.sqlite`：mock 排程／郵件設定與紀錄
+
+若指定 `REPORTING_STATE_PATH`，QSL 目錄就是該完整檔案路徑加上 `.qa`。重啟保留資料，預設重啟後須重新登入。升級前停服務並備份主站資料庫及整個 `.qa` 目錄；不要使用公司真實資料或網路磁碟。沒有設定持久化路徑的 factory 測試只使用臨時 QSL 目錄。
+
+## 4. 交給 Opus 整合公司原始碼
+
+先讀 [主站整合與公司接入指南](docs/opus/MAIN_APP_INTEGRATION.md)。本包的 `app.py` 與公司原始 `app.py` 是不同來源，**不要直接覆蓋公司專案**。
+公司登入、原權限、callback、路徑、Oracle adapter 與分階段驗收仍需按實際原始碼接入。production factory 不會自動載入這個合成 QSL 頁。
+
+[既有公司規則與 adapter 交接](docs/opus/INTEGRATION.md) 保留原始整合約束；[修改／歷史／精靈操作說明](docs/opus/REVISION_WIZARD_UPGRADE.md) 提供詳細流程。詳細服務規則與操作仍適用；啟動、登入與保存位置以本文件為準。
+
+## 單一入口與舊資料
+
+不需要啟動其他 Python 網站或切換第二套身分。本次清理移除多餘啟動器，所有使用者功能從 `app.py` 進入。移除清單與復原說明見 [REMOVED_FILES.md](docs/opus/REMOVED_FILES.md)。舊獨立版本的 `instance/qa_portal_demo/` 不會自動遷移到主站；如需保留舊資料，先備份並由 Opus 審核身分與報表所有權映射。
+
+## 驗證與發佈界線
+
+測試入口：`python -B -m unittest discover -s tests -v`。實際執行結果與未驗證項目看 [VALIDATION.md](VALIDATION.md) 和 [Opus 驗證紀錄](docs/opus/VALIDATION.md)；本啟動指南本身不代表測試通過或正式驗收。
+
+交付 ZIP 不含 `.git`、實際 SQLite、credentials、真實公司資料或原聊天內容，只有合成 fixture。未對 Git remote push，未 publish/deploy。

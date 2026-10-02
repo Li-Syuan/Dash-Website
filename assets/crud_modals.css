@@ -1,0 +1,39 @@
+/* Offline Bootstrap-compatible modal geometry for dbc 1.4.1.
+   The project has no Bootstrap CDN: do not depend on external styles. */
+body.modal-open { overflow: hidden; }
+.modal.portal-crud-modal {
+  position: fixed; inset: 0; z-index: 1055; width: 100%; height: 100%;
+  overflow-x: hidden; overflow-y: auto; outline: 0;
+}
+.portal-crud-modal .modal-dialog {
+  position: relative; width: auto; margin: 1.75rem auto; max-width: 1140px;
+  pointer-events: none; padding: 0 1rem;
+}
+.portal-crud-modal .modal-dialog-centered {
+  display: flex; align-items: center; min-height: calc(100% - 3.5rem);
+}
+.portal-crud-modal .modal-dialog-scrollable { height: calc(100% - 3.5rem); }
+.portal-crud-modal .modal-content {
+  display: flex; flex-direction: column; width: 100%; max-height: 100%;
+  pointer-events: auto; color: var(--ink, #172033); background: var(--surface, white);
+  border: 1px solid var(--line, #ddd); border-radius: 12px;
+  box-shadow: 0 16px 64px rgba(0,0,0,.25); overflow: hidden;
+}
+.portal-crud-modal .modal-header, .portal-crud-modal .modal-footer {
+  display: flex; flex-shrink: 0; align-items: center; gap: 12px; padding: 16px 20px;
+  background: var(--surface-soft, #f8fafc);
+}
+.portal-crud-modal .modal-header { border-bottom: 1px solid var(--line, #ddd); }
+.portal-crud-modal .modal-title { margin: 0; font-size: 1.2rem; }
+.portal-crud-modal .modal-body { position: relative; flex: 1 1 auto; padding: 20px; overflow-y: auto; }
+.portal-crud-modal .modal-footer { justify-content: flex-end; flex-wrap: wrap; border-top: 1px solid var(--line, #ddd); }
+.modal-backdrop { position: fixed; inset: 0; z-index: 1050; background-color: #000; }
+.modal-backdrop.show { opacity: .5; }
+.portal-crud-modal table { width: 100%; border-collapse: collapse; }
+.portal-crud-modal th, .portal-crud-modal td { padding: 8px; text-align: left; border-bottom: 1px solid var(--line, #ddd); overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .portal-crud-modal .modal-dialog { margin: .5rem auto; padding: 0 .5rem; }
+  .portal-crud-modal .modal-dialog-centered { min-height: calc(100% - 1rem); }
+  .portal-crud-modal .modal-dialog-scrollable { height: calc(100% - 1rem); }
+  .portal-crud-modal .mantine-SimpleGrid-root { grid-template-columns: 1fr; }
+}

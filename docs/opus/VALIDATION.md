@@ -1,3 +1,23 @@
+# Current modal workflow verification
+
+558 tests pass on Linux Python 3.8.20 and 3.10.21. Sixteen new main-app
+HTTP/SQLite modal-flow cases supplement the 542-test baseline.
+Read [original workflow parity](ORIGINAL_CRUD_PARITY.md) and the latest
+section of [root validation](../../VALIDATION.md).
+No browser / Windows / company-service pass is claimed.
+
+## Historical validation checkpoints (superseded counts)
+
+# Latest single-entry verification
+
+542 tests pass on Linux Python 3.8.20 and 3.10.21 after main app.py integration.
+Fresh ZIP extraction launches app.py; seven HTTP endpoints return 200.
+See [full current verification](../../VALIDATION.md#2026-10-02-single-entry-apppy-integration-and-cleanup)
+and [main integration guide](MAIN_APP_INTEGRATION.md).
+Browser, Windows, Oracle, LDAP and SMTP remain unverified.
+
+## Prior increment record
+
 # Validation — initial integration checkpoint (443 tests)
 
 This file and the adjacent test-results-python*.txt preserve the earlier integration checkpoint. The final revision/wizard release has 520 tests per runtime; see ../../VALIDATION.md and REVISION_WIZARD_UPGRADE.md. MANIFEST.json below is refreshed for the current repository payload, excluding itself.

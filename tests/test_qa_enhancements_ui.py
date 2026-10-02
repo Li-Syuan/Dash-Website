@@ -84,6 +84,18 @@ class QaEnhancementTransportTests(unittest.TestCase):
                       Country='TW', City='Taipei', Rev='B', Supplier_Level='LEVEL 1')
         values.update({'qa-field-' + field: fields[field] for field in FIELDS})
         values.update(extra or {})
+        # Browser workflow now queries the target before update/delete and
+        # keeps create fields in a separate modal.
+        values.update({'qa-create-field-' + f: values.get('qa-field-' + f) for f in FIELDS})
+        if trigger in ('qa-update', 'qa-submit-update', 'qa-delete'):
+            is_delete = trigger == 'qa-delete'
+            target = values.get('qa-record-id', 1)
+            loaded = self.callback('qa-delete-record.children' if is_delete else 'qa-load-status.children',
+                'qa-query-delete' if is_delete else 'qa-load-id',
+                {'qa-delete-id' if is_delete else 'qa-record-id': target})
+            proof_id = 'qa-loaded-delete' if is_delete else 'qa-loaded-update'
+            values[proof_id] = loaded.get(proof_id, {}).get('data')
+            values['qa-delete-id'] = target
         return self.callback('qa-status.children', trigger, values)
 
     def prepare_update(self, extra=None):

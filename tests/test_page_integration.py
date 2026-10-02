@@ -92,8 +92,8 @@ class PageFactoryIntegrationTests(AppTestCase):
         identities = FixtureIdentity()
         identities.users['other-role'] = {'id': 'other-role', 'role': 'other', 'org': 'A'}
         server = self.app(identities=identities)
-        for username, expected in ((None, []), ('fixture-admin', ['/', '/admin', '/maintenance']),
-                                   ('fixture-user', ['/', '/maintenance']), ('other-role', ['/'])):
+        for username, expected in ((None, []), ('fixture-admin', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/admin', '/maintenance']),
+                                   ('fixture-user', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/maintenance']), ('other-role', ['/'])):
             with self.subTest(username=username):
                 client = server.test_client() if username is None else self.logged_in(server, username)
                 self.assertEqual(self.links(client), expected)
@@ -104,7 +104,7 @@ class PageFactoryIntegrationTests(AppTestCase):
                 labels = [node['props']['children'] for node in components(navigation)
                           if node.get('type') == 'NavLink']
                 self.assertEqual(labels, [{'/' : 'Reports', '/admin': 'Admin',
-                                            '/maintenance': 'Maintenance'}[path] for path in expected])
+                                            '/maintenance': 'Maintenance', '/QA_portal/maintenance': 'QSL 維護 / 精靈', '/QA_portal/operations': '營運中心 / TODO'}[path] for path in expected])
                 self.assertTrue(set(self.links(client)).isdisjoint(('/page1', '/page2', '/page3')))
         catalog_pages = {page.page_id: page for page in default_pages()}
         for page_id in ('page1', 'page2', 'reports'):
@@ -249,7 +249,7 @@ class PageFactoryIntegrationTests(AppTestCase):
         self.assertTrue(callbacks.frozen)
         self.assertEqual(calls, [])
         client = self.logged_in(server)
-        self.assertEqual(self.links(client), ['/', '/extra-report', '/admin', '/maintenance'])
+        self.assertEqual(self.links(client), ['/', '/extra-report', '/QA_portal/maintenance', '/QA_portal/operations', '/admin', '/maintenance'])
         response = self.page(client, '/extra-report')
         self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
         self.assertIn(PRIVATE_RESULT, response.get_data(as_text=True))

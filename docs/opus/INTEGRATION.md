@@ -5,14 +5,14 @@
 
 ## 交付結構
 
-- 既有 `app.py`：完整報表目錄、管理台、權限設定、排程設定、稽核、主題等既有 demo。
-- 新增 `qa_portal_demo.py`：`/QA_portal/` 下的實作參考頁，連接新的安全 CRUD 與郵件模擬服務。
+- `app.py`：唯一網站入口，提供完整報表目錄、管理台、權限／排程設定、稽核、主題，以及 `/QA_portal/maintenance` 的 QSL CRUD、歷史、精靈與 mock 郵件。
+- `reporting_workspace/ui_pages/qa_maintenance.py`：將 QSL 註冊到主導覽／目錄與受保護 callbacks，共用主站 Flask-Login session。
 - `reporting_workspace/legacy_policy.py`：公司權限規則的獨立判斷器與 callback guard。
 - `reporting_workspace/legacy_crud.py`：synthetic QSL 資料維護與安全匯入／匯出服務。
 - `reporting_workspace/legacy_jobs.py`：來源、產報、寄信分段紀錄與 mock 執行服務。
 - `tests/test_legacy_*.py`：新服務與實際 callback／HTTP 的測試。
 
-兩個 demo 入口各自有用途，並非假裝已將公司 38 處頁面整套搬移。正式整合保留公司原有頁面與路徑，新服務逐頁導入。
+本包功能已集中至主站 `app.py`，多餘獨立啟動器移除；這仍不代表公司 38 處頁面已整套搬移。正式整合保留公司原有頁面與路徑，新服務逐頁導入。最新主入口、保存位置、程式接點與清理範圍見 [MAIN_APP_INTEGRATION.md](MAIN_APP_INTEGRATION.md)。
 
 ## 啟動
 
@@ -22,11 +22,10 @@
 python3.8 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements-qa-portal.txt
-python -B qa_portal_demo.py
+python -B app.py
 ```
 
-瀏覽器打開 `http://127.0.0.1:8051/QA_portal/`。公開 demo 身分不是正式登入系統；不要公開部署。
-主功能目錄／管理台可另行執行 `python -B app.py`（主目錄預設 8050，參考頁預設 8051）。
+瀏覽器打開 `http://127.0.0.1:8050/login`，以 `demo-admin`／`demo-only` 登入，由導覽或目錄進入 `/QA_portal/maintenance`。不用另一個網站或第二次選身分。`demo-user-a` 唯讀，`demo-user-b` 因組織 B 被拒絕；密碼皆為 `demo-only`。公開測試帳號不是正式登入系統，不要公開部署。公司 admin 的原權限規則仍按下節驗收，不能直接套用本包的測試映射。
 
 測試：
 ```sh
@@ -124,4 +123,4 @@ QSL 五欄業務鍵、Rev、Supplier_Level alias 及 dry-run rollback 保留；�
 
 ## 修改預覽／報表精靈增量
 
-新增完整流程與持久化，詳見 [REVISION_WIZARD_UPGRADE.md](REVISION_WIZARD_UPGRADE.md)。請注意新版啟動器會保存合成資料；歷史 API 與受限報表來源仍須正式 adapter 整合。
+新增完整流程與持久化，已接入主站，詳見 [REVISION_WIZARD_UPGRADE.md](REVISION_WIZARD_UPGRADE.md)。`app.py` 的主站資料與 `.qa` 目錄保存合成資料；歷史 API 與受限報表來源仍須正式 adapter 整合。

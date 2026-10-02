@@ -267,3 +267,76 @@ Verified coverage:
 Limitations: these are offline service/HTTP tests, not browser-rendering or screenshot verification. The Windows command launcher and exact company Python 3.8.13 / Windows 3.10.4 were not executed. Oracle/LDAP/SMTP, actual company routes/adapters and deployment remain untested and unchanged. No new package dependency, external integration, live mail/scheduler operation or public deployment was introduced.
 
 New features are in `qa_portal_demo.py` at port 8051 `/QA_portal/`; `app.py` at port 8050 remains the prior reporting catalog. Read `docs/opus/REVISION_WIZARD_UPGRADE.md` before integration or choosing a persistent data directory.
+
+## 2026-10-02 single-entry app.py integration and cleanup
+
+The previous separate-entry limitation above is superseded: `app.py` now directly
+constructs the main factory and serves login, catalog, administration, maintenance,
+QSL CRUD/import/export, revision restore and the report wizard on port 8050.
+The QSL page is `/QA_portal/maintenance`; it shares the main Flask-Login identity,
+server callback registry and persistent workspace state directory. No second
+identity chooser, iframe, external-port link or separate launcher is required.
+
+Final regression runs: **542 tests passed** on Python **3.8.20** (19.519 s) and
+**3.10.21** (18.006 s), Linux x86_64. Command:
+`python -B -m unittest discover -s tests -q`.
+The former 520 cases were retained except one obsolete decorator-only test;
+three single-launcher tests and 20 main-application integration cases were added.
+
+New real SQLite / Flask HTTP checks cover main login/navigation/catalog policy,
+CRUD and CSV import, readonly controls and forged writes, current role/org/account
+revocation, logout, cross-origin requests, token replay/cross-user rejection,
+preview/confirm/restore history, private wizard saves/loads, restart persistence,
+mock-job identity and ambiguous multi-action rejection. Shared wizard outputs are
+consolidated before registration; the registry's uniqueness rule is unchanged.
+
+A fresh ZIP extraction was started through **app.py** using the supported Python
+3.8 runtime. Health, readiness, login, root, QSL route, Dash layout and dependency
+endpoints returned HTTP 200; persistent QSL and report-builder SQLite files were
+created. This is server startup/HTTP verification, not browser rendering. Direct
+launch binds 127.0.0.1 only, disables debug, and preserves explicit configuration.
+
+Cleanup archived 42 obsolete files before removal and removed the alternate
+example launch block; see `docs/opus/REMOVED_FILES.md`. User data, migrations,
+active services, useful tests and Git history are preserved. Only app.py remains
+an executable application launcher. Whitespace and Python 3.8 syntax checks pass.
+
+Not verified: real browser clicks/appearance, Windows runtime, company Oracle,
+LDAP, SMTP, production reverse-proxy routes or production deployment. Current
+local data and identity providers remain explicitly synthetic; no setting silently
+turns these into company integrations. The production factory does not register
+the synthetic QSL page without a reviewed integration adapter.
+
+
+## 2026-10-02 Original CRUD modal workflow restoration
+
+The integrated QSL page now has independent Create / Update / Delete / Upload
+modals and Query-ID-before-update/delete. Direct Submit to update does not
+require the optional diff-preview step. Failed submission stays open.
+
+New real main-app HTTP + SQLite tests cover modal declaration/button contract,
+cancel/reopen, stale fields, signed ID/version/user mismatch, denied readers,
+real SQLite-trigger write rollback, canceled previews, invalid replacement
+upload revocation, upload-clear no-op and atomic import rollback reporting.
+Local dbc modal CSS is served without a CDN.
+
+See docs/opus/ORIGINAL_CRUD_PARITY.md for exact intentional behavior changes
+and remaining generic-CRUD/company adapter limitations. These are transport
+and storage tests, NOT browser visual tests. Windows and company services
+remain unverified.
+
+Final full-suite result: **558 tests / OK** on Linux Python 3.8.20 and
+3.10.21. Python 3.8 AST and git diff --check passed.
+
+## 2026-10-03 營運中心與 ETL 增量（ZIP v4）
+
+- Final full suite: 669 tests passed on Python 3.8.20 and Python 3.10.21, Linux x86_64.
+- Command: `python -B -m unittest discover -s tests -q` in the existing pinned environments.
+- New focused suites: operations 38, maintenance registry 25, scheduler/diagnostics/notifications 36, HTTP integration 12.
+- Actual direct `python -B app.py` smoke: loopback healthz succeeded; real 60-second interval fired with trigger=timer; source_snapshot, clean_validate, atomic_publish all succeeded, publishing 4 synthetic rows. See `docs/opus/OPERATIONS_TIMER_EVIDENCE.json`. Process shut down after the test.
+- Main app retains original QSL modal regression tests. New features use the same session and app-owned callback registry.
+- Verified organization/authentication boundaries, per-request current identities, owner-private report suggestions, sanitized diagnostic ZIP, controlled failure notifications and no ETL replay after notification failure.
+- 100 synthetic maintenance definitions: 75 real SQLite tables exercised across three binds, 25 Oracle metadata-only unavailable entries. Oracle adapter fake-session contract tests are not a real Oracle acceptance test.
+- Scheduler is for one host with SQLite rollback-journal storage; no NFS, cluster, or WAL guarantee. Durable lease sidecar fences stale workers. Defaults disabled/300 seconds; public minimum 60 seconds. Actual company ETL jobs were not connected or changed.
+- No company SMTP/LDAP/database connection, live email, GitHub push, or production deployment occurred. No Windows/browser visual acceptance is claimed.
+- Python 3.8 compilation and `git diff --check` passed. Existing temporary-directory ResourceWarnings appeared during tests; all assertions passed and no background test workers remained.

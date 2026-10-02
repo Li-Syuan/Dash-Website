@@ -1,21 +1,25 @@
 # QSL 修改預覽、歷史版本與報表精靈
 
-本次是完整 ZIP 的新增功能，不是公司系統已整合／已部署。仍使用合成資料，沒有連接 Oracle、LDAP、SMTP；主目錄原有入口與公司路由契約保持不變。
+本次新增功能已整合進本包唯一主入口 `app.py`；不是公司原始系統已接入／已部署。仍使用合成資料，沒有連接 Oracle、LDAP、SMTP。主目錄原有功能保留，公司路由契約需在實際接入時逐項核對。
 
 ## 從哪裡開始
 
 在獨立解壓的版本資料夾內，使用既有相容 conda／Python 環境：
 
 ```powershell
-python -B qa_portal_demo.py
+python -B app.py
 ```
 
-在同一台電腦瀏覽 `http://127.0.0.1:8051/QA_portal/`，點「切換模擬身分」，選 `editor` 或 `developer`。`reader` 可以查詢及預覽報表，但不能修改資料／保存定義／讀取歷史。`admin` 仍只有原規則的入場能力，不自動取得 CRUD。
+在同一台電腦瀏覽 `http://127.0.0.1:8050/login`，以 `demo-admin`／`demo-only` 登入，從主導覽或目錄進入 `/QA_portal/maintenance`。同一頁包含 QSL CRUD、匯入匯出、修改預覽、歷史、精靈與 mock 郵件。
 
-- 新功能在 **8051 的 QA Portal 參考頁**。
-- `python -B app.py` 的 **8050 主報表目錄**維持原有功能；尚未將两個入口合併成公司正式站。
-- 不公開部署這個具有模擬登入的服務。只綁定 loopback。
-- 不需新增套件或升級公司環境。安裝依賴仍參考 `requirements-qa-portal.txt`。
+- `demo-admin`：組織 A，可維護及保存定義。
+- `demo-user-a`：組織 A，可查詢、匯出及預覽報表，不能修改、保存定義或讀取歷史。
+- `demo-user-b`：組織 B，拒絕此頁與其資料 callbacks。三者密碼皆為 `demo-only`。
+- 共用主站 Flask-Login session，不另開 8051，也不再切換獨立模擬身分。
+- 不公開部署公開測試帳號；只綁定 loopback。
+- 沒有因主入口整合新增套件或升級公司環境；隔離環境安裝依賴仍參考 `requirements-qa-portal.txt`。
+
+公司 admin entry 不自動取得 CRUD 的原規則不變；上方為本包測試身分的明確映射。完整接點與公司原始碼接入順序見 [MAIN_APP_INTEGRATION.md](MAIN_APP_INTEGRATION.md)。
 
 ## 操作流程
 
@@ -58,21 +62,24 @@ CSV／XLSX 暫存後會顯示全批新增、更新、失敗數，以及前 10 �
 
 ## 保存與升級
 
-新版啟動器預設持久化到目前工作目錄下的 `instance/qa_portal_demo/`：
+主入口預設將主站狀態保存到本包目錄下的 `instance/workspace.sqlite`，QSL 相關資料保存到同層 `instance/workspace.sqlite.qa/`：
 
 - `qsl.sqlite`：合成資料、稽核、歷史、一次性預覽與匯入 token
 - `report_builder.sqlite`：報表定義與 schema version
 - `jobs.sqlite`：原有合成排程／寄信設定與紀錄
 
-也可以指定獨立目錄：
+也可以在啟動前指定絕對本機 state 檔名；QSL 目錄為完整檔名加上 `.qa`：
 
 ```powershell
-python -B qa_portal_demo.py --data-dir "D:\Dash_website\qa_demo_data" --port 8051
+$env:REPORTING_STATE_PATH = "D:\Dash_website\qa_data\workspace.sqlite"
+python -B app.py
 ```
 
-不要指定公司 Oracle、共用 NFS／網路磁碟或真實資料路徑。這是同一主機 SQLite 示範。重新啟動後資料／歷史／定義保留；模擬登入工作階段會失效，需要再選身分。
+先建立 `qa_data` 目錄；不要填入公司正式資料路徑。此例 QSL 目錄為 `D:\Dash_website\qa_data\workspace.sqlite.qa\`。
 
-舊啟動器使用臨時資料夾，因此舊程式退出後的臨時資料未必仍存在，不能承諾自動救回。對既有此服務的 SQLite，新增歷史表與 preview 表，不重設原本的資料／稽核／stage；只有現存當下版本能成為 baseline，不能捏造更早的完整內容。正式採用前先停服務、備份整個資料目錄再升級。
+不要指定公司 Oracle、共用 NFS／網路磁碟或真實資料路徑。這是同一主機 SQLite 示範。重新啟動後資料／歷史／定義保留；預設主站登入工作階段會失效，需要重新登入。
+
+早期啟動器使用臨時資料夾，因此舊程式退出後的臨時資料未必仍存在，不能承諾自動救回。其後獨立 8051 版本的 `instance/qa_portal_demo/` 也不會自動搬入主站：需先備份，核對 actor／組織與報表所有權後再遷移。對既有此服務的 SQLite，新增歷史表與 preview 表，不重設原本的資料／稽核／stage；只有現存當下版本能成為 baseline，不能捏造更早的完整內容。正式採用前先停服務、備份主站資料庫與整個 `.qa` 目錄再升級。
 
 本 ZIP **不含** instance 資料或資料庫。若自行解壓，放到 `D:\Dash_website\QA_Portal_Revision_Wizard_20261002\` 等新的版本資料夾；不要把 ZIP 直接覆蓋原專案。指定同一資料目錄前先做備份。公司 adapter 與 repo 合併由 Opus 按整合指南處理。
 
@@ -81,8 +88,9 @@ python -B qa_portal_demo.py --data-dir "D:\Dash_website\qa_demo_data" --port 805
 - `legacy_crud.py`：preview_update / confirm_update / discard_preview / history / preview_restore / confirm_restore，以及交易式快照。
 - `report_builder.py`：ReportBuilderService，固定 schema 的 validate / preview / save / list_definitions / load。
 - `qa_enhancements_ui.py`：新兩組 panel 與實際 Dash callbacks。
-- `legacy_demo_ui.py`：注入 server 身分、policy、來源服務，將舊直接更新改成預覽＋確認。
-- `qa_portal_demo.py`：持久化目錄與啟動參數。
+- `legacy_demo_ui.py`：主站共用 UI／隔離測試 factory，注入 server 身分與 policy，將舊直接更新改成預覽＋確認；合成資料來源仍需正式 adapter 替換，沒有獨立啟動入口。
+- `ui_pages/qa_maintenance.py`：主站頁面、policy、可信身分 resolver 與 callback registry 接點。
+- `app.py`：唯一入口，主站狀態及 QSL `.qa` 目錄的啟動設定。
 
 把公司模型接入時，必須讓授權、樂觀鎖、業務唯一鍵、修改＋稽核＋版本快照＋token 消耗在同一交易內；不要僅複製 UI。資料庫歷史 snapshot 含資料內容，正式環境要補企業級保留期限、最小權限、備份與容量策略。
 

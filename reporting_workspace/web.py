@@ -21,7 +21,12 @@ def create_dash_app(server, runtime, extra_pages=()):
                assets_folder=str(Path(__file__).resolve().parent.parent / 'assets'),
                title='Report workspace', update_title='Loading…')
     pages = PageRegistry()
-    for spec in tuple(default_pages()) + tuple(extra_pages):
+    builtin_pages = tuple(default_pages())
+    if runtime.is_demo:
+        from .ui_pages.qa_maintenance import SPEC as QA_MAINTENANCE
+        from .ui_pages.operations import SPEC as OPERATIONS
+        builtin_pages += (QA_MAINTENANCE, OPERATIONS)
+    for spec in builtin_pages + tuple(extra_pages):
         pages.register(spec)
         if any(spec.path == root or spec.path.startswith(root + '/') or
                (root == '/_dash' and spec.path.startswith('/_dash-')) for root in _INFRASTRUCTURE_PATHS):
@@ -127,7 +132,8 @@ def create_dash_app(server, runtime, extra_pages=()):
 
     for spec in pages.pages:
         if spec.register_callbacks is not None:
-            spec.register_callbacks(callbacks.for_page(spec.page_id), runtime)
+            with server.app_context():
+                spec.register_callbacks(callbacks.for_page(spec.page_id), runtime)
     register_theme(callbacks)
     callbacks.freeze()
     return app

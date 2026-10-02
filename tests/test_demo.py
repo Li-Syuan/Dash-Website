@@ -1,11 +1,13 @@
 import ast
 import csv
 import io
+import os
+import runpy
 import re
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from demo_services import AccessDenied, SyntheticReports, DemoLocks, DemoScheduler, MailSink, allowed
 try:
     from .test_application import callback_output_spec
@@ -56,21 +58,6 @@ class ServiceTests(unittest.TestCase):
         for row in rows:
             self.assertEqual(int(row['profit']), int(row['revenue'])-int(row['cost']))
 
-    def test_legacy_permission_or_and_stacked_and(self):
-        from auth import role_permission
-        combined = role_permission(role=['admin', 'user'], org='A')(lambda: 'allowed')
-        stacked = role_permission(role=['admin', 'user'])(
-            role_permission(org='A')(lambda: 'allowed'))
-        for role, org, expected_or, expected_and in [
-            ('admin', 'A', True, True), ('user', 'A', True, True),
-            ('admin', 'B', True, False), ('user', 'B', True, False),
-            ('other', 'A', True, False), ('other', 'B', False, False),
-        ]:
-            with self.subTest(role=role, org=org):
-                with patch('auth.current_user', SimpleNamespace(role=role, org=org)):
-                    self.assertEqual(combined() == 'allowed', expected_or)
-                    self.assertEqual(stacked() == 'allowed', expected_and)
-
     def test_lock_owner_and_expiry(self):
         now = [0]
         locks = DemoLocks(lambda: now[0])
@@ -93,15 +80,53 @@ class ServiceTests(unittest.TestCase):
             mail.send('x','x',['real@example.com'])
 
     def test_python38_syntax(self):
-        for name in ['app.py','demo_app.py','demo_server.py','demo_services.py']:
+        for name in ['app.py', 'demo_services.py', 'wsgi.py']:
             ast.parse(Path(name).read_text(encoding='utf-8'), feature_version=(3,8))
+
+
+class MainEntrypointTests(unittest.TestCase):
+    def execute(self, run_name, configured_limit=None):
+        fake_dash = SimpleNamespace(run_server=Mock())
+        fake_runtime = SimpleNamespace(identities=SimpleNamespace(user_db={}))
+        fake_server = SimpleNamespace(extensions={
+            'dash_app': fake_dash, 'workspace': fake_runtime,
+        })
+        environment = {} if configured_limit is None else {
+            'REPORTING_MAX_CONTENT_LENGTH': configured_limit,
+        }
+        with patch.dict(os.environ, environment, clear=True):
+            with patch('reporting_workspace.application.create_app', return_value=fake_server) as factory:
+                with patch('reporting_workspace.launcher.configure_demo_storage') as storage:
+                    exports = runpy.run_path('app.py', run_name=run_name)
+                    limit = os.environ.get('REPORTING_MAX_CONTENT_LENGTH')
+        factory.assert_called_once_with()
+        self.assertIs(exports['app'], fake_dash)
+        self.assertIs(exports['server'], fake_server)
+        self.assertIs(exports['runtime'], fake_runtime)
+        self.assertIs(exports['user_db'], fake_runtime.identities.user_db)
+        return fake_dash, storage, limit
+
+    def test_direct_main_configures_storage_and_runs_loopback(self):
+        dash, storage, limit = self.execute('__main__')
+        storage.assert_called_once_with()
+        self.assertEqual(limit, str(15 * 1024 * 1024))
+        dash.run_server.assert_called_once_with(host='127.0.0.1', port=8050, debug=False)
+
+    def test_direct_main_preserves_explicit_request_limit(self):
+        _, _, limit = self.execute('__main__', configured_limit='2097152')
+        self.assertEqual(limit, '2097152')
+
+    def test_import_does_not_configure_storage_or_run_server(self):
+        dash, storage, limit = self.execute('app_import_check')
+        storage.assert_not_called()
+        dash.run_server.assert_not_called()
+        self.assertIsNone(limit)
 
 
 class TransportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        from demo_app import app
-        from demo_server import server
+        from app import app, server
         cls.app, cls.server = app, server
         cls.server.config['TESTING'] = True
 
@@ -237,7 +262,7 @@ class TransportTests(unittest.TestCase):
                                      without_notification_events(self.page_content(path)))
 
     def test_pages_role_and_org_are_independent_requirements(self):
-        from demo_server import user_db
+        from app import user_db
         fixtures = {
             'test-admin-b': dict(password='demo-only', role='admin', org='B'),
             'test-other-a': dict(password='demo-only', role='other', org='A'),
@@ -312,8 +337,8 @@ class TransportTests(unittest.TestCase):
 
     def test_admin_simulation_is_once_only(self):
         self.login('demo-admin')
-        with patch('demo_server.runtime.locks', DemoLocks()), patch('demo_server.runtime.scheduler', DemoScheduler()), \
-                patch('demo_server.runtime.mail', MailSink()):
+        with patch('app.runtime.locks', DemoLocks()), patch('app.runtime.scheduler', DemoScheduler()), \
+                patch('app.runtime.mail', MailSink()):
             first = self.call('adapter-result', 'children', 'adapter-run')
             second = self.call('adapter-result', 'children', 'adapter-run')
         self.assertEqual(first.status_code, 200)

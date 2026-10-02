@@ -1,22 +1,22 @@
 # Add a page through one explicit declaration
 
 `reporting_workspace/registry.py` owns app-scoped PageSpec and callback metadata.
-The UI modules live in `reporting_workspace/ui_pages/`. The legacy top-level
-`pages/` directory is historical and is not scanned or loaded. This is not Dash's
+The UI modules live in `reporting_workspace/ui_pages/`. The unused legacy top-level
+`pages/` directory has been removed; page discovery remains explicit. This is not Dash's
 global `register_page` API and not a dynamic plugin sandbox.
 
-## Runnable example
+## Importable page fixture
 
-From the repository root, in the approved package environment:
+`examples/registry_fixture.py` is an importable PageSpec fixture, not a separate
+website launcher. To exercise it in a local test of the main factory, import its
+`SPEC` and pass `extra_pages=(SPEC,)` to `create_app`; the existing registry tests
+use isolated app instances. To adopt a real page, register its SPEC in the main
+app as described below and continue to launch only `python -B app.py`.
 
-```sh
-python -B -m examples.registry_fixture
-```
-
-Sign in as demo-admin or demo-user-a and open `/examples/quality`. The same page
-is denied to demo-user-b because the policy requires organization A. This is an
-opt-in synthetic fixture; normal `python -B app.py` does not add it. No report,
-SQL, command or provider is selected by URL parameters.
+When this fixture is explicitly registered, demo-admin and demo-user-a can open
+`/examples/quality`; demo-user-b is denied because the policy requires
+organization A. Normal `python -B app.py` does not add this opt-in fixture. No
+report, SQL, command or provider is selected by URL parameters.
 
 The complete working example is `examples/registry_fixture.py`. Its one SPEC
 contains:
@@ -43,8 +43,9 @@ fail application construction.
 `AccessPolicy.require()` requires authentication.
 `AccessPolicy.require(roles=('admin', 'user'), org='A')` means authentication AND
 one of those roles AND organization A. This is not an implicit super-admin
-bypass. The unchanged legacy decorator's within-call OR and stacked AND
-semantics remain relevant only to code using that legacy decorator.
+bypass. The removed legacy helper used within-call OR and stacked AND semantics;
+when porting company code that still uses those decorators, preserve the known
+route result explicitly rather than treating the policies as interchangeable.
 
 Navigation and catalog visibility follow exactly the page policy. Header links
 are workspace sections; individual reports live in the catalog. Admin-A can see

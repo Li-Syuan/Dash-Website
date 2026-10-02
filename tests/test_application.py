@@ -375,6 +375,8 @@ class FactoryIsolationTests(AppTestCase):
                     'shell.theme_chart', 'catalog.render', 'catalog.preferences',
                     'admin.list', 'admin.select', 'admin.schedule', 'admin.mutate',
                     'managed.load', 'managed.save', 'managed.export'}
+        expected.update('operations.' + name for name in ('impact', 'diff', 'source', 'search', 'quality', 'usage', 'tables', 'table-read', 'jobs', 'job-export', 'job-notify'))
+        expected.update('qa-maintenance.action-{}'.format(i) for i in range(1, 6))
         client_callbacks = {'shell.theme', 'shell.theme_chart', 'catalog.preferences'}
         for server, app in ((first, a), (second, b)):
             declarations = server.extensions['callback_registry'].callbacks

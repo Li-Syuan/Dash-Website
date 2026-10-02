@@ -100,6 +100,19 @@ def register_enhancements(app, server, policy, directory, user_resolver):
     builder = ReportBuilderService(os.path.join(directory, 'report_builder.sqlite'), service, lambda user: policy)
     server.extensions['qa_demo_builder'] = builder
 
+    def usage_event(event):
+        # Optional app-integrated telemetry: actual successful actions only.
+        # Standalone adapter remains functional without the operations service.
+        operations = server.extensions.get('operations_service')
+        runtime = server.extensions.get('workspace')
+        if operations is not None and runtime is not None:
+            try:
+                operations.record_usage(runtime.identity(), 'qsl-workspace', event)
+            except Exception:
+                # A committed save must not be reported as failed because a
+                # secondary, privacy-minimized analytics store is unavailable.
+                server.logger.warning('operations_usage_write_failed')
+
     @app.callback(Output('qa-history-status', 'children'), Output('qa-history-table', 'data'),
                   Output('qa-history-version', 'data'), Output('qa-history-current', 'data'),
                   Output('qa-restore-token', 'data'), Output('qa-restore-diff', 'children'),
@@ -190,6 +203,7 @@ def register_enhancements(app, server, policy, directory, user_resolver):
     def preview_report(clicks, source, columns, field, op, value, groups, limit):
         try:
             result = builder.preview(user_resolver(), definition(source, columns, field, op, value, groups, limit))
+            usage_event('report_view')
             message = '符合 {} 筆來源資料，顯示 {} 列{}。'.format(result['matched_rows'], len(result['rows']), '（已達顯示上限）' if result['truncated'] else '')
             return message, [{'name': name, 'id': name} for name in result['columns']], result['rows'], result['definition']
         except (LegacyCrudError, PermissionError, ValueError, TypeError):
@@ -212,6 +226,7 @@ def register_enhancements(app, server, policy, directory, user_resolver):
                 builder.preview(user, normalized)
                 expected = version.get('version') if isinstance(version, dict) and version.get('name') == name else None
                 saved = builder.save(user, name, normalized, expected_version=expected)
+                usage_event('selfservice_save')
                 next_version = {'name': saved['name'], 'version': saved['version']}
                 message = '已保存「{}」版本 {}。'.format(saved['name'], saved['version'])
             elif ctx.triggered_id != 'qb-list':

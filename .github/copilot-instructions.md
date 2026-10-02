@@ -17,8 +17,8 @@ before changing behavior. It is not a certified company-system migration.
 ## Routing, pages and authorization
 
 - Preserve existing URLs, login callback IDs/properties and button-only login
-  triggering. Preserve legacy `role_permission`: conditions inside one
-  decorator are OR; stacked decorators are AND.
+  triggering. The retired legacy auto-discovery helpers are not active code.
+  `app.py` is the only executable entrypoint; do not restore duplicate launchers.
 - Use the app-scoped `PageSpec` registry in `reporting_workspace/registry.py`
   and modular pages in `reporting_workspace/ui_pages/`. Each new page must
   explicitly declare its route, access policy and navigation in one spec;

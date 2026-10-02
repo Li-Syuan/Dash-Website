@@ -17,7 +17,7 @@ database, scheduling or mail implementation.
 | `crud.py` | Report-definition maintenance | Organization/owner scope and version checks on every write |
 | `state.py` | Optional transactional local SQLite leases, job claims, audit, backup | Same host and trusted local filesystem only |
 | `demo_services.py` | Synthetic report fixture, memory simulations, invalid-domain mail sink | No company service integration or real SMTP |
-| `demo_server.py`, `demo_app.py`, `app.py` | Compatibility/demo entrypoints | The default still binds loopback and disables debug |
+| `app.py` | The sole executable entrypoint: main login, catalog, maintenance, revisions and wizard | Binds loopback and disables debug; directly builds the factory |
 | `wsgi.py` | Importable factory entrypoint | Application construction must be explicit |
 
 Factories register page metadata and callbacks on their own Dash instance.
@@ -26,8 +26,11 @@ page callback hooks receive a page-bound registrar. Unknown, replaced and
 client-only callback outputs are denied by the server transport. The global Dash Pages
 registry is no longer used, avoiding cross-application callback/page leakage.
 Known URLs and callback output IDs are retained. Query parameters do not select
-providers or override permissions. Legacy `auth.py` remains unchanged as a
-reference: conditions within one decorator are OR; stacked decorators are AND.
+providers or override permissions. The obsolete auto-discovered pages and their
+`auth.py` helper have been retired; active policies live in PageSpec and services.
+The unified QSL page uses the main Flask-Login identity and callback registry.
+Synthetic QSL services are registered in offline mode only; production integration
+requires reviewed company adapters. See `opus/MAIN_APP_INTEGRATION.md`.
 
 ## Identity and report contracts
 

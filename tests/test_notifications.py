@@ -128,13 +128,24 @@ class NotifyServiceTests(unittest.TestCase):
     def test_store_ids_match_the_per_action_pattern_and_are_fresh(self):
         first = notification_store_id('reports.refresh')
         second = notification_store_id('reports.refresh')
-        self.assertEqual(first, {'type': 'workspace-notify', 'action': 'reports.refresh'})
+        self.assertEqual(first, {'type': 'workspace-notify', 'action': '7265706f7274732e72656672657368'})
         self.assertIsNot(first, second)
         self.assertNotEqual(first, notification_store_id('reports.export'))
         self.assertEqual(dcc.Store(id=first, storage_type='memory').to_plotly_json()['props']['id'], first)
         for value in (None, {}, [], '', 'a' * 129, 'callback with spaces', 'x/y', 'x\n'):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 notification_store_id(value)
+
+    def test_store_encoding_is_dot_free_reversible_and_collision_free(self):
+        actions = ['reports.refresh', 'reports-refresh', 'reports_refresh',
+                   'reports...refresh', 'reports..refresh', 'reportsrefresh',
+                   '7265706f7274732e72656672657368', 'a', 'A', 'a' * 128]
+        encoded = [notification_store_id(action)['action'] for action in actions]
+        self.assertEqual(len(set(encoded)), len(actions))
+        for action, value in zip(actions, encoded):
+            self.assertRegex(value, r'^[0-9a-f]+$')
+            self.assertNotIn('.', value)
+            self.assertEqual(bytes.fromhex(value).decode('ascii'), action)
 
 
 class RenderEventsTests(unittest.TestCase):

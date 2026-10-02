@@ -145,3 +145,29 @@ keyboard behavior and complete CRUD flows before calling the UI visually tested.
 
 `.github/copilot-instructions.md` contains only confirmed project constraints.
 The user's additional special company rules are still awaiting specification.
+
+## Dash 2.9.1 notification wire-ID compatibility fix
+
+The MSI browser check found that dotted notification pattern IDs were escaped
+in multioutput dependency keys and then rejected by the renderer's JSON parser.
+`notification_store_id` now uses collision-free ASCII hex for its action value;
+semantic callback registry identifiers and event catalog codes are unchanged.
+No dependency pins changed.
+
+The new regression reproduced `Invalid \\escape` before the fix by parsing the
+actual `/_dash-dependencies` response with Dash 2.9.1's multioutput split,
+last-dot property split and JSON parse semantics. After the fix, **308 tests
+pass on each of Linux Python 3.8.20 and 3.10.21** with Dash 2.9.1 and DMC 0.12.0.
+The regression covers all dependency outputs and explicitly requires the six
+report, administration and maintenance notification callbacks. Encoding tests
+cover dots, repeated dots, hyphens, underscores, case and boundary lengths.
+An additional Node check using the installed renderer's extracted splitting
+functions and native `JSON.parse` successfully parsed all 61 output IDs.
+Python 3.8 grammar checks and `git diff --check` also pass.
+
+This is wire-format and server regression evidence, not a completed browser
+retest. Restart the MSI app at the fixed commit, hard-refresh the login page,
+then verify login, report refresh/export, manual simulation, and maintenance
+list/select/create/edit/archive/restore with notifications. Check the browser
+console for dependency parse errors, chart rendering, light/dark and toast
+dismissal. Full visual and target-Windows verification remains pending that pass.

@@ -12,7 +12,12 @@ not arbitrary error text or report data. Public/anonymous events are rejected.
 Identity scope is a SHA-256 pseudonym, not a claim of anonymity. Events remain in
 memory-only client Stores; there is no durable notification center or history.
 
-Each action owns a distinct `notification_store_id(action)` output. One shell
+Each action owns a distinct `notification_store_id(action)` output. Always use
+this helper for both the Store layout ID and callback Output. It encodes the
+semantic action as ASCII hex, avoiding dots in the browser pattern ID: Dash
+2.9.1 escapes dots in multioutput keys, which otherwise creates invalid JSON
+when its renderer parses dict IDs. The encoding is deterministic and
+collision-free; registry callback names and event catalog codes are unchanged. One shell
 callback consumes these stores, checks current identity scope, validates the
 catalog/schema, deduplicates bounded event IDs, and renders at most three toast
 commands. Stable per-scope/catalog toast IDs prevent repeated same-code stacking.

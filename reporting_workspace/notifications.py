@@ -97,10 +97,16 @@ def _audience(identity):
 
 
 def notification_store_id(action):
-    """Return a fresh, unique-per-callback pattern ID for a memory dcc.Store."""
+    """Return a fresh, unique-per-callback pattern ID for a memory dcc.Store.
+
+    Dash 2.9.1 escapes dots in multioutput IDs, but its renderer JSON-parses
+    pattern IDs without unescaping them. Encode the complete ASCII action as
+    hex so the wire ID has no dots and distinct identifiers cannot collide.
+    Semantic registry identifiers and event catalog codes stay unchanged.
+    """
     if not _matches(_ACTION, action):
         raise ValueError('notification action must be a bounded callback identifier')
-    return {'type': STORE_TYPE, 'action': action}
+    return {'type': STORE_TYPE, 'action': action.encode('ascii').hex()}
 
 
 class NotifyService:

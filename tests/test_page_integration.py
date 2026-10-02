@@ -13,6 +13,7 @@ from dash import Input, Output, html
 from dash import _callback
 
 from reporting_workspace.application import create_app
+from reporting_workspace.notifications import notification_store_id
 from reporting_workspace.registry import AccessPolicy, PageSpec
 from reporting_workspace.ui_pages import default_pages
 
@@ -109,6 +110,41 @@ class PageFactoryIntegrationTests(AppTestCase):
             self.assertIsNone(catalog_pages[page_id].nav_label)
             self.assertTrue(catalog_pages[page_id].catalog_category)
 
+    def test_dependency_wire_outputs_parse_like_dash_291_renderer(self):
+        server = self.app()
+        client = server.test_client()
+        response = client.get('/_dash-dependencies')
+        self.assertEqual(response.status_code, 200)
+        callback_map = server.extensions['dash_app'].callback_map
+        declarations = server.extensions['callback_registry'].callbacks.values()
+        action_keys = {spec.output_key: spec.callback_id for spec in declarations
+                       if spec.callback_id in {
+                           'reports.refresh', 'reports.export', 'admin.simulate',
+                           'maintenance.list', 'maintenance.select', 'maintenance.mutate'}}
+        covered = set()
+        for dependency in response.get_json():
+            key = dependency['output']
+            # Dash 2.9.1 dash_renderer: parseMultipleOutputs -> splitIdAndProp
+            # -> parseWildcardId. Do NOT use Dash's Python split_callback_id,
+            # or unescape backslashes: the renderer passes this straight to JSON.parse.
+            wire_outputs = key[2:-2].split('...') if key.startswith('..') else [key]
+            parsed = []
+            for wire_output in wire_outputs:
+                component_id, prop = wire_output.rsplit('.', 1)
+                if component_id.startswith('{'):
+                    component_id = json.loads(component_id)
+                parsed.append({'id': component_id, 'property': prop})
+            outputs = callback_map[key]['output']
+            outputs = outputs if isinstance(outputs, (list, tuple)) else [outputs]
+            self.assertEqual(parsed, [{'id': output.component_id,
+                                       'property': output.component_property} for output in outputs])
+            if key in action_keys:
+                action = action_keys[key]
+                self.assertIn({'id': notification_store_id(action), 'property': 'data'}, parsed)
+                covered.add(action)
+        self.assertEqual(covered, set(action_keys.values()))
+        self.assertEqual(len(covered), 6)
+
     def test_stable_control_ids_and_properties_survive_grouped_notifications(self):
         server = self.app()
         client = server.test_client()
@@ -136,7 +172,7 @@ class PageFactoryIntegrationTests(AppTestCase):
                                               ('admin.simulate', 'adapter-result', 'children')):
             _, outputs = callback_output_spec(client, component, prop)
             self.assertEqual(outputs, [{'id': component, 'property': prop},
-                                       {'id': {'type': 'workspace-notify', 'action': callback_id}, 'property': 'data'}])
+                                       {'id': notification_store_id(callback_id), 'property': 'data'}])
             self.assertEqual(declarations[callback_id].policy, AccessPolicy.require(roles=('admin',)))
         renderer = app.callback_map[declarations['shell.notifications'].output_key]
         self.assertEqual(declarations['shell.notifications'].policy, AccessPolicy.require())

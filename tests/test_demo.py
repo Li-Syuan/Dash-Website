@@ -1,11 +1,38 @@
 import ast
 import csv
 import io
+import re
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from demo_services import AccessDenied, SyntheticReports, DemoLocks, DemoScheduler, MailSink, allowed
+try:
+    from .test_application import callback_output_spec
+except ImportError:
+    from test_application import callback_output_spec
+
+
+def without_notification_events(content):
+    """Ignore fresh event/draft identifiers; keep content, codes and audience exact."""
+    if isinstance(content, list):
+        return [without_notification_events(item) for item in content]
+    if isinstance(content, dict):
+        result = {key: without_notification_events(value) for key, value in content.items()}
+        props = result.get('props', {})
+        component_id = props.get('id')
+        if (result.get('type') == 'Store' and isinstance(component_id, dict)
+                and component_id.get('type') == 'workspace-notify'):
+            event = props.get('data')
+            if isinstance(event, dict):
+                props['data'] = {key: value for key, value in event.items()
+                                 if key not in ('event_id', 'request_id')}
+        if result.get('type') == 'Store' and component_id == 'maintenance-draft':
+            if not isinstance(props.get('data'), str) or re.fullmatch(r'[0-9a-f]{32}', props['data']) is None:
+                raise AssertionError('Maintenance draft must be a fresh validated idempotency key')
+            props['data'] = '<fresh-draft-key>'
+        return result
+    return content
 
 
 class ServiceTests(unittest.TestCase):
@@ -91,8 +118,9 @@ class TransportTests(unittest.TestCase):
             'state':[], 'changedPropIds':[changed]})
 
     def call(self, component, prop, button):
+        output, outputs = callback_output_spec(self.client, component, prop)
         return self.client.post('/_dash-update-component', json={
-            'output':component+'.'+prop, 'outputs':{'id':component,'property':prop},
+            'output':output, 'outputs':outputs,
             'inputs':[{'id':button,'property':'n_clicks','value':1}], 'state':[], 'changedPropIds':[button+'.n_clicks']})
 
     def page(self, pathname, search=''):
@@ -168,8 +196,9 @@ class TransportTests(unittest.TestCase):
         self.assertIn('attachment;', api.headers['Content-Disposition'])
 
     def test_pages_authorization_matrix(self):
-        protected = {'/': 'A clear view of your reports', '/admin': 'Adapter laboratory',
-                     '/page1': 'Page 1', '/page2': 'Page 2', '/page3': 'Monthly performance'}
+        protected = {'/': 'Report catalog', '/admin': 'Adapter laboratory',
+                     '/page1': 'Page 1', '/page2': 'Page 2', '/page3': 'Monthly performance',
+                     '/maintenance': 'Report definitions'}
         for name in [None, 'demo-admin', 'demo-user-a', 'demo-user-b']:
             self.client = self.server.test_client()
             if name:
@@ -177,7 +206,7 @@ class TransportTests(unittest.TestCase):
             for path, title in protected.items():
                 with self.subTest(user=name, path=path):
                     content = self.page_content(path)
-                    permitted = (path == '/' or name == 'demo-admin' or
+                    permitted = (path in ('/', '/maintenance') or name == 'demo-admin' or
                                  (path == '/page2' and name == 'demo-user-a'))
                     if not name:
                         self.assert_redirect(content, '/login')
@@ -202,9 +231,10 @@ class TransportTests(unittest.TestCase):
         for name in ['demo-admin', 'demo-user-a', 'demo-user-b']:
             self.client = self.server.test_client()
             self.login(name)
-            for path in ['/', '/login', '/admin', '/page1', '/page2', '/page3', '/missing']:
+            for path in ['/', '/login', '/admin', '/page1', '/page2', '/page3', '/maintenance', '/missing']:
                 with self.subTest(user=name, path=path):
-                    self.assertEqual(self.page_content(path, query), self.page_content(path))
+                    self.assertEqual(without_notification_events(self.page_content(path, query)),
+                                     without_notification_events(self.page_content(path)))
 
     def test_pages_role_and_org_are_independent_requirements(self):
         from demo_server import user_db
@@ -218,7 +248,7 @@ class TransportTests(unittest.TestCase):
                     self.client = self.server.test_client()
                     self.assertEqual(self.login(name).status_code, 200)
                     self.assert_forbidden(self.page_content('/page2'))
-                    self.assert_heading(self.page_content('/'), 'A clear view of your reports')
+                    self.assert_heading(self.page_content('/'), 'Report catalog')
             self.login('test-admin-b')
             self.assert_heading(self.page_content('/admin'), 'Adapter laboratory')
             self.assert_heading(self.page_content('/page1'), 'Page 1')
@@ -272,7 +302,8 @@ class TransportTests(unittest.TestCase):
             'outputs': [{'id': 'sidebar', 'property': 'style'},
                         {'id': 'page-content', 'property': 'style'},
                         {'id': 'side_click', 'property': 'data'}],
-            'inputs': [{'id': 'btn_sidebar', 'property': 'n_clicks', 'value': 1}],
+            'inputs': [{'id': 'btn_sidebar', 'property': 'n_clicks', 'value': 1},
+                       {'id': 'assistant-close', 'property': 'n_clicks', 'value': 0}],
             'state': [{'id': 'side_click', 'property': 'data', 'value': 'SHOW'}],
             'changedPropIds': ['btn_sidebar.n_clicks']})
         self.assertEqual(sidebar.status_code, 200)
@@ -301,7 +332,7 @@ class TransportTests(unittest.TestCase):
         self.assertEqual(self.client.get('/demo-api/report.csv').status_code,401)
 
     def test_all_routes_and_offline_assets(self):
-        for path in ['/','/login','/logout','/admin','/page1','/page2','/page3','/missing']:
+        for path in ['/','/login','/logout','/admin','/page1','/page2','/page3','/maintenance','/missing']:
             self.assertEqual(self.client.get(path).status_code,200)
         page = self.client.get('/').get_data(as_text=True)
         self.assertNotIn('https://',page)

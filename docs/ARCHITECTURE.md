@@ -12,13 +12,18 @@ database, scheduling or mail implementation.
 | `reporting_workspace/config.py` | Immutable validated settings | Only documented environment variables; no dynamic plugin imports |
 | `providers.py` | Identity/report interfaces and explicit demo adapters | Successful identities contain only id/role/org; providers are trusted code |
 | `application.py` | WSGI factory, session loading, callback/API authorization, request/error boundaries | No network connector or scheduler starts implicitly |
-| `web.py` | App-scoped Dash UI and fixed URL dispatch | Navigation visibility is not authorization |
+| `registry.py`, `web.py`, `ui_pages/` | App-scoped metadata, card catalog, shell and modular pages | Page-bound server policies; client-only UI callbacks cannot be dispatched by HTTP |
+| `notifications.py`, `theme.py` | Safe in-app events and local color preference | No shared message queue or external assistant connection |
+| `crud.py` | Report-definition maintenance | Organization/owner scope and version checks on every write |
 | `state.py` | Optional transactional local SQLite leases, job claims, audit, backup | Same host and trusted local filesystem only |
 | `demo_services.py` | Synthetic report fixture, memory simulations, invalid-domain mail sink | No company service integration or real SMTP |
 | `demo_server.py`, `demo_app.py`, `app.py` | Compatibility/demo entrypoints | The default still binds loopback and disables debug |
 | `wsgi.py` | Importable factory entrypoint | Application construction must be explicit |
 
-Factories register callbacks on their own Dash instance. The global Dash Pages
+Factories register page metadata and callbacks on their own Dash instance.
+PageSpec is the source for route, title, catalog metadata, navigation and policy;
+page callback hooks receive a page-bound registrar. Unknown, replaced and
+client-only callback outputs are denied by the server transport. The global Dash Pages
 registry is no longer used, avoiding cross-application callback/page leakage.
 Known URLs and callback output IDs are retained. Query parameters do not select
 providers or override permissions. Legacy `auth.py` remains unchanged as a
@@ -49,9 +54,9 @@ loaded from a request, import string or arbitrary command.
 
 A configured SQLite file is shared by workers on one host. Every operation opens
 its own connection and uses an explicit transaction; no inherited connection is
-kept across process forks. Busy timeouts are bounded. Version-zero migration
-adopts only an empty database. Future schema versions and malformed version-one
-schemas are refused rather than reset.
+kept across process forks. Busy timeouts are bounded. Version-zero migration adopts only an empty database. Schema version 2 adds
+report definitions through a validated, atomic version-1 migration. Future
+versions and malformed schemas are refused rather than reset.
 
 Leases have owner, opaque token, expiry and increasing fencing value. Acquire is
 atomic; renew/release require the current unexpired owner/token. Release retains

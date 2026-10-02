@@ -8,3 +8,6 @@ plotly==5.13.1
 
 # Dash 2.9.1 imports pkg_resources; approved company packaging version.
 setuptools==57.5.0
+
+# Existing company-approved Mantine version for in-app notifications.
+dash-mantine-components==0.12.0

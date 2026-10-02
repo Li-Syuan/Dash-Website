@@ -35,6 +35,57 @@ def _claim_and_exit(path, results):
     results.put(token)
 
 
+_V1_FIXTURE = """
+CREATE TABLE leases (
+    key TEXT PRIMARY KEY NOT NULL,
+    owner TEXT NOT NULL,
+    token TEXT NOT NULL,
+    fencing INTEGER NOT NULL CHECK (fencing > 0),
+    expires_at REAL NOT NULL
+);
+CREATE TABLE job_runs (
+    job_id TEXT NOT NULL,
+    run_key TEXT NOT NULL,
+    owner TEXT NOT NULL,
+    token TEXT NOT NULL,
+    state TEXT NOT NULL CHECK (state IN ('running', 'succeeded', 'failed')),
+    claimed_at REAL NOT NULL,
+    finished_at REAL,
+    failure_code TEXT,
+    PRIMARY KEY (job_id, run_key),
+    CHECK ((state = 'running' AND finished_at IS NULL AND failure_code IS NULL)
+        OR (state = 'succeeded' AND finished_at IS NOT NULL AND failure_code IS NULL)
+        OR (state = 'failed' AND finished_at IS NOT NULL AND failure_code IS NOT NULL))
+);
+CREATE TABLE audit_events (
+    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    occurred_at REAL NOT NULL,
+    event TEXT NOT NULL,
+    actor_id TEXT,
+    resource_id TEXT,
+    outcome TEXT NOT NULL CHECK (outcome IN ('success', 'failure', 'denied')),
+    request_id TEXT,
+    code TEXT
+);
+CREATE INDEX job_runs_state ON job_runs (state, claimed_at);
+INSERT INTO leases VALUES ('old-lease', 'old-owner', 'old-token', 17, 10000000000);
+INSERT INTO job_runs VALUES ('old-job', 'old-run', 'old-owner', 'job-token', 'running', 10, NULL, NULL);
+INSERT INTO audit_events VALUES (42, 10, 'runtime.started', 'old-owner', NULL, 'success', NULL, NULL);
+PRAGMA user_version = 1;
+"""
+
+
+def _version_one_fixture(path):
+    with sqlite3.connect(str(path)) as connection:
+        connection.executescript(_V1_FIXTURE)
+
+
+def _database_snapshot(path):
+    with sqlite3.connect(str(path)) as connection:
+        return (connection.execute("PRAGMA user_version").fetchone()[0],
+                tuple(connection.iterdump()))
+
+
 class StateTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
@@ -53,13 +104,75 @@ class StateTests(unittest.TestCase):
 
     def test_empty_schema_migrates_once_and_survives_reopen(self):
         with sqlite3.connect(str(self.path)) as connection:
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 1)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
             self.assertEqual(connection.execute("PRAGMA integrity_check").fetchone()[0], "ok")
         lease = self.store.acquire("report", "worker")
         reopened = StateStore(self.path)
         self.assertIsNone(reopened.acquire("report", "other"))
         self.assertTrue(reopened.release("report", "worker", lease.token))
         self.assertEqual(reopened.acquire("report", "other").fencing, lease.fencing + 1)
+
+    def test_real_version_one_migration_preserves_existing_rows_and_audit_sequence(self):
+        from reporting_workspace.crud import ReportDefinitions
+        path = Path(self.directory.name) / "v1.sqlite"
+        _version_one_fixture(path)
+        before = _database_snapshot(path)
+        self.assertEqual(before[0], 1)
+        upgraded = StateStore(path)
+        with sqlite3.connect(str(path)) as connection:
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(connection.execute("SELECT * FROM leases").fetchone(),
+                             ('old-lease', 'old-owner', 'old-token', 17, 10000000000))
+            self.assertEqual(connection.execute("SELECT token FROM job_runs").fetchone()[0], 'job-token')
+        self.assertEqual(upgraded.list_audit()[0].event_id, 42)
+        self.assertEqual(upgraded.list_uncertain_jobs()[0].job_id, 'old-job')
+        self.assertIsNone(upgraded.acquire('old-lease', 'another-owner'))
+        created = ReportDefinitions(upgraded).create(
+            dict(id='actor', org='A', role='user'), {'name': 'After migration'})
+        self.assertEqual(created['version'], 1)
+        self.assertEqual(upgraded.list_audit()[-1].event_id, 43)
+        self.assertTrue(upgraded.finish_job('old-job', 'old-run', 'old-owner', 'job-token', True))
+        self.assertEqual(StateStore(path).get_job('old-job', 'old-run').state, 'succeeded')
+
+    def test_version_one_migration_rejects_malformed_schema_without_mutation(self):
+        path = Path(self.directory.name) / "bad-v1.sqlite"
+        _version_one_fixture(path)
+        with sqlite3.connect(str(path)) as connection:
+            connection.execute('DROP INDEX job_runs_state')
+        before = _database_snapshot(path)
+        with self.assertRaises(StateError):
+            StateStore(path)
+        self.assertEqual(_database_snapshot(path), before)
+
+    def test_version_one_migration_ddl_failure_rolls_back_everything(self):
+        from reporting_workspace.state import _REPORT_DEFINITIONS_DDL
+        path = Path(self.directory.name) / "rollback-v1.sqlite"
+        _version_one_fixture(path)
+        before = _database_snapshot(path)
+        broken_ddl = dict(_REPORT_DEFINITIONS_DDL)
+        broken_ddl[('index', 'broken', 'report_definitions')] = 'CREATE INDEX broken ON nonexistent (value)'
+        with patch('reporting_workspace.state._REPORT_DEFINITIONS_DDL', broken_ddl):
+            with self.assertRaises(sqlite3.OperationalError):
+                StateStore(path)
+        self.assertEqual(_database_snapshot(path), before)
+        # The same file remains usable by a subsequent correct migration.
+        self.assertEqual(StateStore(path).list_audit()[0].event_id, 42)
+
+    def test_version_one_migration_final_validation_failure_rolls_back_version_and_ddl(self):
+        path = Path(self.directory.name) / "validation-v1.sqlite"
+        _version_one_fixture(path)
+        before = _database_snapshot(path)
+        real_validate = StateStore._validate_schema
+
+        def validate(connection, version=2):
+            real_validate(connection, version)
+            if version == 2:
+                raise StateError('injected final validation failure')
+
+        with patch.object(StateStore, '_validate_schema', side_effect=validate):
+            with self.assertRaises(StateError):
+                StateStore(path)
+        self.assertEqual(_database_snapshot(path), before)
 
     def test_nonempty_unversioned_database_is_not_adopted(self):
         path = Path(self.directory.name) / "unknown.sqlite"
@@ -77,7 +190,7 @@ class StateTests(unittest.TestCase):
         token = self.store.claim_job("report", "run", "worker")
         with sqlite3.connect(str(self.path)) as connection:
             before = connection.execute("SELECT COUNT(*) FROM audit_events").fetchone()[0]
-            connection.execute("PRAGMA user_version = 2")
+            connection.execute("PRAGMA user_version = 3")
         backup = Path(self.directory.name) / "backup.sqlite"
         operations = [
             lambda: StateStore(self.path),
@@ -97,7 +210,7 @@ class StateTests(unittest.TestCase):
                 operation()
         self.assertFalse(backup.exists())
         with sqlite3.connect(str(self.path)) as connection:
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 3)
             self.assertEqual(connection.execute("SELECT COUNT(*) FROM audit_events").fetchone()[0], before)
             self.assertEqual(connection.execute("SELECT state FROM job_runs").fetchone()[0], "running")
 
@@ -108,7 +221,7 @@ class StateTests(unittest.TestCase):
         with self.assertRaises(StateError):
             StateStore(path)
 
-    def test_version_one_requires_column_order_types_keys_and_constraints(self):
+    def test_current_schema_requires_column_order_types_keys_and_constraints(self):
         with sqlite3.connect(str(self.path)) as connection:
             ddl = dict(connection.execute(
                 "SELECT name, sql FROM sqlite_master WHERE type = 'table' AND name NOT GLOB 'sqlite_*'"
@@ -129,6 +242,18 @@ class StateTests(unittest.TestCase):
             ("audit-no-check", "audit_events", ddl["audit_events"].replace(
                 " CHECK (outcome IN ('success', 'failure', 'denied'))", "")),
             ("audit-nullable-event", "audit_events", ddl["audit_events"].replace("event TEXT NOT NULL", "event TEXT")),
+            ("reports-unchecked-version", "report_definitions", ddl["report_definitions"].replace(
+                " CHECK (typeof(version) = 'integer' AND version > 0)", "")),
+            ("reports-wrong-cadence", "report_definitions", ddl["report_definitions"].replace(
+                "('manual', 'daily', 'weekly', 'monthly')", "('manual', 'daily')")),
+            ("reports-nullable-owner", "report_definitions", ddl["report_definitions"].replace(
+                "owner_id TEXT NOT NULL", "owner_id TEXT")),
+            ("reports-nullable-create-key", "report_definitions", ddl["report_definitions"].replace(
+                "create_key TEXT NOT NULL", "create_key TEXT")),
+            ("reports-unchecked-create-key", "report_definitions", ddl["report_definitions"].replace(
+                " CHECK (length(create_key) = 32 AND create_key NOT GLOB '*[^0-9a-f]*')", "")),
+            ("reports-nonunique-create-key", "report_definitions", ddl["report_definitions"].replace(
+                ",\n        UNIQUE (org, owner_id, create_key)", "")),
         ]
         for name, table, statement in malformed:
             with self.subTest(name=name):
@@ -140,20 +265,26 @@ class StateTests(unittest.TestCase):
                     connection.execute(statement)
                     if table == "job_runs":
                         connection.execute("CREATE INDEX job_runs_state ON job_runs (state, claimed_at)")
+                    if table == "report_definitions":
+                        connection.execute("CREATE INDEX report_definitions_org_updated "
+                                           "ON report_definitions (org, updated_at DESC, id)")
                     before = connection.execute("SELECT type, name, sql FROM sqlite_master ORDER BY name").fetchall()
                 with self.assertRaises(StateError):
                     StateStore(path)
                 with sqlite3.connect(str(path)) as connection:
-                    self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 1)
+                    self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
                     self.assertEqual(connection.execute(
                         "SELECT type, name, sql FROM sqlite_master ORDER BY name").fetchall(), before)
 
-    def test_version_one_requires_exact_indexes_and_rejects_triggers(self):
+    def test_current_schema_requires_exact_indexes_and_rejects_triggers(self):
         alterations = [
             ["DROP INDEX job_runs_state"],
             ["DROP INDEX job_runs_state", "CREATE INDEX job_runs_state ON job_runs (owner)"],
             ["CREATE TRIGGER mutate_lease AFTER INSERT ON leases BEGIN DELETE FROM leases; END"],
             ["CREATE TABLE unexpected (value TEXT)"],
+            ["DROP INDEX report_definitions_org_updated"],
+            ["DROP INDEX report_definitions_org_updated",
+             "CREATE INDEX report_definitions_org_updated ON report_definitions (owner_id)"],
         ]
         for index, statements in enumerate(alterations):
             with self.subTest(statements=statements):
@@ -398,7 +529,7 @@ class StateTests(unittest.TestCase):
         self.assertIsNone(self.store.acquire("report", "other"))
         with sqlite3.connect(str(destination)) as connection:
             self.assertEqual(connection.execute("PRAGMA integrity_check").fetchone()[0], "ok")
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 1)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
         with self.assertRaises(FileExistsError):
             self.store.backup_to(destination)
         with self.assertRaises(ValueError):
@@ -408,7 +539,8 @@ class StateTests(unittest.TestCase):
 
     def test_python38_syntax(self):
         root = Path(__file__).resolve().parents[1]
-        for name in ("reporting_workspace/state.py", "tests/test_state.py"):
+        for name in ("reporting_workspace/state.py", "reporting_workspace/crud.py",
+                     "tests/test_state.py", "tests/test_crud_service.py"):
             ast.parse((root / name).read_text(encoding="utf-8"), feature_version=(3, 8))
 
 

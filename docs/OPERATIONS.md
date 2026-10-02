@@ -15,10 +15,12 @@ Open `http://127.0.0.1:8050/login` on the same machine. Public test identities a
 `demo-admin`, `demo-user-a`, `demo-user-b`; their password is `demo-only`.
 These are unsuitable for public exposure. No company service is contacted.
 
-By default each demo process uses fresh session keys and in-memory simulation
-state. To test durable local state, set `REPORTING_STATE_PATH` to a new absolute
-SQLite filename inside an existing private local directory, then start the app.
-No directory is created automatically. Do not place state in Git, a network
+The direct demo launcher creates a private Git-ignored `instance/` directory
+and uses `instance/workspace.sqlite` if no state path was supplied. Sessions still
+use fresh per-process keys unless a stable key is explicitly configured. WSGI
+factory callers do not invoke launcher defaults. To select durable state
+explicitly, set `REPORTING_STATE_PATH` to a new absolute SQLite filename inside
+an existing private local directory; StateStore itself does not create directories. Do not place state in Git, a network
 share, synced folder, NFS mount or multi-host deployment. New POSIX files are
 created mode 0600; verify equivalent Windows directory/file ACLs yourself.
 
@@ -28,7 +30,7 @@ created mode 0600; verify equivalent Windows directory/file ACLs yourself.
 | --- | --- | --- |
 | `REPORTING_MODE` | `demo` | Explicit `production` |
 | `REPORTING_SECRET_KEY` | Random per process | Stable externally supplied, non-public key of at least 32 characters |
-| `REPORTING_STATE_PATH` | Unset, memory demo | Absolute trusted local SQLite filename |
+| `REPORTING_STATE_PATH` | Direct launcher: private instance file; factory: unset | Absolute trusted local SQLite filename |
 | `REPORTING_SESSION_COOKIE_SECURE` | `false` | Must be `true`; HTTPS required |
 | `REPORTING_MAX_CONTENT_LENGTH` | 1048576 | Positive byte limit appropriate for reviewed report volume |
 | `REPORTING_SESSION_LIFETIME_SECONDS` | 3600 | Positive reviewed lifetime |
@@ -107,8 +109,9 @@ drill separately. Backups contain audit/state metadata and must remain private.
    jobs
 
 Code rollback uses an earlier normal Git commit/checkout. Never force-push or
-assume old code can read a newer schema. This first schema is version 1; newer
-unknown versions fail closed. A code rollback and database restoration are
+assume old code can read a newer schema. The current schema is version 2, with an atomic, validated upgrade from
+version 1. Back up before upgrading. Older code cannot read version 2, and there
+is no automatic downgrade; newer unknown versions fail closed. A code rollback and database restoration are
 separate decisions. No automated destructive restore command is supplied.
 
 ### Request framing on the pinned Flask/Werkzeug version

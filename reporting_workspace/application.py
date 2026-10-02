@@ -10,11 +10,11 @@ from werkzeug.exceptions import HTTPException, RequestEntityTooLarge
 
 from demo_services import AccessDenied, DemoLocks, DemoScheduler, MailSink, allowed, require
 from .config import Settings
+from .errors import ProviderUnavailable
+from .notifications import NotifyService
+from .crud import ReportDefinitions
 from .providers import validate_identity, validate_providers
 
-
-class ProviderUnavailable(Exception):
-    """Opaque provider failure; details and credentials never enter HTTP responses."""
 
 
 class SessionUser(UserMixin):
@@ -60,6 +60,8 @@ class Runtime:
         self.is_demo = settings.mode == 'demo'
         self.locks, self.scheduler, self.mail = DemoLocks(), DemoScheduler(), MailSink()
         self.reports = AuthorizedReports(report_provider, self)
+        self.notify = NotifyService(self.identity)
+        self.definitions = ReportDefinitions(state) if state is not None else None
 
     def identity(self):
         if not current_user.is_authenticated:
@@ -105,7 +107,7 @@ class Runtime:
         if isinstance(user_id, str):
             self.audit('logout.succeeded', actor=user_id)
 
-    def run_simulation(self, user):
+    def run_simulation_result(self, user):
         require(user, ['admin'])
         if not self.is_demo:
             raise AccessDenied('Demo simulation is disabled')
@@ -143,20 +145,21 @@ class Runtime:
                 if lease:
                     released = self.state.release('demo-report', owner, lease.token)
             captured = len(self.mail.messages)
+        return dict(acquired=acquired, released=released, ran=ran, captured=captured)
+
+    @staticmethod
+    def simulation_text(result):
         return ('Lease acquired: {}\nLease released: {}\nFixed job executed: {}\n'
-                'Messages captured: {}\nNo external delivery.').format(acquired, released, ran, captured)
+                'Messages captured: {}\nNo external delivery.').format(
+                    result['acquired'], result['released'], result['ran'], result['captured'])
+
+    def run_simulation(self, user):
+        """Compatibility text view over the structured, authorized result."""
+        return self.simulation_text(self.run_simulation_result(user))
 
 
-PUBLIC_CALLBACKS = {
-    '..redirectHome.pathname...login-alert.is_open..',
-    '.._pages_content.children..._pages_store.data..',
-    'popover.is_open', '..sidebar.style...page-content.style...side_click.data..',
-    'btn_sidebar.aria-expanded',
-}
-ADMIN_CALLBACKS = {'table.data', 'report-download.data', 'adapter-result.children'}
 
-
-def create_app(settings=None, identity_provider=None, report_provider=None):
+def create_app(settings=None, identity_provider=None, report_provider=None, extra_pages=()):
     """Create one independently configured WSGI application and its Dash UI.
 
     Call from the existing WSGI server's factory entrypoint. Background execution,
@@ -194,11 +197,18 @@ def create_app(settings=None, identity_provider=None, report_provider=None):
     @server.before_request
     def request_boundary():
         g.request_id, g.started_at = secrets.token_hex(12), time.monotonic()
+        origin = request.headers.get('Origin')
+        cross_origin = ((origin is not None and origin != request.host_url.rstrip('/'))
+                        or request.headers.get('Sec-Fetch-Site') == 'cross-site')
         if request.path.rstrip('/') == '/logout':
+            if cross_origin:
+                return jsonify(error='Cross-origin logout denied'), 403
             runtime.logout()
         if request.content_length is not None and request.content_length > settings.max_content_length:
             raise RequestEntityTooLarge()
         if request.path.rstrip('/').endswith('/_dash-update-component'):
+            if cross_origin:
+                return jsonify(error='Cross-origin callback denied'), 403
             if request.content_length is None:
                 return jsonify(error='Callback body length is required'), 400
             payload = request.get_json(silent=True)
@@ -207,17 +217,19 @@ def create_app(settings=None, identity_provider=None, report_provider=None):
             output = payload.get('output')
             if not isinstance(output, str) or not output:
                 return jsonify(error='Invalid output'), 400
-            if output in PUBLIC_CALLBACKS:
-                if output == '.._pages_content.children..._pages_store.data..':
-                    inputs = payload.get('inputs', [])
-                    if isinstance(inputs, list) and any(isinstance(item, dict) and item.get('id') == '_pages_location' and item.get('property') == 'pathname' and item.get('value') == '/logout' for item in inputs):
-                        runtime.logout()
-                return None
-            user = runtime.identity()
-            if not user:
+            registry = server.extensions.get('callback_registry')
+            policy = registry.policy_for(output) if registry is not None else None
+            if policy is None:
+                return jsonify(error='Unregistered callback'), 403
+            if output == '.._pages_content.children..._pages_store.data..':
+                inputs = payload.get('inputs', [])
+                if isinstance(inputs, list) and any(isinstance(item, dict) and item.get('id') == '_pages_location' and item.get('property') == 'pathname' and item.get('value') == '/logout' for item in inputs):
+                    runtime.logout()
+            user = runtime.identity() if policy.authenticated else None
+            if policy.authenticated and user is None:
                 return jsonify(error='Login required'), 401
-            if output in ADMIN_CALLBACKS and not allowed(user, ['admin']):
-                runtime.audit('access.denied', actor=user['id'], outcome='denied')
+            if not policy.allows(user):
+                runtime.audit('access.denied', actor=user['id'] if user else None, outcome='denied')
                 return jsonify(error='Forbidden'), 403
 
     @server.after_request
@@ -275,5 +287,5 @@ def create_app(settings=None, identity_provider=None, report_provider=None):
         return jsonify(status='ready', storage='sqlite-local' if state else 'process-memory', scheduler='not-started')
 
     from .web import create_dash_app
-    server.extensions['dash_app'] = create_dash_app(server, runtime)
+    server.extensions['dash_app'] = create_dash_app(server, runtime, extra_pages=extra_pages)
     return server

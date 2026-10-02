@@ -33,6 +33,51 @@ LOGIN_OUTPUT = '..redirectHome.pathname...login-alert.is_open..'
 PAGE_OUTPUT = '.._pages_content.children..._pages_store.data..'
 
 
+def callback_output_spec(client, component, prop):
+    """Resolve the real Dash wire key, including grouped and dict-ID outputs."""
+    matches = []
+    for key, entry in client.application.extensions['dash_app'].callback_map.items():
+        output = entry['output']
+        outputs = output if isinstance(output, (list, tuple)) else (output,)
+        if any(item.component_id == component and item.component_property == prop
+               for item in outputs):
+            specs = [{'id': item.component_id, 'property': item.component_property}
+                     for item in outputs]
+            matches.append((key, specs if isinstance(output, (list, tuple)) else specs[0]))
+    if len(matches) != 1:
+        raise AssertionError('Expected one callback for {}.{}; got {}'.format(
+            component, prop, len(matches)))
+    return matches[0]
+
+
+def components(node):
+    """Walk serialized Dash component trees, without interpreting their payloads."""
+    if isinstance(node, list):
+        for child in node:
+            yield from components(child)
+    elif isinstance(node, dict) and 'props' in node:
+        yield node
+        yield from components(node['props'].get('children'))
+
+
+def notification_events(response):
+    """Read action event Stores from a real callback response or routed layout."""
+    body = response.get_json()['response']
+    events = []
+    for key, value in body.items():
+        if key.startswith('{'):
+            component_id = json.loads(key)
+            if component_id.get('type') == 'workspace-notify' and value.get('data'):
+                events.append(value['data'])
+    for node in components(body.get('_pages_content', {}).get('children')):
+        component_id = node['props'].get('id')
+        if (node.get('type') == 'Store' and isinstance(component_id, dict)
+                and component_id.get('type') == 'workspace-notify'
+                and node['props'].get('data')):
+            events.append(node['props']['data'])
+    return events
+
+
 class FixtureIdentity:
     """An explicitly selected in-process fake, solely for production gate tests."""
 
@@ -101,8 +146,8 @@ class AppTestCase(unittest.TestCase):
         return server
 
     @staticmethod
-    def login(client, username='fixture-admin', password=PASSWORD):
-        return client.post('/_dash-update-component', json={
+    def login(client, username='fixture-admin', password=PASSWORD, headers=None):
+        return client.post('/_dash-update-component', headers=headers, json={
             'output': LOGIN_OUTPUT,
             'outputs': [{'id': 'redirectHome', 'property': 'pathname'},
                         {'id': 'login-alert', 'property': 'is_open'}],
@@ -113,17 +158,17 @@ class AppTestCase(unittest.TestCase):
         })
 
     @staticmethod
-    def callback(client, component, prop, button):
-        return client.post('/_dash-update-component', json={
-            'output': component + '.' + prop,
-            'outputs': {'id': component, 'property': prop},
+    def callback(client, component, prop, button, headers=None):
+        output, outputs = callback_output_spec(client, component, prop)
+        return client.post('/_dash-update-component', headers=headers, json={
+            'output': output, 'outputs': outputs,
             'inputs': [{'id': button, 'property': 'n_clicks', 'value': 1}],
             'state': [], 'changedPropIds': [button + '.n_clicks'],
         })
 
     @staticmethod
-    def page(client, path):
-        return client.post('/_dash-update-component', json={
+    def page(client, path, headers=None):
+        return client.post('/_dash-update-component', headers=headers, json={
             'output': PAGE_OUTPUT,
             'outputs': [{'id': '_pages_content', 'property': 'children'},
                         {'id': '_pages_store', 'property': 'data'}],
@@ -138,6 +183,19 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
         self.assertFalse(response.get_json()['response']['login-alert']['is_open'])
         return client
+
+    def assert_ui_error(self, response, code, primary_component=None):
+        self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
+        if primary_component is not None:
+            self.assertNotIn(primary_component, response.get_json()['response'])
+        events = notification_events(response)
+        self.assertEqual(len(events), 1, response.get_data(as_text=True))
+        self.assertEqual(events[0]['kind'], 'error')
+        self.assertEqual(events[0]['code'], code)
+        self.assertEqual(events[0]['request_id'], response.headers['X-Request-ID'])
+        self.assertEqual(set(events[0]), {'event_id', 'code', 'kind', 'audience', 'request_id'})
+        self.assertNotIn(PASSWORD, response.get_data(as_text=True))
+        self.assertNotIn(PROVIDER_DETAIL, response.get_data(as_text=True))
 
     @staticmethod
     def transfer_cookie(source, destination, name='session'):
@@ -310,12 +368,27 @@ class FactoryIsolationTests(AppTestCase):
         a, b = first.extensions['dash_app'], second.extensions['dash_app']
         self.assertIsNot(a, b)
         self.assertIsNot(a.callback_map, b.callback_map)
-        expected = {LOGIN_OUTPUT, PAGE_OUTPUT, 'popover.is_open', 'table.data',
-                    'report-download.data', 'adapter-result.children',
-                    '..sidebar.style...page-content.style...side_click.data..',
-                    'btn_sidebar.aria-expanded'}
-        self.assertEqual(set(a.callback_map), expected)
-        self.assertEqual(set(b.callback_map), expected)
+        expected = {'shell.route', 'shell.info', 'shell.sidebar', 'shell.sidebar_accessibility',
+                    'shell.notifications', 'login.submit', 'reports.refresh',
+                    'reports.export', 'admin.simulate', 'maintenance.list',
+                    'maintenance.select', 'maintenance.mutate', 'shell.theme',
+                    'shell.theme_chart', 'catalog.render', 'catalog.preferences'}
+        client_callbacks = {'shell.theme', 'shell.theme_chart', 'catalog.preferences'}
+        for server, app in ((first, a), (second, b)):
+            declarations = server.extensions['callback_registry'].callbacks
+            self.assertEqual({spec.callback_id for spec in declarations.values()}, expected)
+            self.assertEqual(set(app.callback_map), set(declarations))
+            for key in app.callback_map:
+                declaration = declarations[key]
+                policy = server.extensions['callback_registry'].policy_for(key)
+                if declaration.callback_id in client_callbacks:
+                    self.assertEqual(declaration.kind, 'client')
+                    self.assertIsNone(policy)
+                    self.assertNotIn('callback', app.callback_map[key])
+                else:
+                    self.assertEqual(declaration.kind, 'server')
+                    self.assertIs(policy, declaration.policy)
+        self.assertEqual(set(a.callback_map), set(b.callback_map))
         client_a, client_b = self.logged_in(first), self.logged_in(second)
         for client, marker in ((client_a, 'first-only'), (client_b, 'second-only')):
             response = self.callback(client, 'table', 'data', 'report-refresh')
@@ -487,9 +560,16 @@ class AuthorizationAndFailureTests(AppTestCase):
                              self.callback(client, 'table', 'data', 'report-refresh'),
                              self.callback(client, 'report-download', 'data', 'report-export'),
                              self.page(client, '/page3')]
+        self.assertEqual(responses[0].status_code, 503, responses[0].get_data(as_text=True))
+        self.assertEqual(responses[0].get_json()['error'], 'Service temporarily unavailable')
+        self.assert_ui_error(responses[1], 'report.failed', 'table')
+        self.assert_ui_error(responses[2], 'report.export.failed', 'report-download')
+        self.assert_ui_error(responses[3], 'report.failed')
+        layout = responses[3].get_json()['response']['_pages_content']['children']
+        tables = [item for item in components(layout) if item['props'].get('id') == 'table']
+        self.assertEqual(len(tables), 1)
+        self.assertEqual(tables[0]['props']['data'], [])
         for response in responses:
-            self.assertEqual(response.status_code, 503, response.get_data(as_text=True))
-            self.assertEqual(response.get_json()['error'], 'Service temporarily unavailable')
             self.assertNotIn(PASSWORD, response.get_data(as_text=True))
             self.assertNotIn(PROVIDER_DETAIL, response.get_data(as_text=True))
         audit = json.dumps([asdict(item) for item in server.extensions['workspace'].state.list_audit()])
@@ -634,7 +714,8 @@ class HttpAndStorageTests(AppTestCase):
                 yield from components(node['props'].get('children'))
 
         content = response.get_json()['response']['_pages_content']['children']
-        by_id = {node['props'].get('id'): node['props'] for node in components(content)}
+        by_id = {node['props']['id']: node['props'] for node in components(content)
+                 if isinstance(node['props'].get('id'), str)}
         row = by_id['table']['data'][0]
         revenue = by_id['performance-chart']['figure']['data'][0]
         cost = by_id['performance-chart']['figure']['data'][1]
@@ -675,8 +756,7 @@ class HttpAndStorageTests(AppTestCase):
         client = self.logged_in(server)
         with patch.object(runtime.mail, 'send', side_effect=RuntimeError(PROVIDER_DETAIL)):
             response = self.callback(client, 'adapter-result', 'children', 'adapter-run')
-        self.assertEqual(response.status_code, 503, response.get_data(as_text=True))
-        self.assertNotIn(PROVIDER_DETAIL, response.get_data(as_text=True))
+        self.assert_ui_error(response, 'simulation.failed', 'adapter-result')
         job = runtime.state.get_job('demo-mail', 'fixture-1')
         self.assertEqual(job.state, 'failed')
         self.assertEqual(job.failure_code, 'execution_failed')
@@ -696,8 +776,7 @@ class HttpAndStorageTests(AppTestCase):
         failure = {'side_effect': RuntimeError(PROVIDER_DETAIL)} if raises else {'return_value': False}
         with patch.object(runtime.state, 'finish_job', **failure) as finish:
             response = self.callback(client, 'adapter-result', 'children', 'adapter-run')
-        self.assertEqual(response.status_code, 503, response.get_data(as_text=True))
-        self.assertNotIn(PROVIDER_DETAIL, response.get_data(as_text=True))
+        self.assert_ui_error(response, 'simulation.failed', 'adapter-result')
         self.assertNotIn('Fixed job executed: True', response.get_data(as_text=True))
         finish.assert_called_once()
         self.assertTrue(finish.call_args.kwargs['success'])
@@ -762,7 +841,7 @@ print('no-startup-effects')
 
     def test_new_modules_parse_as_python38(self):
         root = Path(__file__).resolve().parents[1]
-        for path in list((root / 'reporting_workspace').glob('*.py')) + [root / 'wsgi.py']:
+        for path in list((root / 'reporting_workspace').rglob('*.py')) + [root / 'wsgi.py']:
             with self.subTest(path=path.name):
                 ast.parse(path.read_text(encoding='utf-8'), feature_version=(3, 8))
 

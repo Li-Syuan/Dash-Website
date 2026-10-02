@@ -2,7 +2,7 @@
 
 A modular Flask + Dash reporting foundation with an offline demo entrypoint. It preserves the
 known public example's routes, callback IDs and role/organization rules, with a
-consistent Bootstrap component shell and local design tokens. Default report data is
+consistent Bootstrap component shell, local design tokens and scoped in-app notifications. Default report data is
 synthetic. No company identity provider, database, mail server or live scheduler
 is connected. This is a tested integration foundation, **not a completed company-system
 migration or a production deployment**.
@@ -15,7 +15,9 @@ python -B app.py
 
 Open http://127.0.0.1:8050/login. The default binds only to loopback and disables
 debug mode. There are no CDN stylesheets, remote fonts or network CSV downloads.
-The local CSS supplies the Bootstrap classes needed by this first version.
+The local CSS supplies the Bootstrap classes needed by this version. The direct
+demo launcher creates a private Git-ignored `instance/workspace.sqlite` for
+persisted maintenance data. Production/factory configuration is explicit.
 
 Public test identities (all use password `demo-only`):
 
@@ -36,7 +38,7 @@ dash-bootstrap-components 1.4.1, Flask-Login 0.6.2, Werkzeug 2.2.3, Plotly
 5.13.1 and setuptools 57.5.0 (required by Dash’s pkg_resources import). `requirements-demo.txt` documents that minimal subset of the provided
 company versions. It is not a full transitive lock or an installation guarantee.
 The original `requirements.txt` is historical and has newer versions; do not use
-it to upgrade the company environment. No Mantine upgrade is needed. Existing
+it to upgrade the company environment. In-app notifications use the approved Mantine 0.12.0 pin. No Mantine upgrade is needed. Existing
 Mantine 0.12.0 components can later be integrated through adapters if required.
 
 ## Preserved known contracts
@@ -47,13 +49,14 @@ Mantine 0.12.0 components can later be integrated through adapters if required.
 | `/login` | Public; authenticated users redirect to `/` |
 | `/logout` | Clears login and redirects to `/login` |
 | `/admin`, `/page1`, `/page3` | Admin |
+| `/maintenance` | Admin/user; organization-scoped records and owner checks on writes |
 | `/page2` | Role admin/user **AND** organization A |
 
 The legacy `auth.py` is retained unchanged: conditions within one
 `role_permission` decorator are OR; stacked decorators are AND. New page
-policies explicitly implement each route's known result. Admin navigation keeps
-the admin pages; user navigation keeps page2. Navigation visibility is not the
-authorization boundary. Unknown users in an old session become anonymous safely.
+policies explicitly implement each route's known result. Header navigation contains a few authorized workspace sections. Reports are
+discovered through policy-filtered cards, not a long sidebar. Navigation
+visibility is not the authorization boundary. Unknown users in an old session become anonymous safely.
 
 Login IDs and properties remain `username-box.value`, `password-box.value`,
 `login-box.n_clicks` → `redirectHome.pathname`, `login-alert.is_open`, triggered
@@ -128,13 +131,18 @@ mail sink restrictions, local assets and Python 3.8 syntax. Tests use isolated
 synthetic providers and temporary state; they never contact company services.
 
 Browser smoke test: sign in as each identity; visit the listed routes; as admin,
-refresh/filter the report and export CSV; run the adapter simulation twice and
+refresh/filter the report and export CSV; test light/dark, notifications and
+maintenance create/edit/conflict/archive/restore; run the adapter simulation twice and
 confirm the second run does not capture another message; sign out and verify
 that direct report callbacks cannot return data. Check desktop/mobile widths.
 
 ## Architecture and operations
 
 - [Architecture and adapter contracts](docs/ARCHITECTURE.md)
+- [Registering pages and callbacks](docs/ADDING_PAGES.md)
+- [Shared in-app notifications](docs/NOTIFICATIONS.md)
+- [Report catalog, color modes and assistant boundary](docs/CATALOG_AND_THEME.md)
+- [SQLite CRUD maintenance](docs/MAINTENANCE.md)
 - [Configuration, health, backup and rollback](docs/OPERATIONS.md)
 - [Company integration acceptance checklist](docs/INTEGRATION_CHECKLIST.md)
 

@@ -96,3 +96,52 @@ Browser/mobile visual QA and real company integrations remain unverified as
 described above. The SQLite backend is optional, local-host only; no live
 scheduler, durable mail outbox, SMTP, LDAP, Oracle or DVC connector was enabled.
 Read docs/INTEGRATION_CHECKLIST.md before treating this as production-ready.
+
+## Registry, catalog, notifications, maintenance and theme increment
+
+Final cloud runs pass **306 tests on each of Python 3.8.20 and 3.10.21**. The
+approved minimal runtime now also includes the existing company version
+`dash-mantine-components==0.12.0`; no version upgrade or other application
+package was added. Node syntax/isolated JavaScript contract tests and Python
+3.8 grammar checks pass. Whitespace checks pass.
+
+This increment adds immutable app-scoped PageSpec and callback registries,
+page-bound callback registration, duplicate/missing policy rejection, explicit
+client-only presentation callbacks with HTTP denial, and an authorized card
+catalog. Synthetic 50-page tests verify search/category/tags, pagination,
+scoped IDs-only favorites/recent, forged-ID filtering and absence of unauthorized
+metadata. The app itself contains only the real synthetic report and explicit
+permission fixtures, not fifty fabricated business reports.
+
+Mantine notification tests use its actual 0.12 component API. Fixed catalog
+messages, request IDs, identity scope, bounded deduplication and no raw exception
+content are tested through the common renderer. Theme tests verify OS fallback,
+local preference, storage failure, keyboard/ARIA state metadata, Mantine theme
+sync and trace-preserving Plotly color changes in an isolated JavaScript runtime.
+These checks are not browser screenshots or accessibility certification.
+
+SQLite schema 2, validated v1 migration, maintenance tenant/owner authorization,
+strict editable fields, version conflicts, soft-delete/restore, mutation/audit
+atomicity and two-process races are tested. Per-form creation keys prevent
+repeated Save requests from making duplicate records; internal keys are not
+returned as record fields. The unpublished v2 schema was finalized before this
+release; temporary developer preview databases from an earlier uncommitted v2
+iteration are not a supported migration source. Do not weaken validation to
+adopt them.
+
+Additional real callback tests cover foreign/null/cross-site origins, explicit
+cross-origin logout rejection, unknown/replaced/forged callback dispatch,
+initial/open/close/repeated-close assistant states and synchronized ARIA fields.
+The assistant panel is disabled and has no outbound backend. Core review found
+and verified fixes for a page-registrar binding gap and repeated-create handling.
+
+The prior Windows screenshot at commit 1825644 showed a collapsed/blank chart
+area. The figure validates as two six-point bar traces and its correct Dash
+async assets return HTTP 200 on the cloud server. That does not prove browser
+execution or establish the failure's cause. No blind chart fix or successful
+final-commit browser-rendering claim is made. A fresh desktop/mobile pass must
+verify chart rendering, catalog interactions, dark/light, toast dismissal, drawer
+keyboard behavior and complete CRUD flows before calling the UI visually tested.
+
+`.github/copilot-instructions.md` contains only confirmed project constraints.
+The user's additional special company rules are still awaiting specification.

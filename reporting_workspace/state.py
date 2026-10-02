@@ -21,7 +21,7 @@ import time
 from typing import List, Optional
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 BUSY_TIMEOUT_MS = 5000
 _IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}\Z")
 _EVENTS = frozenset({
@@ -29,6 +29,7 @@ _EVENTS = frozenset({
     "job.succeeded", "job.failed", "access.denied", "runtime.started",
     "runtime.stopped",
     "login.succeeded", "login.failed", "logout.succeeded", "provider.error", "report.export",
+    "crud.created", "crud.updated", "crud.deleted", "crud.restored",
 })
 _OUTCOMES = frozenset({"success", "failure", "denied"})
 _FAILURE_CODES = frozenset({"execution_failed", "interrupted", "cancelled", "unknown"})
@@ -37,8 +38,8 @@ _AUDIT_CODES = _FAILURE_CODES | frozenset({
     "provider_unavailable", "provider_failed",
 })
 
-# Version 1 is a dedicated, exact schema. Keep migration and validation together.
-_SCHEMA_DDL = {
+# Preserve the exact version 1 contract so only validated databases are migrated.
+_SCHEMA_DDL_V1 = {
     ("table", "leases", "leases"): """
 CREATE TABLE leases (
         key TEXT PRIMARY KEY NOT NULL,
@@ -78,7 +79,7 @@ CREATE TABLE audit_events (
     """,
     ("index", "job_runs_state", "job_runs"): "CREATE INDEX job_runs_state ON job_runs (state, claimed_at)",
 }
-_SCHEMA_COLUMNS = {
+_SCHEMA_COLUMNS_V1 = {
     "leases": (
         ("key", "TEXT", 1, None, 1), ("owner", "TEXT", 1, None, 0),
         ("token", "TEXT", 1, None, 0), ("fencing", "INTEGER", 1, None, 0),
@@ -97,6 +98,41 @@ _SCHEMA_COLUMNS = {
         ("request_id", "TEXT", 0, None, 0), ("code", "TEXT", 0, None, 0),
     ),
 }
+
+
+_REPORT_DEFINITIONS_DDL = {
+    ("table", "report_definitions", "report_definitions"): """
+CREATE TABLE report_definitions (
+        id TEXT PRIMARY KEY NOT NULL CHECK (length(id) = 32 AND id NOT GLOB '*[^0-9a-f]*'),
+        org TEXT NOT NULL CHECK (length(org) BETWEEN 1 AND 128),
+        owner_id TEXT NOT NULL CHECK (length(owner_id) = 64 AND owner_id NOT GLOB '*[^0-9a-f]*'),
+        create_key TEXT NOT NULL CHECK (length(create_key) = 32 AND create_key NOT GLOB '*[^0-9a-f]*'),
+        name TEXT NOT NULL CHECK (length(name) BETWEEN 1 AND 120),
+        description TEXT NOT NULL CHECK (length(description) <= 1000),
+        cadence TEXT NOT NULL CHECK (cadence IN ('manual', 'daily', 'weekly', 'monthly')),
+        enabled INTEGER NOT NULL CHECK (enabled IN (0, 1)),
+        version INTEGER NOT NULL CHECK (typeof(version) = 'integer' AND version > 0),
+        created_at REAL NOT NULL,
+        updated_at REAL NOT NULL,
+        deleted_at REAL,
+        UNIQUE (org, owner_id, create_key)
+    )
+    """,
+    ("index", "report_definitions_org_updated", "report_definitions"):
+        "CREATE INDEX report_definitions_org_updated ON report_definitions (org, updated_at DESC, id)",
+}
+_SCHEMA_DDL = dict(_SCHEMA_DDL_V1)
+_SCHEMA_DDL.update(_REPORT_DEFINITIONS_DDL)
+_SCHEMA_COLUMNS = dict(_SCHEMA_COLUMNS_V1)
+_SCHEMA_COLUMNS["report_definitions"] = (
+    ("id", "TEXT", 1, None, 1), ("org", "TEXT", 1, None, 0),
+    ("owner_id", "TEXT", 1, None, 0), ("create_key", "TEXT", 1, None, 0),
+    ("name", "TEXT", 1, None, 0),
+    ("description", "TEXT", 1, None, 0), ("cadence", "TEXT", 1, None, 0),
+    ("enabled", "INTEGER", 1, None, 0), ("version", "INTEGER", 1, None, 0),
+    ("created_at", "REAL", 1, None, 0), ("updated_at", "REAL", 1, None, 0),
+    ("deleted_at", "REAL", 0, None, 0),
+)
 
 
 def _ddl_tokens(sql):
@@ -178,7 +214,8 @@ def _path(value):
 class StateStore:
     """Durable local state with per-operation connections safe across threads/fork.
 
-    Schema zero migrates only if empty. Existing files are never silently reset.
+    Schema zero migrates only if empty; exact version one migrates atomically.
+    Existing files are never silently reset.
     Identifiers must be opaque: do not pass emails, credentials or report data.
     SQLite errors propagate so callers cannot mistake a failed write for success.
     """
@@ -212,7 +249,7 @@ class StateStore:
     def _version(connection):
         version = connection.execute("PRAGMA user_version").fetchone()[0]
         if version > SCHEMA_VERSION:
-            raise UnsupportedSchemaVersion("state schema is newer than supported version 1")
+            raise UnsupportedSchemaVersion("state schema is newer than supported version 2")
         return version
 
     def _initialize(self):
@@ -229,7 +266,14 @@ class StateStore:
                 # Individual statements keep DDL and user_version in one transaction.
                 for statement in _SCHEMA_DDL.values():
                     connection.execute(statement)
-                connection.execute("PRAGMA user_version = 1")
+                connection.execute("PRAGMA user_version = 2")
+            elif version == 1:
+                # Validate before touching the old database. DDL, version and
+                # final validation share the same transaction and roll back.
+                self._validate_schema(connection, version=1)
+                for statement in _REPORT_DEFINITIONS_DDL.values():
+                    connection.execute(statement)
+                connection.execute("PRAGMA user_version = 2")
             elif version != SCHEMA_VERSION:
                 raise StateError("unsupported state schema version")
             self._validate_schema(connection)
@@ -241,24 +285,28 @@ class StateStore:
             connection.close()
 
     @staticmethod
-    def _validate_schema(connection):
+    def _validate_schema(connection, version=SCHEMA_VERSION):
         # table_info verifies ordering, affinity declarations, defaults and keys;
         # exact DDL tokens additionally verify CHECK/AUTOINCREMENT constraints.
-        for table, columns in _SCHEMA_COLUMNS.items():
+        if version not in (1, SCHEMA_VERSION):
+            raise StateError("unsupported schema validation version")
+        schema_columns = _SCHEMA_COLUMNS_V1 if version == 1 else _SCHEMA_COLUMNS
+        schema_ddl = _SCHEMA_DDL_V1 if version == 1 else _SCHEMA_DDL
+        for table, columns in schema_columns.items():
             actual = tuple(tuple(row) for row in connection.execute(
                 "PRAGMA table_info({})".format(table)))
             expected = tuple((index,) + column for index, column in enumerate(columns))
             if actual != expected:
-                raise StateError("state schema does not match version 1")
+                raise StateError("state schema does not match version {}".format(version))
         actual_ddl = {
             (row[0], row[1], row[2]): _ddl_tokens(row[3])
             for row in connection.execute(
                 "SELECT type, name, tbl_name, sql FROM sqlite_master WHERE name NOT GLOB 'sqlite_*'"
             )
         }
-        expected_ddl = {key: _ddl_tokens(sql) for key, sql in _SCHEMA_DDL.items()}
+        expected_ddl = {key: _ddl_tokens(sql) for key, sql in schema_ddl.items()}
         if actual_ddl != expected_ddl:
-            raise StateError("state constraints or indexes do not match version 1")
+            raise StateError("state constraints or indexes do not match version {}".format(version))
 
     @contextmanager
     def _transaction(self, write=False):
@@ -476,7 +524,7 @@ class StateStore:
                 target = sqlite3.connect(str(destination))
                 source.backup(target, pages=128, sleep=0.01)
                 if self._version(target) != SCHEMA_VERSION:
-                    raise StateError("backup schema does not match version 1")
+                    raise StateError("backup schema does not match version 2")
                 self._validate_schema(target)
             except BaseException:
                 if target is not None:

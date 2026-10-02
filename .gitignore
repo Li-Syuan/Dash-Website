@@ -5,3 +5,5 @@ __pycache__/
 *.sqlite*
 .venv/
 test-artifacts/
+# Private local demo/maintenance data and backups.
+instance/

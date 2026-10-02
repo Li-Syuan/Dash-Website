@@ -320,3 +320,16 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   .page-heading { padding: 16px 0; border: 0; background: white; }
   .page-heading::before, .page-heading::after { display: none; }
 }
+
+/* DMC 0.12 toast adapter shares workspace tokens, without global normalization. */
+.workspace-notification { border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); font-family: inherit; }
+.workspace-notification button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .workspace-notification { animation: none !important; transition: none !important; } }
+
+/* Utilities used by the pinned Bootstrap maintenance form. */
+.d-flex{display:flex}.d-block{display:block}.flex-wrap{flex-wrap:wrap}.align-items-center{align-items:center}.justify-content-between{justify-content:space-between}.gap-2{gap:8px}.mx-3{margin-left:16px;margin-right:16px}.mb-4{margin-bottom:24px}.mt-5{margin-top:32px}
+.form-select{display:block;width:100%;min-height:47px;padding:11px 14px;border:1px solid #cdd9e9;border-radius:9px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px}.form-select:focus-visible{outline:3px solid #d9e5ff;outline-offset:1px;border-color:var(--primary)}
+.form-check{display:flex;align-items:center;gap:9px;min-height:30px}.form-check-input{width:18px;height:18px;margin:0;accent-color:var(--primary)}.form-check-label{font-size:13px;color:var(--ink)}.form-check-input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.form-select:disabled{background:#edf1f7;color:#63748a}
+.btn-outline-secondary{background:white;border-color:#c4cfde;color:#4b627f}.btn-outline-warning{background:#fffaf0;border-color:#d8bd7f;color:#785614}.btn-outline-success{background:#f3fbf7;border-color:#90c8ae;color:#27674b}
+#maintenance-table{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm)}#maintenance-table .dash-spreadsheet-inner th{background:#eaf0fa!important;color:#2d4669;font-size:12px}#maintenance-table .dash-spreadsheet-inner tr:nth-child(even) td{background:#f8faff}#maintenance-table .dash-spreadsheet-inner td{font-size:13px;color:#344c6b}#maintenance-table input{accent-color:var(--primary)}#maintenance-editor-title{font-size:23px;margin-bottom:10px}#maintenance-page-label{font-size:12px;color:var(--muted)}#maintenance-form-hint{font-size:13px}#maintenance-description{resize:vertical;min-height:100px}
+@media(max-width:560px){.form-select{font-size:16px}#maintenance-editor-title{font-size:21px}.mx-3{margin-left:6px;margin-right:6px}}

@@ -371,7 +371,7 @@ class FactoryIsolationTests(AppTestCase):
         expected = {'shell.route', 'shell.info', 'shell.sidebar', 'shell.sidebar_accessibility',
                     'shell.notifications', 'login.submit', 'reports.refresh',
                     'reports.export', 'admin.simulate', 'maintenance.list',
-                    'maintenance.select', 'maintenance.mutate', 'shell.theme',
+                    'maintenance.select', 'maintenance.mutate', 'maintenance.feedback', 'shell.theme',
                     'shell.theme_chart', 'catalog.render', 'catalog.preferences'}
         client_callbacks = {'shell.theme', 'shell.theme_chart', 'catalog.preferences'}
         for server, app in ((first, a), (second, b)):

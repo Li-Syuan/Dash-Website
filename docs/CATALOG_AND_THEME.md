@@ -38,8 +38,12 @@ as server data operations. No remote fonts, icons or dependencies are introduced
 
 ## Assistant panel
 
-The right panel can open/close and supports Escape/focus return. On narrow
-screens it behaves as a drawer. Its input and Send control are disabled, and it
+The right panel can open/close and supports Escape/focus return. At widths up
+to 650px it is a modal drawer: keyboard focus stays inside and background
+branches are temporarily inert/hidden from assistive technology. Resizing to
+desktop releases those restrictions; the desktop panel is nonmodal. Closing or
+replacing the shell restores prior attributes without moving focus to a removed
+route. The local script performs no network requests. Its input and Send control are disabled, and it
 states that no assistant is connected. No report content, prompt or company data
 is sent anywhere; no model, DVC or other backend is automatically contacted.
 Connecting the intended company assistant requires a separately specified,

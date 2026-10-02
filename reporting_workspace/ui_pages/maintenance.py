@@ -14,7 +14,8 @@ from dash import Input, Output, State, ctx, dash_table, dcc, html, no_update
 from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 
-from ..crud import AccessDenied, Conflict, NotFound, StateUnavailable, ValidationError
+from ..crud import (AccessDenied, Conflict, NotFound, StateUnavailable, ValidationError,
+                    definition_field_errors)
 from ..notifications import notification_store_id
 from ..registry import AccessPolicy, PageSpec
 from .shared import heading, request_id
@@ -139,15 +140,18 @@ def layout(runtime):
             html.P('Not saved yet', id='maintenance-record-meta', className='subtitle',
                    role='status', **{'aria-live': 'polite'}),
             dbc.Label('Name', html_for='maintenance-name'),
-            dbc.Input(id='maintenance-name', value='', maxLength=120, disabled=not available),
+            dbc.Input(id='maintenance-name', value='', maxLength=120, disabled=not available, invalid=False),
+            dbc.FormFeedback(id='maintenance-name-feedback', type='invalid'),
             dbc.Label('Description', html_for='maintenance-description', className='mt-3'),
             dbc.Textarea(id='maintenance-description', value='', maxLength=1000,
-                         rows=3, disabled=not available),
+                         rows=3, disabled=not available, invalid=False),
+            dbc.FormFeedback(id='maintenance-description-feedback', type='invalid'),
             dbc.Row([
                 dbc.Col([
                     dbc.Label('Cadence (metadata only)', html_for='maintenance-cadence', className='mt-3'),
-                    dbc.Select(id='maintenance-cadence', value='manual', disabled=not available,
+                    dbc.Select(id='maintenance-cadence', value='manual', disabled=not available, invalid=False,
                                options=[{'label': value.title(), 'value': value} for value in _CADENCES]),
+                    dbc.FormFeedback(id='maintenance-cadence-feedback', type='invalid'),
                 ], md=6),
                 dbc.Col(dbc.Switch(id='maintenance-enabled', label='Enabled (metadata only)',
                                    value=True, className='mt-5', disabled=not available), md=6),
@@ -175,6 +179,25 @@ def layout(runtime):
 
 
 def register_callbacks(callbacks, runtime):
+    @callbacks.callback(
+        Output('maintenance-name', 'invalid'), Output('maintenance-name-feedback', 'children'),
+        Output('maintenance-description', 'invalid'), Output('maintenance-description-feedback', 'children'),
+        Output('maintenance-cadence', 'invalid'), Output('maintenance-cadence-feedback', 'children'),
+        Input('maintenance-save', 'n_clicks'), Input('maintenance-name', 'value'),
+        Input('maintenance-description', 'value'), Input('maintenance-cadence', 'value'),
+        Input('maintenance-draft', 'data'), Input('maintenance-record', 'data'),
+        Input('maintenance-name', 'disabled'),
+        callback_id='maintenance.feedback', policy=POLICY, page_id='maintenance', prevent_initial_call=True,
+    )
+    def field_feedback(save, name, description, cadence, draft, current, disabled):
+        # A newly mounted/reset/selected editor starts clean. This callback only
+        # decorates the form; it cannot approve or suppress a server mutation.
+        triggers = set(ctx.triggered_prop_ids.values())
+        reset = triggers.intersection(('maintenance-draft', 'maintenance-record'))
+        errors = {} if disabled or reset else definition_field_errors(name, description, cadence)
+        return tuple(value for field in ('name', 'description', 'cadence')
+                     for value in (field in errors, errors.get(field, '')))
+
     @callbacks.callback(
         Output('maintenance-table', 'data'), Output('maintenance-table', 'selected_rows'),
         Output('maintenance-page', 'data'), Output('maintenance-page-label', 'children'),

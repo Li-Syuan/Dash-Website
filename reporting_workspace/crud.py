@@ -98,6 +98,24 @@ def _payload(payload, create=False):
     return result
 
 
+def definition_field_errors(name, description, cadence):
+    """Fixed UI feedback using the same rules as writes; never authorization.
+
+    Mutations still independently validate the complete payload in the service.
+    Exception messages and submitted values are deliberately not returned.
+    """
+    errors = {}
+    for field, value, message in (
+            ('name', name, 'Enter a name of 1–120 characters without control characters.'),
+            ('description', description, 'Use at most 1000 characters; line breaks and tabs are allowed.'),
+            ('cadence', cadence, 'Choose manual, daily, weekly or monthly.')):
+        try:
+            _payload({field: value})
+        except ValidationError:
+            errors[field] = message
+    return errors
+
+
 def _version(value):
     if isinstance(value, bool) or not isinstance(value, int) or not 1 <= value <= _MAX_VERSION:
         raise ValidationError('expected_version must be a positive integer.')

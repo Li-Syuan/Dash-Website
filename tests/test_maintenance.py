@@ -92,7 +92,7 @@ class MaintenanceTests(unittest.TestCase):
             ('maintenance-save', 'n_clicks'): 0, ('maintenance-archive', 'n_clicks'): 0,
             ('maintenance-restore', 'n_clicks'): 0, ('maintenance-name', 'value'): '',
             ('maintenance-description', 'value'): '', ('maintenance-cadence', 'value'): 'manual',
-            ('maintenance-enabled', 'value'): True,
+            ('maintenance-enabled', 'value'): True, ('maintenance-name', 'disabled'): False,
         }
 
     def call(self, callback_id, changed, client=None, values=None):
@@ -163,7 +163,7 @@ class MaintenanceTests(unittest.TestCase):
         specs = [spec for spec in self.server.extensions['callback_registry'].callbacks.values()
                  if spec.page_id == 'maintenance']
         self.assertEqual({spec.callback_id for spec in specs},
-                         {'maintenance.list', 'maintenance.select', 'maintenance.mutate'})
+                         {'maintenance.list', 'maintenance.select', 'maintenance.mutate', 'maintenance.feedback'})
         self.assertTrue(all(spec.policy == POLICY for spec in specs))
         body = self.assert_ok(self.route())
         nodes = list(walk(body['_pages_content']['children']))
@@ -176,6 +176,55 @@ class MaintenanceTests(unittest.TestCase):
         self.assertIn('metadata only', json.dumps(body))
         self.assertEqual(len([node for node in nodes if node['type'] == 'Store'
                               and isinstance(node['props']['id'], dict)]), 3)
+
+    def test_field_feedback_is_pinned_component_compatible_and_resets(self):
+        body = self.assert_ok(self.route())
+        nodes = {node['props'].get('id'): node for node in walk(body['_pages_content']['children'])
+                 if isinstance(node['props'].get('id'), str)}
+        for field in ('name', 'description', 'cadence'):
+            self.assertFalse(nodes['maintenance-' + field]['props']['invalid'])
+            self.assertEqual(nodes['maintenance-' + field + '-feedback']['type'], 'FormFeedback')
+        response = self.call('maintenance.feedback', 'maintenance-save.n_clicks')
+        body = self.assert_ok(response)
+        self.assertTrue(body['maintenance-name']['invalid'])
+        self.assertIn('1–120', body['maintenance-name-feedback']['children'])
+        self.assertFalse(body['maintenance-description']['invalid'])
+        self.assertEqual(self.service.list(USERS['user-a'])['total'], 0)
+        self.values[('maintenance-name', 'value')] = 'Valid corrected name'
+        body = self.assert_ok(self.call('maintenance.feedback', 'maintenance-name.value'))
+        self.assertFalse(body['maintenance-name']['invalid'])
+        self.assertEqual(body['maintenance-name-feedback']['children'], '')
+        self.values[('maintenance-name', 'value')] = ''
+        for changed in ('maintenance-draft.data', 'maintenance-record.data'):
+            body = self.assert_ok(self.call('maintenance.feedback', changed))
+            self.assertFalse(body['maintenance-name']['invalid'])
+        self.values[('maintenance-name', 'disabled')] = True
+        body = self.assert_ok(self.call('maintenance.feedback', 'maintenance-name.disabled'))
+        self.assertFalse(body['maintenance-name']['invalid'])
+
+    def test_field_feedback_reuses_service_validation_without_echoing_values(self):
+        for field, value in (('name', 'x' * 121), ('name', 'bad\x00name'),
+                             ('name', None), ('description', 'x' * 1001),
+                             ('description', 'bad\x00description'), ('cadence', 'private-invalid-marker')):
+            with self.subTest(field=field):
+                self.values.update({('maintenance-name', 'value'): 'Valid',
+                                    ('maintenance-description', 'value'): '',
+                                    ('maintenance-cadence', 'value'): 'manual'})
+                self.values[('maintenance-' + field, 'value')] = value
+                response = self.call('maintenance.feedback', 'maintenance-' + field + '.value')
+                body = self.assert_ok(response)
+                self.assertTrue(body['maintenance-' + field]['invalid'])
+                if isinstance(value, str):
+                    self.assertNotIn(value, response.get_data(as_text=True))
+                self.assert_notice(self.call('maintenance.mutate', 'maintenance-save.n_clicks'),
+                                   'maintenance.invalid', 'warning')
+        self.assertEqual(self.service.list(USERS['user-a'])['total'], 0)
+        self.values.update({('maintenance-name', 'value'): '  Trimmed  ',
+                            ('maintenance-description', 'value'): 'Line one\nLine two\tEnd',
+                            ('maintenance-cadence', 'value'): 'monthly'})
+        body = self.assert_ok(self.call('maintenance.feedback', 'maintenance-save.n_clicks'))
+        for field in ('name', 'description', 'cadence'):
+            self.assertFalse(body['maintenance-' + field]['invalid'])
 
     def test_create_select_update_and_server_owned_reference(self):
         reference = self.create()
@@ -387,7 +436,8 @@ class MaintenanceTests(unittest.TestCase):
                                (self.authenticated(self.server, 'guest-a'), 403)):
             for callback_id, changed in (('maintenance.list', 'maintenance-refresh.n_clicks'),
                                          ('maintenance.select', 'maintenance-reload.n_clicks'),
-                                         ('maintenance.mutate', 'maintenance-save.n_clicks')):
+                                         ('maintenance.mutate', 'maintenance-save.n_clicks'),
+                                         ('maintenance.feedback', 'maintenance-save.n_clicks')):
                 with self.subTest(status=status, callback=callback_id):
                     response = self.call(callback_id, changed, client=client)
                     self.assertEqual(response.status_code, status)

@@ -81,3 +81,12 @@ foreign-origin/cross-site requests are rejected before clearing a session. No CO
 Tests exercise tenant/owner rules, forged payloads, conflicts, two-process update
 contention, persistence, archive/restore, migration rollback and real callback
 transports. UI interaction still needs a real browser pass on the final commit.
+
+### Inline field feedback
+
+Name, description and cadence show fixed field-specific feedback on editing or
+Save, using DBC 1.4.1 `invalid` and `FormFeedback`. New/selected forms start clean;
+read-only forms do not show editable errors. The feedback callback uses the same
+field validators as the CRUD service, but never authorizes or writes data.
+Save still independently validates all fields, identity, draft key and version;
+conflicts/backend failures retain the existing sanitized notification behavior.

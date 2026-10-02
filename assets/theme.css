@@ -5,7 +5,7 @@ html[data-theme="light"] {
   --bg: #f3f6fb; --surface: #ffffff; --surface-soft: #f8faff;
   --ink: #172b48; --muted: #596d87; --line: #dce5f1;
   --primary: #2859d7; --primary-dark: #1d43a7; --primary-soft: #eaf0ff;
-  --teal: #087f79; --focus: #2559da;
+  --teal: #087f79; --focus: #2559da; --invalid: #a53045;
   --chart-background: #ffffff; --chart-text: #596d87;
   --chart-grid: #e4ebf5; --chart-axis: #9cabc1;
 }
@@ -14,7 +14,7 @@ html[data-theme="dark"] {
   --bg: #0f1b2d; --surface: #18283f; --surface-soft: #1e304a;
   --ink: #e5edf9; --muted: #acbed7; --line: #3b506d;
   --primary: #93b7ff; --primary-dark: #bad0ff; --primary-soft: #273f68;
-  --teal: #72d9cc; --navy: #0d1728; --focus: #accaff;
+  --teal: #72d9cc; --navy: #0d1728; --focus: #accaff; --invalid: #ffc3c8;
   --shadow-sm: 0 2px 5px rgb(0 0 0 / 12%), 0 8px 24px rgb(0 0 0 / 14%);
   --shadow-lg: 0 18px 42px rgb(0 0 0 / 32%);
   --chart-background: #18283f; --chart-text: #d9e5f5;
@@ -103,44 +103,134 @@ html[data-theme="dark"] .btn-close { color: var(--ink); filter: invert(1) graysc
 html[data-theme="dark"] .workspace-notification { color: var(--ink); background: var(--surface); border-color: var(--line); }
 html[data-theme="dark"] .workspace-notification button { color: var(--muted); }
 
+/* Maintenance feedback is paired with its field, without Bootstrap CSS. */
+html[data-theme] #maintenance-name-feedback,
+html[data-theme] #maintenance-description-feedback,
+html[data-theme] #maintenance-cadence-feedback {
+  display: none; margin-top: 6px; color: var(--invalid); font-size: 12px; line-height: 1.5;
+}
+html[data-theme] #maintenance-name.is-invalid,
+html[data-theme] #maintenance-description.is-invalid,
+html[data-theme] #maintenance-cadence.is-invalid { border-color: var(--invalid); }
+html[data-theme] #maintenance-name.is-invalid:focus,
+html[data-theme] #maintenance-description.is-invalid:focus,
+html[data-theme] #maintenance-cadence.is-invalid:focus {
+  border-color: var(--invalid); outline: 2px solid var(--invalid); outline-offset: 2px;
+  box-shadow: none;
+}
+html[data-theme] #maintenance-name.is-invalid + .invalid-feedback,
+html[data-theme] #maintenance-description.is-invalid + .invalid-feedback,
+html[data-theme] #maintenance-cadence.is-invalid + .invalid-feedback { display: block; }
+
+/* Local overrides for the pinned Dash dropdown. Scope to the catalog so a
+   third-party component elsewhere keeps its own component styles. */
+html[data-theme] #catalog-category .Select-control,
+html[data-theme] #catalog-category .Select-menu-outer,
+html[data-theme] #catalog-category .Select-menu {
+  color: var(--ink); background: var(--surface); border-color: var(--line);
+}
+html[data-theme] #catalog-category .Select-value-label,
+html[data-theme] #catalog-category .Select-input > input {
+  color: var(--ink); background: transparent;
+}
+html[data-theme] #catalog-category .Select-placeholder,
+html[data-theme] #catalog-category .Select-noresults { color: var(--muted); }
+html[data-theme] #catalog-category .Select-arrow { border-top-color: var(--muted); }
+html[data-theme] #catalog-category .is-open .Select-arrow { border-top-color: transparent; border-bottom-color: var(--muted); }
+html[data-theme] #catalog-category .is-focused:not(.is-disabled) > .Select-control {
+  border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 2px;
+  box-shadow: none;
+}
+html[data-theme] #catalog-category .Select-menu-outer {
+  border-radius: 0 0 9px 9px; box-shadow: var(--shadow-sm);
+}
+html[data-theme] #catalog-category .VirtualizedSelectOption {
+  color: var(--ink); background: var(--surface);
+}
+html[data-theme] #catalog-category .VirtualizedSelectSelectedOption {
+  font-weight: 700; color: var(--primary-dark); background: var(--primary-soft);
+}
+html[data-theme] #catalog-category .VirtualizedSelectFocusedOption:not(.VirtualizedSelectDisabledOption) {
+  color: var(--ink); background: var(--primary-soft);
+  outline: 2px solid var(--focus); outline-offset: -2px;
+}
+html[data-theme] #catalog-category .is-disabled > .Select-control,
+html[data-theme] #catalog-category .VirtualizedSelectDisabledOption {
+  color: var(--muted); background: var(--surface-soft); cursor: not-allowed;
+}
+html[data-theme] #catalog-category .is-disabled .Select-value-label {
+  color: var(--muted);
+}
+html[data-theme] .catalog-search:focus {
+  border-color: var(--focus); outline-color: var(--focus);
+}
+
 /* Dash tables ship inline cell colors: narrowly scoped !important overrides
-   are required for edit inputs, selected cells, filters and both table bodies. */
-html[data-theme="dark"] #table,
-html[data-theme="dark"] #maintenance-table { background: var(--surface); border-color: var(--line); }
-html[data-theme="dark"] #table .dash-spreadsheet-inner,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner {
-  --accent: #9abbff; --border: #3b506d; --text-color: #e5edf9;
-  --hover: #293e5b; --background-color-ellipses: #18283f;
-  --faded-text: #acbed7; --faded-text-header: #acbed7;
-  --selected-background: #2c466f; --faded-dropdown: #3b506d;
+   keep cell/edit/filter states consistent with both local color schemes. */
+html[data-theme] #table,
+html[data-theme] #maintenance-table { background: var(--surface); border-color: var(--line); }
+html[data-theme] #table .dash-spreadsheet-inner,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner {
+  --accent: var(--primary); --border: var(--line); --text-color: var(--ink);
+  --hover: var(--primary-soft); --background-color-ellipses: var(--surface);
+  --faded-text: var(--muted); --faded-text-header: var(--muted);
+  --selected-background: var(--primary-soft); --faded-dropdown: var(--line);
 }
-html[data-theme="dark"] #table .dash-spreadsheet-inner th,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner th {
-  color: #d5e4fb !important; background: #243a57 !important; border-color: var(--line) !important;
+html[data-theme] #table .dash-spreadsheet-inner th,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner th {
+  color: var(--ink) !important; background: var(--surface-soft) !important; border-color: var(--line) !important;
 }
-html[data-theme="dark"] #table .dash-spreadsheet-inner td,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner td {
+html[data-theme] #table .dash-spreadsheet-inner td,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner td {
   color: var(--ink) !important; background: var(--surface) !important; border-color: var(--line) !important;
 }
-html[data-theme="dark"] #table .dash-spreadsheet-inner tr:nth-child(even) td,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner tr:nth-child(even) td { background: #1d304a !important; }
-html[data-theme="dark"] #table .dash-spreadsheet-inner td.focused,
-html[data-theme="dark"] #table .dash-spreadsheet-inner td.cell--selected,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner td.focused,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner td.cell--selected {
-  background: #2c466f !important; box-shadow: inset 0 0 0 2px var(--focus);
+html[data-theme] #table .dash-spreadsheet-inner tr:nth-child(even) td:not(.focused):not(.cell--selected),
+html[data-theme] #maintenance-table .dash-spreadsheet-inner tr:nth-child(even) td:not(.focused):not(.cell--selected) { background: var(--surface-soft) !important; }
+html[data-theme] #table .dash-spreadsheet-inner td.focused,
+html[data-theme] #table .dash-spreadsheet-inner td.cell--selected,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner td.focused,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner td.cell--selected {
+  background: var(--primary-soft) !important; box-shadow: inset 0 0 0 2px var(--focus);
 }
-html[data-theme="dark"] #table .dash-filter { background: #15273f !important; }
-html[data-theme="dark"] #table .dash-spreadsheet-inner input,
-html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner input {
-  color: var(--ink) !important; background-color: transparent !important;
+html[data-theme] #table .dash-spreadsheet-inner th.dash-filter,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner th.dash-filter { background: var(--surface-soft) !important; }
+html[data-theme] #table .dash-spreadsheet-inner input,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner input {
+  color: var(--ink) !important; background-color: transparent !important; accent-color: var(--primary);
 }
-html[data-theme="dark"] #table .dash-filter input:focus { outline-color: var(--focus); }
+html[data-theme] #table .dash-spreadsheet-inner input::placeholder,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner input::placeholder { color: var(--muted); opacity: 1; }
+html[data-theme] #table .dash-spreadsheet-inner input:focus-visible,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner input:focus-visible,
+html[data-theme] #table .dash-filter input:focus,
+html[data-theme] #maintenance-table .dash-filter input:focus {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+html[data-theme] #table .dash-spreadsheet-inner input:disabled,
+html[data-theme] #maintenance-table .dash-spreadsheet-inner input:disabled {
+  color: var(--muted) !important; cursor: not-allowed;
+}
 html[data-theme="dark"] #table .dash-delete-cell { color: #f6aeba !important; }
-html[data-theme="dark"] #table .previous-next-container { background: var(--surface-soft); border-color: var(--line); }
-html[data-theme="dark"] #table .previous-next-container button { color: #c6d9fa; background: #223854; border-color: #5b7193; }
-html[data-theme="dark"] #table .current-page-container,
-html[data-theme="dark"] #table .current-page { color: var(--muted); background: transparent; }
+html[data-theme] #table .previous-next-container,
+html[data-theme] #maintenance-table .previous-next-container { background: var(--surface-soft); border-color: var(--line); }
+html[data-theme] #table .previous-next-container button,
+html[data-theme] #maintenance-table .previous-next-container button {
+  color: var(--ink); background: var(--surface); border-color: var(--line);
+}
+html[data-theme] #table .previous-next-container button:focus-visible,
+html[data-theme] #maintenance-table .previous-next-container button:focus-visible,
+html[data-theme] #table .current-page:focus-visible,
+html[data-theme] #maintenance-table .current-page:focus-visible {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+html[data-theme] #table .previous-next-container button:disabled,
+html[data-theme] #maintenance-table .previous-next-container button:disabled {
+  color: var(--muted); opacity: .55; cursor: not-allowed;
+}
+html[data-theme] #table .current-page-container,
+html[data-theme] #table .current-page,
+html[data-theme] #maintenance-table .current-page-container,
+html[data-theme] #maintenance-table .current-page { color: var(--ink); background: transparent; }
 
 @media (hover: hover) and (pointer: fine) {
   html .workspace-theme-toggle:hover { background: var(--primary-soft); border-color: var(--primary); }
@@ -149,9 +239,15 @@ html[data-theme="dark"] #table .current-page { color: var(--muted); background: 
     color: var(--ink); background: #2a4264; border-color: #93aed5;
   }
   html[data-theme="dark"] .btn-primary:hover:not(:disabled):not(.disabled) { color: #fff; background: #3463c5; }
-  html[data-theme="dark"] #table .dash-spreadsheet-inner tr:hover td:not(.focused):not(.cell--selected),
-  html[data-theme="dark"] #maintenance-table .dash-spreadsheet-inner tr:hover td:not(.focused):not(.cell--selected) { background: #293e5b !important; }
-  html[data-theme="dark"] #table .previous-next-container button:hover:not(:disabled) { color: #fff; background: #33537e; }
+  html[data-theme] #catalog-category .Select:not(.is-disabled):not(.is-focused) > .Select-control:hover {
+    border-color: var(--primary);
+  }
+  html[data-theme] #table .dash-spreadsheet-inner tr:hover td:not(.focused):not(.cell--selected),
+  html[data-theme] #maintenance-table .dash-spreadsheet-inner tr:hover td:not(.focused):not(.cell--selected) { background: var(--primary-soft) !important; }
+  html[data-theme] #table .previous-next-container button:hover:not(:disabled):not([aria-disabled="true"]),
+  html[data-theme] #maintenance-table .previous-next-container button:hover:not(:disabled):not([aria-disabled="true"]) {
+    color: var(--primary-dark); background: var(--primary-soft); border-color: var(--primary);
+  }
 }
 @media (max-width: 560px) {
   html .topbar { flex-wrap: wrap; row-gap: 10px; }
@@ -168,7 +264,7 @@ html[data-theme="dark"] #table .current-page { color: var(--muted); background: 
   html .workspace-theme-toggle { border-width: 2px; }
 }
 @media (forced-colors: active) {
-  html[data-theme] { color-scheme: light dark; --focus: Highlight; --ink: CanvasText; --muted: CanvasText; --line: ButtonText; --surface: Canvas; --surface-soft: Canvas; --bg: Canvas; }
+  html[data-theme] { color-scheme: light dark; --focus: Highlight; --ink: CanvasText; --muted: CanvasText; --line: ButtonText; --surface: Canvas; --surface-soft: Canvas; --bg: Canvas; --primary: Highlight; --primary-dark: Highlight; --primary-soft: Canvas; --invalid: CanvasText; }
   html[data-theme] body, html[data-theme] .topbar, html[data-theme] .page-heading,
   html[data-theme] .card, html[data-theme] .popover, html[data-theme] .modal-content,
   html[data-theme] .workspace-notification { color: CanvasText; background: Canvas; }

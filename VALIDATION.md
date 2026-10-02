@@ -171,3 +171,31 @@ then verify login, report refresh/export, manual simulation, and maintenance
 list/select/create/edit/archive/restore with notifications. Check the browser
 console for dependency parse errors, chart rendering, light/dark and toast
 dismissal. Full visual and target-Windows verification remains pending that pass.
+
+## Focused web interaction refinement
+
+Maintenance name/description/cadence fields now display local inline feedback
+through the approved DBC 1.4.1 API. A policy-guarded presentation callback reuses
+the service's field validators; service-side writes remain independently
+validated and authorized. Tests cover invalid/corrected fields, fresh selection,
+disabled controls, safe fixed feedback, no feedback-side writes and denied roles.
+
+The assistant is modal only at widths up to 650px. Local JavaScript contains
+mobile Tab/Shift+Tab focus, excludes background branches, releases restrictions
+on resize/close/shell replacement and preserves the existing idempotent Escape
+close callback. Desktop remains nonmodal and the assistant remains unconnected.
+Dropdown, table, filter and pager states use existing light/dark tokens. No
+production dependencies or company package pins changed. Implementations are
+original; version-matched upstream references are in
+`docs/WEB_INTERACTION_REFERENCES.md`.
+
+Final runs passed **329 tests on each of Linux Python 3.8.20 and 3.10.21**
+with the approved minimal dependency pins, including 16 deterministic drawer
+checks. Python 3.8 grammar, Node syntax and `git diff --check` passed.
+These are server/component/isolated JavaScript and static CSS checks, not visual
+browser QA. The cloud browser access restriction remains in effect; no alternate
+route or sandbox bypass was used and no screenshot/click-flow pass is claimed.
+The separate reusable screenshot helper now requires noncollapsed chart geometry,
+twelve rendered positive-size bar paths and two six-point traces before its
+report screenshots. Its seven isolated tests pass, but the browser workflow is
+still unrun and must execute in an environment with permitted localhost access.

@@ -6,6 +6,7 @@ No package download, live server, company data, or browser network is involved.
 
 import ast
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import unittest
@@ -105,6 +106,77 @@ class ThemeComponentTests(unittest.TestCase):
         for prohibited in ('fetch(', 'XMLHttpRequest', 'MutationObserver', 'Proxy(', 'setInterval', 'setTimeout'):
             self.assertNotIn(prohibited, script)
         self.assertEqual(script.count('localStorage.setItem'), 1)
+
+
+class ThemeControlStyleTests(unittest.TestCase):
+    """Static state/cascade contracts; these do not claim rendered browser QA."""
+
+    def setUp(self):
+        # The asset uses flat declaration blocks inside media queries. Extract
+        # only declarations to inspect exact selectors without a CSS dependency.
+        css = re.sub(r'/\*.*?\*/', '', CSS.read_text(), flags=re.S)
+        self.rules = {}
+        for selectors, declarations in re.findall(r'([^{}]+)\{([^{}]*)\}', css):
+            for selector in selectors.split(','):
+                self.rules.setdefault(selector.strip(), []).append(declarations)
+
+    def rule(self, selector):
+        self.assertIn(selector, self.rules)
+        return self.rules[selector][0]
+
+    def test_catalog_dropdown_states_are_scoped_and_use_local_tokens(self):
+        scope = 'html[data-theme] #catalog-category '
+        for selector in ('.Select-control', '.Select-menu-outer', '.Select-menu',
+                         '.Select-value-label', '.Select-input > input',
+                         '.VirtualizedSelectOption'):
+            self.assertIn('color: var(--ink)', self.rule(scope + selector))
+        self.assertIn('color: var(--muted)', self.rule(scope + '.Select-placeholder'))
+        focus = self.rule(scope + '.is-focused:not(.is-disabled) > .Select-control')
+        self.assertIn('outline: 2px solid var(--focus)', focus)
+        option = self.rule(scope + '.VirtualizedSelectFocusedOption:not(.VirtualizedSelectDisabledOption)')
+        self.assertIn('outline-offset: -2px', option)
+        self.assertIn('background: var(--primary-soft)', option)
+        self.assertIn('font-weight: 700', self.rule(scope + '.VirtualizedSelectSelectedOption'))
+        for selector in ('.is-disabled > .Select-control', '.VirtualizedSelectDisabledOption'):
+            disabled = self.rule(scope + selector)
+            self.assertIn('color: var(--muted)', disabled)
+            self.assertIn('cursor: not-allowed', disabled)
+        self.assertIn('border-top-color: transparent', self.rule(scope + '.is-open .Select-arrow'))
+        self.rule(scope + '.Select:not(.is-disabled):not(.is-focused) > .Select-control:hover')
+        # No global Select override can accidentally restyle other components.
+        for selector in self.rules:
+            if '.Select-' in selector or '.VirtualizedSelect' in selector:
+                self.assertTrue(selector.startswith(scope), selector)
+
+    def test_both_tables_keep_selected_focus_filter_and_disabled_states(self):
+        for table in ('#table', '#maintenance-table'):
+            scope = 'html[data-theme] ' + table + ' '
+            for state in ('.focused', '.cell--selected'):
+                selected = self.rule(scope + '.dash-spreadsheet-inner td' + state)
+                self.assertIn('background: var(--primary-soft) !important', selected)
+                self.assertIn('inset 0 0 0 2px var(--focus)', selected)
+            self.rule(scope + '.dash-spreadsheet-inner tr:hover td:not(.focused):not(.cell--selected)')
+            self.rule(scope + '.dash-spreadsheet-inner tr:nth-child(even) td:not(.focused):not(.cell--selected)')
+            for selector in ('.dash-spreadsheet-inner input:focus-visible',
+                             '.dash-filter input:focus', '.current-page:focus-visible',
+                             '.previous-next-container button:focus-visible'):
+                self.assertIn('outline: 2px solid var(--focus)', self.rule(scope + selector))
+            self.assertIn('var(--surface-soft)', self.rule(scope + '.dash-spreadsheet-inner th.dash-filter'))
+            self.assertIn('cursor: not-allowed', self.rule(scope + '.previous-next-container button:disabled'))
+            self.rule(scope + '.previous-next-container button:hover:not(:disabled):not([aria-disabled="true"])')
+            self.assertIn('color: var(--muted)', self.rule(scope + '.dash-spreadsheet-inner input::placeholder'))
+
+    def test_maintenance_feedback_is_hidden_until_its_own_field_is_invalid(self):
+        for field in ('name', 'description', 'cadence'):
+            scope = 'html[data-theme] #maintenance-' + field
+            self.assertIn('display: none', self.rule(scope + '-feedback'))
+            self.assertIn('color: var(--invalid)', self.rule(scope + '-feedback'))
+            self.assertIn('border-color: var(--invalid)', self.rule(scope + '.is-invalid'))
+            self.assertIn('outline: 2px solid var(--invalid)', self.rule(scope + '.is-invalid:focus'))
+            self.assertIn('display: block', self.rule(scope + '.is-invalid + .invalid-feedback'))
+        for mode in ('light', 'dark'):
+            self.assertIn('--invalid:', self.rule('html[data-theme="' + mode + '"]'))
+        self.assertNotIn('~ .invalid-feedback', CSS.read_text())
 
 
 HARNESS = r'''

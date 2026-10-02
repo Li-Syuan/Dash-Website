@@ -31,8 +31,8 @@ is generated per process; restarting logs users out. Use one process for this
 demo; independent workers have independent sessions, leases and simulation state.
 
 The target is Python 3.8.13 with Dash 2.9.1, Flask 2.2.3,
-dash-bootstrap-components 1.4.1, Flask-Login 0.6.2, Werkzeug 2.2.3 and Plotly
-5.13.1. `requirements-demo.txt` documents that minimal subset of the provided
+dash-bootstrap-components 1.4.1, Flask-Login 0.6.2, Werkzeug 2.2.3 Plotly
+5.13.1 and setuptools 57.5.0 (required by Dash’s pkg_resources import). `requirements-demo.txt` documents that minimal subset of the provided
 company versions. It is not a full transitive lock or an installation guarantee.
 The original `requirements.txt` is historical and has newer versions; do not use
 it to upgrade the company environment. No Mantine upgrade is needed. Existing
@@ -105,10 +105,11 @@ commit; there is no automatic production integration feature flag yet.
 python -B -m unittest discover -s tests -v
 ```
 
-Tests cover the synthetic authorization matrix, denied report services and HTTP
-callbacks, login failure, invalid session user, offline report/CSV, lock owner and
-expiry, once-only simulated job, mail sink restrictions, local assets and Python
-3.8 syntax. They import only the demo entrypoint, never company services.
+Tests cover the synthetic authorization matrix, actual Dash Pages callbacks
+(including query parameters and logout), denied report services and HTTP
+callbacks, malformed/Unicode login, invalid session user, anonymous UI controls,
+legacy OR/AND decorators, offline report/CSV, lock owner and expiry, once-only
+simulated job, mail sink restrictions, local assets and Python 3.8 syntax. They import only the demo entrypoint, never company services.
 
 Browser smoke test: sign in as each identity; visit the listed routes; as admin,
 refresh/filter the report and export CSV; run the adapter simulation twice and
@@ -116,6 +117,8 @@ confirm the second run does not capture another message; sign out and verify
 that direct report callbacks cannot return data. Check desktop/mobile widths.
 
 Runtime validation evidence and remaining environment limits are recorded in
-`VALIDATION.md`. Python 3.8 Linux and company private-system compatibility must
-still be validated on the target server; passing on a newer Windows interpreter
-does not establish that compatibility.
+`VALIDATION.md`. The automated suite also runs on Linux x86_64 Python 3.8.20 and 3.10.21.
+Exact Python 3.8.13, Windows 3.10.4, browser appearance/interaction and company
+private-system compatibility remain unverified. The cloud browser blocks the
+loopback app and exposes no supported preview route, so no browser pass or public
+deployment is claimed. See VALIDATION.md for evidence and remaining checks.

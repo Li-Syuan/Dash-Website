@@ -34,8 +34,10 @@ def identity():
 
 
 def authenticate(username, password):
+    if not isinstance(username, str) or not isinstance(password, str):
+        return False
     entry = user_db.get(username)
-    if entry and secrets.compare_digest(str(password or ''), entry['password']):
+    if entry and secrets.compare_digest(password.encode('utf-8'), entry['password'].encode('utf-8')):
         login_user(User(username))
         return True
     return False
@@ -44,10 +46,13 @@ def authenticate(username, password):
 @server.before_request
 def callback_guard():
     if request.path.rstrip('/').endswith('/_dash-update-component'):
-        output = (request.get_json(silent=True) or {}).get('output', '')
-        if not isinstance(output, str):
+        payload = request.get_json(silent=True)
+        if not isinstance(payload, dict):
+            return jsonify(error='Invalid callback request'), 400
+        output = payload.get('output', '')
+        if not isinstance(output, str) or not output:
             return jsonify(error='Invalid output'), 400
-        if output == '..redirectHome.pathname...login-alert.is_open..':
+        if output in {'..redirectHome.pathname...login-alert.is_open..', 'popover.is_open', '..sidebar.style...page-content.style...side_click.data..'}:
             return None
         if output == '.._pages_content.children..._pages_store.data..':
             return None  # Every page layout enforces authentication and policy.

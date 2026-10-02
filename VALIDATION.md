@@ -199,3 +199,48 @@ The separate reusable screenshot helper now requires noncollapsed chart geometry
 twelve rendered positive-size bar paths and two six-point traces before its
 report screenshots. Its seven isolated tests pass, but the browser workflow is
 still unrun and must execute in an environment with permitted localhost access.
+
+## Administration, governed reports and mock schedule configuration
+
+Final local runs pass **389 tests on each of Linux x86_64 Python 3.8.20 and
+3.10.21** with unchanged Dash 2.9.1, Flask 2.2.3, DBC 1.4.1, DMC 0.12.0,
+Plotly 5.13.1 and setuptools 57.5.0 pins. Python 3.8 grammar checks for all 39
+runtime/test modules, existing local JavaScript syntax checks and
+`git diff --check` pass. No production dependency was added or upgraded.
+
+New acceptance evidence includes:
+
+- Real admin/managed Dash callback dispatch, versioned create/edit/archive/restore,
+  persistent double-create protection, conflict-preserved form data, safe failed
+  selection clearing and positive-click guards for dynamically remounted controls
+- Additive role/user/org grants, explicit default denial, no cross-organization
+  admin bypass, former-user grant revocation, nonadmin metadata-only maintenance,
+  disabled report/export protection and no identity-provider role modification
+- Governed cards in the existing catalog, strict URL selection, server-owned CSV,
+  formula-cell protection, provider-result validation, and fresh identity/ACL
+  checks after provider reads so intervening revocation cannot release data
+- Daily/weekly preview calculations in explicit UTC/Asia-Taipei zones, strict
+  synthetic-recipient validation, stopped-engine state, disabled/stale schedule
+  denial, sanitized error/run history and actor/actual-changed-field audit
+- Two spawned processes capturing only one mock message for one schedule version;
+  durable duplicate claims across service restart; failed completion retaining
+  running/uncertain state without replay; schedule changes during provider work
+  denying capture; mutation and terminal-run audit rollback behavior
+- Exact v1/v2 schema migration into schema 3, preserving legacy metadata, lease
+  fences, running job tokens and audit sequence; malformed-schema and migration
+  rollback tests; composite tenant foreign keys and consistent backup
+
+An independent read-only code pass identified and verified fixes for deleted-user
+revocation, a post-provider schedule/identity race, source/text validation and
+remounted-button callback loops. Final mock checks and the fixed in-memory capture
+are serialized with a SQLite `BEGIN IMMEDIATE` transaction. This is not a review
+or certification of real mail/outbox behavior.
+
+No browser or mobile visual/click-flow pass was performed: cloud localhost remains
+blocked and the user's desktop run was stopped. No alternate route or access
+restriction bypass was used. Exact Python 3.8.13, Windows 3.10.4, full company
+package compatibility and real company adapters remain unverified. `/page3`
+keeps its original admin-only contract. New reports use synthetic data in demo;
+unsupported production providers fail closed. Schedules are settings and manual
+mock captures only, with no live engine, SMTP, LDAP or account administration.
+See `docs/ADMINISTRATION.md` for the walkthrough and production acceptance gates.

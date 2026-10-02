@@ -78,8 +78,9 @@ class PageFactoryIntegrationTests(AppTestCase):
             'page1': ('/page1', 'Page 1', True, ('admin',), None),
             'page2': ('/page2', 'Page 2', True, ('admin', 'user'), 'A'),
             'reports': ('/page3', 'Monthly performance', True, ('admin',), None),
-            'administration': ('/admin', 'Adapter laboratory', True, ('admin',), None),
+            'administration': ('/admin', 'Administration', True, ('admin',), None),
             'maintenance': ('/maintenance', 'Report definitions', True, ('admin', 'user'), None),
+            'managed-reports': ('/reports', 'Managed reports', True, ('admin', 'user'), None),
         }
         actual = {spec.page_id: (spec.path, spec.title, spec.policy.authenticated,
                                  spec.policy.roles, spec.policy.org)

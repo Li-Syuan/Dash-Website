@@ -49,6 +49,7 @@ Mantine 0.12.0 components can later be integrated through adapters if required.
 | `/login` | Public; authenticated users redirect to `/` |
 | `/logout` | Clears login and redirects to `/login` |
 | `/admin`, `/page1`, `/page3` | Admin |
+| `/reports` | Admin/user shell; tenant-local view/export/maintain checked for every selected report |
 | `/maintenance` | Admin/user; organization-scoped records and owner checks on writes |
 | `/page2` | Role admin/user **AND** organization A |
 
@@ -75,6 +76,18 @@ still render a Forbidden view. Protected API/callback requests return 401/403.
 CSV exports the original synthetic fixture, not client edits, row deletion or
 filters. Table edits are not persisted, matching the absence of a save callback
 in the public example. The fixture's new columns are not a company data schema.
+
+## Administration and governed reports
+
+The Admin console configures report name/category/description/availability,
+additive user/role/organization permissions, synthetic mail schedules and audit.
+Configured reports appear in the existing Report catalog and open `/reports`.
+Legacy `/page3` remains admin-only; `/maintenance` remains labeled sample metadata.
+Schedule enabled flags are configuration only: the engine stays stopped, and
+manual simulations capture only synthetic `example.invalid` recipients.
+See [Administration and governed reports](docs/ADMINISTRATION.md) for the complete
+offline walkthrough, actual permission semantics, source adapter and migration
+boundaries. No accounts, LDAP roles, real SMTP or automatic scheduler are changed.
 
 ## Adapter simulations and limitations
 
@@ -143,6 +156,7 @@ that direct report callbacks cannot return data. Check desktop/mobile widths.
 - [Shared in-app notifications](docs/NOTIFICATIONS.md)
 - [Report catalog, color modes and assistant boundary](docs/CATALOG_AND_THEME.md)
 - [SQLite CRUD maintenance](docs/MAINTENANCE.md)
+- [Administration, report permissions and schedule settings](docs/ADMINISTRATION.md)
 - [Configuration, health, backup and rollback](docs/OPERATIONS.md)
 - [Company integration acceptance checklist](docs/INTEGRATION_CHECKLIST.md)
 

@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from reporting_workspace.state import (
     AuditEvent, BUSY_TIMEOUT_MS, JobRun, Lease, StateError, StateStore,
-    UnsupportedSchemaVersion,
+    UnsupportedSchemaVersion, SCHEMA_VERSION,
 )
 
 
@@ -104,7 +104,7 @@ class StateTests(unittest.TestCase):
 
     def test_empty_schema_migrates_once_and_survives_reopen(self):
         with sqlite3.connect(str(self.path)) as connection:
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION)
             self.assertEqual(connection.execute("PRAGMA integrity_check").fetchone()[0], "ok")
         lease = self.store.acquire("report", "worker")
         reopened = StateStore(self.path)
@@ -120,7 +120,7 @@ class StateTests(unittest.TestCase):
         self.assertEqual(before[0], 1)
         upgraded = StateStore(path)
         with sqlite3.connect(str(path)) as connection:
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION)
             self.assertEqual(connection.execute("SELECT * FROM leases").fetchone(),
                              ('old-lease', 'old-owner', 'old-token', 17, 10000000000))
             self.assertEqual(connection.execute("SELECT token FROM job_runs").fetchone()[0], 'job-token')
@@ -164,9 +164,9 @@ class StateTests(unittest.TestCase):
         before = _database_snapshot(path)
         real_validate = StateStore._validate_schema
 
-        def validate(connection, version=2):
+        def validate(connection, version=SCHEMA_VERSION):
             real_validate(connection, version)
-            if version == 2:
+            if version == SCHEMA_VERSION:
                 raise StateError('injected final validation failure')
 
         with patch.object(StateStore, '_validate_schema', side_effect=validate):
@@ -190,7 +190,7 @@ class StateTests(unittest.TestCase):
         token = self.store.claim_job("report", "run", "worker")
         with sqlite3.connect(str(self.path)) as connection:
             before = connection.execute("SELECT COUNT(*) FROM audit_events").fetchone()[0]
-            connection.execute("PRAGMA user_version = 3")
+            connection.execute("PRAGMA user_version = 4")
         backup = Path(self.directory.name) / "backup.sqlite"
         operations = [
             lambda: StateStore(self.path),
@@ -210,7 +210,7 @@ class StateTests(unittest.TestCase):
                 operation()
         self.assertFalse(backup.exists())
         with sqlite3.connect(str(self.path)) as connection:
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 3)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 4)
             self.assertEqual(connection.execute("SELECT COUNT(*) FROM audit_events").fetchone()[0], before)
             self.assertEqual(connection.execute("SELECT state FROM job_runs").fetchone()[0], "running")
 
@@ -272,7 +272,7 @@ class StateTests(unittest.TestCase):
                 with self.assertRaises(StateError):
                     StateStore(path)
                 with sqlite3.connect(str(path)) as connection:
-                    self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+                    self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION)
                     self.assertEqual(connection.execute(
                         "SELECT type, name, sql FROM sqlite_master ORDER BY name").fetchall(), before)
 
@@ -529,7 +529,7 @@ class StateTests(unittest.TestCase):
         self.assertIsNone(self.store.acquire("report", "other"))
         with sqlite3.connect(str(destination)) as connection:
             self.assertEqual(connection.execute("PRAGMA integrity_check").fetchone()[0], "ok")
-            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION)
         with self.assertRaises(FileExistsError):
             self.store.backup_to(destination)
         with self.assertRaises(ValueError):

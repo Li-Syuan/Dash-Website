@@ -21,7 +21,7 @@ import time
 from typing import List, Optional
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 BUSY_TIMEOUT_MS = 5000
 _IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}\Z")
 _EVENTS = frozenset({
@@ -135,6 +135,14 @@ _SCHEMA_COLUMNS["report_definitions"] = (
 )
 
 
+# Keep exact historical contracts for safe, atomic upgrades.
+_SCHEMA_DDL_V2 = dict(_SCHEMA_DDL)
+_SCHEMA_COLUMNS_V2 = dict(_SCHEMA_COLUMNS)
+from .admin_schema import ADMIN_DDL, ADMIN_COLUMNS
+_SCHEMA_DDL.update(ADMIN_DDL)
+_SCHEMA_COLUMNS.update(ADMIN_COLUMNS)
+
+
 def _ddl_tokens(sql):
     # Ignore formatting, but preserve literal values and all other SQL tokens.
     return tuple(re.findall(r"'(?:''|[^'])*'|[A-Za-z_][A-Za-z_0-9]*|[0-9]+|[^\s]", sql))
@@ -214,7 +222,7 @@ def _path(value):
 class StateStore:
     """Durable local state with per-operation connections safe across threads/fork.
 
-    Schema zero migrates only if empty; exact version one migrates atomically.
+    Schema zero migrates only if empty; exact versions one/two migrate atomically.
     Existing files are never silently reset.
     Identifiers must be opaque: do not pass emails, credentials or report data.
     SQLite errors propagate so callers cannot mistake a failed write for success.
@@ -238,6 +246,7 @@ class StateStore:
         )
         try:
             connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA foreign_keys = ON")
             connection.execute("PRAGMA busy_timeout = {}".format(BUSY_TIMEOUT_MS))
             connection.execute("PRAGMA synchronous = FULL")
             return connection
@@ -249,7 +258,7 @@ class StateStore:
     def _version(connection):
         version = connection.execute("PRAGMA user_version").fetchone()[0]
         if version > SCHEMA_VERSION:
-            raise UnsupportedSchemaVersion("state schema is newer than supported version 2")
+            raise UnsupportedSchemaVersion("state schema is newer than supported version 3")
         return version
 
     def _initialize(self):
@@ -266,14 +275,17 @@ class StateStore:
                 # Individual statements keep DDL and user_version in one transaction.
                 for statement in _SCHEMA_DDL.values():
                     connection.execute(statement)
-                connection.execute("PRAGMA user_version = 2")
-            elif version == 1:
+                connection.execute("PRAGMA user_version = 3")
+            elif version in (1, 2):
                 # Validate before touching the old database. DDL, version and
                 # final validation share the same transaction and roll back.
-                self._validate_schema(connection, version=1)
-                for statement in _REPORT_DEFINITIONS_DDL.values():
+                self._validate_schema(connection, version=version)
+                if version == 1:
+                    for statement in _REPORT_DEFINITIONS_DDL.values():
+                        connection.execute(statement)
+                for statement in ADMIN_DDL.values():
                     connection.execute(statement)
-                connection.execute("PRAGMA user_version = 2")
+                connection.execute("PRAGMA user_version = 3")
             elif version != SCHEMA_VERSION:
                 raise StateError("unsupported state schema version")
             self._validate_schema(connection)
@@ -288,10 +300,10 @@ class StateStore:
     def _validate_schema(connection, version=SCHEMA_VERSION):
         # table_info verifies ordering, affinity declarations, defaults and keys;
         # exact DDL tokens additionally verify CHECK/AUTOINCREMENT constraints.
-        if version not in (1, SCHEMA_VERSION):
+        if version not in (1, 2, SCHEMA_VERSION):
             raise StateError("unsupported schema validation version")
-        schema_columns = _SCHEMA_COLUMNS_V1 if version == 1 else _SCHEMA_COLUMNS
-        schema_ddl = _SCHEMA_DDL_V1 if version == 1 else _SCHEMA_DDL
+        schema_columns = {1: _SCHEMA_COLUMNS_V1, 2: _SCHEMA_COLUMNS_V2, 3: _SCHEMA_COLUMNS}[version]
+        schema_ddl = {1: _SCHEMA_DDL_V1, 2: _SCHEMA_DDL_V2, 3: _SCHEMA_DDL}[version]
         for table, columns in schema_columns.items():
             actual = tuple(tuple(row) for row in connection.execute(
                 "PRAGMA table_info({})".format(table)))
@@ -524,7 +536,7 @@ class StateStore:
                 target = sqlite3.connect(str(destination))
                 source.backup(target, pages=128, sleep=0.01)
                 if self._version(target) != SCHEMA_VERSION:
-                    raise StateError("backup schema does not match version 2")
+                    raise StateError("backup schema does not match version 3")
                 self._validate_schema(target)
             except BaseException:
                 if target is not None:

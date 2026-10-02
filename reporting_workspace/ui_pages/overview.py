@@ -163,7 +163,7 @@ def _summary(model):
 
 
 def layout(runtime):
-    model = catalog_model(runtime.page_registry, runtime.identity())
+    model = catalog_model(runtime.catalog_registry, runtime.identity())
     return [
         heading(SPEC.title, 'Find the report you need. Keep favorites close and pick up where you left off.'),
         dcc.Store(id='catalog-scope', storage_type='memory',
@@ -221,7 +221,7 @@ def register_callbacks(callbacks, runtime):
         State('catalog-page', 'data'), callback_id='catalog.render', policy=POLICY, page_id='overview',
     )
     def update_catalog(query, category, view, preferences, previous, following, page_state):
-        model = catalog_model(runtime.page_registry, runtime.identity(), query, category, view,
+        model = catalog_model(runtime.catalog_registry, runtime.identity(), query, category, view,
                               preferences, page_state, ctx.triggered_id)
         index = model['page_state']['index']
         return (render_catalog(model), _summary(model),

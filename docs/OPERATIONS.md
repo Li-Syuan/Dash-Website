@@ -109,8 +109,8 @@ drill separately. Backups contain audit/state metadata and must remain private.
    jobs
 
 Code rollback uses an earlier normal Git commit/checkout. Never force-push or
-assume old code can read a newer schema. The current schema is version 2, with an atomic, validated upgrade from
-version 1. Back up before upgrading. Older code cannot read version 2, and there
+assume old code can read a newer schema. The current schema is version 3, with atomic, validated upgrades from
+versions 1 and 2. It includes the administration/report permissions/schedule tables. Back up before upgrading. Older code cannot read version 3, and there
 is no automatic downgrade; newer unknown versions fail closed. A code rollback and database restoration are
 separate decisions. No automated destructive restore command is supplied.
 

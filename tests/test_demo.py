@@ -27,7 +27,7 @@ def without_notification_events(content):
             if isinstance(event, dict):
                 props['data'] = {key: value for key, value in event.items()
                                  if key not in ('event_id', 'request_id')}
-        if result.get('type') == 'Store' and component_id == 'maintenance-draft':
+        if result.get('type') == 'Store' and component_id in ('maintenance-draft', 'admin-draft', 'admin-schedule-draft'):
             if not isinstance(props.get('data'), str) or re.fullmatch(r'[0-9a-f]{32}', props['data']) is None:
                 raise AssertionError('Maintenance draft must be a fresh validated idempotency key')
             props['data'] = '<fresh-draft-key>'
@@ -196,7 +196,7 @@ class TransportTests(unittest.TestCase):
         self.assertIn('attachment;', api.headers['Content-Disposition'])
 
     def test_pages_authorization_matrix(self):
-        protected = {'/': 'Report catalog', '/admin': 'Adapter laboratory',
+        protected = {'/': 'Report catalog', '/admin': 'Administration',
                      '/page1': 'Page 1', '/page2': 'Page 2', '/page3': 'Monthly performance',
                      '/maintenance': 'Report definitions'}
         for name in [None, 'demo-admin', 'demo-user-a', 'demo-user-b']:
@@ -250,7 +250,7 @@ class TransportTests(unittest.TestCase):
                     self.assert_forbidden(self.page_content('/page2'))
                     self.assert_heading(self.page_content('/'), 'Report catalog')
             self.login('test-admin-b')
-            self.assert_heading(self.page_content('/admin'), 'Adapter laboratory')
+            self.assert_heading(self.page_content('/admin'), 'Administration')
             self.assert_heading(self.page_content('/page1'), 'Page 1')
             self.assert_heading(self.page_content('/page3'), 'Monthly performance')
 

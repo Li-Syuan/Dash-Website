@@ -9,6 +9,7 @@ from .registry import AccessPolicy, CallbackRegistry, PageRegistry
 from .notifications import render_events, wrap_notifications
 from .ui_pages import default_pages
 from .theme import register_theme, theme_store, theme_toggle
+from .governance import CombinedCatalog
 
 
 PUBLIC = AccessPolicy.public()
@@ -29,6 +30,7 @@ def create_dash_app(server, runtime, extra_pages=()):
     callbacks = CallbackRegistry(app, pages, runtime.identity)
     server.extensions['page_registry'] = pages
     runtime.page_registry = pages
+    runtime.catalog_registry = CombinedCatalog(pages, runtime.managed)
     server.extensions['callback_registry'] = callbacks
 
     @callbacks.callback(Output('_pages_content', 'children'), Output('_pages_store', 'data'),

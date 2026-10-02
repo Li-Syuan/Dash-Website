@@ -6,21 +6,22 @@ from demo_services import AccessDenied
 from ..notifications import notification_store_id
 from ..registry import AccessPolicy, PageSpec
 from .shared import heading, request_id
+from . import admin_console
 
 
 POLICY = AccessPolicy.require(roles=('admin',))
 
 
-def layout(runtime):
+def laboratory_layout(runtime):
     if not runtime.is_demo:
-        return [heading(SPEC.title, 'Runtime boundaries and operational readiness.'),
+        return [html.Div([html.H2('Adapter laboratory'), html.P('Runtime boundaries and operational readiness.', className='subtitle')], className='mt-4'),
                 dbc.Card(dbc.CardBody([
                     html.H3('Explicit execution only'),
                     html.P('No scheduler or outbound mail is started by a web worker.'),
                     html.P('SQLite state is configured for this host. Real scheduling and company connectors require a reviewed adapter and separate owner process.'),
                 ]))]
     return [
-        heading(SPEC.title, 'Manual simulations only. No company services are connected.'),
+        html.Div([html.H2('Adapter laboratory'), html.P('Manual simulations only. No company services are connected.', className='subtitle')], className='mt-4'),
         dbc.Card(dbc.CardBody([
             html.H3('Run a safe simulation'),
             html.P('Test a lease, a fixed single-claim job and an in-memory mail sink.'),
@@ -32,7 +33,12 @@ def layout(runtime):
     ]
 
 
+def layout(runtime):
+    return admin_console.layout(runtime) + laboratory_layout(runtime)
+
+
 def register_callbacks(callbacks, runtime):
+    admin_console.register_callbacks(callbacks, runtime)
     @callbacks.callback(Output('adapter-result', 'children'), Output(notification_store_id('admin.simulate'), 'data'),
                         Input('adapter-run', 'n_clicks'), callback_id='admin.simulate',
                         policy=POLICY, page_id='administration', prevent_initial_call=True)
@@ -54,5 +60,5 @@ def register_callbacks(callbacks, runtime):
         return runtime.simulation_text(result), event
 
 
-SPEC = PageSpec('administration', '/admin', 'Adapter laboratory', layout, POLICY,
+SPEC = PageSpec('administration', '/admin', 'Administration', layout, POLICY,
                 nav_label='Admin', nav_order=40, register_callbacks=register_callbacks)

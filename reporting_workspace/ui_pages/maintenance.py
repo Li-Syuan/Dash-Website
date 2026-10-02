@@ -96,6 +96,7 @@ def layout(runtime):
     available = runtime.definitions is not None
     return [
         heading(SPEC.title, 'Maintain shared definitions with version-checked saves and reversible archiving.'),
+        dbc.Alert('Legacy sample metadata. Admin-maintained report access and delivery settings are configured in Administration.', color='info'),
         dbc.Alert('Report definitions require configured local SQLite storage. Ask the workspace operator to configure storage.',
                   color='warning', is_open=not available),
         html.P('Cadence and enabled are metadata only. Saving a definition does not schedule or run a report.',

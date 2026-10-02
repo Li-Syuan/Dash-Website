@@ -372,7 +372,9 @@ class FactoryIsolationTests(AppTestCase):
                     'shell.notifications', 'login.submit', 'reports.refresh',
                     'reports.export', 'admin.simulate', 'maintenance.list',
                     'maintenance.select', 'maintenance.mutate', 'maintenance.feedback', 'shell.theme',
-                    'shell.theme_chart', 'catalog.render', 'catalog.preferences'}
+                    'shell.theme_chart', 'catalog.render', 'catalog.preferences',
+                    'admin.list', 'admin.select', 'admin.schedule', 'admin.mutate',
+                    'managed.load', 'managed.save', 'managed.export'}
         client_callbacks = {'shell.theme', 'shell.theme_chart', 'catalog.preferences'}
         for server, app in ((first, a), (second, b)):
             declarations = server.extensions['callback_registry'].callbacks

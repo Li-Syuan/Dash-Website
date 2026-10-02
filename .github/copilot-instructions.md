@@ -62,6 +62,26 @@ before changing behavior. It is not a certified company-system migration.
   Preserve optimistic versions, soft-delete/restore, atomic audit and validated
   schema migration/backup. Never add an irreversible purge as an implied feature.
 
+## Confirmed administration increment
+
+- `/admin` owns tenant-local managed report metadata, role/user/org grants,
+  synthetic mail schedule settings, run history and actor/changed-field audit.
+  `/reports` is a separately governed report route; legacy `/page3` stays admin.
+- Managed metadata drives cards in the existing catalog through projections,
+  never mutable PageSpecs or arbitrary SQL/provider paths. The existing
+  `/maintenance` records remain labeled legacy sample metadata.
+- Existing identity-provider admin/user claims are authoritative. There is no
+  account/role creation, superadmin or cross-org management. Nonadmin maintain
+  edits name/category/description only. Positive rules are additive; export and
+  maintain require view. Availability/source/grants/schedules are admin controls.
+- Keep mail synthetic-only and the actual scheduler stopped. Persist mock claims
+  before effects, deduplicate schedule-version attempts, preserve uncertain
+  completion and never automatically replay. Real SMTP/scheduling integration
+  is pending the company's lifecycle and authorization contracts.
+- Schema 3 upgrades exact v1/v2 state atomically, preserves legacy rows/claims,
+  enables composite foreign keys, and includes administration in normal backups.
+  Audit is tenant-admin-only and stores field names, not arbitrary payloads.
+
 ## Validation and Git history
 
 - Run `python -B -m unittest discover -s tests -v` and `git diff --check` for

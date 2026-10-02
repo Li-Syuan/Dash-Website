@@ -519,7 +519,7 @@ class CrudServiceTests(unittest.TestCase):
             disabled.create(USER, {'name': 'not persisted'})
         row = self.create()
         with sqlite3.connect(str(self.path)) as connection:
-            connection.execute('PRAGMA user_version = 3')
+            connection.execute('PRAGMA user_version = 4')
         for operation in (
                 lambda: self.service.list(USER), lambda: self.service.get(USER, row['id']),
                 lambda: self.create(), lambda: self.service.update(USER, row['id'], 1, {'name': 'bad'}),

@@ -13,6 +13,8 @@ from .config import Settings
 from .errors import ProviderUnavailable
 from .notifications import NotifyService
 from .crud import ReportDefinitions
+from .governance import ManagedReports
+from .crud import NotFound, StateUnavailable
 from .providers import validate_identity, validate_providers
 
 
@@ -62,6 +64,7 @@ class Runtime:
         self.reports = AuthorizedReports(report_provider, self)
         self.notify = NotifyService(self.identity)
         self.definitions = ReportDefinitions(state) if state is not None else None
+        self.managed = ManagedReports(state, identities, report_provider, is_demo=self.is_demo)
 
     def identity(self):
         if not current_user.is_authenticated:
@@ -272,6 +275,20 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
         content = runtime.reports.export(user)
         return server.response_class(content, mimetype='text/csv', headers={
             'Content-Disposition': 'attachment; filename=' + ('demo-report.csv' if runtime.is_demo else 'report.csv'), 'Cache-Control': 'no-store'})
+
+    @server.route('/api/managed-reports/<identifier>/export.csv')
+    def export_managed_report(identifier):
+        user = runtime.identity()
+        if not user:
+            return jsonify(error='Login required'), 401
+        try:
+            content = runtime.managed.export(user, identifier)
+        except NotFound:
+            return jsonify(error='Report not found'), 404
+        except StateUnavailable:
+            raise ProviderUnavailable() from None
+        return server.response_class(content, mimetype='text/csv', headers={
+            'Content-Disposition': 'attachment; filename=managed-report.csv', 'Cache-Control': 'no-store'})
 
     @server.route('/healthz')
     def health():

@@ -281,8 +281,8 @@ class TransportTests(unittest.TestCase):
 
     def test_admin_simulation_is_once_only(self):
         self.login('demo-admin')
-        with patch('demo_app.locks', DemoLocks()), patch('demo_app.scheduler', DemoScheduler()), \
-                patch('demo_app.mail', MailSink()):
+        with patch('demo_server.runtime.locks', DemoLocks()), patch('demo_server.runtime.scheduler', DemoScheduler()), \
+                patch('demo_server.runtime.mail', MailSink()):
             first = self.call('adapter-result', 'children', 'adapter-run')
             second = self.call('adapter-result', 'children', 'adapter-run')
         self.assertEqual(first.status_code, 200)

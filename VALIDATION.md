@@ -60,3 +60,39 @@ All 20 tests pass on both isolated runtimes; live HTTP endpoints/assets return
 200; CSS delimiter/offline-reference/static accessibility checks pass. These
 checks do not establish browser layout or visual correctness. No runtime
 dependency, authentication rule, callback or report behavior changed in this pass.
+
+## Modular foundation validation
+
+The next phase replaces global demo runtime wiring with independently created
+Flask/Dash apps, validated configuration and explicit identity/report providers,
+plus optional same-host SQLite state. Final local runs pass **106 tests on each
+of Python 3.8.20 and 3.10.21** using the same approved minimal package pins.
+
+Coverage now includes independent app/session/callback state, shared-key workers,
+production refusal of demo/missing providers and public/default secrets, secure
+cookie settings, malformed/oversized/unknown-length callback rejection, provider
+error sanitization, request/audit metadata privacy, logout during identity
+outage, no implicit thread/job/network startup, and actual local SQLite-backed
+login/export/simulation behavior.
+
+Persistence tests exercise spawn/fork processes and threads, atomic job claims,
+owner/token/fencing checks, expiry/restart, no automatic retry, ambiguous
+completion persistence, strict schema constraints/index validation on every
+transaction, future schema rejection, consistent backup and audit rollback.
+A second source review reproduced and verified fixes for malformed-schema
+claims, provider-outage logout and ambiguous job completion.
+
+Live loopback HTTP checks passed for health, readiness, login, layout, callback
+dependencies, CSS, authenticated login callback and authorized CSV using Python
+3.8.20 with a temporary local SQLite store. New module/test syntax parses under
+Python 3.8 grammar; git diff --check passes.
+
+A least-privilege GitHub Actions matrix is included for Python 3.8/3.10; official
+checkout/setup actions are pinned to verified commit references. Consult the
+exact commit's Actions result for remote CI status. This does not validate all
+company transitive packages, Windows or exact company patch versions.
+
+Browser/mobile visual QA and real company integrations remain unverified as
+described above. The SQLite backend is optional, local-host only; no live
+scheduler, durable mail outbox, SMTP, LDAP, Oracle or DVC connector was enabled.
+Read docs/INTEGRATION_CHECKLIST.md before treating this as production-ready.

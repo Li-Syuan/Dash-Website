@@ -1,0 +1,177 @@
+{
+  "status": "PASS: one complete native Chrome run, 32 passed / 0 failed",
+  "finalRun": {
+    "directory": "2026-10-04T09-22-34-565Z",
+    "mode": "full acceptance",
+    "passed": 32,
+    "failed": 0,
+    "unrun": 0,
+    "pageErrors": 0,
+    "networkFailureCount": 45,
+    "networkErrorCounts": {
+      "net::ERR_ABORTED": 45
+    },
+    "failedScenarios": [],
+    "serverStopped": true,
+    "syntheticStateRemoved": true,
+    "staticTransport": "native browser",
+    "renderedSvgBars": 12,
+    "unexpectedConsoleErrors": 0,
+    "callbackStatuses": {
+      "200": 289,
+      "204": 40,
+      "401": 3
+    }
+  },
+  "historicalRuns": [
+    {
+      "directory": "2026-10-04T08-43-20-916Z",
+      "mode": "full acceptance",
+      "passed": 31,
+      "failed": 1,
+      "unrun": 0,
+      "pageErrors": 0,
+      "networkFailureCount": null,
+      "networkErrorCounts": null,
+      "failedScenarios": [
+        {
+          "name": "29-no-external-effects-or-page-errors",
+          "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   },\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   }\n+ ]\n- []\n"
+        }
+      ],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    },
+    {
+      "directory": "2026-10-04T08-46-50-713Z",
+      "mode": "full acceptance",
+      "passed": 28,
+      "failed": 4,
+      "unrun": 0,
+      "pageErrors": 0,
+      "networkFailureCount": 43,
+      "networkErrorCounts": {
+        "net::ERR_ABORTED": 43
+      },
+      "failedScenarios": [
+        {
+          "name": "22-report-refresh-export",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "23-etl-and-operations-render",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "26-browser-history-navigation",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "29-no-external-effects-or-page-errors",
+          "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/_dash-component-suites/dash/dcc/async-plotlyjs.js',\n+     text: 'Static fixture fetch failed: CalledProcessError'\n+   }\n+ ]\n- []\n"
+        }
+      ],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    },
+    {
+      "directory": "2026-10-04T08-53-33-768Z",
+      "mode": "focused report acceptance",
+      "passed": 2,
+      "failed": 0,
+      "unrun": 30,
+      "pageErrors": 0,
+      "networkFailureCount": 11,
+      "networkErrorCounts": {
+        "net::ERR_ABORTED": 10,
+        "net::ERR_FAILED": 1
+      },
+      "failedScenarios": [],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    }
+  ],
+  "nativePreflights": [
+    {
+      "directory": "native-preflight-2026-10-04T09-21-03-662Z",
+      "aggregateStatus": "failed",
+      "nativeAssetTransfersPassed": 20,
+      "renderedSvgBars": 12,
+      "errorCounts": {
+        "net::ERR_ABORTED": 4
+      },
+      "pageErrors": 0,
+      "consoleErrors": 0
+    },
+    {
+      "directory": "native-preflight-2026-10-04T09-22-00-495Z",
+      "aggregateStatus": "failed",
+      "nativeAssetTransfersPassed": 20,
+      "renderedSvgBars": 12,
+      "errorCounts": {
+        "net::ERR_ABORTED": 4
+      },
+      "pageErrors": 0,
+      "consoleErrors": 0
+    }
+  ],
+  "runtime": {
+    "platform": "Windows",
+    "python": "3.10.22",
+    "node": "24.21.0",
+    "chrome": "154.0.8037.95",
+    "dash": "2.9.1",
+    "flask": "2.2.3",
+    "werkzeug": "2.2.3",
+    "dbc": "1.4.1",
+    "dmc": "0.12.0"
+  },
+  "sourceVerification": {
+    "currentRuntimeAndAssetHashesMatch": true,
+    "preflightAndFullRunHashesMatch": true,
+    "files": 55,
+    "manifest": "2026-10-04T09-22-34-565Z/source-hashes.json"
+  },
+  "transport": {
+    "static": "Native Chrome HTTP; product static WSGI chunk compatibility; no fixture bridge or HTTP/1.0 override",
+    "dynamicCallbacks": "Native browser POSTs; explicit negative scenarios alter submitted client IDs",
+    "staticFailures": 0,
+    "nativeAssetSha256ChecksPassed": 40,
+    "navigationCancelledRequests": 45,
+    "tlsVerificationDisabled": false
+  },
+  "browserObservations": {
+    "pageErrors": 0,
+    "unexpectedConsoleErrors": 0,
+    "expectedAuthorizationConsoleMessages": 5,
+    "authorizationHttp401": 3,
+    "blockedExternalOrigins": 0
+  },
+  "interpretation": [
+    "The final native full suite passed all 32 scenarios once, including actual Plotly bars, report CSV export, ETL/operations, and browser history.",
+    "Earlier real failures and focused partial results remain preserved. Their runtime manifest predates the new static transport product fix.",
+    "Both native preflights transferred all 20 original Plotly assets and rendered 12 bars; their strict all-network aggregate failed on four login navigation cancellations each. Those failures are retained without reclassification.",
+    "The full suite has 45 ERR_ABORTED browser navigation cancellations. Its existing aggregate excludes that category; no other failed requests, page errors, or unexpected console errors occurred.",
+    "A native minimal-server comparison isolates send/close timing; no packet capture or Windows kernel cause is claimed."
+  ],
+  "isolation": {
+    "syntheticOnly": true,
+    "workersOrSchedulersStarted": false,
+    "productEntry": "app.py",
+    "fixedProductPortTouched": false,
+    "ownedFixtureProcessesStopped": true,
+    "syntheticStateRemoved": true
+  },
+  "deliverables": {
+    "harness": "tests/browser/acceptance.cjs",
+    "fixture": "tests/browser/fixture_server.py",
+    "instructions": "tests/browser/README.md",
+    "diagnosis": "NATIVE_TRANSPORT_DIAGNOSIS.json",
+    "screenshot": "2026-10-04T09-22-34-565Z/22-report-refresh-export.png",
+    "csv": "2026-10-04T09-22-34-565Z/report.csv"
+  },
+  "exportValidation": {
+    "reportCsvRows": 12,
+    "xlsxZipIntegrity": true
+  }
+}

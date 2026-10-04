@@ -1,0 +1,91 @@
+[
+  {
+    "directory": "2026-10-04T08-43-20-916Z",
+    "mode": "full acceptance",
+    "passed": 31,
+    "failed": 1,
+    "unrun": 0,
+    "pageErrors": 0,
+    "networkFailureCount": null,
+    "networkErrorCounts": null,
+    "failedScenarios": [
+      {
+        "name": "29-no-external-effects-or-page-errors",
+        "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   },\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   }\n+ ]\n- []\n"
+      }
+    ],
+    "serverStopped": true,
+    "syntheticStateRemoved": true
+  },
+  {
+    "directory": "2026-10-04T08-46-50-713Z",
+    "mode": "full acceptance",
+    "passed": 28,
+    "failed": 4,
+    "unrun": 0,
+    "pageErrors": 0,
+    "networkFailureCount": 43,
+    "networkErrorCounts": {
+      "net::ERR_ABORTED": 43
+    },
+    "failedScenarios": [
+      {
+        "name": "22-report-refresh-export",
+        "error": "Browser requests did not settle"
+      },
+      {
+        "name": "23-etl-and-operations-render",
+        "error": "Browser requests did not settle"
+      },
+      {
+        "name": "26-browser-history-navigation",
+        "error": "Browser requests did not settle"
+      },
+      {
+        "name": "29-no-external-effects-or-page-errors",
+        "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/_dash-component-suites/dash/dcc/async-plotlyjs.js',\n+     text: 'Static fixture fetch failed: CalledProcessError'\n+   }\n+ ]\n- []\n"
+      }
+    ],
+    "serverStopped": true,
+    "syntheticStateRemoved": true
+  },
+  {
+    "directory": "2026-10-04T08-53-33-768Z",
+    "mode": "focused report acceptance",
+    "passed": 2,
+    "failed": 0,
+    "unrun": 30,
+    "pageErrors": 0,
+    "networkFailureCount": 11,
+    "networkErrorCounts": {
+      "net::ERR_ABORTED": 10,
+      "net::ERR_FAILED": 1
+    },
+    "failedScenarios": [],
+    "serverStopped": true,
+    "syntheticStateRemoved": true
+  },
+  {
+    "directory": "2026-10-04T09-22-34-565Z",
+    "mode": "full acceptance",
+    "passed": 32,
+    "failed": 0,
+    "unrun": 0,
+    "pageErrors": 0,
+    "networkFailureCount": 45,
+    "networkErrorCounts": {
+      "net::ERR_ABORTED": 45
+    },
+    "failedScenarios": [],
+    "serverStopped": true,
+    "syntheticStateRemoved": true,
+    "staticTransport": "native browser",
+    "renderedSvgBars": 12,
+    "unexpectedConsoleErrors": 0,
+    "callbackStatuses": {
+      "200": 289,
+      "204": 40,
+      "401": 3
+    }
+  }
+]

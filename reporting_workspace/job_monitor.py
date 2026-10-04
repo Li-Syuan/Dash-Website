@@ -531,10 +531,12 @@ class JobMonitor:
     def _publish(self, context, rows):
         self._auth(context['user'], admin=True)
         with self._transaction(write=True, fenced=True) as connection:
+            self._auth(context['user'], admin=True)
             self._guard_run(connection, context)
             now = time.time()
             self._publish_summary(connection, context, rows, now)
             # Check once more after work and immediately before the atomic commit.
+            self._auth(context['user'], admin=True)
             self._guard_run(connection, context)
             connection.execute("UPDATE monitor_steps SET status='succeeded',finished_at=?,duration_seconds=MAX(0,?-started_at),row_count=? "
                                "WHERE run_id=? AND name='atomic_publish' AND status='running'", (now, now, len(rows), context['run_id']))

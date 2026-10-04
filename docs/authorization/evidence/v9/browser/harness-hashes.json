@@ -1,0 +1,8 @@
+{
+  "tests/browser/acceptance.cjs": "c1870f64b3a19be197a151a098dc982de6edbb08bf0bc68d3aef1a9c3c528af2",
+  "tests/browser/diagnose_native.cjs": "bbbb6b2ef4e3252577ee93ca774269a955750c9146b91a33ebfe9b9556ed76de",
+  "tests/browser/diagnose_native_server.py": "0532aa96219c505f1c48d397808b38895805f939758a2cfc310493dbf83aefd8",
+  "tests/browser/fixture_server.py": "db7223d29b394bec7d6a1b04d770f0d5bcd7fd5db53c8611646782e4595eeb61",
+  "tests/browser/native_preflight.cjs": "41a11892b94bbe87f90abc100da2e704a57d42987898d4b75f9e4a9c39f0b589",
+  "tests/browser/README.md": "3ad316f99562fdb375766b54b9396347be8e9da710cbcb2a9ac68f009bf3bcd7"
+}

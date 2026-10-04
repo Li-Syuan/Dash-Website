@@ -1,0 +1,24 @@
+{
+  "before": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "other_application_workloads": [],
+  "modified": true,
+  "watchdog_seconds": 180,
+  "host_clock_modified": false,
+  "configuration_modified": false,
+  "during": {
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "UnitFileState": "enabled"
+  },
+  "clock_valid": true,
+  "after": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "restored": true
+}

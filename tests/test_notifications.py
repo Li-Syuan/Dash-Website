@@ -324,7 +324,7 @@ class Dmc012ProviderTests(unittest.TestCase):
         # Check the installed implementation rather than assuming a newer DMC
         # closeButtonProps/Notifications API exists. Browser QA additionally
         # verifies focus/Enter dismissal and the resulting accessible DOM.
-        bundle = (Path(dmc.__file__).parent / 'dash_mantine_components.js').read_text()
+        bundle = (Path(dmc.__file__).parent / 'dash_mantine_components.js').read_text(encoding='utf-8')
         self.assertIn('role:"alert"', bundle)
         self.assertIn('closeButtonProps', bundle)
         self.assertIn('o.components[e])?void 0:n.defaultProps', bundle)

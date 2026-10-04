@@ -1,0 +1,41 @@
+{
+  "label": "wsl-python38",
+  "python": "3.8.20",
+  "platform": "Linux",
+  "elapsed_seconds": 184.707,
+  "exit_code": 1,
+  "command": "python -B -m unittest discover -s tests -v",
+  "summary_lines": [
+    "ERROR: test_import_and_factory_start_no_threads_jobs_mail_or_network (test_application.HttpAndStorageTests)",
+    "FAIL: test_sqlite_manual_simulation_deduplicates_across_app_instances (test_application.HttpAndStorageTests)",
+    "FAIL: test_process_exit_recovers_as_interrupted_without_replaying_request (test_etl_dispatch_acceptance.ETLAdapterBoundaryAcceptanceTests)",
+    "Ran 866 tests in 166.356s",
+    "FAILED (failures=2, errors=1, skipped=23)"
+  ],
+  "skipped": [
+    "test_async_dash_open_waits_for_visible_and_aria_enabled_panel (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_background_focus_pointer_and_click_are_guarded_without_native_inert (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_closed_shell_has_no_modal_or_focus_side_effects (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_desktop_stays_nonmodal_and_does_not_steal_newer_focus (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_empty_or_temporarily_disabled_drawer_uses_panel_focus (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_escape_uses_only_idempotent_close_and_focus_returns_after_close (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_focus_order_filters_hidden_disabled_and_negative_controls (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_initial_mount_and_late_loading_shell_both_initialize (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_mobile_modal_wraps_the_only_enabled_control_in_both_directions (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_new_portals_are_excluded_and_newer_external_attributes_are_preserved (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_original_background_and_panel_attributes_restore_exactly (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_pagehide_releases_and_bfcache_pageshow_reestablishes_current_state (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_panel_replacement_and_new_route_content_keep_current_background_scope (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_resize_and_media_changes_apply_and_release_modal_without_closing (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_shell_removal_and_remount_clear_inert_without_focusing_detached_opener (test_assistant.AssistantJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript DOM checks'",
+    "test_ids_only_storage_scope_isolation_click_capture_and_safe_fallback (test_catalog.CatalogJavaScriptTests) ... skipped 'Node is required for the local preference JavaScript contract'",
+    "test_chart_dynamic_mount_empty_figure_tokens_and_missing_target (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_chart_preserves_traces_ranges_templates_and_original_figure (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_initial_mode_follows_os_without_persisting_it (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_malformed_memory_state_is_ignored_and_never_persisted (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_only_valid_saved_modes_override_system (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_toggle_repeated_calls_rapid_clicks_and_reload (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'",
+    "test_unavailable_storage_and_os_apis_do_not_break_controls (test_theme.ThemeJavaScriptTests) ... skipped 'Node is not available for deterministic JavaScript function checks'"
+  ],
+  "unraisable_count": 0
+}

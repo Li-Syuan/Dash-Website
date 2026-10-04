@@ -1,0 +1,150 @@
+{
+  "scope": "Task-only diagnostics. No product or existing tests modified; no clock, service, or time configuration changed by this agent.",
+  "status": "Direct mechanism reproduced; recurring guest clock corrections invalidate unmonitored WSL test results.",
+  "direct_evidence": {
+    "source": "401-diagnostic-coldboot-1.jsonl",
+    "boot_id": "a91e58ea-d410-4a23-919f-aaffb0bb2fb1",
+    "steps": [
+      {
+        "monotonic_ns": 34723707697,
+        "wall_delta_ns": -621196636,
+        "offset_step_ns": -626545644
+      },
+      {
+        "monotonic_ns": 67095652077,
+        "wall_delta_ns": -741082381,
+        "offset_step_ns": -746167315
+      },
+      {
+        "monotonic_ns": 99610343377,
+        "wall_delta_ns": -717781040,
+        "offset_step_ns": -722941092
+      }
+    ],
+    "first_signature_rejection": {
+      "event": "signature_rejected",
+      "realtime_ns": 1791105139799272078,
+      "monotonic_ns": 34727569372,
+      "time_function": "builtin_function_or_method",
+      "reason": "SignatureExpired",
+      "signed_epoch": 1791105140.0,
+      "current_epoch": 1791105139,
+      "max_age": 3600
+    },
+    "http_session_rejections": [
+      {
+        "event": "http_session_rejected",
+        "realtime_ns": 1791105171420499192,
+        "monotonic_ns": 67094963418,
+        "time_function": "builtin_function_or_method",
+        "status": 401
+      }
+    ],
+    "probe_result": {
+      "event": "session_probe_complete",
+      "realtime_ns": 1791105223095318508,
+      "monotonic_ns": 119492724365,
+      "time_function": "builtin_function_or_method",
+      "rejects": 903,
+      "http401": 1,
+      "checks": 1189448,
+      "issued": 6032
+    },
+    "interpretation": "Actual guest realtime backstep -> previously valid signed cookie timestamp in the future -> unchanged TimestampSigner rejects it -> Flask opens empty session -> actual HTTP 401. Rejection counts include repeated checks of retained signatures, not equivalent HTTP request counts."
+  },
+  "repeatability": {
+    "source": "401-diagnostic-host-correlation.jsonl",
+    "boot_id": "b633f780-3590-4cc5-87e8-919e008577f5",
+    "steps": [
+      {
+        "monotonic_ns": 66959496554,
+        "wall_delta_ns": -623651688,
+        "offset_step_ns": -628875463
+      },
+      {
+        "monotonic_ns": 99202963615,
+        "wall_delta_ns": -721312728,
+        "offset_step_ns": -726463842
+      }
+    ],
+    "ntp_packets": [
+      {
+        "event": "timesync_packet",
+        "realtime_ns": 1791105401955028830,
+        "monotonic_ns": 3637304071,
+        "time_function": "builtin_function_or_method",
+        "properties": "PollIntervalUSec=32s\nNTPMessage={ Leap=0, Version=4, Mode=4, Stratum=2, Precision=-24, RootDelay=42.190ms, RootDispersion=1.480ms, Reference=84A36001, OriginateTimestamp=Sun 2026-10-04 17:16:40 CST, ReceiveTimestamp=Sun 2026-10-04 17:16:40 CST, TransmitTimestamp=Sun 2026-10-04 17:16:40 CST, DestinationTimestamp=Sun 2026-10-04 17:16:41 CST, Ignored=no, PacketCount=1, Jitter=0 }\nFrequency=0",
+        "returncode": 0,
+        "host_observed_realtime_ns": 1791105402585242500,
+        "host_observed_monotonic_ns": 154407968000000,
+        "linux_minus_host_ns": -630213670
+      },
+      {
+        "event": "timesync_packet",
+        "realtime_ns": 1791105433165190541,
+        "monotonic_ns": 34847465885,
+        "time_function": "builtin_function_or_method",
+        "properties": "PollIntervalUSec=32s\nNTPMessage={ Leap=0, Version=4, Mode=4, Stratum=2, Precision=-24, RootDelay=42.190ms, RootDispersion=1.510ms, Reference=84A36001, OriginateTimestamp=Sun 2026-10-04 17:17:12 CST, ReceiveTimestamp=Sun 2026-10-04 17:17:12 CST, TransmitTimestamp=Sun 2026-10-04 17:17:12 CST, DestinationTimestamp=Sun 2026-10-04 17:17:12 CST, Ignored=no, PacketCount=2, Jitter=46.098ms }\nFrequency=2184533",
+        "returncode": 0,
+        "host_observed_realtime_ns": 1791105433643075800,
+        "host_observed_monotonic_ns": 154439015000000,
+        "linux_minus_host_ns": -477885259
+      },
+      {
+        "event": "timesync_packet",
+        "realtime_ns": 1791105464993648084,
+        "monotonic_ns": 67304798757,
+        "time_function": "builtin_function_or_method",
+        "properties": "PollIntervalUSec=32s\nNTPMessage={ Leap=0, Version=4, Mode=4, Stratum=2, Precision=-24, RootDelay=42.190ms, RootDispersion=1.541ms, Reference=84A36001, OriginateTimestamp=Sun 2026-10-04 17:17:45 CST, ReceiveTimestamp=Sun 2026-10-04 17:17:44 CST, TransmitTimestamp=Sun 2026-10-04 17:17:44 CST, DestinationTimestamp=Sun 2026-10-04 17:17:45 CST, Ignored=no, PacketCount=3, Jitter=612.939ms }\nFrequency=1218209",
+        "returncode": 0,
+        "host_observed_realtime_ns": 1791105465623520600,
+        "host_observed_monotonic_ns": 154471000000000,
+        "linux_minus_host_ns": -629872516
+      },
+      {
+        "event": "timesync_packet",
+        "realtime_ns": 1791105496768319968,
+        "monotonic_ns": 99805934289,
+        "time_function": "builtin_function_or_method",
+        "properties": "PollIntervalUSec=32s\nNTPMessage={ Leap=0, Version=4, Mode=4, Stratum=2, Precision=-24, RootDelay=42.190ms, RootDispersion=534us, Reference=84A36001, OriginateTimestamp=Sun 2026-10-04 17:18:16 CST, ReceiveTimestamp=Sun 2026-10-04 17:18:16 CST, TransmitTimestamp=Sun 2026-10-04 17:18:16 CST, DestinationTimestamp=Sun 2026-10-04 17:18:16 CST, Ignored=no, PacketCount=4, Jitter=656.145ms }\nFrequency=-2461838",
+        "returncode": 0,
+        "host_observed_realtime_ns": 1791105497399173800,
+        "host_observed_monotonic_ns": 154502781000000,
+        "linux_minus_host_ns": -630853832
+      }
+    ],
+    "elapsed_seconds": {
+      "host_realtime": 107.7952064,
+      "linux_monotonic_raw": 107.795961988,
+      "linux_monotonic": 109.599222996,
+      "linux_realtime": 108.243883969
+    },
+    "interpretation": "Backward steps recur near the 32-second NTP poll and packet-count increases; this is not merely initial startup synchronization. Linux raw monotonic elapsed closely tracks host elapsed while adjusted clocks run ahead between corrections. No >50ms forward step was observed. These observations support interacting guest clock corrections but do not alone identify Hyper-V as their initiator."
+  },
+  "service_inventory": "401-diagnostic-service-inventory.json",
+  "service_original_state": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "other_workloads": "Snapshot showed system services and diagnostic-owned shell/python commands only; recheck immediately before a separately authorized controlled window.",
+  "recovery": "A short warmup is not supported by observed continuing corrections. Parent may perform a separately reviewed reversible guest-timesyncd experiment, restoring its original active state in finally and leaving enabled/configuration/host unchanged. Any clock backstep invalidates the complete invocation; do not rerun or retry HTTP to manufacture a pass.",
+  "guard": {
+    "path": "session_clock_guard.py",
+    "api": "ClockGuard(stream).start(); try: run_child_once(); finally: valid=guard.finish(); invalid=guard.invalid",
+    "child_metadata": "guard.emit(\"tests_child_start\", pid=process.pid) may be called by the parent runner; no command arguments or payloads are needed.",
+    "sampling_interval_seconds": 0.005,
+    "offset_tolerance_ns": 1000000,
+    "limits": "Sampling detects observed backwards realtime and bracket-proven offset drops above tolerance; it cannot prove absence of sub-resolution events. Monitoring errors also invalidate the invocation.",
+    "standalone_exit": 86,
+    "validation": "Seven synthetic timestamp/start-stop/no-reset checks passed without manipulating any clock."
+  },
+  "native_windows_conda_fallback_inventory": {
+    "fin_studio2": "3.12.12",
+    "fin_studio3": "3.13.9",
+    "qa-portal": "3.10.22",
+    "python38_present_in_listed_conda_envs": false
+  },
+  "unresolved": "Hyper-V versus other guest clock adjustment attribution requires the controlled experiment; no system configuration change has been executed by this agent.",
+  "diagnostic_scripts_python38_syntax": "passed"
+}

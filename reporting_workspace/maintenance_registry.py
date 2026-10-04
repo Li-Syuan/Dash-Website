@@ -28,6 +28,7 @@ from .legacy_crud import (AdapterUnavailable, InvalidInput, LegacyCrudError,
                           StorageUnavailable)
 from .legacy_policy import Policy, scope
 from .providers import validate_identity
+from .authorization import current_identity
 
 
 _SQL_NAME = re.compile(r'[A-Za-z][A-Za-z0-9_]{0,62}\Z')
@@ -395,8 +396,8 @@ class MaintenanceRegistry:
         identity = _claims(user)
         if self.identities is not None:
             try:
-                user = self.identities.get_user(identity['id'])
-                identity = _claims(user)
+                identity = current_identity(self.identities, identity)
+                user = identity
             except Exception:
                 raise PermissionDenied('Operation denied.') from None
         return user, identity
@@ -463,12 +464,24 @@ class MaintenanceRegistry:
         definition, identity, access = self._authorized(user, key, 'read')
         limit, offset = _bounds(limit, offset)
         filters = _filters(definition, filters)
-        return self._adapter(definition).query(definition, identity, filters, limit, offset)
+        result = self._adapter(definition).query(definition, identity, filters, limit, offset)
+        self._recheck_read(user, key, identity)
+        return result
 
     def get(self, user, key, record_id):
         definition, identity, access = self._authorized(user, key, 'read')
         record_id = _integer(record_id, 1)
-        return self._adapter(definition).get(definition, identity, record_id)
+        result = self._adapter(definition).get(definition, identity, record_id)
+        self._recheck_read(user, key, identity)
+        return result
+
+    def _recheck_read(self, user, key, identity):
+        # An adapter can take time; release rows only if this same actor and the
+        # current server-owned table policy still permit the read. Mutations
+        # keep their adapter transaction contract, never fake a post-commit undo.
+        _, current, _ = self._authorized(user, key, 'read')
+        if current != identity:
+            raise PermissionDenied('Operation denied.')
 
     def create(self, user, key, payload):
         definition, identity, access = self._authorized(user, key, 'create')

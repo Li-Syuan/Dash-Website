@@ -99,3 +99,36 @@ Additional custom business rules are awaiting the owner's specification. Do not
 invent company policies, schemas, integrations or acceptance criteria, or treat
 the synthetic examples as those rules. Add confirmed requirements here when
 provided and keep unresolved assumptions explicit.
+
+## Confirmed ETL dispatch increment
+
+- `/QA_portal/etl` adds a demo-only multi-job dispatcher while retaining the
+  original `job_monitor.py` monitor and all existing QSL modal/CRUD contracts.
+- Registered callables are trusted deployment code, never uploaded code, SQL,
+  module paths or browser-provided connections. Snapshot adapters are bounded
+  and side-effect-free; only the engine's fenced SQLite transaction publishes.
+- Automatic interval execution is explicit in direct `app.py` lifecycle, never
+  import/factory construction. Jobs default disabled; timers use real local
+  time. The administration mail scheduler remains a manual mock simulation.
+- Read and manage permissions are tenant/job/action scoped and rechecked
+  against the current identity, including worker execution and publication.
+- Retry only approved failed steps with preserved successful upstream
+  snapshots/provenance; never silently replay interrupted or uncertain work.
+  Date backfills are bounded and deduplicated. External writes/SMTP need a
+  separately reviewed idempotency/outbox integration and remain unconnected.
+- Maintain Python 3.8 compatibility and existing dependency pins. This is
+  single-host trusted-local SQLite, not NFS, multi-host or distributed delivery.
+
+## Confirmed request-isolated maintenance slice
+
+- `/maintenance` uses `definition_policy.DEFINITION_ACCESS` for transport and
+  service entry, and `DefinitionPrincipal` for the common owner/org write rule.
+  Do not duplicate or broaden those rules in callbacks.
+- HTTP callbacks acquire `runtime.definition_request()` once. Never retain its
+  actor, bound service, results or transaction across requests or in a global
+  cache. The scope expires at teardown, including copied Flask contexts.
+- Keep SQL in `definition_repository.py`; writes must retain tenant, owner/admin,
+  version and lifecycle predicates plus atomic payload-free audit. Preserve
+  `crud.py` compatibility exports used by administration and operations.
+- Multiple write-button triggers in one mutation callback fail without writing.
+  Existing single-action CRUD, QSL modals and ETL behavior remain intact.

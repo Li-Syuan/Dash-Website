@@ -25,7 +25,8 @@ def create_dash_app(server, runtime, extra_pages=()):
     if runtime.is_demo:
         from .ui_pages.qa_maintenance import SPEC as QA_MAINTENANCE
         from .ui_pages.operations import SPEC as OPERATIONS
-        builtin_pages += (QA_MAINTENANCE, OPERATIONS)
+        from .ui_pages.etl_dispatch import SPEC as ETL_DISPATCH
+        builtin_pages += (QA_MAINTENANCE, OPERATIONS, ETL_DISPATCH)
     for spec in builtin_pages + tuple(extra_pages):
         pages.register(spec)
         if any(spec.path == root or spec.path.startswith(root + '/') or
@@ -68,7 +69,7 @@ def create_dash_app(server, runtime, extra_pages=()):
                          className='top-navigation', **{'aria-label': 'Workspace sections'}),
                 html.Div([
                     dbc.Button('Demo info' if runtime.is_demo else 'Workspace info', id='popover-target', outline=True, size='sm'),
-                    dbc.Popover('Offline synthetic demo. No LDAP, Oracle, SMTP, live scheduler or DVC integration.'
+                    dbc.Popover('Offline synthetic demo. No LDAP, Oracle, SMTP, production scheduler or DVC integration. Local synthetic ETL only.'
                                 if runtime.is_demo else 'Access is enforced by the configured identity and report adapters. Background execution is separate.',
                                 id='popover', target='popover-target', is_open=False),
                     theme_toggle(),

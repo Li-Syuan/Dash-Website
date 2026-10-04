@@ -17,6 +17,7 @@
 | 自動範例 ETL / Job 監控 | DONE（真時間觸發） | app.py → 營運中心 | test_job_monitor.py（36項）；app.py 真60秒timer三步成功 | 不接公司 ETL、SMTP；預設停用 |
 | 所選 Job 診斷 ZIP | DONE（mock診斷） | 營運中心監控同頁 | test_job_monitor.py＋test_operations_ui.py：白名單、敏感內容排除、ZIP下載、跨組拒絕 | 不含 raw traceback 或敏感資料 |
 | Job owner 失敗通知 | DONE（mock通知） | 營運中心監控同頁 | test_job_monitor.py：逐run/跨程序去重、失敗合併、寄送失敗不重跑ETL | 不是真 SMTP，未宣稱送達 |
+| ETL 調度中心：多 Job／DAG／安全重試／補跑 | DONE（引擎／HTTP／真 timer） | /QA_portal/etl；既有監控仍保留 | 41 引擎＋45 獨立驗收＋19 UI／生命週期＋4 接線範例；完整結果見 docs/etl/QA_EVIDENCE.md | 公司 ETL adapter、分散式部署、真 SMTP、瀏覽器驗收 |
 | 公司整合與使用者驗收 | NEEDS ACCEPTANCE | docs/opus | 待公司測試環境與 adapter | 不自動連線、部署、推送 GitHub |
 
 ## 開啟方式
@@ -31,3 +32,16 @@
 - 核心專項：operations 38、maintenance registry 25、job monitor 36。
 - 完整回歸最終數量見 VALIDATION.md；Windows 與公司 Oracle/LDAP/SMTP/瀏覽器仍為 NEEDS ACCEPTANCE。
 - 泛型目錄與 service CRUD 已做；原QSL彈窗保持原樣。未聲稱100張公司維護頁已自動完成替換。
+
+## ETL 調度中心增量
+
+- 兩個已註冊合成工作；未知依賴／循環／未涵蓋分支在部署註冊時拒絕。
+- 間隔排程預設停用；手動執行、啟停與版本衝突檢查在同一入口。
+- 每步時間／筆數／品質結果／安全錯誤，失敗保留最近成功發布。
+- 每條重試鏈最多 3 次嘗試（含原次），沿用驗證過的上游 snapshot 與來源批次。
+- 補跑含首尾最多 31 天、明確預覽確認、跨重啟／重疊日期去重。
+- 同主機多程序爭用、過期 worker fencing、撤權、取消／重複按鈕與真正 timer 有測試。
+- 接線範例：`examples/etl_registry.py`；操作／接線／復原限制：[ETL 指南](docs/etl/INTEGRATION.md)。
+- 瀏覽器視覺、公司 Python patch／Windows、Oracle／LDAP／SMTP 仍需另外驗收。
+
+最終固定版本：Python 3.8.20 與 3.10.21 各 779 項完整測試通過。新 ZIP 解壓後以 app.py 啟動，真 60 秒排程成功、HTTP 手動重複請求去重、停機關閉 port；見 `docs/etl/LAUNCHER_EVIDENCE.json`。

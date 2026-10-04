@@ -130,6 +130,11 @@ class TransportTests(unittest.TestCase):
         cls.app, cls.server = app, server
         cls.server.config['TESTING'] = True
 
+    @classmethod
+    def tearDownClass(cls):
+        from reporting_workspace.lifecycle import dispose_app
+        dispose_app(cls.server)
+
     def setUp(self):
         self.client = self.server.test_client()
         self.client.get('/')

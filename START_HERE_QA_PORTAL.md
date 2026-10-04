@@ -44,7 +44,20 @@ Windows 也可在啟用環境後執行 `START_QA_ENHANCEMENTS.cmd`，它同樣�
 
 `examples/qa_portal/qsl_new_rows.csv` 和 `.xlsx` 可直接匯入。兩筆為同供應商不同城市的合成資料，用來檢查五欄唯一鍵；同一批再次上傳應被拒絕為重複資料。
 
-## 3. 保存位置
+## 3. ETL 調度中心
+
+同一登入開啟 `/QA_portal/etl`（導覽「ETL 調度中心」）。
+
+- 管理員選擇已註冊的合成 job，查看步驟依賴，再手動執行或啟用間隔排程。
+- 每次執行會列出步驟狀態、耗時、筆數及安全錯誤代碼。失敗時保留最近成功發布。
+- 安全可重試的失敗批次可建立重試，保留已成功上游步驟的來源鏈；不會把中斷／結果不確定的批次默默重播。
+- 日期補跑先確認區間，最多 31 個日期。未來日期與反向區間會拒絕。
+- `demo-user-a` 只能查看；組織 B 無法讀取 A 的工作。服務層及 HTTP callback 都重新檢查身分與權限。
+
+原營運中心的固定範例、診斷 ZIP 和 mock 通知仍在 `/QA_portal/operations`。
+詳見 [ETL 整合指南](docs/etl/INTEGRATION.md)。這版沒有接上公司 ETL 或 SMTP。
+
+## 4. 保存位置
 
 主站預設保存至本包的 `instance/workspace.sqlite`；QSL 相關資料放在它的同層目錄 `instance/workspace.sqlite.qa/`：
 
@@ -52,9 +65,11 @@ Windows 也可在啟用環境後執行 `START_QA_ENHANCEMENTS.cmd`，它同樣�
 - `report_builder.sqlite`：報表定義
 - `jobs.sqlite`：mock 排程／郵件設定與紀錄
 
-若指定 `REPORTING_STATE_PATH`，QSL 目錄就是該完整檔案路徑加上 `.qa`。重啟保留資料，預設重啟後須重新登入。升級前停服務並備份主站資料庫及整個 `.qa` 目錄；不要使用公司真實資料或網路磁碟。沒有設定持久化路徑的 factory 測試只使用臨時 QSL 目錄。
+ETL 調度中心另存於 `instance/workspace.sqlite.etl.sqlite`；營運中心在 `instance/workspace.sqlite.operations/`。兩者同樣需要備份。
 
-## 4. 交給 Opus 整合公司原始碼
+若指定 `REPORTING_STATE_PATH`，ETL 檔名為該完整路徑加 `.etl.sqlite`；QSL 目錄就是該完整檔案路徑加上 `.qa`。重啟保留資料，預設重啟後須重新登入。升級前停服務並備份主站資料庫、整個 `.qa`／`.operations` 目錄及 `.etl.sqlite` 檔案；不要使用公司真實資料或網路磁碟。沒有設定持久化路徑的 factory 測試只使用臨時 QSL 目錄。
+
+## 5. 交給 Opus 整合公司原始碼
 
 先讀 [主站整合與公司接入指南](docs/opus/MAIN_APP_INTEGRATION.md)。本包的 `app.py` 與公司原始 `app.py` 是不同來源，**不要直接覆蓋公司專案**。
 公司登入、原權限、callback、路徑、Oracle adapter 與分階段驗收仍需按實際原始碼接入。production factory 不會自動載入這個合成 QSL 頁。

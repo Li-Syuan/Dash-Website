@@ -5,6 +5,7 @@ No company services, network calls, browser renderer, or background worker is us
 """
 
 import ast
+import hashlib
 from dataclasses import asdict
 from datetime import timedelta
 import json
@@ -19,6 +20,7 @@ from unittest.mock import patch
 
 from demo_services import AccessDenied
 from reporting_workspace.application import ProviderUnavailable, create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.config import Settings
 from reporting_workspace.providers import (
     DemoIdentityProvider, DemoReportProvider, validate_identity, validate_providers,
@@ -142,6 +144,7 @@ class AppTestCase(unittest.TestCase):
             identities if identities is not None else FixtureIdentity(),
             reports if reports is not None else FixtureReports(),
         )
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         return server
 
@@ -340,7 +343,10 @@ class ProviderContractTests(AppTestCase):
                 validate_identity(value)
 
     def test_default_demo_providers_have_independent_user_mappings(self):
-        first, second = create_app(Settings()), create_app(Settings())
+        first = create_app(Settings())
+        self.addCleanup(dispose_app, first)
+        second = create_app(Settings())
+        self.addCleanup(dispose_app, second)
         a, b = first.extensions['workspace'], second.extensions['workspace']
         self.assertIsNot(a.identities, b.identities)
         self.assertIsNot(a.identities.user_db, b.identities.user_db)
@@ -375,6 +381,7 @@ class FactoryIsolationTests(AppTestCase):
                     'shell.theme_chart', 'catalog.render', 'catalog.preferences',
                     'admin.list', 'admin.select', 'admin.schedule', 'admin.mutate',
                     'managed.load', 'managed.save', 'managed.export'}
+        expected.update('etl.' + name for name in ('select', 'refresh', 'requests', 'run', 'configure', 'backfill-preview', 'backfill', 'detail', 'retry'))
         expected.update('operations.' + name for name in ('impact', 'diff', 'source', 'search', 'quality', 'usage', 'tables', 'table-read', 'jobs', 'job-export', 'job-notify'))
         expected.update('qa-maintenance.action-{}'.format(i) for i in range(1, 6))
         client_callbacks = {'shell.theme', 'shell.theme_chart', 'catalog.preferences'}
@@ -401,6 +408,13 @@ class FactoryIsolationTests(AppTestCase):
         self.page(client_a, '/logout')
         self.assertEqual(client_a.get('/demo-api/report.csv').status_code, 401)
         self.assertEqual(client_b.get('/demo-api/report.csv').status_code, 200)
+
+    def test_synthetic_etl_page_and_workers_are_absent_in_production(self):
+        server = self.app(self.settings('production'))
+        self.assertIsNone(server.extensions['page_registry'].get('/QA_portal/etl'))
+        self.assertNotIn('etl_dispatch', server.extensions)
+        self.assertFalse(any(spec.callback_id.startswith('etl.')
+            for spec in server.extensions['callback_registry'].callbacks.values()))
 
     def test_same_secret_and_provider_accept_existing_session_on_new_app(self):
         identities = FixtureIdentity()
@@ -750,7 +764,7 @@ class HttpAndStorageTests(AppTestCase):
         self.assertIn('Fixed job executed: False', responses[1].get_data(as_text=True))
         runtime_a, runtime_b = first.extensions['workspace'], second.extensions['workspace']
         self.assertEqual(len(runtime_a.mail.messages) + len(runtime_b.mail.messages), 1)
-        self.assertEqual(runtime_b.state.get_job('demo-mail', 'fixture-1').state, 'succeeded')
+        self.assertEqual(runtime_b.state.get_job('demo-mail:' + hashlib.sha256(b'A').hexdigest(), 'fixture-1').state, 'succeeded')
         self.assertEqual(runtime_b.state.list_uncertain_jobs(), [])
 
     def test_sqlite_failed_manual_job_stays_terminal_and_releases_lease(self):
@@ -761,7 +775,7 @@ class HttpAndStorageTests(AppTestCase):
         with patch.object(runtime.mail, 'send', side_effect=RuntimeError(PROVIDER_DETAIL)):
             response = self.callback(client, 'adapter-result', 'children', 'adapter-run')
         self.assert_ui_error(response, 'simulation.failed', 'adapter-result')
-        job = runtime.state.get_job('demo-mail', 'fixture-1')
+        job = runtime.state.get_job('demo-mail:' + hashlib.sha256(b'A').hexdigest(), 'fixture-1')
         self.assertEqual(job.state, 'failed')
         self.assertEqual(job.failure_code, 'execution_failed')
         self.assertEqual(runtime.state.list_uncertain_jobs(), [])
@@ -785,7 +799,7 @@ class HttpAndStorageTests(AppTestCase):
         finish.assert_called_once()
         self.assertTrue(finish.call_args.kwargs['success'])
         self.assertEqual(len(runtime.mail.messages), 1)
-        job = runtime.state.get_job('demo-mail', 'fixture-1')
+        job = runtime.state.get_job('demo-mail:' + hashlib.sha256(b'A').hexdigest(), 'fixture-1')
         self.assertEqual(job.state, 'running')
         self.assertIsNone(job.finished_at)
         self.assertIsNone(job.failure_code)
@@ -825,17 +839,21 @@ with patch.object(threading.Thread, 'start', side_effect=AssertionError('unexpec
     import reporting_workspace.application
     import reporting_workspace.web
     from reporting_workspace.application import create_app
+    from reporting_workspace.lifecycle import dispose_app
     from reporting_workspace.config import Settings
     from demo_services import DemoScheduler, MailSink
     with tempfile.TemporaryDirectory() as directory, \
          patch.object(DemoScheduler, 'run_once', side_effect=AssertionError('unexpected job')), \
          patch.object(MailSink, 'send', side_effect=AssertionError('unexpected mail')):
         app = create_app(Settings(state_path=str(Path(directory) / 'state.sqlite3')))
-        runtime = app.extensions['workspace']
-        assert runtime.state.list_uncertain_jobs() == []
-        assert runtime.state.get_job('demo-mail', 'fixture-1') is None
-        assert runtime.mail.messages == []
-        assert app.test_client().get('/readyz').status_code == 200
+        try:
+            runtime = app.extensions['workspace']
+            assert runtime.state.list_uncertain_jobs() == []
+            assert runtime.state.get_job('demo-mail', 'fixture-1') is None
+            assert runtime.mail.messages == []
+            assert app.test_client().get('/readyz').status_code == 200
+        finally:
+            dispose_app(app)
 print('no-startup-effects')
 '''
         result = subprocess.run([sys.executable, '-c', script], cwd=str(Path(__file__).resolve().parents[1]),

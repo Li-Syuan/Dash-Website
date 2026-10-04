@@ -14,7 +14,7 @@ database, scheduling or mail implementation.
 | `application.py` | WSGI factory, session loading, callback/API authorization, request/error boundaries | No network connector or scheduler starts implicitly |
 | `registry.py`, `web.py`, `ui_pages/` | App-scoped metadata, card catalog, shell and modular pages | Page-bound server policies; client-only UI callbacks cannot be dispatched by HTTP |
 | `notifications.py`, `theme.py` | Safe in-app events and local color preference | No shared message queue or external assistant connection |
-| `crud.py` | Report-definition maintenance | Organization/owner scope and version checks on every write |
+| `crud.py`, `definition_domain.py`, `definition_policy.py`, `definition_repository.py` | Request-bound report-definition service, values, centralized policy and tenant-bound SQL | Immutable actor/request scope; owner/tenant/version/lifecycle SQL predicates; atomic audit |
 | `state.py` | Optional transactional local SQLite leases, job claims, audit, backup | Same host and trusted local filesystem only |
 | `demo_services.py` | Synthetic report fixture, memory simulations, invalid-domain mail sink | No company service integration or real SMTP |
 | `app.py` | The sole executable entrypoint: main login, catalog, maintenance, revisions and wizard | Binds loopback and disables debug; directly builds the factory |
@@ -106,3 +106,24 @@ secret lifecycle, audited scheduler ownership, database transactions, outbound
 message policy, rate limiting, incident response, capacity testing, real browser
 QA, exact company runtime parity and backup restoration drills still need
 review. Do not present this foundation as satisfying those gates automatically.
+
+## Complete maintenance vertical slice (2026-10-04)
+
+`/maintenance` now binds one immutable principal and request ID per callback
+through `Runtime.definition_request()`. The scope expires at request teardown;
+it cannot be reused in another app/request or a copied/re-entered context.
+`DEFINITION_ACCESS` is the shared transport/service policy, and
+`DefinitionPrincipal` owns the common organization/owner decision used by both
+repository writes and UI affordances. Data-return and notification audiences
+come from the same scope; shared services hold no current identity or rows.
+
+SQL moved out of `crud.py` into a tenant/actor-bound repository transaction.
+Every UPDATE carries organization, owner/admin, expected version and lifecycle
+predicates in addition to the centralized policy check. Audit commits with the
+mutation; read-only and expired transactions reject writes. There is no schema,
+dependency, route or persisted ownership migration. Existing trusted service
+callers and exception/helper imports remain compatible.
+
+This is one completed vertical slice, not a claim that all legacy policies have
+been replaced. See [architecture/migration notes](architecture/MAINTENANCE_SLICE.md)
+and [exact validation evidence](architecture/VALIDATION.md).

@@ -5,6 +5,7 @@ import csv
 import io
 from pathlib import Path
 import sqlite3
+from contextlib import closing
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -339,7 +340,7 @@ class OperationsTests(unittest.TestCase):
         sentinel = 'unretained-request-unique-987654'
         self.service.search_catalog(USER, sentinel)
         self.assertNotIn(sentinel.encode(), self.path.read_bytes())
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             columns = [row[1] for row in connection.execute('PRAGMA table_info(operations_usage)')]
             self.assertEqual(columns, ['org', 'report_id', 'event', 'count', 'last_event_at'])
 
@@ -446,7 +447,7 @@ class OperationsTests(unittest.TestCase):
         self.assertEqual(report['last_view_at'], 1790960000.0)
         self.assertEqual(report['last_event_at']['report_view'], 1790960000.0)
         self.assertEqual(report['view_observation'], 'observed')
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             self.assertEqual(connection.execute('SELECT COUNT(*) FROM operations_usage WHERE event=?', ('report_view',)).fetchone()[0], 1)
 
     def test_only_fixed_usage_events_are_accepted(self):
@@ -525,13 +526,13 @@ class OperationsTests(unittest.TestCase):
         self.assertEqual(separate.read_bytes(), b'untouched-primary-state-file')
 
     def test_storage_schema_fail_closed_and_missing_database_not_recreated(self):
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             connection.execute('PRAGMA user_version=2')
         with self.assertRaises(StateUnavailable):
             OperationsService(self.path, self.identities)
         with self.assertRaises(StateUnavailable):
             self.service.list_reports(USER)
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             self.assertEqual(connection.execute('PRAGMA user_version').fetchone()[0], 2)
         self.path.unlink()
         with self.assertRaises(StateUnavailable):
@@ -540,12 +541,12 @@ class OperationsTests(unittest.TestCase):
 
     def test_incompatible_unversioned_database_is_preserved(self):
         path = Path(self.temporary.name) / 'unrecognized.sqlite'
-        with sqlite3.connect(str(path)) as connection:
+        with closing(sqlite3.connect(str(path))) as connection, connection:
             connection.execute('CREATE TABLE existing(value TEXT)')
             connection.execute("INSERT INTO existing VALUES('keep')")
         with self.assertRaises(StateUnavailable):
             OperationsService(path, self.identities)
-        with sqlite3.connect(str(path)) as connection:
+        with closing(sqlite3.connect(str(path))) as connection, connection:
             self.assertEqual(connection.execute('SELECT value FROM existing').fetchone()[0], 'keep')
             self.assertEqual(connection.execute('PRAGMA user_version').fetchone()[0], 0)
 

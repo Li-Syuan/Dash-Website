@@ -1,0 +1,264 @@
+{
+  "scope": "Actual v9 Flask/Dash shared-layer HTTP composition; not a Flask-RESTX runtime or browser test",
+  "restx_installed": false,
+  "checks": [
+    {
+      "name": "Explicit API route beats Dash catch-all",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "JSON scalar and array types preserved",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "API status MIME and custom header preserved",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Global response security headers still applied",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Ordinary API POST body contract preserved",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Ordinary added API requires its own authorization",
+      "status": "PASS",
+      "details": "Public synthetic route is not automatically protected by the Dash callback registry."
+    },
+    {
+      "name": "Dash-only origin policy does not become API CSRF policy",
+      "status": "PASS",
+      "details": "RESTX cookie-auth endpoints need their own explicit origin/CSRF policy."
+    },
+    {
+      "name": "Application AccessDenied handler returns sanitized 401",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Application provider error returns sanitized 503",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Application HTTPException contract uses error and request_id",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Blueprint specific error handler preserves message contract",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Factory global one-MiB limit applies to added APIs",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Distinct explicit documentation route can coexist",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "No actual Swagger or OpenAPI endpoint is present",
+      "status": "PASS",
+      "details": {
+        "/swagger.json": {
+          "status": 200,
+          "mimetype": "text/html",
+          "dash_shell": true
+        },
+        "/docs": {
+          "status": 200,
+          "mimetype": "text/html",
+          "dash_shell": true
+        },
+        "/openapi.json": {
+          "status": 200,
+          "mimetype": "text/html",
+          "dash_shell": true
+        }
+      }
+    },
+    {
+      "name": "Dash already owns the default RESTX docs root",
+      "status": "PASS",
+      "details": null
+    },
+    {
+      "name": "Source tree remained byte-identical",
+      "status": "PASS",
+      "details": null
+    }
+  ],
+  "passed": 16,
+  "failed": 0,
+  "actual_routes": [
+    {
+      "rule": "/static/<path:filename>",
+      "endpoint": "static",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/demo-api/report.csv",
+      "endpoint": "export_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/api/reports/export.csv",
+      "endpoint": "export_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/api/managed-reports/<identifier>/export.csv",
+      "endpoint": "export_managed_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/healthz",
+      "endpoint": "health",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/readyz",
+      "endpoint": "ready",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/assets/<path:filename>",
+      "endpoint": "_dash_assets.static",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/_dash-component-suites/<string:package_name>/<path:fingerprinted_path>",
+      "endpoint": "/_dash-component-suites/<string:package_name>/<path:fingerprinted_path>",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/_dash-layout",
+      "endpoint": "/_dash-layout",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/_dash-dependencies",
+      "endpoint": "/_dash-dependencies",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/_dash-update-component",
+      "endpoint": "/_dash-update-component",
+      "methods": [
+        "OPTIONS",
+        "POST"
+      ]
+    },
+    {
+      "rule": "/_reload-hash",
+      "endpoint": "/_reload-hash",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/_favicon.ico",
+      "endpoint": "/_favicon.ico",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/",
+      "endpoint": "/",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/<path:path>",
+      "endpoint": "/<path:path>",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/QA_portal/source/<report_id>/<int:version>/<record_id>",
+      "endpoint": "source_link",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "rule": "/QA_portal/feature-todo",
+      "endpoint": "feature_todo",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    }
+  ],
+  "unrun": [
+    "Actual company Flask-RESTX Api/Namespace registration",
+    "Actual Swagger schema and model marshalling",
+    "Actual RESTX error_router precedence and response contract",
+    "Actual company API authentication and cross-tenant authorization"
+  ]
+}

@@ -22,6 +22,7 @@ from .crud import (Conflict, NotFound, StateUnavailable, ValidationError,
                    _create_key, _record_id, _request_id, _text, _version)
 from .errors import ProviderUnavailable
 from .providers import validate_identity
+from .authorization import current_identity
 from .state import StateError
 
 
@@ -194,6 +195,9 @@ class ManagedReports:
             keys = ()
         self._sources = tuple(keys)
 
+    def _identity(self, user, admin=False):
+        return _user(current_identity(self.identities, user), admin=admin)
+
     def sources(self):
         return [{'label': self.source_label(key), 'value': key} for key in self._sources]
 
@@ -203,12 +207,16 @@ class ManagedReports:
         return 'Configured source: ' + key if key in self._sources else 'Unavailable source'
 
     @contextmanager
-    def _transaction(self, write=False):
+    def _transaction(self, write=False, user=None):
         if self.store is None:
             raise StateUnavailable('Configured local storage is required.')
         try:
             with self.store._transaction(write=write) as connection:
+                if user is not None:
+                    current_identity(self.identities, user)
                 yield connection
+                if user is not None:
+                    current_identity(self.identities, user)
         except (StateError, sqlite3.Error, OSError):
             raise StateUnavailable('Administration storage is unavailable.') from None
 
@@ -277,8 +285,8 @@ class ManagedReports:
             raise AccessDenied('This report action is not permitted.')
 
     def permissions(self, user, identifier):
-        user = _user(user)
-        with self._transaction() as connection:
+        user = self._identity(user)
+        with self._transaction(user=user) as connection:
             row = self._report(connection, user['org'], identifier)
             if row['archived_at'] is not None:
                 return ()
@@ -287,11 +295,11 @@ class ManagedReports:
 
     def list_reports(self, user, include_archived=False, admin=False):
         _bool(admin, 'admin')
-        user = _user(user, admin=admin)
+        user = self._identity(user, admin=admin)
         _bool(include_archived, 'include_archived')
         if include_archived and not admin:
             raise AccessDenied('Archived config requires administrator access.')
-        with self._transaction() as connection:
+        with self._transaction(user=user) as connection:
             rows = connection.execute('SELECT * FROM managed_reports WHERE org = ? ORDER BY name, id',
                                       (user['org'],)).fetchall()
             # Creation has an explicit per-organization cap. Do not silently
@@ -303,9 +311,9 @@ class ManagedReports:
                                    and self._can(connection, user, row, 'view')))]
 
     def get_report(self, user, identifier, for_maintenance=False):
-        user = _user(user)
+        user = self._identity(user)
         _bool(for_maintenance, 'for_maintenance')
-        with self._transaction() as connection:
+        with self._transaction(user=user) as connection:
             row = self._report(connection, user['org'], identifier)
             if not (for_maintenance and user['role'] == 'admin'):
                 self._require(connection, user, row, 'maintain' if for_maintenance else 'view',
@@ -313,11 +321,11 @@ class ManagedReports:
             return self._record(row)
 
     def create_report(self, user, payload, *, request_key=None, request_id=None):
-        user = _user(user, admin=True)
+        user = self._identity(user, admin=True)
         fields, key = _report_payload(payload, create=True), _create_key(request_key)
         if fields['source_key'] not in self._sources:
             raise ValidationError('Select a supported source from this deployment.')
-        with self._transaction(write=True) as connection:
+        with self._transaction(write=True, user=user) as connection:
             previous = connection.execute('SELECT * FROM managed_reports WHERE org = ? AND created_by = ? AND create_key = ?',
                                           (user['org'], user['id'], key)).fetchone()
             if previous is not None:
@@ -336,10 +344,10 @@ class ManagedReports:
             return self._record(self._report(connection,user['org'],identifier))
 
     def update_report(self, user, identifier, expected_version, payload, *, request_id=None):
-        user, fields = _user(user), _report_payload(payload)
+        user, fields = self._identity(user), _report_payload(payload)
         if user['role'] != 'admin' and 'enabled' in fields:
             raise AccessDenied('Only organization administrators may change report availability.')
-        with self._transaction(write=True) as connection:
+        with self._transaction(write=True, user=user) as connection:
             row = self._report(connection,user['org'],identifier)
             self._require(connection,user,row,'maintain',data=False)
             self._check_version(row,expected_version)
@@ -355,8 +363,8 @@ class ManagedReports:
             return self._record(self._report(connection,user['org'],identifier))
 
     def _archive(self, user, identifier, expected_version, archived, request_id):
-        user = _user(user,admin=True)
-        with self._transaction(write=True) as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(write=True, user=user) as connection:
             row = self._report(connection,user['org'],identifier)
             self._check_version(row,expected_version)
             if (row['archived_at'] is not None) == archived:
@@ -375,15 +383,15 @@ class ManagedReports:
         return self._archive(user,identifier,expected_version,False,request_id)
 
     def list_grants(self,user,identifier):
-        user = _user(user,admin=True)
-        with self._transaction() as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(user=user) as connection:
             self._report(connection,user['org'],identifier)
             rows = connection.execute('SELECT * FROM report_grants WHERE org=? AND report_id=? ORDER BY kind,subject',
                                       (user['org'],identifier)).fetchall()
             return [dict(kind=row['kind'],subject=row['subject'],actions=[a for a in ACTIONS if row['can_'+a]]) for row in rows]
 
     def set_grant(self,user,identifier,expected_version,kind,subject,actions,*,request_id=None):
-        user = _user(user,admin=True)
+        user = self._identity(user,admin=True)
         if kind not in ('role','user','org') or not isinstance(subject,str) or not subject:
             raise ValidationError('Select a valid grant principal.')
         if (not isinstance(actions,list) or any(action not in ACTIONS for action in actions)
@@ -403,7 +411,7 @@ class ManagedReports:
                 raise ValidationError('Select an existing user in your organization.') from None
             if target['id'] != subject or target['org'] != user['org'] or target['role'] not in ('admin','user'):
                 raise ValidationError('Select an existing user in your organization.')
-        with self._transaction(write=True) as connection:
+        with self._transaction(write=True, user=user) as connection:
             row = self._report(connection,user['org'],identifier)
             self._check_version(row,expected_version)
             if row['archived_at'] is not None:
@@ -434,9 +442,9 @@ class ManagedReports:
             return self._record(self._report(connection,user['org'],identifier))
 
     def create_schedule(self,user,identifier,expected_report_version,payload,*,request_key=None,request_id=None):
-        user = _user(user,admin=True)
+        user = self._identity(user,admin=True)
         fields,key = _schedule_payload(payload,create=True),_create_key(request_key)
-        with self._transaction(write=True) as connection:
+        with self._transaction(write=True, user=user) as connection:
             report = self._report(connection,user['org'],identifier)
             self._check_version(report,expected_report_version)
             if report['archived_at'] is not None:
@@ -461,21 +469,21 @@ class ManagedReports:
             return self._schedule_record(self._schedule(connection,user['org'],schedule_id))
 
     def get_schedule(self,user,identifier):
-        user = _user(user,admin=True)
-        with self._transaction() as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(user=user) as connection:
             return self._schedule_record(self._schedule(connection,user['org'],identifier))
 
     def list_schedules(self,user,identifier):
-        user = _user(user,admin=True)
-        with self._transaction() as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(user=user) as connection:
             self._report(connection,user['org'],identifier)
             return [self._schedule_record(row) for row in connection.execute(
                 'SELECT * FROM mail_schedules WHERE org=? AND report_id=? ORDER BY updated_at DESC,id',
                 (user['org'],identifier)).fetchall()]
 
     def update_schedule(self,user,identifier,expected_version,payload,*,request_id=None):
-        user,fields = _user(user,admin=True),_schedule_payload(payload)
-        with self._transaction(write=True) as connection:
+        user,fields = self._identity(user,admin=True),_schedule_payload(payload)
+        with self._transaction(write=True, user=user) as connection:
             row = self._schedule(connection,user['org'],identifier)
             self._check_version(row,expected_version)
             report = self._report(connection,user['org'],row['report_id'])
@@ -494,23 +502,16 @@ class ManagedReports:
             return self._schedule_record(self._schedule(connection,user['org'],identifier))
 
     def _authorize_data(self,user,identifier,action):
-        with self._transaction() as connection:
+        with self._transaction(user=user) as connection:
             row = self._report(connection,user['org'],identifier)
             self._require(connection,user,row,action)
             return self._record(row)
 
     def _fresh_user(self, user):
-        try:
-            record = self.identities.get_user(user['id'])
-        except Exception:
-            raise ProviderUnavailable() from None
-        fresh = _user(record)
-        if fresh != user:
-            raise AccessDenied('Identity claims changed; reload before continuing.')
-        return fresh
+        return self._identity(user)
 
     def _rows(self,user,identifier,action):
-        user = _user(user)
+        user = self._identity(user)
         report = self._authorize_data(user,identifier,action)
         try:
             rows = self.provider.managed_rows(user,report['source_key'])
@@ -551,10 +552,10 @@ class ManagedReports:
         return output.getvalue()
 
     def simulate_schedule(self,user,identifier,expected_version,*,request_id=None):
-        user = _user(user,admin=True)
+        user = self._identity(user,admin=True)
         if not self.is_demo:
             raise AccessDenied('Mock execution is disabled outside demo mode.')
-        with self._transaction(write=True) as connection:
+        with self._transaction(write=True, user=user) as connection:
             schedule = self._schedule(connection,user['org'],identifier)
             self._check_version(schedule,expected_version)
             report = self._report(connection,user['org'],schedule['report_id'])
@@ -576,7 +577,7 @@ class ManagedReports:
         try:
             # No browser claims or persisted creator role is reused as authority.
             fresh = self._fresh_user(user)
-            with self._transaction(write=True) as connection:
+            with self._transaction(write=True, user=user) as connection:
                 latest = self._schedule(connection,user['org'],identifier)
                 latest_report = self._report(connection,user['org'],report_id)
                 self._require(connection,fresh,latest_report,'export')
@@ -587,8 +588,8 @@ class ManagedReports:
             # during this fixed, in-memory capture so a settings write cannot
             # commit between the final check and the mock side effect. A real
             # SMTP adapter needs a separately reviewed outbox/fencing design.
-            fresh = self._fresh_user(user)
             with self._transaction(write=True) as connection:
+                fresh = self._fresh_user(user)
                 latest = self._schedule(connection,user['org'],identifier)
                 latest_report = self._report(connection,user['org'],report_id)
                 self._require(connection,fresh,latest_report,'export')
@@ -603,6 +604,7 @@ class ManagedReports:
             error_code = 'mock_failed'
         # Completion failure leaves the committed running claim uncertain.
         # It must never be overwritten as failed or replayed automatically.
+        # Persist the already-claimed outcome even if its actor was revoked.
         with self._transaction(write=True) as connection:
             status = 'failed' if error_code else 'succeeded'
             changed = connection.execute('UPDATE schedule_runs SET status=?,error_code=?,finished_at=? WHERE org=? AND id=? AND status=?',
@@ -614,15 +616,15 @@ class ManagedReports:
             return dict(connection.execute('SELECT * FROM schedule_runs WHERE org=? AND id=?',(user['org'],run_id)).fetchone(),duplicate=False)
 
     def list_runs(self,user,identifier):
-        user = _user(user,admin=True)
-        with self._transaction() as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(user=user) as connection:
             self._report(connection,user['org'],identifier)
             return [dict(row) for row in connection.execute('SELECT * FROM schedule_runs WHERE org=? AND report_id=? ORDER BY started_at DESC,id LIMIT 50',
                                                           (user['org'],identifier)).fetchall()]
 
     def list_audit(self,user,identifier=None):
-        user = _user(user,admin=True)
-        with self._transaction() as connection:
+        user = self._identity(user,admin=True)
+        with self._transaction(user=user) as connection:
             if identifier is not None:
                 self._report(connection,user['org'],identifier)
             sql = 'SELECT * FROM admin_changes WHERE org=?'

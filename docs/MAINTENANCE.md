@@ -90,3 +90,12 @@ read-only forms do not show editable errors. The feedback callback uses the same
 field validators as the CRUD service, but never authorizes or writes data.
 Save still independently validates all fields, identity, draft key and version;
 conflicts/backend failures retain the existing sanitized notification behavior.
+
+## Request-scoped architecture
+
+The complete maintenance workflow now follows a shared policy → immutable
+request scope → application service → tenant-bound repository transaction path.
+See [the architecture and migration guide](architecture/MAINTENANCE_SLICE.md).
+The database schema, rows and public trusted-service API remain compatible.
+Multiple write-button triggers in one callback request now produce no mutation,
+rather than letting browser-provided trigger order choose an action.

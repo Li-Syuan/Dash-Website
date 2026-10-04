@@ -1,0 +1,26 @@
+ETL dispatch center: final regression evidence
+Date: 2026-10-02 UTC
+Interpreter: Python 3.8.20
+Platform: Linux x86_64
+Working directory: repository root
+Command: python -B -m unittest discover -s tests -q
+
+Ran 779 tests in 33.874s
+OK
+
+Starting baseline: 669 tests, OK, 25.499s
+Independent acceptance: 45 tests, OK, 4.649s
+Focused command: PYTHONPATH=tests python -B -m unittest test_etl_dispatch_acceptance -v
+
+Pinned installed runtime used by this test:
+Dash 2.9.1; dash-bootstrap-components 1.4.1; Flask 2.2.3;
+Flask-Login 0.6.2; Werkzeug 2.2.3; Plotly 5.13.1;
+setuptools 57.5.0; dash-mantine-components 0.12.0; openpyxl 3.1.5.
+No dependency installation or upgrade was performed.
+
+Notes:
+- Captured terminal summary; absolute machine paths and temporary filenames omitted.
+- TemporaryDirectory ResourceWarnings from existing factory test cleanup remain.
+- No assertion failures, company services, credentials, Oracle or SMTP involved.
+- HTTP/callback/layout assertions are server-side tests, not browser visual QA.
+- Windows, exact company patch versions and production deployment remain unverified.

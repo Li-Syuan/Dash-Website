@@ -1,0 +1,23 @@
+test_current_admin_still_reads_and_export_remains_admin_only (test_authorization_boundaries.BoundaryTests) ... ok
+test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) ... ok
+test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) ... ok
+test_direct_simulation_rejects_stale_identity_before_effects (test_authorization_boundaries.BoundaryTests) ... ok
+test_factory_cleanup_keeps_original_construction_error (test_authorization_boundaries.BoundaryTests) ... [2026-10-04 16:24:17,124] ERROR in application: Application cleanup failed after construction error
+ok
+test_http_user_loader_rejects_identity_substitution (test_authorization_boundaries.BoundaryTests) ... ok
+test_legacy_report_rechecks_revocation_before_releasing_data (test_authorization_boundaries.BoundaryTests) ... ok
+test_legacy_unscoped_claims_block_new_namespace_without_replay (test_authorization_boundaries.BoundaryTests) ... ok
+test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) ... ok
+test_managed_rechecks_identity_after_waiting_for_transaction (test_authorization_boundaries.BoundaryTests) ... ok
+test_managed_rejects_forged_admin_before_metadata_or_provider (test_authorization_boundaries.BoundaryTests) ... ok
+test_managed_revocation_during_mutation_rolls_back_metadata_and_audit (test_authorization_boundaries.BoundaryTests) ... ok
+test_managed_revoked_before_read_never_invokes_provider (test_authorization_boundaries.BoundaryTests) ... ok
+test_persistent_simulation_deduplicates_each_tenant_after_reopen (test_authorization_boundaries.BoundaryTests) ... ok
+test_provider_wrong_id_is_rejected_before_direct_report (test_authorization_boundaries.BoundaryTests) ... ok
+test_service_lookup_outage_is_sanitized_and_fail_closed (test_authorization_boundaries.BoundaryTests) ... ok
+test_simulation_isolated_for_a_b_a_and_tenant_local_capture_count (test_authorization_boundaries.BoundaryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.418s
+
+OK

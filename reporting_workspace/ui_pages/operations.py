@@ -50,6 +50,7 @@ def show(value):
 def layout(runtime):
     return html.Div([
         html.H1('報表營運中心'),
+        dbc.Button('開啟多工作 ETL 調度中心', href='/QA_portal/etl', color='primary', className='mb-3'),
         dbc.Alert('合成 SQLite 驗證環境。Oracle 僅介面契約，郵件只寫本機 mock 紀錄。既有 QSL 彈窗保留於原入口。', color='info'),
         html.A('功能 TODO / DONE 與驗收證據', href='/QA_portal/feature-todo', target='_blank'),
         panel('1 · 改動影響預覽', [

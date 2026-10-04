@@ -1,0 +1,18 @@
+{
+  "label": "wsl-python38-final",
+  "python": "3.8.20",
+  "platform": "MSI WSL Ubuntu Linux native temporary filesystem",
+  "node": "v22.14.0",
+  "source_hashes_verified": true,
+  "elapsed_seconds": 65.05,
+  "exit_code": 1,
+  "command": "python -B -m unittest discover -s tests -v",
+  "summary_lines": [
+    "FAIL: test_pagination_search_and_cleared_selection (test_maintenance.MaintenanceTests)",
+    "Ran 869 tests in 64.346s",
+    "FAILED (failures=1)"
+  ],
+  "skipped": [],
+  "unraisable_count": 0,
+  "shutdown_tracebacks": 0
+}

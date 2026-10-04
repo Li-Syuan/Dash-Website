@@ -1,0 +1,40 @@
+{
+  "realtime_ns": 1791105697733152388,
+  "monotonic_ns": 3431593314,
+  "boot_id": "d636c948-209d-4f4c-8017-a58ac85e658b",
+  "service": {
+    "command": [
+      "systemctl",
+      "show",
+      "systemd-timesyncd.service",
+      "--property=ActiveState",
+      "--property=SubState",
+      "--property=UnitFileState"
+    ],
+    "returncode": 0,
+    "stdout": "ActiveState=active\nSubState=running\nUnitFileState=enabled",
+    "stderr": ""
+  },
+  "processes": {
+    "command": [
+      "ps",
+      "-eo",
+      "user:20,pid,ppid,etimes,comm",
+      "--sort=user"
+    ],
+    "returncode": 0,
+    "stdout": "USER                     PID    PPID ELAPSED COMMAND\nlisyu                    307     306       0 python3\nlisyu                    352       1       0 systemd\nlisyu                    353     352       0 (sd-pam)\nlisyu                    375     308       0 bash\nlisyu                    398     307       0 ps\nmessagebus               178       1       1 dbus-daemon\nroot                       1       0       2 systemd\nroot                       2       1       2 init-systemd(Ub\nroot                       7       2       1 init\nroot                      40       1       1 systemd-journal\nroot                      90       1       1 systemd-udevd\nroot                     104      90       1 (udev-worker)\nroot                     105      90       1 (udev-worker)\nroot                     106      90       1 (udev-worker)\nroot                     107      90       1 (udev-worker)\nroot                     108      90       1 (udev-worker)\nroot                     109      90       1 (udev-worker)\nroot                     110      90       1 (udev-worker)\nroot                     111      90       1 (udev-worker)\nroot                     112      90       1 (udev-worker)\nroot                     113      90       1 (udev-worker)\nroot                     114      90       1 (udev-worker)\nroot                     115      90       1 (udev-worker)\nroot                     116      90       1 (udev-worker)\nroot                     117      90       1 (udev-worker)\nroot                     121      90       1 (udev-worker)\nroot                     124      90       1 (udev-worker)\nroot                     125      90       1 (udev-worker)\nroot                     126      90       1 (udev-worker)\nroot                     127      90       1 (udev-worker)\nroot                     129      90       1 (udev-worker)\nroot                     130      90       1 (udev-worker)\nroot                     131      90       1 (udev-worker)\nroot                     132      90       1 (udev-worker)\nroot                     133      90       1 (udev-worker)\nroot                     134      90       1 (udev-worker)\nroot                     135      90       1 (udev-worker)\nroot                     136      90       1 (udev-worker)\nroot                     137      90       1 (udev-worker)\nroot                     138      90       1 (udev-worker)\nroot                     139      90       1 (udev-worker)\nroot                     140      90       1 (udev-worker)\nroot                     142      90       1 (udev-worker)\nroot                     143      90       1 (udev-worker)\nroot                     145      90       1 (udev-worker)\nroot                     146      90       1 (udev-worker)\nroot                     148      90       1 (udev-worker)\nroot                     149      90       1 (udev-worker)\nroot                     150      90       1 (udev-worker)\nroot                     151      90       1 (udev-worker)\nroot                     152      90       1 (udev-worker)\nroot                     153      90       1 (udev-worker)\nroot                     155      90       1 (udev-worker)\nroot                     156      90       1 (udev-worker)\nroot                     157      90       1 (udev-worker)\nroot                     158      90       1 (udev-worker)\nroot                     159      90       1 (udev-worker)\nroot                     160      90       1 (udev-worker)\nroot                     161      90       1 (udev-worker)\nroot                     162      90       1 (udev-worker)\nroot                     163      90       1 (udev-worker)\nroot                     164      90       1 (udev-worker)\nroot                     166      90       1 (udev-worker)\nroot                     167      90       1 (udev-worker)\nroot                     168      90       1 (udev-worker)\nroot                     177       1       1 cron\nroot                     184       1       1 snapd\nroot                     185       1       1 systemd-logind\nroot                     187       1       1 wsl-pro-service\nroot                     190       1       1 agetty\nroot                     196       1       1 agetty\nroot                     218       1       1 unattended-upgr\nroot                     264       1       1 systemd-timedat\nroot                     305       2       0 SessionLeader\nroot                     306     305       0 Relay(307)\nroot                     308       2       0 login\nsyslog                   204       1       1 rsyslogd\nsystemd-resolve          141       1       1 systemd-resolve\nsystemd-timesync         144       1       1 systemd-timesyn",
+    "stderr": "your 131072x1 screen size is bogus. expect trouble"
+  },
+  "timesync": {
+    "command": [
+      "timedatectl",
+      "show-timesync",
+      "--all"
+    ],
+    "returncode": 0,
+    "stdout": "LinkNTPServers=\nSystemNTPServers=\nRuntimeNTPServers=\nFallbackNTPServers=ntp.ubuntu.com\nServerName=ntp.ubuntu.com\nServerAddress=185.125.190.58\nRootDistanceMaxUSec=5s\nPollIntervalMinUSec=32s\nPollIntervalMaxUSec=34min 8s\nPollIntervalUSec=32s\nNTPMessage={ Leap=0, Version=4, Mode=4, Stratum=2, Precision=-25, RootDelay=6.546ms, RootDispersion=305us, Reference=1D586304, OriginateTimestamp=Sun 2026-10-04 17:21:36 CST, ReceiveTimestamp=Sun 2026-10-04 17:21:36 CST, TransmitTimestamp=Sun 2026-10-04 17:21:36 CST, DestinationTimestamp=Sun 2026-10-04 17:21:37 CST, Ignored=no, PacketCount=1, Jitter=0 }\nFrequency=0",
+    "stderr": ""
+  },
+  "clocksource": "tsc"
+}

@@ -24,14 +24,12 @@ user_db = getattr(runtime.identities, 'user_db', {})
 
 def run():
     """Start the single loopback-only application without debug/reloader mode."""
-    monitor = server.extensions.get('job_monitor')
-    if monitor is not None:
-        monitor.start()
+    from reporting_workspace.launcher import start_background_services, stop_background_services
+    start_background_services(server)
     try:
         app.run_server(host='127.0.0.1', port=8050, debug=False)
     finally:
-        if monitor is not None:
-            monitor.stop()
+        stop_background_services(server)
 
 
 if __name__ == '__main__':

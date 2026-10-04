@@ -1,0 +1,427 @@
+{
+  "status": "failed",
+  "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     error: 'net::ERR_ABORTED',\n+     path: '/_dash-update-component'\n+   },\n+   {\n+     error: 'net::ERR_ABORTED',\n+     path: '/_dash-update-component'\n+   },\n+   {\n+     error: 'net::ERR_ABORTED',\n+     path: '/_dash-update-component'\n+   },\n+   {\n+     error: 'net::ERR_ABORTED',\n+     path: '/'\n+   }\n+ ]\n- []\n",
+  "results": [
+    {
+      "iteration": 1,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "2416bdbf8834c63ded0d3d04"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 59
+    },
+    {
+      "iteration": 2,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "98223be752b27a7e2260cbf5"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 45
+    },
+    {
+      "iteration": 3,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "73d09f1f02fffc927de3ab09"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 49
+    },
+    {
+      "iteration": 4,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "d6f09fd8e09b6ae797ea864f"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 52
+    },
+    {
+      "iteration": 5,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "f8f9781f3f6473caa302f553"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 54
+    },
+    {
+      "iteration": 6,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "02580fb70bcfb185278e51c3"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 47
+    },
+    {
+      "iteration": 7,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "b49a9f3e053788765178e7b2"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 47
+    },
+    {
+      "iteration": 8,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "438f24a271a74d8c1638e9d0"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 56
+    },
+    {
+      "iteration": 9,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "fbcc325b67136b0907167c7d"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 46
+    },
+    {
+      "iteration": 10,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "675de4fb87aa699bfc5329fa"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 56
+    },
+    {
+      "iteration": 11,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "32391e1baa9f68400a6bc7e7"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 53
+    },
+    {
+      "iteration": 12,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "0f21addd844052a60d134fb0"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 54
+    },
+    {
+      "iteration": 13,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "16664c701ebefc6faa74cc98"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 59
+    },
+    {
+      "iteration": 14,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "323945519fbde138e191735d"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 55
+    },
+    {
+      "iteration": 15,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "668c0421c5a6345eceaefb36"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 55
+    },
+    {
+      "iteration": 16,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "aeb18b52d38cd80649d77a9e"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 87
+    },
+    {
+      "iteration": 17,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "9f896f1cbb128e890536c43b"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 64
+    },
+    {
+      "iteration": 18,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:06 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "1a7d4d23702b25d1d761a693"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 50
+    },
+    {
+      "iteration": 19,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:07 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "cecd83bcf76efb0068ab9b31"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 62
+    },
+    {
+      "iteration": 20,
+      "status": 200,
+      "headers": {
+        "connection": "close",
+        "content-length": "3578466",
+        "content-type": "application/javascript; charset=utf-8",
+        "date": "Sun, 04 Oct 2026 09:21:07 GMT",
+        "etag": "\"a25661c8464ccc6c5c12faefd6b9084604c4df3d\"",
+        "referrer-policy": "same-origin",
+        "server": "Werkzeug/2.2.3 Python/3.10.22",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-request-id": "fa858935f6ec0014cbd15992"
+      },
+      "size": 3578466,
+      "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109",
+      "milliseconds": 54
+    }
+  ],
+  "renderedSvgBars": 12,
+  "failures": [
+    {
+      "path": "/_dash-update-component",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "expectedAsset": {
+    "path": "/_dash-component-suites/dash/dcc/async-plotlyjs.js",
+    "size": 3578466,
+    "sha256": "54e291ba62b090adeeecb89354833e8eff1cf735afd1ec48aa98fdffda438109"
+  },
+  "versions": {
+    "node": "v24.21.0",
+    "python": "3.10.22",
+    "browser": "154.0.8037.95",
+    "packages": {
+      "dash": "2.9.1",
+      "Flask": "2.2.3",
+      "Werkzeug": "2.2.3",
+      "dash-bootstrap-components": "1.4.1",
+      "dash-mantine-components": "0.12.0"
+    }
+  },
+  "delivery": "native Chrome; no request interception; 20 uncached same-origin GETs",
+  "serverStopped": true,
+  "isolatedStateRemoved": true
+}

@@ -73,9 +73,25 @@ assets. Security header and browser policy review remains a deployment gate.
 Read `StateStore(path).list_uncertain_jobs()` to inspect running claims and
 `get_job(job_id, run_key)` for known state. Never delete a claim or choose a new
 run key merely to force a retry: first reconcile whether its external effect
-occurred. There is no automatic requeue, retry, takeover or arbitrary-job API.
+occurred. The legacy StateStore claim API has no automatic requeue, retry, takeover or arbitrary-job API. The separate ETL dispatch center supports only explicit bounded retries of registered safe local steps, as described in `etl/INTEGRATION.md`.
 Keep any real scheduler in one separately supervised owner process. Web worker
 startup/reload must never schedule jobs.
+
+## Multi-job ETL center
+
+`/QA_portal/etl` is the new demo-only tenant-A control surface. Direct `app.py`
+execution owns both the existing JobMonitor and the new dispatcher lifecycle.
+The enabled flag is per job; all schedules default disabled. Polling/browser
+refresh does not execute a job. Factory/import callers must explicitly arrange
+an owner. Current worker state is displayed in ETL status; the legacy `/readyz`
+scheduler field is not an ETL-worker liveness claim.
+
+The dispatcher stores claims, leases, step snapshots and publication in its own
+local SQLite file. Back up every store while all writers are stopped. Never edit
+lease rows, drop request keys or delete failed runs to force an effect. Explicit
+retry eligibility, version compatibility and prior-result provenance must pass.
+Read [integration and recovery boundaries](etl/INTEGRATION.md) before introducing
+company adapters or changing deployment topology.
 
 ## Consistent backup
 

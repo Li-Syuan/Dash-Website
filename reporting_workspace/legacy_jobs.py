@@ -142,10 +142,14 @@ class LegacyJobAdapter:
             db.close()
 
     def _guard(self, actor, action, job_id):
+        from .legacy_policy import identity_text
         _id(job_id)
-        if not isinstance(actor, str) or not actor.strip() or len(actor) > 200:
-            raise JobAccessDenied('A server identity is required.')
-        if self.authorize(actor, action, job_id) is not True:
+        try:
+            identity_text(actor, 200)
+            permitted = self.authorize(actor, action, job_id) is True
+        except Exception:
+            raise JobAccessDenied('A current server identity is required.') from None
+        if not permitted:
             raise JobAccessDenied('Action not authorized.')
 
     def _audit(self, db, actor, action, job_id, detail, run_id=None):

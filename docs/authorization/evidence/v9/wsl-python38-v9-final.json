@@ -1,0 +1,22 @@
+{
+  "label": "wsl-python38-v9-final",
+  "python": "3.8.20",
+  "platform": "MSI WSL Ubuntu native temporary filesystem",
+  "node": "v22.14.0",
+  "source_hashes_verified": true,
+  "command": "python -B -m unittest discover -s tests -v",
+  "elapsed_seconds": 68.548,
+  "suite_exit_code": 0,
+  "exit_code": 0,
+  "clock_guard_valid": true,
+  "session_or_signer_modified": false,
+  "automatic_suite_retries": 0,
+  "service_restored": true,
+  "summary_lines": [
+    "Ran 878 tests in 67.399s",
+    "OK"
+  ],
+  "skipped": [],
+  "unraisable_count": 0,
+  "shutdown_tracebacks": 0
+}

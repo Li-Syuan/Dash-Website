@@ -1,0 +1,226 @@
+{
+  "generatedAt": "2026-10-04T08:46:20.466Z",
+  "mode": "full acceptance",
+  "platform": "win32",
+  "node": "v24.21.0",
+  "python": "3.10.22",
+  "browser": "154.0.8037.95",
+  "browserChannel": "chrome",
+  "fixture": {
+    "pid": 10656,
+    "port": 56193,
+    "importedEntry": "app.py",
+    "schedulerStarted": false,
+    "syntheticOnly": true
+  },
+  "passed": 31,
+  "failed": 1,
+  "results": [
+    {
+      "name": "01-login-button-only",
+      "status": "passed",
+      "milliseconds": 34848
+    },
+    {
+      "name": "02-maintenance-pagination",
+      "status": "passed",
+      "milliseconds": 4098
+    },
+    {
+      "name": "03-maintenance-create-double-click",
+      "status": "passed",
+      "milliseconds": 3326
+    },
+    {
+      "name": "04-maintenance-replay-supplementary",
+      "status": "passed",
+      "milliseconds": 211,
+      "detail": {
+        "mode": "browser-context transport replay supplement; create exercised by real double click"
+      }
+    },
+    {
+      "name": "05-same-organization-peer-readonly",
+      "status": "passed",
+      "milliseconds": 6389
+    },
+    {
+      "name": "06-owner-update-version",
+      "status": "passed",
+      "milliseconds": 3973
+    },
+    {
+      "name": "07-version-conflict-retains-draft",
+      "status": "passed",
+      "milliseconds": 10077
+    },
+    {
+      "name": "08-archive-restore",
+      "status": "passed",
+      "milliseconds": 2118
+    },
+    {
+      "name": "09-new-clears-unsaved-form",
+      "status": "passed",
+      "milliseconds": 2069
+    },
+    {
+      "name": "10-tenant-b-isolation",
+      "status": "passed",
+      "milliseconds": 6045
+    },
+    {
+      "name": "11-tampered-cross-tenant-id-ui-submit",
+      "status": "passed",
+      "milliseconds": 2418
+    },
+    {
+      "name": "12-tampered-owner-ui-submit",
+      "status": "passed",
+      "milliseconds": 2542
+    },
+    {
+      "name": "13-identity-revocation-ui-submit",
+      "status": "passed",
+      "milliseconds": 6656
+    },
+    {
+      "name": "14-qsl-read-pagination",
+      "status": "passed",
+      "milliseconds": 2692
+    },
+    {
+      "name": "15-cancel-create",
+      "status": "passed",
+      "milliseconds": 4138
+    },
+    {
+      "name": "15-cancel-update",
+      "status": "passed",
+      "milliseconds": 5075
+    },
+    {
+      "name": "15-cancel-delete",
+      "status": "passed",
+      "milliseconds": 5788
+    },
+    {
+      "name": "15-cancel-upload",
+      "status": "passed",
+      "milliseconds": 5241
+    },
+    {
+      "name": "16-qsl-create-double-click",
+      "status": "passed",
+      "milliseconds": 4302
+    },
+    {
+      "name": "17-qsl-query-update-id-tamper",
+      "status": "passed",
+      "milliseconds": 6273
+    },
+    {
+      "name": "18-qsl-delete-query-and-submit",
+      "status": "passed",
+      "milliseconds": 4250
+    },
+    {
+      "name": "19-qsl-upload-submit",
+      "status": "passed",
+      "milliseconds": 2575
+    },
+    {
+      "name": "20-qsl-wizard-next-previous",
+      "status": "passed",
+      "milliseconds": 5114
+    },
+    {
+      "name": "21-qsl-export-csv-xlsx",
+      "status": "passed",
+      "milliseconds": 2189
+    },
+    {
+      "name": "22-report-refresh-export",
+      "status": "passed",
+      "milliseconds": 25216
+    },
+    {
+      "name": "23-etl-and-operations-render",
+      "status": "passed",
+      "milliseconds": 4898
+    },
+    {
+      "name": "24-tenant-denied-qsl-etl-operations",
+      "status": "passed",
+      "milliseconds": 3740
+    },
+    {
+      "name": "25-readonly-qsl-controls-and-etl-denial",
+      "status": "passed",
+      "milliseconds": 2499
+    },
+    {
+      "name": "26-browser-history-navigation",
+      "status": "passed",
+      "milliseconds": 4842
+    },
+    {
+      "name": "27-mobile-maintenance",
+      "status": "passed",
+      "milliseconds": 3095
+    },
+    {
+      "name": "28-logout-replay-denied",
+      "status": "passed",
+      "milliseconds": 424,
+      "detail": {
+        "mode": "real logout navigation plus supplementary browser-context replay"
+      }
+    },
+    {
+      "name": "29-no-external-effects-or-page-errors",
+      "status": "failed",
+      "milliseconds": 196,
+      "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   },\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   }\n+ ]\n- []\n"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance"
+    },
+    {
+      "text": "{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance"
+    },
+    {
+      "text": "{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/login"
+    }
+  ],
+  "pageErrors": [],
+  "blockedExternalOrigins": [],
+  "staticTransport": "fixture loopback HTTP fetch; identical static bytes fulfilled to browser; native static delivery not certified",
+  "callbackStatuses": {
+    "200": 288,
+    "204": 40,
+    "401": 3
+  },
+  "serverStopped": true,
+  "packages": {
+    "dash": "2.9.1",
+    "Flask": "2.2.3",
+    "Werkzeug": "2.2.3",
+    "dash-bootstrap-components": "1.4.1",
+    "dash-mantine-components": "0.12.0"
+  },
+  "syntheticStateRemoved": true
+}

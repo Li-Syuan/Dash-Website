@@ -1,3 +1,9 @@
+> 2026-10-04 全站授權與資料隔離更新：見 [修改／遷移](docs/authorization/CHANGES_AND_MIGRATION.md)、[入口 coverage](docs/authorization/COVERAGE.md) 與 [第 9 版完整驗收](docs/authorization/VALIDATION_V9.md)。原生 Chrome 32/32；Python 回歸與 HTTP 證據分別記錄。
+
+> CRUD 架構升級：`/maintenance` 已完成共用授權、請求隔離與 service/repository 分層。見 [架構與遷移說明](docs/architecture/MAINTENANCE_SLICE.md)。既有 QSL 彈窗與 ETL 保留。
+
+> 多 Job ETL 調度中心（本次增量）：`/QA_portal/etl`。沿用同一 app.py 與登入；接線方式見 [ETL 整合指南](docs/etl/INTEGRATION.md)。
+
 > 新功能實作與驗收狀態：[FEATURE_TODO.md](FEATURE_TODO.md)。營運中心入口：`/QA_portal/operations`，共用既有 app.py 與登入。
 
 > 維護表已恢復獨立 Create / Update / Delete / Upload 彈窗，Update/Delete 先 Query ID。見[原版操作對照](docs/opus/ORIGINAL_CRUD_PARITY.md)。
@@ -10,8 +16,8 @@ A modular Flask + Dash reporting foundation with one application entrypoint and
 offline synthetic adapters. It preserves the
 known public example's routes, callback IDs and role/organization rules, with a
 consistent Bootstrap component shell, local design tokens and scoped in-app notifications. Default report data is
-synthetic. No company identity provider, database, mail server or live scheduler
-is connected. This is a tested integration foundation, **not a completed company-system
+synthetic. No company identity provider, database, mail server or production scheduler
+is connected. The local synthetic ETL workers run only when app.py explicitly starts them; job schedules are disabled until an administrator enables them. This is a tested integration foundation, **not a completed company-system
 migration or a production deployment**.
 
 ## Run in an isolated compatible environment
@@ -72,6 +78,7 @@ Mantine 0.12.0 components can later be integrated through adapters if required.
 | `/admin`, `/page1`, `/page3` | Admin |
 | `/reports` | Admin/user shell; tenant-local view/export/maintain checked for every selected report |
 | `/maintenance` | Admin/user; organization-scoped records and owner checks on writes |
+| `/QA_portal/etl` | Demo only: org A admin/user view; registered-job manage permission checked for run/schedule/retry/backfill |
 | `/QA_portal/maintenance` | Demo only: admin/user **AND** organization A; service-level CRUD checks on each action |
 | `/page2` | Role admin/user **AND** organization A |
 
@@ -125,9 +132,9 @@ The admin laboratory performs only a manual simulation:
 - Default lease: process-local mutex; optional SQLite lease adds atomic
   cross-process claims, owner/token expiry checks and fencing on one local host.
   This is not a production filesystem/distributed lock replacement.
-- Job claims: memory default or durable SQLite job/run states. No thread, cron
-  or live scheduler is started; failures/uncertain runs are never automatically
-  retried. Single claim does not guarantee exactly-once external side effects.
+- Job claims: memory default or durable SQLite job/run states. The administration mail simulation starts no thread, cron
+  or live scheduler; its failures/uncertain runs are never automatically
+  retried. The separately registered ETL workers have their own explicit lifecycle and safe local execution policy. Single claim does not guarantee exactly-once external side effects.
 - Mail: in-memory sink accepting only `example.invalid`; never opens SMTP.
 - DVC: optional interface stub raising NotImplementedError; no integration claim.
 
@@ -173,6 +180,25 @@ For source rollback, use Git history or a separate checkout of the previous
 commit and the corresponding backed-up state; there is no automatic production
 integration feature flag or database downgrade. This repository's `app.py` is not
 the company's original Portal entrypoint; do not replace that file wholesale.
+
+## Multi-job ETL dispatch center
+
+Open `/QA_portal/etl` through the same main application. The dispatch center adds
+server-registered synthetic pipelines, validated DAG dependencies, explicit local
+interval scheduling, per-step status/count/timing, guarded failed-step retries,
+and bounded date-range backfills. Existing `/QA_portal/operations` retains its
+original single-job monitor, diagnostic ZIP and mock owner notifications.
+
+Only trusted deployment code registers callable adapters. The UI never accepts
+SQL, executable code, module paths, credentials or source rows. The new scheduler
+uses a separate local SQLite store and fenced engine-owned publication; it does
+not provide exactly-once external writes or a distributed task queue. Import and
+factory creation do not start workers. Production registration and external
+side-effect adapters need explicit integration and acceptance.
+
+See [ETL integration](docs/etl/INTEGRATION.md) and
+[ETL validation evidence](docs/etl/QA_EVIDENCE.md). Existing company dependency
+pins, original QSL CRUD workflows and single `app.py` entrypoint remain in place.
 
 ## Verify
 

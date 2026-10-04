@@ -4,6 +4,7 @@ These tests use the real Flask/Dash dispatcher with synthetic providers. A
 serialized Graph is evidence of correct server output, not browser rendering.
 """
 import json
+import hashlib
 import math
 import unittest
 from unittest.mock import patch
@@ -13,6 +14,7 @@ from dash import Input, Output, html
 from dash import _callback
 
 from reporting_workspace.application import create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.notifications import notification_store_id
 from reporting_workspace.registry import AccessPolicy, PageSpec
 from reporting_workspace.ui_pages import default_pages
@@ -59,6 +61,7 @@ class PageFactoryIntegrationTests(AppTestCase):
     def extra_app(self, spec, identities=None):
         server = create_app(self.settings(), identities or FixtureIdentity(),
                             FixtureReports(), extra_pages=(spec,))
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         return server
 
@@ -92,8 +95,8 @@ class PageFactoryIntegrationTests(AppTestCase):
         identities = FixtureIdentity()
         identities.users['other-role'] = {'id': 'other-role', 'role': 'other', 'org': 'A'}
         server = self.app(identities=identities)
-        for username, expected in ((None, []), ('fixture-admin', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/admin', '/maintenance']),
-                                   ('fixture-user', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/maintenance']), ('other-role', ['/'])):
+        for username, expected in ((None, []), ('fixture-admin', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/QA_portal/etl', '/admin', '/maintenance']),
+                                   ('fixture-user', ['/', '/QA_portal/maintenance', '/QA_portal/operations', '/QA_portal/etl', '/maintenance']), ('other-role', ['/'])):
             with self.subTest(username=username):
                 client = server.test_client() if username is None else self.logged_in(server, username)
                 self.assertEqual(self.links(client), expected)
@@ -104,7 +107,7 @@ class PageFactoryIntegrationTests(AppTestCase):
                 labels = [node['props']['children'] for node in components(navigation)
                           if node.get('type') == 'NavLink']
                 self.assertEqual(labels, [{'/' : 'Reports', '/admin': 'Admin',
-                                            '/maintenance': 'Maintenance', '/QA_portal/maintenance': 'QSL 維護 / 精靈', '/QA_portal/operations': '營運中心 / TODO'}[path] for path in expected])
+                                            '/maintenance': 'Maintenance', '/QA_portal/maintenance': 'QSL 維護 / 精靈', '/QA_portal/operations': '營運中心 / TODO', '/QA_portal/etl': 'ETL 調度'}[path] for path in expected])
                 self.assertTrue(set(self.links(client)).isdisjoint(('/page1', '/page2', '/page3')))
         catalog_pages = {page.page_id: page for page in default_pages()}
         for page_id in ('page1', 'page2', 'reports'):
@@ -249,7 +252,7 @@ class PageFactoryIntegrationTests(AppTestCase):
         self.assertTrue(callbacks.frozen)
         self.assertEqual(calls, [])
         client = self.logged_in(server)
-        self.assertEqual(self.links(client), ['/', '/extra-report', '/QA_portal/maintenance', '/QA_portal/operations', '/admin', '/maintenance'])
+        self.assertEqual(self.links(client), ['/', '/extra-report', '/QA_portal/maintenance', '/QA_portal/operations', '/QA_portal/etl', '/admin', '/maintenance'])
         response = self.page(client, '/extra-report')
         self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
         self.assertIn(PRIVATE_RESULT, response.get_data(as_text=True))
@@ -510,7 +513,7 @@ class ReportAndNotificationIntegrationTests(AppTestCase):
         skipped = self.assert_event(self.callback(client, 'adapter-result', 'children', 'adapter-run'),
                                     'simulation.skipped', 'info')
         runtime = server.extensions['workspace']
-        self.assertTrue(runtime.locks.acquire('demo-report', 'another-synthetic-owner'))
+        self.assertTrue(runtime.locks.acquire('demo-report:' + hashlib.sha256(b'A').hexdigest(), 'another-synthetic-owner'))
         busy = self.assert_event(self.callback(client, 'adapter-result', 'children', 'adapter-run'),
                                  'simulation.busy', 'warning')
         events = (loaded, refreshed, exported, simulated, skipped, busy)
@@ -616,6 +619,7 @@ class ReportAndNotificationIntegrationTests(AppTestCase):
 
     def test_routing_serializes_a_valid_two_trace_report_chart_and_stable_controls(self):
         server = create_app(self.settings())
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         client = server.test_client()
         self.assertEqual(self.login(client, 'demo-admin', 'demo-only').status_code, 200)

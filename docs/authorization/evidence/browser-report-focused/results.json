@@ -1,0 +1,160 @@
+{
+  "generatedAt": "2026-10-04T08:54:56.624Z",
+  "mode": "focused report acceptance",
+  "platform": "win32",
+  "node": "v24.21.0",
+  "python": "3.10.22",
+  "browser": "154.0.8037.95",
+  "browserChannel": "chrome",
+  "fixture": {
+    "pid": 21572,
+    "port": 63015,
+    "importedEntry": "app.py",
+    "schedulerStarted": false,
+    "syntheticOnly": true
+  },
+  "passed": 2,
+  "failed": 0,
+  "results": [
+    {
+      "name": "01-login-button-only",
+      "status": "passed",
+      "milliseconds": 15641
+    },
+    {
+      "name": "22-report-refresh-export",
+      "status": "passed",
+      "milliseconds": 65060
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Static fixture fetch failed: CalledProcessError",
+      "path": "/_dash-component-suites/dash/dcc/async-plotlyjs.js"
+    },
+    {
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    },
+    {
+      "text": "ChunkLoadError: Loading chunk 583 failed.\n(error: http://127.0.0.1:63015/_dash-component-suites/dash/dcc/async-plotlyjs.js)\n    at i.f.j (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:489122)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486427\n    at Array.reduce (<anonymous>)\n    at i.e (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486392)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:42975\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:1697\n    at ri (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:18:330)\n    at zj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:228:56)\n    at Th (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:223)\n    at tj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:152)",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    },
+    {
+      "text": "ChunkLoadError: Loading chunk 583 failed.\n(error: http://127.0.0.1:63015/_dash-component-suites/dash/dcc/async-plotlyjs.js)\n    at i.f.j (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:489122)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486427\n    at Array.reduce (<anonymous>)\n    at i.e (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486392)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:42975\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:1697\n    at ri (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:18:330)\n    at zj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:228:56)\n    at Th (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:223)\n    at tj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:152)",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    }
+  ],
+  "pageErrors": [],
+  "networkFailures": [
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-component-suites/dash/dcc/async-plotlyjs.js",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    }
+  ],
+  "blockedExternalOrigins": [],
+  "staticTransport": "fixture loopback HTTP fetch; identical static bytes fulfilled to browser; native static delivery not certified",
+  "callbackStatuses": {
+    "200": 32,
+    "204": 8
+  },
+  "serverStopped": true,
+  "packages": {
+    "dash": "2.9.1",
+    "Flask": "2.2.3",
+    "Werkzeug": "2.2.3",
+    "dash-bootstrap-components": "1.4.1",
+    "dash-mantine-components": "0.12.0"
+  },
+  "unrun": {
+    "count": 30,
+    "reason": "Explicit focused report mode; other full-suite scenarios were not executed",
+    "caseGroups": [
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15-create",
+      "15-update",
+      "15-delete",
+      "15-upload",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29"
+    ]
+  },
+  "syntheticStateRemoved": true
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "path": "assets/00_dash_error_response.js",
+    "sha256": "0805223749a881a7ba5269e7d74714e147907044eba601dd046825c4949c5370",
+    "kind": "added"
+  },
+  {
+    "path": "docs/authorization/CHANGES_AND_MIGRATION.md",
+    "sha256": "b3f7e8c37ec24def560e287cb47308eff8d9ea0abdb934195ce5f9026d9627a2",
+    "kind": "added"
+  },
+  {
+    "path": "docs/authorization/COVERAGE.md",
+    "sha256": "db14f9a702f436675133ac123867f999ca150a56d5a8888c5412a24104e95743",
+    "kind": "added"
+  },
+  {
+    "path": "docs/authorization/entrypoint-coverage.json",
+    "sha256": "5fb9a8063798709c5577f35af986ec1b4ec0bce8eae1b25613ca50749dc3a929",
+    "kind": "added"
+  },
+  {
+    "path": "docs/authorization/VALIDATION.md",
+    "sha256": "9d4889f1ce2195ac7c837d6d478f277b2fa7b84d8e4061a1762eb138c9d96cef",
+    "kind": "added"
+  },
+  {
+    "path": "docs/authorization/VALIDATION_V9.md",
+    "sha256": "413cb799d68cbcaebe43c9a8db58e5f973e96159676c8916a2feaba2256c7237",
+    "kind": "added"
+  },
+  {
+    "path": "examples/etl_registry.py",
+    "sha256": "316ec89df01a413d40c95d7f7623df4d251eaf598bd8413556202caea013e21e",
+    "kind": "modified"
+  },
+  {
+    "path": "README.md",
+    "sha256": "90486f00c61fef1400ff911251675a10fd3b57caa54b89fd9a3b8142274cf3b2",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/application.py",
+    "sha256": "073034abdd5c060ef1bc028fe65d2bf61ba21784a141e1d6da1109f011f3e17d",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/authorization.py",
+    "sha256": "f87804717d3b403e3d199754795859dbb8888e693391235ba42874025b5e6823",
+    "kind": "added"
+  },
+  {
+    "path": "reporting_workspace/crud.py",
+    "sha256": "99f845289f1e60496e24f8fca28e827e1ee5b77af48e6a6a1babeccebe117c44",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/governance.py",
+    "sha256": "00a0d36aaa7f42feca33c741272772777527bd10d342c08db8b5062c4c129835",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/job_monitor.py",
+    "sha256": "09ce422ada4d5e571279b17568beac21d4499d6f690604ce54d63bfffb7e91e5",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/legacy_crud.py",
+    "sha256": "71bf7108fdd05172fb9f099b8fd1f894860f4b9b1a7bd6a71b985ff57a11ec14",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/legacy_jobs.py",
+    "sha256": "d181132f26548c62a1086a44249668635c67b507ef80fd29edba84388d4b70d1",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/legacy_policy.py",
+    "sha256": "0d26c982c1a7abf23f4433903b22ad91cac634887d979a69e1e3f3f89fc8d7d9",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/lifecycle.py",
+    "sha256": "ebd4c9923fe9e36c7345df2f2c539ad6dec413da7f361802759c1800d1f7392f",
+    "kind": "added"
+  },
+  {
+    "path": "reporting_workspace/maintenance_registry.py",
+    "sha256": "fe85550ed22ba62d2b6c19a8f9a1211400f1c082ff258f5b5e24149e558cdddd",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/operations.py",
+    "sha256": "e4c80ec5f0ee4dc6f59ad4c70889119845c4ed594691b30b136e52c08a8ddf69",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/report_builder.py",
+    "sha256": "999ea875eb4b1ecd09ae6e8a9a5e6e7b9e66fac87e7a2adeffc322bec0eadbfa",
+    "kind": "modified"
+  },
+  {
+    "path": "reporting_workspace/static_transport.py",
+    "sha256": "a97eafac4bc43bbd8954627f075da67573c71d9d2e1ff8c07a52709c5e455755",
+    "kind": "added"
+  },
+  {
+    "path": "reporting_workspace/ui_pages/maintenance.py",
+    "sha256": "0f8029795bd0f3e26e73884cd8b6f9c0624603960ca2a0d92a0d4516c207eee4",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/browser/acceptance.cjs",
+    "sha256": "c1870f64b3a19be197a151a098dc982de6edbb08bf0bc68d3aef1a9c3c528af2",
+    "kind": "added"
+  },
+  {
+    "path": "tests/browser/diagnose_native.cjs",
+    "sha256": "bbbb6b2ef4e3252577ee93ca774269a955750c9146b91a33ebfe9b9556ed76de",
+    "kind": "added"
+  },
+  {
+    "path": "tests/browser/diagnose_native_server.py",
+    "sha256": "0532aa96219c505f1c48d397808b38895805f939758a2cfc310493dbf83aefd8",
+    "kind": "added"
+  },
+  {
+    "path": "tests/browser/fixture_server.py",
+    "sha256": "db7223d29b394bec7d6a1b04d770f0d5bcd7fd5db53c8611646782e4595eeb61",
+    "kind": "added"
+  },
+  {
+    "path": "tests/browser/native_preflight.cjs",
+    "sha256": "41a11892b94bbe87f90abc100da2e704a57d42987898d4b75f9e4a9c39f0b589",
+    "kind": "added"
+  },
+  {
+    "path": "tests/browser/README.md",
+    "sha256": "3ad316f99562fdb375766b54b9396347be8e9da710cbcb2a9ac68f009bf3bcd7",
+    "kind": "added"
+  },
+  {
+    "path": "tests/js/dash_error_response.cjs",
+    "sha256": "4f109caf20ec649e58a758f1a34fd88ba3cd0f884378005df5d36689dc227028",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_admin_ui.py",
+    "sha256": "5fca6a64d2a60e0d10b2b2f3272f5db627d15c30e63aa6d44c71f0899551b303",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_application.py",
+    "sha256": "fa5de59d951a3e5a2968ff780733d5159ad8424c006a9db63425ffcb38a4a748",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_authorization_boundaries.py",
+    "sha256": "a867a81c3b79c047e4dd7285cc1d529def85d262a7efe551b85efb25987ac95c",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_catalog.py",
+    "sha256": "15cac65653deb47537a5af4a08822c4e6973d056421a4296931a1fb606e671b9",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_crud_service.py",
+    "sha256": "be7db719a4eff5a4cfe01692b9fea6ee8df8d22aaf91ec0c575fa1c6b73bd2e7",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_dash_error_response.py",
+    "sha256": "46c44123d179d9d2f66f19c3cd7df87dc57f4a2a1becb1bf840165a2228680d8",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_definition_architecture.py",
+    "sha256": "5ea98524d5a8952ffaa8f23c601315b108c151ae75c4d49489274c804f307737",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_demo.py",
+    "sha256": "80e1294649fc75a14d4d6f13c0ca3932c09ef1f5f263a9ef01859461a5069ebd",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_entrypoint_coverage.py",
+    "sha256": "3e97d19e76cb3788295403a59b8e89f63ec83d4229a554d8b92e208076bae27a",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_etl_integration_example.py",
+    "sha256": "b6cd0d6761ab67ea12bca1059939e9d0d0b0e4bdbf4532145baa870726fffaea",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_governance.py",
+    "sha256": "5e82a53ab5e94db928e44bbaa63d4c29175a899d37c7b60215fa47f11d00e47b",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_job_monitor.py",
+    "sha256": "6dcb3eb48238cae6f2919992589c196c4a455e7d44a9a52c438e15bbbbf080cd",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_lifecycle.py",
+    "sha256": "830d46e8082bd1846f87cba6479b051136e9c9108204ad68ebb9e49e913f0b00",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_maintenance.py",
+    "sha256": "ea96dc2b9fd6d39ccbe6a1f3dc5393399774bc57e36d6377d85fb80aadfc9db6",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_maintenance_registry.py",
+    "sha256": "7d80d1641c8048c64b66a42fcf9da50f8aeec10e2a7f8e1a3d5b7b4d4e96c8b0",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_notifications.py",
+    "sha256": "38310eca19be4f8f60b4edc73249723f76f23f88cf1e9f27fe90bd18af39e65a",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_operations.py",
+    "sha256": "977318c49e9c2ba58b4f643b64abcac9027f7480b3338aa81ddc99822cad660c",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_page_integration.py",
+    "sha256": "ded2d0fc6879f4c83048bb02913b3a1d84f40d298a8f92bd07adc84411b4bbfb",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_registry.py",
+    "sha256": "e9ef7cc50e92380d00b29e229be9ee134cfbd996b2f9240cad895f47163cc0ab",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_registry_identity_boundary.py",
+    "sha256": "b1184d70bbe1e64ae4b7b2243af05f7c7e5dfa5ae5667e3087f72702eec8e78b",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_report_builder.py",
+    "sha256": "27c36948db04475acce23aa57055b821be04a03c4733ea1e54156dcccd4309a0",
+    "kind": "modified"
+  },
+  {
+    "path": "tests/test_service_isolation.py",
+    "sha256": "9f4d772e280e6e904a81b7146f0965055b33d45954d84913cb358631b5a54b97",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_static_transport.py",
+    "sha256": "30b2832504a65e830130f20626760b2280a771ea057e20258a564f5a1d046250",
+    "kind": "added"
+  },
+  {
+    "path": "tests/test_unified_portal.py",
+    "sha256": "ebbf234fc77c9f250187cdfa1a7e4bf6fd25d4096d405f9ba378f1819864b845",
+    "kind": "modified"
+  },
+  {
+    "path": "VALIDATION.md",
+    "sha256": "f22869875f17cb321d2c233dcd4dcae3b0afeabfad77bb5a548b579b9a65679e",
+    "kind": "modified"
+  }
+]

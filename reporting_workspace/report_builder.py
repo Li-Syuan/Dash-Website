@@ -14,7 +14,7 @@ from .legacy_crud import (
     LegacyCrudService, QSL_FIELDS, InvalidInput, PermissionDenied,
     RecordConflict, RecordNotFound, StorageUnavailable,
 )
-from .legacy_policy import authorize
+from .legacy_policy import authorize, identity_id, identity_text
 
 
 SCHEMA_VERSION = 1
@@ -157,13 +157,10 @@ class ReportBuilderService:
             raise PermissionDenied('Report operation denied.')
         try:
             allowed = authorize(user, self._policy_factory(user), action)
-            identifier = getattr(user, 'id', None)
-            organization = getattr(user, 'orgcode', None)
-            if (not allowed or isinstance(identifier, bool) or
-                    not isinstance(identifier, (str, int))):
+            if not allowed:
                 raise ValueError()
-            owner_id = _text(str(identifier), 255, True)
-            owner_org = _text(organization, 255, True)
+            owner_id = identity_id(getattr(user, 'id', None))
+            owner_org = identity_text(getattr(user, 'orgcode', None))
         except Exception:
             raise PermissionDenied('Report operation denied.') from None
         return owner_id, owner_org

@@ -6,7 +6,6 @@ optimistic-version checks to the CRUD service. Cadence is descriptive metadata;
 this page does not schedule or execute reports.
 """
 
-import hashlib
 import re
 import secrets
 
@@ -16,12 +15,13 @@ import dash_bootstrap_components as dbc
 
 from ..crud import (AccessDenied, Conflict, NotFound, StateUnavailable, ValidationError,
                     definition_field_errors)
-from ..notifications import notification_store_id
-from ..registry import AccessPolicy, PageSpec
+from ..notifications import NotifyService, notification_store_id
+from ..registry import PageSpec
+from ..definition_policy import DEFINITION_ACCESS, DefinitionPrincipal
 from .shared import heading, request_id
 
 
-POLICY = AccessPolicy.require(roles=('admin', 'user'))
+POLICY = DEFINITION_ACCESS
 PAGE_SIZE = 20
 MAX_PAGE = 5000
 _CADENCES = ('manual', 'daily', 'weekly', 'monthly')
@@ -30,29 +30,45 @@ _DRAFT_KEY = re.compile(r'[0-9a-f]{32}\Z')
 
 
 def _editable(record, user):
-    """Presentation only: the service independently enforces this on writes."""
-    return bool(user and record['org'] == user['org'] and (
-        user['role'] == 'admin' or record['owner_id'] == hashlib.sha256(
-            user['id'].encode('utf-8')).hexdigest()))
+    """Presentation uses the exact owner/tenant rule enforced by the repository."""
+    try:
+        return DefinitionPrincipal.from_user(user).can_change(record)
+    except AccessDenied:
+        return False
 
 
-def _notice(runtime, error):
+def _notice(runtime, error, service=None):
+    # A successfully bound callback uses the same immutable audience and request
+    # ID for result data, permissions, audit and notification. Pre-bind failures
+    # still use the application's current request identity.
+    if service is not None:
+        try:
+            audience = service.identity()
+        except (AccessDenied, StateUnavailable):
+            # A revoked/unavailable scope cannot receive even a stale success
+            # event. Keep the failed callback safe without querying that scope
+            # again while constructing its error notification.
+            return None
+        notify = NotifyService(lambda: audience)
+    else:
+        notify = runtime.notify
+    correlation = service.request_id if service is not None else request_id()
     # Never interpolate the exception, record, form data or IDs into a toast.
     if isinstance(error, ValidationError):
-        return runtime.notify.warning('maintenance.invalid', request_id=request_id())
+        return notify.warning('maintenance.invalid', request_id=correlation)
     if isinstance(error, Conflict):
-        return runtime.notify.warning('maintenance.conflict', request_id=request_id())
+        return notify.warning('maintenance.conflict', request_id=correlation)
     if isinstance(error, (AccessDenied, NotFound)):
-        return runtime.notify.error('maintenance.denied', request_id=request_id())
+        return notify.error('maintenance.denied', request_id=correlation)
     if isinstance(error, StateUnavailable):
-        return runtime.notify.error('maintenance.unavailable', request_id=request_id())
-    return runtime.notify.error('maintenance.failed', request_id=request_id())
+        return notify.error('maintenance.unavailable', request_id=correlation)
+    return notify.error('maintenance.failed', request_id=correlation)
 
 
 def _service(runtime):
     if runtime.definitions is None:
         raise StateUnavailable()
-    return runtime.definitions
+    return runtime.definition_request()
 
 
 def _reference(value):
@@ -219,18 +235,19 @@ def register_callbacks(callbacks, runtime):
             page = max(0, page - 1)
         elif 'maintenance-next' in triggers:
             page = min(MAX_PAGE, page + 1)
+        service = None
         try:
             service = _service(runtime)
             if not isinstance(query, str) or archived not in ([], ['archived']):
                 raise ValidationError()
-            result = service.list(runtime.identity(), q=query, limit=PAGE_SIZE,
+            result = service.list(q=query, limit=PAGE_SIZE,
                                   offset=page * PAGE_SIZE, include_deleted=archived == ['archived'])
             last_page = max(0, (result['total'] - 1) // PAGE_SIZE)
             if page > last_page:
                 page = last_page
-                result = service.list(runtime.identity(), q=query, limit=PAGE_SIZE,
+                result = service.list(q=query, limit=PAGE_SIZE,
                                       offset=page * PAGE_SIZE, include_deleted=archived == ['archived'])
-            user = runtime.identity()
+            user = service.principal
             rows = [{'id': record['id'], 'name': record['name'], 'cadence': record['cadence'],
                      'enabled': 'Yes' if record['enabled'] else 'No',
                      'status': 'Archived' if record['deleted_at'] is not None else 'Active',
@@ -242,7 +259,7 @@ def register_callbacks(callbacks, runtime):
             return rows, [], page, label, page == 0, page >= last_page, no_update
         except Exception as error:
             # Clear stale rows on failure rather than showing another filter's data.
-            return [], [], 0, 'Definitions could not be loaded', True, True, _notice(runtime, error)
+            return [], [], 0, 'Definitions could not be loaded', True, True, _notice(runtime, error, service)
 
     @callbacks.callback(
         Output('maintenance-record', 'data'), Output('maintenance-name', 'value'),
@@ -265,6 +282,7 @@ def register_callbacks(callbacks, runtime):
         triggers = set(ctx.triggered_prop_ids.values())
         if 'maintenance-new' in triggers:
             return _editor(None, runtime.identity(), runtime.definitions is not None) + (no_update,)
+        service = None
         try:
             if 'maintenance-mutation' in triggers:
                 if not isinstance(mutation, dict) or set(mutation) != {'id', 'token'}:
@@ -284,12 +302,13 @@ def register_callbacks(callbacks, runtime):
                 record_id = rows[selected[0]].get('id')
             else:
                 raise PreventUpdate
-            record = _service(runtime).get(runtime.identity(), record_id)
-            return _editor(record, runtime.identity()) + (no_update,)
+            service = _service(runtime)
+            record = service.get(record_id)
+            return _editor(record, service.principal) + (no_update,)
         except PreventUpdate:
             raise
         except Exception as error:
-            return (no_update,) * _EDITOR_OUTPUTS + (_notice(runtime, error),)
+            return (no_update,) * _EDITOR_OUTPUTS + (_notice(runtime, error, service),)
 
     @callbacks.callback(
         Output(notification_store_id('maintenance.mutate'), 'data'), Output('maintenance-mutation', 'data'),
@@ -301,35 +320,42 @@ def register_callbacks(callbacks, runtime):
         callback_id='maintenance.mutate', policy=POLICY, page_id='maintenance', prevent_initial_call=True,
     )
     def mutate_definition(save, archive, restore, name, description, cadence, enabled, current, draft):
-        trigger = ctx.triggered_id
-        if trigger not in ('maintenance-save', 'maintenance-archive', 'maintenance-restore'):
+        actions = set(ctx.triggered_prop_ids).intersection(
+            ('maintenance-save.n_clicks', 'maintenance-archive.n_clicks',
+             'maintenance-restore.n_clicks'))
+        # A request must express one write intent. Never let a forged/batched
+        # changedPropIds order choose between save, archive and restore.
+        if len(actions) != 1:
             raise PreventUpdate
+        trigger = next(iter(actions)).rsplit('.', 1)[0]
+        service = None
         try:
-            service, user = _service(runtime), runtime.identity()
+            service = _service(runtime)
             if trigger == 'maintenance-save':
                 payload = {'name': name, 'description': description, 'cadence': cadence, 'enabled': enabled}
                 if current is None:
                     # One stable key per draft makes a rapid double-save or a
                     # retry after a lost response resolve to the same creation.
-                    record = service.create(user, payload, request_id=request_id(),
+                    record = service.create(payload,
                                             request_key=_draft_key(draft))
                     code = 'maintenance.created'
                 else:
                     record_id, version = _reference(current)
-                    record = service.update(user, record_id, version, payload, request_id=request_id())
+                    record = service.update(record_id, version, payload)
                     code = 'maintenance.updated'
             else:
                 record_id, version = _reference(current)
                 if trigger == 'maintenance-archive':
-                    record = service.soft_delete(user, record_id, version, request_id=request_id())
+                    record = service.soft_delete(record_id, version)
                     code = 'maintenance.archived'
                 else:
-                    record = service.restore(user, record_id, version, request_id=request_id())
+                    record = service.restore(record_id, version)
                     code = 'maintenance.restored'
-            return runtime.notify.success(code, request_id=request_id()), {'id': record['id'], 'token': secrets.token_hex(16)}
+            return NotifyService(service.identity).success(code, request_id=service.request_id), {
+                'id': record['id'], 'token': secrets.token_hex(16)}
         except Exception as error:
             # Keep the form and expected version unchanged after failed writes.
-            return _notice(runtime, error), no_update
+            return _notice(runtime, error, service), no_update
 
 
 SPEC = PageSpec(page_id='maintenance', path='/maintenance', title='Report definitions',

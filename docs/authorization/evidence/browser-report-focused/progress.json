@@ -1,0 +1,188 @@
+{
+  "results": [
+    {
+      "name": "01-login-button-only",
+      "status": "passed",
+      "milliseconds": 15641
+    },
+    {
+      "name": "22-report-refresh-export",
+      "status": "passed",
+      "milliseconds": 65060
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Static fixture fetch failed: CalledProcessError",
+      "path": "/_dash-component-suites/dash/dcc/async-plotlyjs.js"
+    },
+    {
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    },
+    {
+      "text": "ChunkLoadError: Loading chunk 583 failed.\n(error: http://127.0.0.1:63015/_dash-component-suites/dash/dcc/async-plotlyjs.js)\n    at i.f.j (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:489122)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486427\n    at Array.reduce (<anonymous>)\n    at i.e (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486392)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:42975\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:1697\n    at ri (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:18:330)\n    at zj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:228:56)\n    at Th (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:223)\n    at tj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:152)",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    },
+    {
+      "text": "ChunkLoadError: Loading chunk 583 failed.\n(error: http://127.0.0.1:63015/_dash-component-suites/dash/dcc/async-plotlyjs.js)\n    at i.f.j (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:489122)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486427\n    at Array.reduce (<anonymous>)\n    at i.e (http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:486392)\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:42975\n    at http://127.0.0.1:63015/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js:2:1697\n    at ri (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:18:330)\n    at zj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:228:56)\n    at Th (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:223)\n    at tj (http://127.0.0.1:63015/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js:152:152)",
+      "path": "/page3",
+      "expectedAuthorizationDenial": false
+    }
+  ],
+  "pageErrors": [],
+  "staticDelivery": [
+    {
+      "path": "/assets/admin.css?m=1791101045.1283202",
+      "size": 6914,
+      "sha256": "d496597599d5b7b91431ef7d0b82d223e903ca0d16fce816e97b360aba4de860",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/crud_modals.css?m=1791101045.1351397",
+      "size": 2249,
+      "sha256": "b23396e9b3276b05de6288563839333ba3b9059cffb2346cbc7f995508a2bbd1",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/etl_dispatch.css?m=1791101045.138781",
+      "size": 4303,
+      "sha256": "a6b20511f2617437d474d9c19b035adffde43b9af15899e9a93b3968a555ed4d",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/theme.css?m=1791101045.140779",
+      "size": 16469,
+      "sha256": "280e3446ead85969a881d3d4aeead1fc400367ebc3ca52e32c3b9f3d58c6cb91",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/workspace.css?m=1791101045.1461816",
+      "size": 22734,
+      "sha256": "90ee193607bf38d8ba186b7de6b2c39f8b1024df721e6b6342e83fa89357f6b3",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/z_layout.css?m=1791101045.1491125",
+      "size": 8669,
+      "sha256": "4467aa7e7c538d50e18589bdb6efc79c98d625dc4e118816d4f89ce9cfe841e7",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/deps/polyfill@7.v2_9_1m1790940645.12.1.min.js",
+      "size": 99276,
+      "sha256": "0cfe60c763e1913c287406bb509ffcfe9959794334cfc6c2b9c1c6e97cfc7e4e",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/deps/react@16.v2_9_1m1790940645.14.0.min.js",
+      "size": 12463,
+      "sha256": "5cef9367d2bcaba25b74d20e0e139d2cf900e9123e5fde26101aee7f40f6b5cf",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/deps/react-dom@16.v2_9_1m1790940645.14.0.min.js",
+      "size": 118656,
+      "sha256": "4949f4e1cff9e8a960b44c9a8be70bc4bb10216eb4d0123ca61753e0908a0f87",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/deps/prop-types@15.v2_9_1m1790940645.8.1.min.js",
+      "size": 1722,
+      "sha256": "e653471aba824786aee5dce1bcb5a86ed30c8518d346d2ace0460a5633a9cbdb",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash_mantine_components/dash_mantine_components.v0_12_0m1790940602.js",
+      "size": 919796,
+      "sha256": "174f718adf926cd48dc6f55c830ce99b3086dbacc78cf6e529170f6afaf984f8",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_4_1m1790940646.min.js",
+      "size": 226816,
+      "sha256": "8d9f41a593b7653064c13d909ec9c76b74553da8d7dda8a11325f6c7835cbc64",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/00_dash_error_response.js?m=1791103358.021898",
+      "size": 1431,
+      "sha256": "0805223749a881a7ba5269e7d74714e147907044eba601dd046825c4949c5370",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/assistant.js?m=1791101045.1305723",
+      "size": 7972,
+      "sha256": "c08719d17f9f39b6b6be44a709dd832b7375fb1148507c8047e99bea6c9ed520",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/catalog.js?m=1791101045.1331406",
+      "size": 5367,
+      "sha256": "00c8eceafd9b02c479c8a2d63a7db9c1b03c9103041cf8e81afc37737922b6f8",
+      "attempts": 1
+    },
+    {
+      "path": "/assets/theme.js?m=1791101045.1433527",
+      "size": 6057,
+      "sha256": "f65ee13d9e780746af4abb8dc63d9e2fbf8014734e65d76176f751d9ba0a3d8a",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_9_1m1790940645.min.js",
+      "size": 234825,
+      "sha256": "cc9b5c8984c4ad2670e0c265f097e9c0bdb26f374e2d9e345e76b0b22b9a72b5",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dcc/dash_core_components.v2_9_0m1790940645.js",
+      "size": 728155,
+      "sha256": "0fe374139da6ad2299f2d49a90f0b3e9141ce87d569be9a59d1a50a27510a202",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dcc/dash_core_components-shared.v2_9_0m1790940645.js",
+      "size": 14448,
+      "sha256": "220b001e02e31e4f4f3a2f69cbb7b7f946ac4183f1fe0381e08d746baab67486",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/html/dash_html_components.v2_0_9m1790940645.min.js",
+      "size": 167740,
+      "sha256": "1917de51d2d85fca5c34db475759261da4df4b443f5e0c2d4df4149abeb5aa44",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dash_table/bundle.v5_2_3m1790940645.js",
+      "size": 51068,
+      "sha256": "99e7c5993ca0872ece48a9d80af36d8332df9f5e5548f3469cddd77704dc20c9",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dcc/async-dropdown.js",
+      "size": 143417,
+      "sha256": "28d756a059e5a5708ebb2c0cca917a02dbacbc52d6b683805762efe403cce599",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dcc/async-graph.js",
+      "size": 17317,
+      "sha256": "103866a5a0a1b351a52d7967ef53034a7c26366ec2ec61acb1a6da7a4cc12ae9",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dash_table/async-highlight.js",
+      "size": 141190,
+      "sha256": "af92c553a22e3072c1628e69aea8f2ec74d8e1b97b3dc61c03d9cab675a49132",
+      "attempts": 1
+    },
+    {
+      "path": "/_dash-component-suites/dash/dash_table/async-table.js",
+      "size": 449193,
+      "sha256": "932ac1db473a0dafcd24be274b9b66fd11b953aba6cda8b813b44ce42266c866",
+      "attempts": 1
+    }
+  ]
+}

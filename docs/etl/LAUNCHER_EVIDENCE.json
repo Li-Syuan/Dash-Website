@@ -1,0 +1,328 @@
+{
+  "result": "passed",
+  "entrypoint": "python -B app.py",
+  "source": "fresh candidate ZIP extraction",
+  "interpreter": "3.8.20",
+  "platform": "linux",
+  "network": "loopback HTTP only",
+  "interval_seconds": 60,
+  "timezone": "Asia/Taipei",
+  "elapsed_seconds": 60.864,
+  "http_endpoints": {
+    "/healthz": 200,
+    "/readyz": 200,
+    "/login": 200,
+    "/": 200,
+    "/QA_portal/etl": 200,
+    "/_dash-layout": 200,
+    "/_dash-dependencies": 200,
+    "/assets/etl_dispatch.css": 200
+  },
+  "anonymous_etl_callback": 401,
+  "authenticated_etl_page": "passed",
+  "manual_callback": "passed",
+  "repeated_manual_request_same_run": true,
+  "manual_run": {
+    "run_id": "ca995d0973d34409ad25fe6ccd5e24f1",
+    "job_id": "synthetic-inventory-health",
+    "business_date": "2026-10-03",
+    "trigger": "manual",
+    "status": "succeeded",
+    "attempt": 1,
+    "parent_run_id": null,
+    "root_run_id": "ca995d0973d34409ad25fe6ccd5e24f1",
+    "duration_seconds": 0.009783506393432617,
+    "row_count": 1,
+    "error_code": null,
+    "started_at": "2026-10-03T06:21:50.976+08:00",
+    "finished_at": "2026-10-03T06:21:50.986+08:00",
+    "started_at_epoch": 1790979710.976732,
+    "finished_at_epoch": 1790979710.9865155,
+    "error": null,
+    "retry_allowed": false,
+    "steps": [
+      {
+        "name": "source",
+        "ordinal": 1,
+        "status": "succeeded",
+        "duration_seconds": 0.0012028217315673828,
+        "row_count": 3,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:21:50.979+08:00",
+        "finished_at": "2026-10-03T06:21:50.980+08:00",
+        "error": null,
+        "depends_on": [],
+        "checks": [
+          {
+            "actual": 3,
+            "expected": "3..3",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": 3,
+            "expected": "3",
+            "name": "unique_fields",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "name": "validate",
+        "ordinal": 2,
+        "status": "succeeded",
+        "duration_seconds": 0.001177072525024414,
+        "row_count": 3,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:21:50.981+08:00",
+        "finished_at": "2026-10-03T06:21:50.983+08:00",
+        "error": null,
+        "depends_on": [
+          "source"
+        ],
+        "checks": [
+          {
+            "actual": 3,
+            "expected": "1..1000",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": 3,
+            "expected": "3",
+            "name": "unique_fields",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "Finite nonnegative numeric values",
+            "name": "nonnegative_fields",
+            "passed": true
+          },
+          {
+            "actual": 3,
+            "expected": "3",
+            "name": "count_match",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "ordinal": 3,
+        "status": "succeeded",
+        "duration_seconds": 0.0010149478912353516,
+        "row_count": 1,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:21:50.984+08:00",
+        "finished_at": "2026-10-03T06:21:50.985+08:00",
+        "error": null,
+        "depends_on": [
+          "validate"
+        ],
+        "checks": [
+          {
+            "actual": 1,
+            "expected": "1..1",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "Finite nonnegative numeric values",
+            "name": "nonnegative_fields",
+            "passed": true
+          }
+        ]
+      }
+    ]
+  },
+  "timer_run": {
+    "run_id": "2c66b92bbe8e49a0ae77656aea573c28",
+    "job_id": "synthetic-sales-daily",
+    "business_date": "2026-10-03",
+    "trigger": "timer",
+    "status": "succeeded",
+    "attempt": 1,
+    "parent_run_id": null,
+    "root_run_id": "2c66b92bbe8e49a0ae77656aea573c28",
+    "duration_seconds": 0.010166406631469727,
+    "row_count": 1,
+    "error_code": null,
+    "started_at": "2026-10-03T06:22:51.053+08:00",
+    "finished_at": "2026-10-03T06:22:51.063+08:00",
+    "started_at_epoch": 1790979771.0535371,
+    "finished_at_epoch": 1790979771.0637035,
+    "error": null,
+    "retry_allowed": false,
+    "steps": [
+      {
+        "name": "source",
+        "ordinal": 1,
+        "status": "succeeded",
+        "duration_seconds": 0.0011987686157226562,
+        "row_count": 4,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:22:51.056+08:00",
+        "finished_at": "2026-10-03T06:22:51.057+08:00",
+        "error": null,
+        "depends_on": [],
+        "checks": [
+          {
+            "actual": 4,
+            "expected": "4..4",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": 4,
+            "expected": "4",
+            "name": "unique_fields",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "name": "validate",
+        "ordinal": 2,
+        "status": "succeeded",
+        "duration_seconds": 0.0013151168823242188,
+        "row_count": 4,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:22:51.059+08:00",
+        "finished_at": "2026-10-03T06:22:51.060+08:00",
+        "error": null,
+        "depends_on": [
+          "source"
+        ],
+        "checks": [
+          {
+            "actual": 4,
+            "expected": "1..1000",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": 4,
+            "expected": "4",
+            "name": "unique_fields",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "Finite nonnegative numeric values",
+            "name": "nonnegative_fields",
+            "passed": true
+          },
+          {
+            "actual": 4,
+            "expected": "4",
+            "name": "count_match",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "ordinal": 3,
+        "status": "succeeded",
+        "duration_seconds": 0.0010378360748291016,
+        "row_count": 1,
+        "error_code": null,
+        "reused_from_run_id": null,
+        "started_at": "2026-10-03T06:22:51.061+08:00",
+        "finished_at": "2026-10-03T06:22:51.062+08:00",
+        "error": null,
+        "depends_on": [
+          "validate"
+        ],
+        "checks": [
+          {
+            "actual": 1,
+            "expected": "1..1",
+            "name": "row_count",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "All required fields present",
+            "name": "required_fields",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": "Finite nonnegative numeric values",
+            "name": "nonnegative_fields",
+            "passed": true
+          }
+        ]
+      }
+    ]
+  },
+  "visual_browser_qa": "not run: prior browser loopback restriction respected",
+  "port_closed_after_stop": true,
+  "process_exit_code": 0,
+  "source_python_files_match_final": true,
+  "source_python_files_verified": 76,
+  "source_runtime_hashes": [
+    {
+      "path": "app.py",
+      "sha256": "2509b5c51704f53675ba5aa69318194d79bc3e35454e75e8ae11fa4debb2a6cf"
+    },
+    {
+      "path": "reporting_workspace/etl_adapters.py",
+      "sha256": "a93d4f79fc49b21d562edeeee42ea972f8c39b41135029d9b2e3c1a109a06a42"
+    },
+    {
+      "path": "reporting_workspace/etl_dispatch.py",
+      "sha256": "ec4a41861c3c2a930b9b72614e3a7b338685fae1526ca73d79486e59e24381a9"
+    },
+    {
+      "path": "reporting_workspace/launcher.py",
+      "sha256": "99e8ecd0b8ebd712b8545d0c4fcab18dca80060707eec65010e0d9d9fc2b3729"
+    },
+    {
+      "path": "reporting_workspace/ui_pages/etl_dispatch.py",
+      "sha256": "f1570f449edd13ebf5e274660095323c0828fbc71ae83e111a53432d3deec6fd"
+    },
+    {
+      "path": "reporting_workspace/web.py",
+      "sha256": "97d1a3f9cffb41982a20e12482f9ade27f5975d237a2c89b4e59940c00f15b0c"
+    }
+  ]
+}

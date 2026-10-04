@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-04",
+  "runtime": "3.8.20",
+  "entrypoint": "python -B app.py",
+  "transport": "actual loopback HTTP, urllib client; not browser rendering",
+  "http_checks": {
+    "/healthz": 200,
+    "/readyz": 200,
+    "/login": 200,
+    "/_dash-layout": 200,
+    "/_dash-dependencies": 200,
+    "/assets/workspace.css": 200
+  },
+  "workflow": [
+    "login",
+    "create",
+    "select",
+    "update",
+    "archive",
+    "hidden from active list",
+    "restore",
+    "reloaded list"
+  ],
+  "persisted_records": 1,
+  "final_version": 4,
+  "result": "passed",
+  "external_services_contacted": false
+}

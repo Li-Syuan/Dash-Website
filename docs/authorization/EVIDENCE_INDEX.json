@@ -1,0 +1,743 @@
+{
+  "main_file": "QA_Portal_Opus_Integration_20261002.zip",
+  "baseline_library_id": "libfile_f6e3a5e35ac481918aad5a9c86971127",
+  "expected_previous_version": 8,
+  "all_candidate_v8_evidence_preserved": true,
+  "preserved_v8_evidence_files": 211,
+  "restore": "Extract all evidence parts beside the main archive to restore screenshots and binary exports.",
+  "parts": [
+    {
+      "filename": "Dash_QA_Evidence_20261004_Part01.zip",
+      "bytes": 8470221,
+      "sha256": "5dc1572b4cb2223630a8c95962aa2d3ec7ef7654cefcccd4d8cb4865f977f9ef",
+      "files": [
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/01-login-button-only.png",
+          "bytes": 252097,
+          "sha256": "02d5e3e70f13b2abbdc4d53de198b61dea6b7b6bfcdd56def231d7e7b42fdb90"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/02-maintenance-pagination.png",
+          "bytes": 280175,
+          "sha256": "8b2fc3b45fd1272b9b28d06ac1ff7e5dbe6d30e03be1bf06099e5ee53a9adfc6"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/03-maintenance-create-double-click.png",
+          "bytes": 288491,
+          "sha256": "2c94f29e1fe774551de3dfde9d0c404a6517a36d9b723893de687616fdcdb729"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/04-maintenance-replay-supplementary.png",
+          "bytes": 288247,
+          "sha256": "203f6ced4405d2703fadf5f165232b45b95b46b04b2d033907474b28f3cde292"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/05-same-organization-peer-readonly.png",
+          "bytes": 265158,
+          "sha256": "d747a05f15d0f01079c29591d0c226f9328bc0b87516eea7c7ab731fb5d29869"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/06-owner-update-version.png",
+          "bytes": 266770,
+          "sha256": "16523cae762ac9b4cdcf3c5af5b73388f0ace4e3f9f138df0873cf29926bdd2b"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/07-version-conflict-retains-draft.png",
+          "bytes": 266746,
+          "sha256": "fd43bf4a60c61e4a02de3453b37ec1d03d48f3c060eedf5825bb95a0a7ea8d58"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/08-archive-restore.png",
+          "bytes": 268168,
+          "sha256": "bdd2657749bc1b2630a23a0716e1c87c2a3de35140bcf12cfd390c1b5eca4a17"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/08-archived-definition.png",
+          "bytes": 265422,
+          "sha256": "ac67d10e83a848398b5d79f3e2e9bb36cf4da1ced8450d063a39bd60f69c2757"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/09-new-clears-unsaved-form.png",
+          "bytes": 263121,
+          "sha256": "13f398807cf328d17b8882e03576da64c59a5ed6da2214e780e26045b83bad86"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/10-tenant-b-isolation.png",
+          "bytes": 257607,
+          "sha256": "f88fa6feff48e809de7160b89aefbb6a26ed91e27518852c8ab869e590b9ab0c"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/11-tampered-cross-tenant-id-ui-submit.png",
+          "bytes": 267975,
+          "sha256": "f6a0c977d0a1adfa14d44fa22199af02b52cf43026e2e15dbe1db781815d2925"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/12-tampered-owner-ui-submit.png",
+          "bytes": 264182,
+          "sha256": "72da27ba6f399bdc98fd4994ee793bf791d714dcc514e96d8cb5ee5885ae3792"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/13-identity-revocation-ui-submit.png",
+          "bytes": 264006,
+          "sha256": "1ed59270587afb2e7c357a8e891cd833b736baf8d2205a4e10e019e9d96da000"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/13-revoked-session.png",
+          "bytes": 281811,
+          "sha256": "607ac0515b095ac1133ab6179763c059320fa3bb9ad3b32ad31a43e5da74f89f"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/14-qsl-read-pagination.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-cancel-create.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-cancel-delete.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-cancel-update.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-cancel-upload.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-open-create.png",
+          "bytes": 296372,
+          "sha256": "0430d959bb7560c43156247e4746a703b43a90c38c39fc8ea72b87b6d7a3f604"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-open-delete.png",
+          "bytes": 270599,
+          "sha256": "106bf8e0ec3505b14c052d0edd52a7e8d0ca4cba813e188efe71a817891c4648"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-open-update.png",
+          "bytes": 278870,
+          "sha256": "dd953f01950351d44f8a519beeb958fed10238b100268c1771e408fdeda620d4"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/15-open-upload.png",
+          "bytes": 288853,
+          "sha256": "b94e2f039810b070850d8bb0227f1fb440eb5f46b2a2ea6f7de32d1aca4a52ce"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/16-qsl-create-double-click.png",
+          "bytes": 327933,
+          "sha256": "9634e99550229ce44e340dcf0065b1792c9842d450f3d4ae38dcbcc8afc41c61"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/17-qsl-query-update-id-tamper.png",
+          "bytes": 327991,
+          "sha256": "d3605702c8b4ba1a75e705ff28ff3aa8298323018bcca468926cc66706495bb8"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/18-qsl-delete-query-and-submit.png",
+          "bytes": 340359,
+          "sha256": "aaaeb4780fc8598ecd26924a9688c7b9cf837abca6d125d2b91c537870716bec"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/19-qsl-upload-submit.png",
+          "bytes": 341331,
+          "sha256": "bbdc5d8ea25bbb5aae07c0c27cd30b9c83b679a1e2e826cb0097370ccdefa9a4"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/20-qsl-wizard-next-previous.png",
+          "bytes": 381563,
+          "sha256": "a561838a12503d634ba8c579e9cc2f0f3f9e5f008c929bad66985deabdedc452"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/21-qsl-export-csv-xlsx.png",
+          "bytes": 378729,
+          "sha256": "cc32ab110af83dd692225acd233150e1b470a62267a8450722677ec0bdedd03b"
+        }
+      ]
+    },
+    {
+      "filename": "Dash_QA_Evidence_20261004_Part02.zip",
+      "bytes": 8440465,
+      "sha256": "4288e81a4be23b329caa3564c455f263f740c0f6f93664cd6e43377e9dae169c",
+      "files": [
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/22-report-refresh-export.png",
+          "bytes": 238704,
+          "sha256": "f1026d09f5027879e09a892f40fbb591f38ed24114c52634d3fa95a580d0d151"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/23-etl-and-operations-render.png",
+          "bytes": 375875,
+          "sha256": "0c4cacee5d14a39d310dda6b23ec03305d1e1428b7feaafc140b7472194590f8"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/23-etl.png",
+          "bytes": 302038,
+          "sha256": "27ad87ec0f1b8fc4f6ea006dacd681ca1ce31aa75743ffc8bd298cc0dc0f685f"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/24-denied-etl.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/24-denied-maintenance.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/24-denied-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/24-tenant-denied-qsl-etl-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/25-readonly-qsl-controls-and-etl-denial.png",
+          "bytes": 310141,
+          "sha256": "9993e83a30a156e1fe1f270b44da59b5efc0ab423e99ee30a22cec748e69410e"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/26-browser-history-navigation.png",
+          "bytes": 237069,
+          "sha256": "24a41da9cdc58c761a0345face96a03f2c3db26d6ddefa91628e89572a660a91"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/27-mobile-maintenance.png",
+          "bytes": 183171,
+          "sha256": "1025007d74213f1882e6323d3d4b8ace6197fa0084b073f12ece2c8c1f7f7aea"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/28-logout-replay-denied.png",
+          "bytes": 65576,
+          "sha256": "88fdfd819e8c5dbb3196ba229c2b3e897d0070431ee568547347e5c26de73d57"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/29-no-external-effects-or-page-errors-FAILED.png",
+          "bytes": 237069,
+          "sha256": "24a41da9cdc58c761a0345face96a03f2c3db26d6ddefa91628e89572a660a91"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/qsl.xlsx",
+          "bytes": 5623,
+          "sha256": "69d18f9e677fc4aed8b6509ad2e4e6c6e4300d82527e98eb965ac55f4f4f35c7"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-prior-complete/server.log",
+          "bytes": 40808,
+          "sha256": "d3e0886078b8203e60750b5193a9955442006931ecf332218e6562b753d4f38c"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-report-focused/01-login-button-only.png",
+          "bytes": 252097,
+          "sha256": "02d5e3e70f13b2abbdc4d53de198b61dea6b7b6bfcdd56def231d7e7b42fdb90"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-report-focused/22-report-refresh-export.png",
+          "bytes": 230851,
+          "sha256": "85d7efca26ecbf2b1583d34fbdf621ec8516c51a00fc8a1bf7359503785e1249"
+        },
+        {
+          "path": "docs/authorization/evidence/browser-report-focused/server.log",
+          "bytes": 8191,
+          "sha256": "0ac52a7221213d911c3e91e2ef93bc84b67a1bbb175cb3ca4d7ece05652255d7"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/01-login-button-only.png",
+          "bytes": 252097,
+          "sha256": "02d5e3e70f13b2abbdc4d53de198b61dea6b7b6bfcdd56def231d7e7b42fdb90"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/02-maintenance-pagination.png",
+          "bytes": 280175,
+          "sha256": "8b2fc3b45fd1272b9b28d06ac1ff7e5dbe6d30e03be1bf06099e5ee53a9adfc6"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/03-maintenance-create-double-click.png",
+          "bytes": 288247,
+          "sha256": "203f6ced4405d2703fadf5f165232b45b95b46b04b2d033907474b28f3cde292"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/04-maintenance-replay-supplementary.png",
+          "bytes": 288247,
+          "sha256": "203f6ced4405d2703fadf5f165232b45b95b46b04b2d033907474b28f3cde292"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/05-same-organization-peer-readonly.png",
+          "bytes": 265158,
+          "sha256": "d747a05f15d0f01079c29591d0c226f9328bc0b87516eea7c7ab731fb5d29869"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/06-owner-update-version.png",
+          "bytes": 266770,
+          "sha256": "16523cae762ac9b4cdcf3c5af5b73388f0ace4e3f9f138df0873cf29926bdd2b"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/07-version-conflict-retains-draft.png",
+          "bytes": 266754,
+          "sha256": "2d06cdda2dfb0ab930074bad82631ebe5623f2142910c3a3157bd7a04d875f06"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/08-archive-restore.png",
+          "bytes": 268168,
+          "sha256": "bdd2657749bc1b2630a23a0716e1c87c2a3de35140bcf12cfd390c1b5eca4a17"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/08-archived-definition.png",
+          "bytes": 265422,
+          "sha256": "ac67d10e83a848398b5d79f3e2e9bb36cf4da1ced8450d063a39bd60f69c2757"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/09-new-clears-unsaved-form.png",
+          "bytes": 263121,
+          "sha256": "13f398807cf328d17b8882e03576da64c59a5ed6da2214e780e26045b83bad86"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/10-tenant-b-isolation.png",
+          "bytes": 257607,
+          "sha256": "f88fa6feff48e809de7160b89aefbb6a26ed91e27518852c8ab869e590b9ab0c"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/11-tampered-cross-tenant-id-ui-submit.png",
+          "bytes": 268037,
+          "sha256": "63b56fd37b515dc7427fdc7de559388587444057e24d7b3aa32fc1e2f4eff8e1"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/12-tampered-owner-ui-submit.png",
+          "bytes": 264283,
+          "sha256": "bf6d807277c802dcd7b6e89084862edeafc25c831ed360cf5058cd2ad0708deb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/13-identity-revocation-ui-submit.png",
+          "bytes": 264112,
+          "sha256": "78d72ace591790ec8dc3cc9d43497f2fc1401791428bfe192190fae3a90a1742"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/13-revoked-session.png",
+          "bytes": 281811,
+          "sha256": "607ac0515b095ac1133ab6179763c059320fa3bb9ad3b32ad31a43e5da74f89f"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/14-qsl-read-pagination.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-cancel-create.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-cancel-delete.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-cancel-update.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-cancel-upload.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        }
+      ]
+    },
+    {
+      "filename": "Dash_QA_Evidence_20261004_Part03.zip",
+      "bytes": 8356775,
+      "sha256": "08ff95a868355442a17414788243eb0c36a505154b5a28ecf8413d0a206dd456",
+      "files": [
+        {
+          "path": "docs/authorization/evidence/browser/15-open-create.png",
+          "bytes": 296372,
+          "sha256": "0430d959bb7560c43156247e4746a703b43a90c38c39fc8ea72b87b6d7a3f604"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-open-delete.png",
+          "bytes": 270599,
+          "sha256": "106bf8e0ec3505b14c052d0edd52a7e8d0ca4cba813e188efe71a817891c4648"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-open-update.png",
+          "bytes": 278870,
+          "sha256": "dd953f01950351d44f8a519beeb958fed10238b100268c1771e408fdeda620d4"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/15-open-upload.png",
+          "bytes": 288853,
+          "sha256": "b94e2f039810b070850d8bb0227f1fb440eb5f46b2a2ea6f7de32d1aca4a52ce"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/16-qsl-create-double-click.png",
+          "bytes": 327933,
+          "sha256": "9634e99550229ce44e340dcf0065b1792c9842d450f3d4ae38dcbcc8afc41c61"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/17-qsl-query-update-id-tamper.png",
+          "bytes": 327991,
+          "sha256": "d3605702c8b4ba1a75e705ff28ff3aa8298323018bcca468926cc66706495bb8"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/18-qsl-delete-query-and-submit.png",
+          "bytes": 340291,
+          "sha256": "add48b6aa7b78aa02dbb81ecaf930c56587cfca955f59652456a6fefbc92b3f8"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/19-qsl-upload-submit.png",
+          "bytes": 341264,
+          "sha256": "95d2014b289b53658e2fb5571d3024927a2bd63e56d135b4509a5df1bd2d9556"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/20-qsl-wizard-next-previous.png",
+          "bytes": 381460,
+          "sha256": "7d8e633d3bdbf78979cf9051e8cc0bb6c4311594d4a91247661d572abeda6810"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/21-qsl-export-csv-xlsx.png",
+          "bytes": 378629,
+          "sha256": "197ef7da36676c94fdc3dc1243511cd7824a256f04b4ece9fe83d0d3edc8d61b"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/22-report-refresh-export-FAILED.png",
+          "bytes": 227821,
+          "sha256": "592f77948ffe5524e9912461fac1dc8dff6f1fa72b9535c2fdd23f6ffb2245aa"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/23-etl-and-operations-render-FAILED.png",
+          "bytes": 302025,
+          "sha256": "5086678cf49a101e404f17eec65f04397085539b3d955cf7d3b2fb6780910c29"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/24-denied-etl.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/24-denied-maintenance.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/24-denied-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/24-tenant-denied-qsl-etl-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/25-readonly-qsl-controls-and-etl-denial.png",
+          "bytes": 310141,
+          "sha256": "9993e83a30a156e1fe1f270b44da59b5efc0ab423e99ee30a22cec748e69410e"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/26-browser-history-navigation-FAILED.png",
+          "bytes": 280868,
+          "sha256": "6e12a9ae7370349cb91e5d22979aebc9c1bd4f7550c676b626b5cb645f80995a"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/27-mobile-maintenance.png",
+          "bytes": 183170,
+          "sha256": "b88fa6bb1df765cf3babcdb730956eb3cc4f0b38e4c465f576788edd56452a65"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/28-logout-replay-denied.png",
+          "bytes": 65576,
+          "sha256": "88fdfd819e8c5dbb3196ba229c2b3e897d0070431ee568547347e5c26de73d57"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/29-no-external-effects-or-page-errors-FAILED.png",
+          "bytes": 280868,
+          "sha256": "6e12a9ae7370349cb91e5d22979aebc9c1bd4f7550c676b626b5cb645f80995a"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/qsl.xlsx",
+          "bytes": 5623,
+          "sha256": "4a76972b5598d00522b6148054caff40d792392a7ef1d8e46ecf79c4e6977562"
+        },
+        {
+          "path": "docs/authorization/evidence/browser/server.log",
+          "bytes": 41686,
+          "sha256": "8b50601f8cbbf47131db2761f0f9e116743a04bc17de0b971fbae8ca82ea50d4"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-diagnostic-2026-10-04T09-11-48-454Z/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-diagnostic-2026-10-04T09-14-31-454Z/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-diagnostic-2026-10-04T09-14-33-008Z/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-preflight-2026-10-04T09-21-03-662Z/native-plotly-render.png",
+          "bytes": 237069,
+          "sha256": "24a41da9cdc58c761a0345face96a03f2c3db26d6ddefa91628e89572a660a91"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-preflight-2026-10-04T09-21-03-662Z/server.log",
+          "bytes": 9683,
+          "sha256": "fa1d0f95c8ea000112764918a6d5b9e8969ed6b09225db2da2897f919ab8a918"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-preflight-2026-10-04T09-22-00-495Z/native-plotly-render.png",
+          "bytes": 237069,
+          "sha256": "24a41da9cdc58c761a0345face96a03f2c3db26d6ddefa91628e89572a660a91"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser-diagnostics/native-preflight-2026-10-04T09-22-00-495Z/server.log",
+          "bytes": 10213,
+          "sha256": "06d05b889900cda290ab18185210ec1e3074c813810a1b4b476de1d9b2e7886d"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/01-login-button-only.png",
+          "bytes": 252097,
+          "sha256": "02d5e3e70f13b2abbdc4d53de198b61dea6b7b6bfcdd56def231d7e7b42fdb90"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/02-maintenance-pagination.png",
+          "bytes": 280175,
+          "sha256": "8b2fc3b45fd1272b9b28d06ac1ff7e5dbe6d30e03be1bf06099e5ee53a9adfc6"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/03-maintenance-create-double-click.png",
+          "bytes": 288398,
+          "sha256": "2cc240858339c65bfee10be58088ec340e26506b8ac66d562d2e554b016c9456"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/04-maintenance-replay-supplementary.png",
+          "bytes": 288247,
+          "sha256": "203f6ced4405d2703fadf5f165232b45b95b46b04b2d033907474b28f3cde292"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/05-same-organization-peer-readonly.png",
+          "bytes": 265158,
+          "sha256": "d747a05f15d0f01079c29591d0c226f9328bc0b87516eea7c7ab731fb5d29869"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/06-owner-update-version.png",
+          "bytes": 266983,
+          "sha256": "324f613a5c04664ef6d6679939e88cd61dcf4d607ee414095042c3eeff6d1739"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/07-version-conflict-retains-draft.png",
+          "bytes": 266755,
+          "sha256": "3999d891a9fdb73908336ff9898d352002d9b78c119d2d7f8da395d22d0ad18a"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/08-archive-restore.png",
+          "bytes": 268168,
+          "sha256": "bdd2657749bc1b2630a23a0716e1c87c2a3de35140bcf12cfd390c1b5eca4a17"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/08-archived-definition.png",
+          "bytes": 265422,
+          "sha256": "ac67d10e83a848398b5d79f3e2e9bb36cf4da1ced8450d063a39bd60f69c2757"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/09-new-clears-unsaved-form.png",
+          "bytes": 263121,
+          "sha256": "13f398807cf328d17b8882e03576da64c59a5ed6da2214e780e26045b83bad86"
+        }
+      ]
+    },
+    {
+      "filename": "Dash_QA_Evidence_20261004_Part04.zip",
+      "bytes": 8394603,
+      "sha256": "8a628e6dcfa52c7ffebbe051d6670f99f6f1d40684c6a0de46421fd883062d40",
+      "files": [
+        {
+          "path": "docs/authorization/evidence/v9/browser/10-tenant-b-isolation.png",
+          "bytes": 257607,
+          "sha256": "f88fa6feff48e809de7160b89aefbb6a26ed91e27518852c8ab869e590b9ab0c"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/11-tampered-cross-tenant-id-ui-submit.png",
+          "bytes": 268070,
+          "sha256": "49195de476b11de5cf5d20c3d7d784f093c847e63f41cb84b685ccfda025e49a"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/12-tampered-owner-ui-submit.png",
+          "bytes": 264153,
+          "sha256": "90a07389363da45c18da36b05efa4e9b67c3cc038a92149025ff500decfb3340"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/13-identity-revocation-ui-submit.png",
+          "bytes": 263964,
+          "sha256": "5f241b6b5607583c8e503cf0397190164d2c6bd2729690c6917f6967003907a6"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/13-revoked-session.png",
+          "bytes": 281934,
+          "sha256": "44fdb0845fa74ade24edd1752d1d5a8c9b40a6a412b455a9e1e2c7472ab5fa05"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/14-qsl-read-pagination.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-cancel-create.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-cancel-delete.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-cancel-update.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-cancel-upload.png",
+          "bytes": 325588,
+          "sha256": "f5552731b6ffb3b9e0e221fc24a664e8763a87c2df57013121906e74760ddcbb"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-open-create.png",
+          "bytes": 296372,
+          "sha256": "0430d959bb7560c43156247e4746a703b43a90c38c39fc8ea72b87b6d7a3f604"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-open-delete.png",
+          "bytes": 270599,
+          "sha256": "106bf8e0ec3505b14c052d0edd52a7e8d0ca4cba813e188efe71a817891c4648"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-open-update.png",
+          "bytes": 278870,
+          "sha256": "dd953f01950351d44f8a519beeb958fed10238b100268c1771e408fdeda620d4"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/15-open-upload.png",
+          "bytes": 288853,
+          "sha256": "b94e2f039810b070850d8bb0227f1fb440eb5f46b2a2ea6f7de32d1aca4a52ce"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/16-qsl-create-double-click.png",
+          "bytes": 327933,
+          "sha256": "9634e99550229ce44e340dcf0065b1792c9842d450f3d4ae38dcbcc8afc41c61"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/17-qsl-query-update-id-tamper.png",
+          "bytes": 327991,
+          "sha256": "d3605702c8b4ba1a75e705ff28ff3aa8298323018bcca468926cc66706495bb8"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/18-qsl-delete-query-and-submit.png",
+          "bytes": 340320,
+          "sha256": "294691178b14d6262cb4e671a6cee918699d6375f8946e7bb502d8345c8cc55d"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/19-qsl-upload-submit.png",
+          "bytes": 341294,
+          "sha256": "49802dec14d39072ced543867d16c81401be50a4ca9819bab5826fea3b13b989"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/20-qsl-wizard-next-previous.png",
+          "bytes": 381526,
+          "sha256": "d818ff90dddf1977fc4e95ca4362163b30a755c9ef125aba80558beb2d3bad7e"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/21-qsl-export-csv-xlsx.png",
+          "bytes": 378697,
+          "sha256": "7653af4522fa4cb54b0f8f29a7a401c4cda7ef692851944593247b35d02bee0d"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/22-report-refresh-export.png",
+          "bytes": 238704,
+          "sha256": "f1026d09f5027879e09a892f40fbb591f38ed24114c52634d3fa95a580d0d151"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/23-etl-and-operations-render.png",
+          "bytes": 377056,
+          "sha256": "cf165ef7b6dc8933af33f8b6fa458af3411aa6d91a759d1b1ff4fd2804b5be5b"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/23-etl.png",
+          "bytes": 302038,
+          "sha256": "27ad87ec0f1b8fc4f6ea006dacd681ca1ce31aa75743ffc8bd298cc0dc0f685f"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/24-denied-etl.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/24-denied-maintenance.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/24-denied-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/24-tenant-denied-qsl-etl-operations.png",
+          "bytes": 171889,
+          "sha256": "032a9e21b2ddc258885db62ac6021831351b12a093fac2a809e05823685895d2"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/25-readonly-qsl-controls-and-etl-denial.png",
+          "bytes": 310141,
+          "sha256": "9993e83a30a156e1fe1f270b44da59b5efc0ab423e99ee30a22cec748e69410e"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/26-browser-history-navigation.png",
+          "bytes": 237069,
+          "sha256": "24a41da9cdc58c761a0345face96a03f2c3db26d6ddefa91628e89572a660a91"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/27-mobile-maintenance.png",
+          "bytes": 183171,
+          "sha256": "1025007d74213f1882e6323d3d4b8ace6197fa0084b073f12ece2c8c1f7f7aea"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/28-logout-replay-denied.png",
+          "bytes": 65576,
+          "sha256": "88fdfd819e8c5dbb3196ba229c2b3e897d0070431ee568547347e5c26de73d57"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/29-no-external-effects-or-page-errors.png",
+          "bytes": 236088,
+          "sha256": "176eaf3efa9e91ddf36a1d67c9b1d78c8ac9b436cd53e79a828dc330f9b997bf"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/qsl.xlsx",
+          "bytes": 5622,
+          "sha256": "4c384c7417ac40b971b952c0640b0370dbf217d315e4722da9fbe947265337c7"
+        },
+        {
+          "path": "docs/authorization/evidence/v9/browser/server.log",
+          "bytes": 121739,
+          "sha256": "f9ff11bce3351ea6111cd09494a67715360a01f1b82efbf4213d408fe4a5cb4c"
+        }
+      ]
+    }
+  ]
+}

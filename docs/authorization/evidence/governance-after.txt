@@ -1,0 +1,34 @@
+test_bad_v2_schema_is_refused_before_any_ddl (test_governance.GovernanceMigrationTests) ... ok
+test_migration_final_failure_rolls_back_every_new_table_and_version (test_governance.GovernanceMigrationTests) ... ok
+test_real_v2_migration_preserves_every_legacy_table_and_backup (test_governance.GovernanceMigrationTests) ... ok
+test_archiving_reversible_versioned_and_grants_return_after_restore (test_governance.GovernanceTests) ... ok
+test_atomic_audit_contains_actor_changed_fields_and_no_payload (test_governance.GovernanceTests) ... ok
+test_combined_catalog_keeps_static_cards_and_authorized_generated_links (test_governance.GovernanceTests) ... ok
+test_current_identity_and_disabled_report_rechecked_for_mock (test_governance.GovernanceTests) ... ok
+test_default_deny_no_user_metadata_or_data_and_no_admin_cross_tenant (test_governance.GovernanceTests) ... ok
+test_export_escapes_formula_cells_and_provider_failures_are_sanitized (test_governance.GovernanceTests) ... ok
+test_identity_role_or_org_change_during_provider_read_cannot_release (test_governance.GovernanceTests) ... ok
+test_maintainer_only_metadata_and_disabled_report_control_is_admin (test_governance.GovernanceTests) ... ok
+test_mock_claim_once_per_version_durable_across_service_restart (test_governance.GovernanceTests) ... ok
+test_mock_failure_fixed_reason_and_no_retry (test_governance.GovernanceTests) ... ok
+test_next_candidate_explicit_zones_daily_weekly_and_aware_only (test_governance.GovernanceTests) ... ok
+test_no_change_preserves_version_and_audit (test_governance.GovernanceTests) ... ok
+test_obsolete_user_grant_can_be_revoked_and_frees_capacity (test_governance.GovernanceTests) ... ok
+test_prod_adapter_is_explicit_no_legacy_fallback_and_mock_always_denied (test_governance.GovernanceTests) ... ok
+test_provider_revoke_during_read_cannot_release_rows (test_governance.GovernanceTests) ... ok
+test_report_create_replay_and_changes_conflict (test_governance.GovernanceTests) ... ok
+test_report_validation_and_unknown_server_fields (test_governance.GovernanceTests) ... ok
+test_schedule_disabled_during_provider_read_cannot_capture (test_governance.GovernanceTests) ... ok
+test_schedule_replay_versions_and_tenant_boundaries (test_governance.GovernanceTests) ... ok
+test_schedule_validation_synthetic_only_and_no_arbitrary_execution (test_governance.GovernanceTests) ... ok
+test_stale_versions_and_threaded_updates_have_one_winner (test_governance.GovernanceTests) ... ok
+test_storage_fail_closed_and_foreign_keys_active (test_governance.GovernanceTests) ... ok
+test_subject_validation_never_changes_identity_roles_or_crosses_org (test_governance.GovernanceTests) ... ok
+test_two_processes_capture_one_message_for_same_version (test_governance.GovernanceTests) ... ok
+test_uncertain_completion_is_not_replayed_or_relabelled (test_governance.GovernanceTests) ... ok
+test_user_role_and_org_grants_are_additive_and_export_needs_view (test_governance.GovernanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.934s
+
+OK

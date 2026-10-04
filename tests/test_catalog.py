@@ -14,6 +14,7 @@ from dash import html
 from plotly.utils import PlotlyJSONEncoder
 
 from reporting_workspace.application import create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.registry import AccessPolicy, PageRegistry, PageSpec
 from reporting_workspace.ui_pages.overview import (
     MAX_PREFERENCES, MAX_QUERY, PAGE_SIZE, catalog_model, catalog_scope,
@@ -193,6 +194,7 @@ class CatalogTransportTests(AppTestCase):
         identities.users.update({'admin-b': ADMIN_B, 'user-b': USER_B})
         provider, calls = FixtureReports(), []
         server = create_app(self.settings(), identities, provider, extra_pages=synthetic_pages(calls))
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         return server, provider, calls
 

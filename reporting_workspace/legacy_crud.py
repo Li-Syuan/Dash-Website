@@ -160,6 +160,14 @@ class LegacyCrudService:
         self._db = sqlite3.connect(database, timeout=10, check_same_thread=False,
                                    isolation_level=None)
         self._db.row_factory = sqlite3.Row
+        try:
+            self._initialize()
+        except Exception:
+            # Constructor failure must not retain a Windows file handle until GC.
+            self._db.close()
+            raise
+
+    def _initialize(self):
         self._db.executescript('''
           CREATE TABLE IF NOT EXISTS legacy_qsl_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT, target TEXT NOT NULL,
@@ -220,7 +228,7 @@ class LegacyCrudService:
             self._db.close()
 
     def _authorize(self, user, action):
-        from .legacy_policy import authorize
+        from .legacy_policy import authorize, identity_id
         if action not in ('read', 'export', 'create', 'update', 'delete', 'restore', 'upload', 'audit'):
             raise PermissionDenied('Operation denied.')
         if self.only_update and action in ('create', 'delete', 'restore'):
@@ -230,14 +238,12 @@ class LegacyCrudService:
         access = 'read' if action in ('read', 'export') else 'crud'
         try:
             permitted = authorize(user, self.policy_resolver(user), access)
+            actor = identity_id(getattr(user, 'id', None))
         except Exception:
             raise PermissionDenied('Operation denied.') from None
         if not permitted:
             raise PermissionDenied('Operation denied.')
-        actor = getattr(user, 'id', None)
-        if not isinstance(actor, (str, int)) or isinstance(actor, bool):
-            raise PermissionDenied('Operation denied.')
-        return _text(str(actor), 255, True)
+        return actor
 
     @contextmanager
     def _transaction(self, dry_run=False):

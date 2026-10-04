@@ -4,6 +4,7 @@ import hashlib
 import multiprocessing
 from pathlib import Path
 import sqlite3
+from contextlib import closing
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -145,7 +146,7 @@ class CrudServiceTests(unittest.TestCase):
         rows = [self.create(name='Same name'), self.create(name='Same name'),
                 self.service.create(USER, {'name': 'Same name'}, request_key=None)]
         self.assertEqual(len({row['id'] for row in rows}), 3)
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             keys = [row[0] for row in connection.execute('SELECT create_key FROM report_definitions')]
         self.assertEqual(len(set(keys)), 3)
         for key in keys:
@@ -172,7 +173,7 @@ class CrudServiceTests(unittest.TestCase):
             self.assertNotIn('request_key', record)
             self.assertNotIn(CREATE_KEY, repr(record))
         self.assertNotIn(CREATE_KEY, repr(self.store.list_audit()))
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             self.assertEqual(connection.execute('SELECT create_key FROM report_definitions').fetchone()[0], CREATE_KEY)
 
     def test_failed_create_audit_does_not_reserve_key_and_retry_can_succeed(self):
@@ -188,7 +189,7 @@ class CrudServiceTests(unittest.TestCase):
 
     def test_database_unique_constraint_independently_enforces_create_key_scope(self):
         self.service.create(USER, {'name': 'Draft'}, request_key=CREATE_KEY)
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             with self.assertRaises(sqlite3.IntegrityError):
                 connection.execute(
                     'INSERT INTO report_definitions '
@@ -412,7 +413,7 @@ class CrudServiceTests(unittest.TestCase):
         self.assertEqual(restored['created_at'], row['created_at'])
         self.assertIs(restored['enabled'], False)
         self.assertEqual(service.list(USER)['items'], [restored])
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             self.assertEqual(connection.execute('SELECT COUNT(*) FROM report_definitions').fetchone()[0], 1)
 
     def test_literal_injection_and_wildcard_search_are_safe_metadata(self):
@@ -518,7 +519,7 @@ class CrudServiceTests(unittest.TestCase):
         with self.assertRaises(StateUnavailable):
             disabled.create(USER, {'name': 'not persisted'})
         row = self.create()
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             connection.execute('PRAGMA user_version = 4')
         for operation in (
                 lambda: self.service.list(USER), lambda: self.service.get(USER, row['id']),
@@ -527,13 +528,13 @@ class CrudServiceTests(unittest.TestCase):
                 lambda: self.service.restore(USER, row['id'], 1)):
             with self.assertRaises(StateUnavailable):
                 operation()
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             self.assertEqual(connection.execute('SELECT version FROM report_definitions').fetchone()[0], 1)
             self.assertEqual(connection.execute('SELECT COUNT(*) FROM audit_events').fetchone()[0], 1)
 
     def test_schema_tamper_and_removed_database_are_unavailable(self):
         row = self.create()
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             connection.execute('DROP INDEX report_definitions_org_updated')
         with self.assertRaises(StateUnavailable):
             self.service.update(USER, row['id'], 1, {'name': 'blocked'})
@@ -545,7 +546,7 @@ class CrudServiceTests(unittest.TestCase):
     def test_version_exhaustion_does_not_overflow_or_mutate(self):
         row = self.create()
         maximum = 9223372036854775807
-        with sqlite3.connect(str(self.path)) as connection:
+        with closing(sqlite3.connect(str(self.path))) as connection, connection:
             connection.execute('UPDATE report_definitions SET version = ? WHERE id = ?', (maximum, row['id']))
         for operation in (
                 lambda: self.service.update(USER, row['id'], maximum, {'name': 'overflow'}),

@@ -1,0 +1,49 @@
+{
+  "findings": "Large single WSGI response chunks lose observable tail bytes with immediate connection finish in the tested runtime. HTTP/1.0 does not resolve it. Identical bytes split into 16 KiB WSGI chunks, or a diagnostic-only 100 ms finish delay, complete for all three native clients. No server connection_dropped event was observed; incomplete clients timeout or abort. This isolates a send/close-timing interaction but does not claim a packet-level Windows kernel root cause.",
+  "comparisons": [
+    {
+      "run": "native-diagnostic-2026-10-04T09-11-48-454Z",
+      "protocol": "HTTP/1.1",
+      "finishDelay": 0,
+      "shutdownMethod": null,
+      "socketSendall": null,
+      "complete": 8,
+      "failed": 7,
+      "connectionDropped": 0,
+      "sendBuffers": [],
+      "receiveBuffers": []
+    },
+    {
+      "run": "native-diagnostic-2026-10-04T09-14-31-454Z",
+      "protocol": "HTTP/1.0",
+      "finishDelay": 0,
+      "shutdownMethod": "TCPServer.shutdown_request",
+      "socketSendall": "socket.sendall",
+      "complete": 9,
+      "failed": 6,
+      "connectionDropped": 0,
+      "sendBuffers": [
+        65536
+      ],
+      "receiveBuffers": [
+        65536
+      ]
+    },
+    {
+      "run": "native-diagnostic-2026-10-04T09-14-33-008Z",
+      "protocol": "HTTP/1.1",
+      "finishDelay": 0.1,
+      "shutdownMethod": "TCPServer.shutdown_request",
+      "socketSendall": "socket.sendall",
+      "complete": 15,
+      "failed": 0,
+      "connectionDropped": 0,
+      "sendBuffers": [
+        65536
+      ],
+      "receiveBuffers": [
+        65536
+      ]
+    }
+  ]
+}

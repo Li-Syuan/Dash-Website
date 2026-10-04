@@ -691,14 +691,18 @@ class OperationsService:
             if 'mail' not in self._report(connection, user, report_id)['channels']:
                 raise AccessDenied('Mock mail is not configured for this report.')
             quality = self._quality(connection, user, report_id, rows, update_failed)
+            self._auth(user, admin=True)
             status, identifier = ('simulated' if quality['passed'] else 'blocked'), uuid.uuid4().hex
             connection.execute('INSERT INTO operations_simulations VALUES(?,?,?,?,?,?,?,?)',
                                (user['org'], identifier, report_id, status,
                                 _dump([item['code'] for item in quality['issues']]), len(rows), len(recipients), time.time()))
             self._increment(connection, user, report_id, 'mock_send' if quality['passed'] else 'quality_block')
-        if quality['passed']:
-            self.mail.send('Synthetic reporting quality-gated simulation',
-                           '{} synthetic rows passed the local gate.'.format(len(rows)), recipients)
+            if quality['passed']:
+                # The fixed in-memory sink shares this local transaction with
+                # its record. Revocation must not leave a false simulated send.
+                self._auth(user, admin=True)
+                self.mail.send('Synthetic reporting quality-gated simulation',
+                               '{} synthetic rows passed the local gate.'.format(len(rows)), recipients)
         return dict(id=identifier, report_id=report_id, status=status, quality=quality,
                     recipient_count=len(recipients), real_delivery=False)
 

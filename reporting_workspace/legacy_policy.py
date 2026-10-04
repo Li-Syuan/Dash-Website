@@ -5,6 +5,23 @@ layout state, a query string, or a browser-provided role/organization claim.
 """
 from dataclasses import dataclass
 from functools import wraps
+import unicodedata
+
+
+def identity_text(value, maximum=255):
+    """Validate an exact claim; editable-field trimming cannot identify actors."""
+    if (not isinstance(value, str) or not 0 < len(value) <= maximum
+            or not value.strip()
+            or any(unicodedata.category(char) in ('Cc', 'Cs') for char in value)):
+        raise ValueError('Invalid identity claim.')
+    return value
+
+
+def identity_id(value):
+    # Numeric IDs are a supported legacy adapter contract, excluding booleans.
+    if isinstance(value, bool) or not isinstance(value, (str, int)):
+        raise ValueError('Invalid identity claim.')
+    return identity_text(str(value))
 
 
 def _strings(value, name, allow_string=False):
@@ -42,6 +59,10 @@ def has_role(user, name):
 def denied(user, orgcode=None, user_ids=None, user_roles=None):
     """True means denied, preserving the legacy empty-policy exception order."""
     if getattr(user, 'is_authenticated', False) is not True:
+        return True
+    try:
+        identity_id(getattr(user, 'id', None))
+    except ValueError:
         return True
     orgs = _strings(orgcode, 'orgcode', True)
     ids = _strings(user_ids, 'user_ids')

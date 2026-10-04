@@ -108,7 +108,9 @@ class GovernanceTests(unittest.TestCase):
             with self.subTest(kind=kind,subject=subject),self.assertRaises(ValidationError):
                 self.service.set_grant(ADMIN,self.report['id'],1,kind,subject,actions)
         with self.assertRaises(AccessDenied): self.service.set_grant(ADMIN,self.report['id'],1,'org','B',['view'])
-        with patch.object(self.identities,'get_user',return_value=dict(USER,id='other-a')):
+        lookup = self.identities.get_user
+        with patch.object(self.identities,'get_user',side_effect=lambda identifier:
+                          dict(USER,id='other-a') if identifier == 'user-a' else lookup(identifier)):
             with self.assertRaises(ValidationError): self.service.set_grant(ADMIN,self.report['id'],1,'user','user-a',['view'])
         self.assertEqual(self.identities.get_user('user-a')['role'],'user')
         for operation in (lambda:self.service.create_report(USER,{'name':'x','source_key':'synthetic-monthly'}),
@@ -273,10 +275,13 @@ class GovernanceTests(unittest.TestCase):
     def test_current_identity_and_disabled_report_rechecked_for_mock(self):
         schedule=self.schedule()
         self.identities.user_db['admin-a']['role']='user'
-        result=self.service.simulate_schedule(ADMIN,schedule['id'],1)
-        self.assertEqual(result['error_code'],'configuration_changed')
+        with patch.object(self.service.provider, 'managed_rows') as provider:
+            with self.assertRaises(AccessDenied):
+                self.service.simulate_schedule(ADMIN,schedule['id'],1)
+            provider.assert_not_called()
         self.assertEqual(self.service.mail.messages,[])
         self.identities.user_db['admin-a']['role']='admin'
+        self.assertEqual(self.service.list_runs(ADMIN,self.report['id']),[])
         self.service.update_report(ADMIN,self.report['id'],1,{'enabled':False})
         with self.assertRaises(AccessDenied):self.service.simulate_schedule(ADMIN,schedule['id'],1)
 

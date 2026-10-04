@@ -393,17 +393,23 @@ class JobMonitorTests(unittest.TestCase):
 
     def test_missed_ticks_coalesce_to_one_attempt_and_preserve_anchor(self):
         monitor = self.small_monitor()
-        monitor.configure(ADMIN, True, .05)
-        with sqlite3.connect(self.path) as connection:
-            due = time.time() - 100
-            connection.execute('UPDATE monitor_config SET next_run_at=?', (due,))
-        monitor._tick()
-        status = monitor.status(USER)
-        self.assertEqual(len(status['runs']), 1)
-        self.assertGreater(status['next_run_at'], time.time())
-        self.assertLess(status['next_run_at'] - time.time(), .05)
-        monitor._tick()
-        self.assertEqual(len(monitor.status(USER)['runs']), 1)
+        from contextlib import closing
+        now = time.time()
+        # Verify coalescing/anchor math, independent of Windows disk speed.
+        with patch('reporting_workspace.job_monitor.time.time', return_value=now):
+            monitor.configure(ADMIN, True, .05)
+            with closing(sqlite3.connect(self.path)) as connection, connection:
+                due = now - 100
+                connection.execute('UPDATE monitor_config SET next_run_at=?', (due,))
+            monitor._tick()
+            status = monitor.status(USER)
+            self.assertEqual(len(status['runs']), 1)
+            self.assertGreater(status['next_run_at'], now)
+            self.assertLessEqual(status['next_run_at'] - now, .050001)
+            intervals = (status['next_run_at'] - due) / .05
+            self.assertAlmostEqual(intervals, round(intervals), places=4)
+            monitor._tick()
+            self.assertEqual(len(monitor.status(USER)['runs']), 1)
 
     def test_stop_reports_running_work_and_does_not_start_second_thread(self):
         monitor = self.small_monitor()

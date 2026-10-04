@@ -1,6 +1,7 @@
 """Offline report-builder contracts using only synthetic, temporary QSL data."""
 import os
 import sqlite3
+from contextlib import closing
 import tempfile
 import threading
 import unittest
@@ -301,7 +302,7 @@ class ReportBuilderTests(unittest.TestCase):
 
     def test_untrusted_stored_definition_is_revalidated_and_error_is_safe(self):
         saved = self.builder.save(self.writer, 'Corrupt', definition())
-        with sqlite3.connect(self.builder_path) as database:
+        with closing(sqlite3.connect(self.builder_path)) as database, database:
             database.execute('UPDATE report_builder_definitions SET definition=? WHERE id=?',
                              ('{"sql":"private-secret-payload"}', saved['id']))
         with self.assertRaises(StorageUnavailable) as raised:
@@ -309,7 +310,7 @@ class ReportBuilderTests(unittest.TestCase):
         self.assertNotIn('private-secret-payload', str(raised.exception))
 
     def test_future_storage_schema_and_nonsecure_sources_fail_closed(self):
-        with sqlite3.connect(self.builder_path) as database:
+        with closing(sqlite3.connect(self.builder_path)) as database, database:
             database.execute('UPDATE report_builder_schema SET version=999')
         with self.assertRaises(StorageUnavailable):
             self.other()

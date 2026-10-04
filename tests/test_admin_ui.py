@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from reporting_workspace.application import create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.config import Settings
 from reporting_workspace.ui_pages.managed_reports import SPEC, POLICY, report_from_search
 from reporting_workspace.crud import ValidationError
@@ -68,6 +69,7 @@ class AdminUITests(unittest.TestCase):
     def make_app(self, state):
         server = create_app(Settings(secret_key='admin-ui-transport-secret-01234567890123456789',
             state_path=str(Path(self.directory.name) / 'state.sqlite3') if state else None), Identities(), Reports())
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         return server
 

@@ -7,6 +7,7 @@ import copy
 from dataclasses import replace
 import os
 import sqlite3
+from contextlib import closing
 import tempfile
 import threading
 from types import SimpleNamespace
@@ -112,7 +113,7 @@ class MaintenanceRegistryTests(unittest.TestCase):
         page = registry.query(self.writer, 'fixture-001')
         self.assertEqual(page['items'][0]['code'], 'SYNTH-001')
         # Selecting one definition initializes one table, not all 100.
-        with sqlite3.connect(os.path.join(self.tmp.name, 'fixture-sqlite-a.sqlite')) as connection:
+        with closing(sqlite3.connect(os.path.join(self.tmp.name, 'fixture-sqlite-a.sqlite'))) as connection, connection:
             tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         self.assertEqual(len([name for name in tables if name.startswith('synthetic_maintenance_')]), 1)
         with self.assertRaises(AdapterUnavailable):
@@ -134,7 +135,7 @@ class MaintenanceRegistryTests(unittest.TestCase):
         self.assertEqual(self.registry.query(self.reader, self.spec.key)['total'], 0)
         with self.assertRaises(RecordNotFound):
             self.registry.get(self.writer, self.spec.key, row['id'])
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             stored = connection.execute('SELECT code,deleted,version FROM fixture_rows').fetchone()
             audit = connection.execute('SELECT action,actor_hash,changed_fields FROM maintenance_audit ORDER BY id').fetchall()
         self.assertEqual(stored, ('SYNTH-NEW', 1, 3))
@@ -153,7 +154,7 @@ class MaintenanceRegistryTests(unittest.TestCase):
             self.assertEqual(created['version'], 1)
             self.assertEqual(registry.query(self.writer, key)['total'], 2)
         for bind in ('fixture-sqlite-a', 'fixture-sqlite-b', 'fixture-sqlite-c'):
-            with sqlite3.connect(os.path.join(self.tmp.name, bind + '.sqlite')) as connection:
+            with closing(sqlite3.connect(os.path.join(self.tmp.name, bind + '.sqlite'))) as connection, connection:
                 tables = [row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")]
                 self.assertEqual(len([name for name in tables if name.startswith('synthetic_maintenance_')]), 25)
         self.assertFalse(any('oracle' in name for name in os.listdir(self.tmp.name)))
@@ -164,6 +165,9 @@ class MaintenanceRegistryTests(unittest.TestCase):
         registry.register(self.spec)
         row = registry.create(self.writer, self.spec.key, {'code': 'RELOAD'})
         identities.user_db['writer']['role'] = 'user'
+        with self.assertRaises(PermissionDenied):
+            registry.describe(self.writer, self.spec.key)
+        self.writer = identities.get_user('writer')
         self.assertEqual(registry.describe(self.writer, self.spec.key)['access'], 'read')
         with self.assertRaises(PermissionDenied):
             registry.update(self.writer, self.spec.key, row['id'], 1, {'description': 'No'})
@@ -298,13 +302,13 @@ class MaintenanceRegistryTests(unittest.TestCase):
 
     def test_real_sqlite_trigger_failure_rolls_back_row_and_audit(self):
         row = self.create()
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             connection.execute("CREATE TRIGGER reject_audit BEFORE INSERT ON maintenance_audit BEGIN SELECT RAISE(ABORT,'private diagnostic'); END")
         with self.assertRaises(RecordConflict) as caught:
             self.registry.update(self.writer, self.spec.key, row['id'], 1, {'description': 'No'})
         self.assertNotIn('private', str(caught.exception))
         self.assertEqual(self.registry.get(self.writer, self.spec.key, row['id'])['version'], 1)
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             self.assertEqual(connection.execute('SELECT COUNT(*) FROM maintenance_audit').fetchone()[0], 1)
 
     def test_concurrent_sqlite_writes_have_one_version_winner(self):
@@ -335,7 +339,7 @@ class MaintenanceRegistryTests(unittest.TestCase):
         reopened = MaintenanceRegistry()
         reopened.register(replace(self.spec, adapter=SQLiteMaintenanceAdapter(self.database)))
         self.assertEqual(reopened.get(self.writer, self.spec.key, row['id']), row)
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             connection.execute('ALTER TABLE fixture_rows ADD COLUMN unexpected TEXT')
         with self.assertRaises(StorageUnavailable) as caught:
             reopened.query(self.writer, self.spec.key)
@@ -343,11 +347,11 @@ class MaintenanceRegistryTests(unittest.TestCase):
 
     def test_corrupt_stored_boolean_or_version_is_not_coerced_to_success(self):
         row = self.create()
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             connection.execute('UPDATE fixture_rows SET enabled=? WHERE id=?', ('not-boolean', row['id']))
         with self.assertRaises(StorageUnavailable):
             self.registry.query(self.writer, self.spec.key)
-        with sqlite3.connect(self.database.path) as connection:
+        with closing(sqlite3.connect(self.database.path)) as connection, connection:
             connection.execute('UPDATE fixture_rows SET enabled=1,version=0 WHERE id=?', (row['id'],))
         with self.assertRaises(StorageUnavailable):
             self.registry.get(self.writer, self.spec.key, row['id'])

@@ -1,0 +1,17 @@
+{
+  "label": "windows-python310-v9-final",
+  "python": "3.10.22",
+  "platform": "Windows",
+  "elapsed_seconds": 56.437,
+  "exit_code": 0,
+  "command": "python -B -m unittest discover -s tests -v",
+  "summary_lines": [
+    "Ran 878 tests in 55.708s",
+    "OK (skipped=1)"
+  ],
+  "skipped": [
+    "test_fork_competing_leases (test_state.StateTests) ... skipped 'fork unavailable'"
+  ],
+  "unraisable_count": 0,
+  "shutdown_tracebacks": 0
+}

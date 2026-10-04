@@ -1,0 +1,54 @@
+/* Local-only ETL workbench; uses the existing light/dark design tokens. */
+.etl-workbench { max-width: 1440px; margin: 0 auto; }
+.etl-page-heading, .etl-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.etl-page-heading > a { flex-shrink: 0; }
+.etl-job-grid, .etl-two-column { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.etl-job-grid { margin: 24px 0; }
+.etl-job-card, .etl-panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 24px; }
+.etl-panel { margin-bottom: 20px; min-width: 0; }
+.etl-job-card { border-top: 3px solid var(--primary); }
+.etl-job-card > div:first-child { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.etl-job-card .eyebrow { margin: 0; }
+.etl-job-card h3 { margin-bottom: 8px; }
+.etl-id, .etl-card-meta { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.etl-card-meta { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 14px; }
+.etl-badge { display: inline-block; white-space: nowrap; font-size: 12px; line-height: 1.5; border: 1px solid var(--line); border-radius: 99px; padding: 3px 9px; background: var(--surface-soft); color: var(--ink); }
+.etl-status-succeeded, .etl-status-reused { color: #0b6655; background: #e3f8ee; border-color: #b7e7d5; }
+.etl-status-failed, .etl-status-uncertain { color: #9e2532; background: #ffedf0; border-color: #f4bbc2; }
+.etl-status-blocked, .etl-status-skipped { color: #805817; background: #fff5df; border-color: #eed6a5; }
+.etl-status-running { color: #204da2; background: #eaf1ff; border-color: #b7cef5; }
+.etl-selection { display: flex; align-items: end; gap: 16px; margin-bottom: 24px; }
+.etl-selection > div:first-child { flex: 1; min-width: 0; }
+.etl-selection > button { margin-bottom: 1px; }
+.etl-workbench h2 { font-size: 25px; }
+.etl-metadata { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; margin: 20px 0; }
+.etl-metadata > div { min-width: 0; }
+.etl-metadata dt { color: var(--muted); font-size: 12px; margin-bottom: 5px; }
+.etl-metadata dd { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+.etl-flow { padding: 14px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+.etl-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.etl-panel .form-label { display: block; margin-top: 14px; }
+.etl-request-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin: 4px 0 24px; }
+.etl-table-wrap { width: 100%; overflow-x: auto; margin: 20px 0; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.etl-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.etl-table-wrap th, .etl-table-wrap td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: anywhere; min-width: 120px; }
+.etl-table-wrap th { background: var(--surface-soft); color: var(--muted); font-size: 12px; }
+.etl-table-wrap tbody tr:last-child td { border-bottom: 0; }
+.etl-table-wrap td:last-child { max-width: 190px; }
+.etl-quality details { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.etl-quality summary { cursor: pointer; font-weight: 600; }
+.etl-confirm-modal .modal-dialog { max-width: 620px; }
+.etl-workbench .DateInput_input { color: var(--ink); background: var(--surface); font-size: 15px; }
+.etl-workbench .DateInput, .etl-workbench .DateRangePickerInput, .etl-workbench .SingleDatePickerInput { background: var(--surface); border-color: var(--line); }
+@media (max-width: 800px) {
+  .etl-job-grid, .etl-two-column { grid-template-columns: 1fr; }
+  .etl-page-heading { align-items: start; flex-direction: column; gap: 4px; margin-bottom: 20px; }
+  .etl-metadata { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .etl-panel, .etl-job-card { padding: 16px; }
+  .etl-selection { align-items: stretch; flex-direction: column; }
+  .etl-metadata { grid-template-columns: 1fr; }
+  .etl-job-card > div:first-child { align-items: start; flex-direction: column; }
+  .etl-workbench .DateInput { width: 110px; }
+}

@@ -1,3 +1,10 @@
+# Validation history
+
+The current 2026-10-04 authorization/isolation and real-browser results are in
+[docs/authorization/VALIDATION_V9.md](docs/authorization/VALIDATION_V9.md), including
+explicit pass/fail/skip/unrun status and the Windows static transport limitation.
+The sections below preserve prior-version validation history.
+
 # Validation — offline demo first version
 
 Validated 2026-10-02 on Linux x86_64 in isolated environments. No company
@@ -340,3 +347,37 @@ Final full-suite result: **558 tests / OK** on Linux Python 3.8.20 and
 - Scheduler is for one host with SQLite rollback-journal storage; no NFS, cluster, or WAL guarantee. Durable lease sidecar fences stale workers. Defaults disabled/300 seconds; public minimum 60 seconds. Actual company ETL jobs were not connected or changed.
 - No company SMTP/LDAP/database connection, live email, GitHub push, or production deployment occurred. No Windows/browser visual acceptance is claimed.
 - Python 3.8 compilation and `git diff --check` passed. Existing temporary-directory ResourceWarnings appeared during tests; all assertions passed and no background test workers remained.
+
+## 2026-10-03 多 pipeline ETL 調度中心
+
+Final frozen full regression: **779 tests passed on each of Linux x86_64 Python 3.8.20 and 3.10.21**. Command: `python -B -m unittest discover -s tests -q`. Measured durations: 33.874 seconds (3.8), 30.068 seconds (3.10); exit 0. This retains the 669-test v4 baseline and adds 110 checks, including the additive production-page isolation assertion.
+
+- 41 backend cases: registered DAG validation, two jobs, real interval lifecycle, safe quality/count gates, durable requests, date bounds, capped retry provenance, stale lease fencing, current permissions, strict SQLite/registry validation.
+- 45 independent acceptance cases: process crash/restart and same-DB exclusion, late-worker fencing, real timers, malformed backfill dates, corrupted origin counts/checks and unrelated-run provenance, HTTP quality failure then safe retry, current tenant/action denial, repeat/cancel/stale inputs.
+- 19 UI/lifecycle cases plus 4 executable read-only SQLite integration-example cases. Existing navigation expectations add the new route without dropping old pages. The production factory does not register the synthetic ETL page/service/callbacks.
+- Fresh candidate ZIP extraction started via actual `python -B app.py` using Python 3.8.20. All eight HTTP endpoints returned 200; anonymous ETL callback was denied with 401; authenticated ETL page and manual execution succeeded. Repeating the same manual request returned the same run ID. A public-minimum **60-second timer** then completed source → validate → summary with step row counts 4, 4, 1. The process exited and port 8050 closed. Runtime Python sources match the tested artifact. Machine-readable evidence: `docs/etl/LAUNCHER_EVIDENCE.json`.
+- Python 3.8 grammar and whitespace checks passed. No packages were installed/upgraded. Existing implicit temporary-directory ResourceWarnings remain, with no failed assertions.
+
+The dispatcher is an offline, same-host/local-SQLite foundation. All jobs default disabled; interval schedules are not cron or company production schedules. No Oracle/LDAP/SMTP/company ETL adapter, external side effect, distributed queue or deployment was enabled. Explicit retries preserve verified successful snapshots and are limited to three attempts per lineage; uncertain/interrupted work is not replayed. Callable timeouts are cooperative: a lease can fence a late result but cannot forcibly kill arbitrary Python code. Stored provenance/receipts are retained; last-100 UI is not a retention cap.
+
+Browser rendering/screenshots, Windows, exact company patch versions, full company dependency compatibility and live-company integration remain unverified. Prior cloud-browser localhost blocking was respected without an alternate-route bypass. Read `docs/etl/INTEGRATION.md` and `docs/etl/QA_EVIDENCE.md` for the integration and operational boundaries. No Git commit, push or deployment was performed for this increment.
+
+## Request-isolated maintenance architecture (2026-10-04)
+
+The complete `/maintenance` CRUD workflow now uses one shared authorization
+policy, immutable request-bound identities, a separate application service and
+a tenant/actor-bound SQLite repository. Existing routes, UI outputs, owner/org
+semantics, service APIs, dependency pins and database schema remain compatible.
+The preserved ETL/QSL increments and `app.py` were not modified.
+
+Final aggregate runs pass **818 tests on each of Python 3.8.20 and 3.10.21**,
+including 39 new independent adversarial request/isolation/repository cases.
+Actual `app.py` loopback HTTP checks complete authenticated CRUD through archive
+and restore with a persisted version-4 row. All 81 Python files parse on 3.8.20;
+JavaScript syntax and whitespace checks pass. Review findings on copied-context
+lifetime and malformed trigger handling were fixed and regression-tested.
+
+See [architecture/migration notes](docs/architecture/MAINTENANCE_SLICE.md) and
+[full validation evidence](docs/architecture/VALIDATION.md). This is server and
+HTTP evidence; actual browser rendering, exact company runtimes and production
+integrations remain unverified. No remote publication or deployment occurred.

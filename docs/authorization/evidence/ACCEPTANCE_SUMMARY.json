@@ -1,0 +1,110 @@
+{
+  "status": "Qualified evidence; no single clean full-suite pass is claimed",
+  "runs": [
+    {
+      "directory": "2026-10-04T08-43-20-916Z",
+      "mode": "full acceptance",
+      "passed": 31,
+      "failed": 1,
+      "unrun": 0,
+      "pageErrors": 0,
+      "networkFailureCount": null,
+      "networkErrorCounts": null,
+      "failedScenarios": [
+        {
+          "name": "29-no-external-effects-or-page-errors",
+          "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..{\"action\":\"6d61696e74656\u2026space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   },\n+   {\n+     path: '/maintenance',\n+     text: '{message: Callback error updating ..maintenance-name.invalid\u2026invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\\n' +\n+       '}'\n+   }\n+ ]\n- []\n"
+        }
+      ],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    },
+    {
+      "directory": "2026-10-04T08-46-50-713Z",
+      "mode": "full acceptance",
+      "passed": 28,
+      "failed": 4,
+      "unrun": 0,
+      "pageErrors": 0,
+      "networkFailureCount": 43,
+      "networkErrorCounts": {
+        "net::ERR_ABORTED": 43
+      },
+      "failedScenarios": [
+        {
+          "name": "22-report-refresh-export",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "23-etl-and-operations-render",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "26-browser-history-navigation",
+          "error": "Browser requests did not settle"
+        },
+        {
+          "name": "29-no-external-effects-or-page-errors",
+          "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/_dash-component-suites/dash/dcc/async-plotlyjs.js',\n+     text: 'Static fixture fetch failed: CalledProcessError'\n+   }\n+ ]\n- []\n"
+        }
+      ],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    },
+    {
+      "directory": "2026-10-04T08-53-33-768Z",
+      "mode": "focused report acceptance",
+      "passed": 2,
+      "failed": 0,
+      "unrun": 30,
+      "pageErrors": 0,
+      "networkFailureCount": 11,
+      "networkErrorCounts": {
+        "net::ERR_ABORTED": 10,
+        "net::ERR_FAILED": 1
+      },
+      "failedScenarios": [],
+      "serverStopped": true,
+      "syntheticStateRemoved": true
+    }
+  ],
+  "runtimeAndAssetHashesIdentical": true,
+  "runtime": {
+    "platform": "Windows",
+    "python": "3.10.22",
+    "node": "24.21.0",
+    "chrome": "154.0.8037.95",
+    "dash": "2.9.1",
+    "flask": "2.2.3",
+    "werkzeug": "2.2.3",
+    "dbc": "1.4.1",
+    "dmc": "0.12.0"
+  },
+  "interpretation": [
+    "The first final full run passed all 31 functional scenarios. Its last console aggregate failed because expected sanitized Login required diagnostics were not yet classified.",
+    "The second full run retains four actual failures: report/operations/history network-settle checks and the static Plotly error aggregate. It records zero uncaught page errors.",
+    "The focused run passed real fresh-admin report refresh and browser CSV download (12 synthetic rows); 30 other scenarios were explicitly unrun.",
+    "The focused run still records a failed static Plotly GET and ChunkLoadError console messages. It does not certify chart rendering or clean native asset delivery.",
+    "The revoked-session fix retains real HTTP 401 and removed the previously reproduced unhandled Response body-read TypeError."
+  ],
+  "transport": {
+    "static": "Same owned-loopback HTTP asset bytes fulfilled to the browser; each successful path has size/SHA-256/attempt evidence",
+    "dynamicCallbacks": "Native browser POSTs; only explicit negative tests tamper client input",
+    "tlsVerificationDisabled": false,
+    "nativeChromeAndEdgeAssetDelivery": "Previously failed; not certified"
+  },
+  "isolation": {
+    "syntheticOnly": true,
+    "workersOrSchedulersStarted": false,
+    "productEntry": "app.py",
+    "fixedProductPortTouched": false,
+    "ownedFixtureProcessesStopped": true,
+    "syntheticStateRemoved": true
+  },
+  "deliverables": {
+    "harness": "tests/browser/acceptance.cjs",
+    "fixture": "tests/browser/fixture_server.py",
+    "instructions": "tests/browser/README.md",
+    "focusedCsv": "2026-10-04T08-53-33-768Z/report.csv"
+  }
+}

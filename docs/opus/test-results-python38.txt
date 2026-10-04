@@ -1,6 +1,7 @@
-Unified QA Portal operations release, 2026-10-02
+Unified QA Portal ETL dispatch center release, 2026-10-02 UTC
 Python 3.8.20 / Linux x86_64
 Command: python -B -m unittest discover -s tests -q
-Ran 669 tests in 24.662s
+Ran 779 tests in 33.874s
 OK (exit 0)
-Offline SQLite/service/HTTP tests; no company Oracle/LDAP/SMTP or Windows/browser acceptance.
+Baseline669 retained;110 added. Offline SQLite/service/HTTP and actual timer tests.
+No company Oracle/LDAP/SMTP, Windows or browser visual acceptance.

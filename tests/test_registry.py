@@ -8,6 +8,7 @@ from dash import ClientsideFunction, Dash, Input, Output, dcc, html
 from dash import _callback
 
 from demo_services import AccessDenied
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.registry import AccessPolicy, CallbackRegistry, PageRegistry, PageSpec
 
 
@@ -746,6 +747,7 @@ class ClientsideRegistryTests(unittest.TestCase):
             AccessPolicy.public(), register_callbacks=register,
         )
         server = create_app(Settings(), extra_pages=(spec,))
+        self.addCleanup(dispose_app, server)
         response = server.test_client().post('/_dash-update-component', json={
             'output': 'registry-client-probe.data',
             'outputs': {'id': 'registry-client-probe', 'property': 'data'},

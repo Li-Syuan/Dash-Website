@@ -1,0 +1,380 @@
+test_current_admin_still_reads_and_export_remains_admin_only (test_authorization_boundaries.BoundaryTests) ... ok
+test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_direct_simulation_rejects_stale_identity_before_effects (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_http_user_loader_rejects_identity_substitution (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_legacy_report_rechecks_revocation_before_releasing_data (test_authorization_boundaries.BoundaryTests) ... test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) ... test_managed_rejects_forged_admin_before_metadata_or_provider (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_managed_revoked_before_read_never_invokes_provider (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_provider_wrong_id_is_rejected_before_direct_report (test_authorization_boundaries.BoundaryTests) ... FAIL
+test_service_lookup_outage_is_sanitized_and_fail_closed (test_authorization_boundaries.BoundaryTests) ... FAIL
+
+======================================================================
+ERROR: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'role': 'admin'}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\application.py", line 50, in export
+    self.runtime.audit('report.export', actor=user['id'])
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 63, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    operation(user)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\application.py", line 55, in export
+    self.runtime.audit('provider.error', actor=user['id'], outcome='failed')
+KeyError: 'id'
+
+======================================================================
+ERROR: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='archive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 116, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    action()
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 101, in <lambda>
+    'archive': lambda: self.managed.archive_report(ADMIN, report_id, version),
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 372, in archive_report
+    return self._archive(user,identifier,expected_version,True,request_id)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 361, in _archive
+    self._check_version(row,expected_version)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 250, in _check_version
+    raise Conflict('Settings changed. Reload before trying again.')
+reporting_workspace.definition_domain.Conflict: Settings changed. Reload before trying again.
+
+======================================================================
+ERROR: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='set_grant')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 116, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    action()
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 103, in <lambda>
+    'set_grant': lambda: self.managed.set_grant(ADMIN, report_id, version, 'user', USER['id'], ['view']),
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 408, in set_grant
+    self._check_version(row,expected_version)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 250, in _check_version
+    raise Conflict('Settings changed. Reload before trying again.')
+reporting_workspace.definition_domain.Conflict: Settings changed. Reload before trying again.
+
+======================================================================
+ERROR: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='create_schedule')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 116, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    action()
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 104, in <lambda>
+    'create_schedule': lambda: self.managed.create_schedule(ADMIN, report_id, version, dict(recipients=['other@example.invalid'])),
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 441, in create_schedule
+    self._check_version(report,expected_report_version)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 250, in _check_version
+    raise Conflict('Settings changed. Reload before trying again.')
+reporting_workspace.definition_domain.Conflict: Settings changed. Reload before trying again.
+
+======================================================================
+ERROR: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='mock')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 116, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    action()
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 110, in <lambda>
+    'mock': lambda: self.managed.simulate_schedule(ADMIN, schedule_id, schedule_version),
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 559, in simulate_schedule
+    self._check_version(schedule,expected_version)
+  File "<user-home>\Documents\Codex\2026-10-04\task\baseline-v7\source\QA_Portal_Integration\reporting_workspace\governance.py", line 250, in _check_version
+    raise Conflict('Settings changed. Reload before trying again.')
+reporting_workspace.definition_domain.Conflict: Settings changed. Reload before trying again.
+
+======================================================================
+FAIL: test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) (change='demoted', operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 74, in test_direct_report_rejects_deleted_and_demoted_identity
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) (change='demoted', operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 74, in test_direct_report_rejects_deleted_and_demoted_identity
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) (change='deleted', operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 74, in test_direct_report_rejects_deleted_and_demoted_identity
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests) (change='deleted', operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 74, in test_direct_report_rejects_deleted_and_demoted_identity
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_deleted_and_demoted_identity (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 76, in test_direct_report_rejects_deleted_and_demoted_identity
+    self.assertEqual(self.reports.calls, 0)
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'user-a', 'role': 'admin', 'org': 'A'}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'user-a', 'role': 'admin', 'org': 'A'}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'missing', 'role': 'admin', 'org': 'A'}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'missing', 'role': 'admin', 'org': 'A'}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'admin-a', 'role': 'admin', 'org': 'B'}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'admin-a', 'role': 'admin', 'org': 'B'}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'role': 'admin'}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': '', 'role': 'admin', 'org': 'A'}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': '', 'role': 'admin', 'org': 'A'}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'admin-a', 'role': 'admin', 'org': True}, operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests) (user={'id': 'admin-a', 'role': 'admin', 'org': True}, operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 62, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_direct_report_rejects_forged_or_malformed_claims_before_provider (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 64, in test_direct_report_rejects_forged_or_malformed_claims_before_provider
+    self.assertEqual(self.reports.calls, 0)
+AssertionError: 12 != 0
+
+======================================================================
+FAIL: test_direct_simulation_rejects_stale_identity_before_effects (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 88, in test_direct_simulation_rejects_stale_identity_before_effects
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_http_user_loader_rejects_identity_substitution (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 168, in test_http_user_loader_rejects_identity_substitution
+    self.assertEqual(response.status_code, 503)
+AssertionError: 200 != 503
+
+======================================================================
+FAIL: test_legacy_report_rechecks_revocation_before_releasing_data (test_authorization_boundaries.BoundaryTests) (operation='rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 83, in test_legacy_report_rechecks_revocation_before_releasing_data
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_legacy_report_rechecks_revocation_before_releasing_data (test_authorization_boundaries.BoundaryTests) (operation='export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 83, in test_legacy_report_rechecks_revocation_before_releasing_data
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='permissions')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='list')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='get')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='create')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='update')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='grants')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='get_schedule')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='list_schedules')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='update_schedule')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='runs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_metadata_rejects_stale_admin_across_public_methods (test_authorization_boundaries.BoundaryTests) (action='audit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 115, in test_managed_metadata_rejects_stale_admin_across_public_methods
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_rejects_forged_admin_before_metadata_or_provider (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 120, in test_managed_rejects_forged_admin_before_metadata_or_provider
+    with self.assertRaises(AccessDenied):
+AssertionError: AccessDenied not raised
+
+======================================================================
+FAIL: test_managed_revoked_before_read_never_invokes_provider (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 132, in test_managed_revoked_before_read_never_invokes_provider
+    provider.assert_not_called()
+  File "<user-home>\miniconda3\envs\qa-portal\lib\unittest\mock.py", line 890, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'managed_rows' to not have been called. Called 1 times.
+Calls: [call({'id': 'admin-a', 'role': 'admin', 'org': 'A'}, 'synthetic-monthly')].
+
+======================================================================
+FAIL: test_provider_wrong_id_is_rejected_before_direct_report (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 136, in test_provider_wrong_id_is_rejected_before_direct_report
+    with self.assertRaises(ProviderUnavailable):
+AssertionError: ProviderUnavailable not raised
+
+======================================================================
+FAIL: test_service_lookup_outage_is_sanitized_and_fail_closed (test_authorization_boundaries.BoundaryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<user-home>\Documents\Codex\2026-10-04\task\work\QA_Portal_Integration\tests\test_authorization_boundaries.py", line 144, in test_service_lookup_outage_is_sanitized_and_fail_closed
+    with self.assertRaises(ProviderUnavailable) as error:
+AssertionError: ProviderUnavailable not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.246s
+
+FAILED (failures=36, errors=5)

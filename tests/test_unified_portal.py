@@ -15,6 +15,7 @@ from types import SimpleNamespace
 import unittest
 
 from reporting_workspace.application import create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.config import Settings
 from reporting_workspace.legacy_demo_ui import FIELDS
 from reporting_workspace.providers import DemoIdentityProvider
@@ -57,12 +58,7 @@ class UnifiedPortalTransportTests(unittest.TestCase):
     def close_app(self, server):
         if server not in self.servers:
             return
-        for name in ('qa_demo_builder', 'qa_demo_crud'):
-            if name in server.extensions:
-                server.extensions[name].close()
-        temporary = server.extensions.get('qa_demo_temporary')
-        if temporary is not None:
-            temporary.cleanup()
+        dispose_app(server)
         self.servers.remove(server)
 
     def tearDown(self):

@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from reporting_workspace.application import create_app
+from reporting_workspace.lifecycle import dispose_app
 from reporting_workspace.config import Settings
 from reporting_workspace.ui_pages import default_pages
 from reporting_workspace.ui_pages.maintenance import PAGE_SIZE, POLICY, SPEC
@@ -68,6 +69,7 @@ class MaintenanceTests(unittest.TestCase):
                             state_path=str(Path(self.directory.name) / 'state.sqlite3') if state else None)
         extras = () if any(page.page_id == 'maintenance' for page in default_pages()) else (SPEC,)
         server = create_app(settings, Identities(), Reports(), extra_pages=extras)
+        self.addCleanup(dispose_app, server)
         server.config['TESTING'] = True
         return server
 

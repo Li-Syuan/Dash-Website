@@ -4,7 +4,7 @@ import hashlib
 import secrets
 import time
 
-from flask import Flask, g, jsonify, request, session, has_request_context
+from flask import Flask, current_app, g, jsonify, request, session, has_request_context
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user
 from werkzeug.exceptions import HTTPException, RequestEntityTooLarge
 
@@ -16,6 +16,8 @@ from .crud import ReportDefinitions
 from .governance import ManagedReports
 from .crud import NotFound, StateUnavailable
 from .providers import validate_identity, validate_providers
+from .authorization import current_identity, lookup_identity
+from .static_transport import StaticTransport
 
 
 
@@ -34,9 +36,12 @@ class AuthorizedReports:
             raise ValueError('Report adapter must map to the documented report schema')
 
     def rows(self, user):
+        user = current_identity(self.runtime.identities, user)
         require(user, ['admin'])
         try:
-            return self.provider.rows(user)
+            rows = self.provider.rows(user)
+            current_identity(self.runtime.identities, user)
+            return rows
         except AccessDenied:
             raise
         except Exception:
@@ -44,9 +49,11 @@ class AuthorizedReports:
             raise ProviderUnavailable() from None
 
     def export(self, user):
+        user = current_identity(self.runtime.identities, user)
         require(user, ['admin'])
         try:
             content = self.provider.export(user)
+            current_identity(self.runtime.identities, user)
             self.runtime.audit('report.export', actor=user['id'])
             return content
         except AccessDenied:
@@ -61,15 +68,46 @@ class Runtime:
         self.settings, self.identities, self.state = settings, identities, state
         self.is_demo = settings.mode == 'demo'
         self.locks, self.scheduler, self.mail = DemoLocks(), DemoScheduler(), MailSink()
+        self._simulation_captures = {}
         self.reports = AuthorizedReports(report_provider, self)
         self.notify = NotifyService(self.identity)
-        self.definitions = ReportDefinitions(state) if state is not None else None
+        self.definitions = ReportDefinitions(state, identities=identities) if state is not None else None
         self.managed = ManagedReports(state, identities, report_provider, is_demo=self.is_demo)
 
     def identity(self):
         if not current_user.is_authenticated:
             return None
         return dict(id=current_user.id, role=current_user.role, org=current_user.org)
+
+    def definition_request(self):
+        """Bind maintenance data access to this app's current HTTP request.
+
+        Nothing is cached on Runtime: concurrent clients get independent frozen
+        scopes, and retaining one beyond its original request grants no access.
+        Flask-Login resolves provider claims again on the next request.
+        """
+        from .crud import AccessDenied as DefinitionAccessDenied
+        if (not has_request_context()
+                or current_app.extensions.get('workspace') is not self):
+            raise DefinitionAccessDenied('An active workspace request is required.')
+        lifetime = getattr(g, 'definition_request_lifetime', None)
+        if lifetime is None or not lifetime['active']:
+            raise DefinitionAccessDenied('An active workspace request is required.')
+        if self.definitions is None:
+            raise StateUnavailable('Durable state is unavailable.')
+        original_request = request._get_current_object()
+        original_app = current_app._get_current_object()
+
+        def is_active():
+            return (has_request_context()
+                    and lifetime['active']
+                    and getattr(g, 'definition_request_lifetime', None) is lifetime
+                    and request._get_current_object() is original_request
+                    and current_app._get_current_object() is original_app)
+
+        return self.definitions.bind(self.identity(),
+                                     request_id=getattr(g, 'request_id', None),
+                                     is_active=is_active)
 
     def audit(self, event, actor=None, outcome='ok'):
         # StateStore's strict schema retains no passwords, headers,
@@ -111,34 +149,45 @@ class Runtime:
             self.audit('logout.succeeded', actor=user_id)
 
     def run_simulation_result(self, user):
+        user = current_identity(self.identities, user)
         require(user, ['admin'])
         if not self.is_demo:
             raise AccessDenied('Demo simulation is disabled')
+        scope = hashlib.sha256(user['org'].encode('utf-8')).hexdigest()
+        lease_key, job_key = 'demo-report:' + scope, 'demo-mail:' + scope
+        if self.state is not None and self.state.get_job('demo-mail', 'fixture-1') is not None:
+            # Old global claims have no reliable tenant attribution. Preserve
+            # every outcome for manual review; a new namespace must not replay it.
+            raise ProviderUnavailable()
+
+        def send_mock():
+            current_identity(self.identities, user)
+            self.mail.send('Demo report ready', 'Synthetic fixture only', ['tester@example.invalid'])
+            self._simulation_captures[scope] = self._simulation_captures.get(scope, 0) + 1
+
         if self.state is None:
-            acquired = self.locks.acquire('demo-report', user['id'])
+            acquired = self.locks.acquire(lease_key, user['id'])
             try:
-                ran = self.scheduler.run_once('demo-mail', 'fixture-1', lambda: self.mail.send(
-                    'Demo report ready', 'Synthetic fixture only', ['tester@example.invalid'])) if acquired else False
+                ran = self.scheduler.run_once(job_key, 'fixture-1', send_mock) if acquired else False
             finally:
-                released = self.locks.release('demo-report', user['id']) if acquired else False
-            captured = len(self.mail.messages)
+                released = self.locks.release(lease_key, user['id']) if acquired else False
         else:
             owner = hashlib.sha256(user['id'].encode('utf-8')).hexdigest()
-            lease = self.state.acquire('demo-report', owner, 30)
+            lease = self.state.acquire(lease_key, owner, 30)
             acquired, released, ran = bool(lease), False, False
             try:
                 if lease:
-                    token = self.state.claim_job('demo-mail', 'fixture-1', owner)
+                    token = self.state.claim_job(job_key, 'fixture-1', owner)
                     if token:
                         try:
-                            self.mail.send('Demo report ready', 'Synthetic fixture only', ['tester@example.invalid'])
+                            send_mock()
                         except Exception:
-                            self.state.finish_job('demo-mail', 'fixture-1', owner, token, success=False, failure_code='execution_failed')
+                            self.state.finish_job(job_key, 'fixture-1', owner, token, success=False, failure_code='execution_failed')
                             raise ProviderUnavailable() from None
                         # A failed completion write must remain running/uncertain;
                         # do not relabel a possibly completed effect as failed.
                         try:
-                            finished = self.state.finish_job('demo-mail', 'fixture-1', owner, token, success=True)
+                            finished = self.state.finish_job(job_key, 'fixture-1', owner, token, success=True)
                         except Exception:
                             raise ProviderUnavailable() from None
                         if not finished:
@@ -146,8 +195,8 @@ class Runtime:
                         ran = True
             finally:
                 if lease:
-                    released = self.state.release('demo-report', owner, lease.token)
-            captured = len(self.mail.messages)
+                    released = self.state.release(lease_key, owner, lease.token)
+        captured = self._simulation_captures.get(scope, 0)
         return dict(acquired=acquired, released=released, ran=ran, captured=captured)
 
     @staticmethod
@@ -190,7 +239,7 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
     @manager.user_loader
     def load_user(username):
         try:
-            record = identities.get_user(username)
+            record = lookup_identity(identities, username)
             return SessionUser(record) if record is not None else None
         except Exception:
             # A failed identity lookup never grants access or exposes its exception.
@@ -200,6 +249,9 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
     @server.before_request
     def request_boundary():
         g.request_id, g.started_at = secrets.token_hex(12), time.monotonic()
+        # A copied Flask RequestContext can reuse its Request object. Explicit
+        # teardown invalidation prevents an old service scope being resurrected.
+        g.definition_request_lifetime = {'active': True}
         origin = request.headers.get('Origin')
         cross_origin = ((origin is not None and origin != request.host_url.rstrip('/'))
                         or request.headers.get('Sec-Fetch-Site') == 'cross-site')
@@ -234,6 +286,12 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
             if not policy.allows(user):
                 runtime.audit('access.denied', actor=user['id'] if user else None, outcome='denied')
                 return jsonify(error='Forbidden'), 403
+
+    @server.teardown_request
+    def close_definition_request(error):
+        lifetime = getattr(g, 'definition_request_lifetime', None)
+        if lifetime is not None:
+            lifetime['active'] = False
 
     @server.after_request
     def response_boundary(response):
@@ -304,5 +362,16 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
         return jsonify(status='ready', storage='sqlite-local' if state else 'process-memory', scheduler='not-started')
 
     from .web import create_dash_app
-    server.extensions['dash_app'] = create_dash_app(server, runtime, extra_pages=extra_pages)
+    try:
+        server.extensions['dash_app'] = create_dash_app(server, runtime, extra_pages=extra_pages)
+    except BaseException:
+        from .lifecycle import dispose_app
+        try:
+            dispose_app(server)
+        except Exception:
+            # Preserve the construction error; never expose cleanup paths or
+            # provider diagnostics, and never dispose on normal request teardown.
+            server.logger.error('Application cleanup failed after construction error')
+        raise
+    server.wsgi_app = StaticTransport(server.wsgi_app)
     return server

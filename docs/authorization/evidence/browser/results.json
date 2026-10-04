@@ -1,0 +1,484 @@
+{
+  "generatedAt": "2026-10-04T08:52:11.499Z",
+  "mode": "full acceptance",
+  "platform": "win32",
+  "node": "v24.21.0",
+  "python": "3.10.22",
+  "browser": "154.0.8037.95",
+  "browserChannel": "chrome",
+  "fixture": {
+    "pid": 37292,
+    "port": 58513,
+    "importedEntry": "app.py",
+    "schedulerStarted": false,
+    "syntheticOnly": true
+  },
+  "passed": 28,
+  "failed": 4,
+  "results": [
+    {
+      "name": "01-login-button-only",
+      "status": "passed",
+      "milliseconds": 73026
+    },
+    {
+      "name": "02-maintenance-pagination",
+      "status": "passed",
+      "milliseconds": 4022
+    },
+    {
+      "name": "03-maintenance-create-double-click",
+      "status": "passed",
+      "milliseconds": 3706,
+      "detail": {
+        "matchingDatabaseRows": 1,
+        "version": 1,
+        "interaction": "real double click"
+      }
+    },
+    {
+      "name": "04-maintenance-replay-supplementary",
+      "status": "passed",
+      "milliseconds": 212,
+      "detail": {
+        "matchingDatabaseRows": 1,
+        "mode": "browser-context transport replay supplement; create exercised by real double click"
+      }
+    },
+    {
+      "name": "05-same-organization-peer-readonly",
+      "status": "passed",
+      "milliseconds": 6366
+    },
+    {
+      "name": "06-owner-update-version",
+      "status": "passed",
+      "milliseconds": 3993
+    },
+    {
+      "name": "07-version-conflict-retains-draft",
+      "status": "passed",
+      "milliseconds": 10468
+    },
+    {
+      "name": "08-archive-restore",
+      "status": "passed",
+      "milliseconds": 2098
+    },
+    {
+      "name": "09-new-clears-unsaved-form",
+      "status": "passed",
+      "milliseconds": 2118
+    },
+    {
+      "name": "10-tenant-b-isolation",
+      "status": "passed",
+      "milliseconds": 5767
+    },
+    {
+      "name": "11-tampered-cross-tenant-id-ui-submit",
+      "status": "passed",
+      "milliseconds": 2405,
+      "detail": {
+        "foreignTenantRecordUnchanged": true
+      }
+    },
+    {
+      "name": "12-tampered-owner-ui-submit",
+      "status": "passed",
+      "milliseconds": 2511,
+      "detail": {
+        "targetVersionUnchanged": 5,
+        "unauthorizedCreateCount": 0
+      }
+    },
+    {
+      "name": "13-identity-revocation-ui-submit",
+      "status": "passed",
+      "milliseconds": 6616,
+      "detail": {
+        "callbackStatus": 401,
+        "unauthorizedCreateCount": 0
+      }
+    },
+    {
+      "name": "14-qsl-read-pagination",
+      "status": "passed",
+      "milliseconds": 2819
+    },
+    {
+      "name": "15-cancel-create",
+      "status": "passed",
+      "milliseconds": 4135,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-update",
+      "status": "passed",
+      "milliseconds": 5248,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-delete",
+      "status": "passed",
+      "milliseconds": 5151,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-upload",
+      "status": "passed",
+      "milliseconds": 4798,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "16-qsl-create-double-click",
+      "status": "passed",
+      "milliseconds": 4473
+    },
+    {
+      "name": "17-qsl-query-update-id-tamper",
+      "status": "passed",
+      "milliseconds": 6300
+    },
+    {
+      "name": "18-qsl-delete-query-and-submit",
+      "status": "passed",
+      "milliseconds": 4186
+    },
+    {
+      "name": "19-qsl-upload-submit",
+      "status": "passed",
+      "milliseconds": 2544
+    },
+    {
+      "name": "20-qsl-wizard-next-previous",
+      "status": "passed",
+      "milliseconds": 5807
+    },
+    {
+      "name": "21-qsl-export-csv-xlsx",
+      "status": "passed",
+      "milliseconds": 2081
+    },
+    {
+      "name": "22-report-refresh-export",
+      "status": "failed",
+      "milliseconds": 45642,
+      "error": "Browser requests did not settle"
+    },
+    {
+      "name": "23-etl-and-operations-render",
+      "status": "failed",
+      "milliseconds": 45987,
+      "error": "Browser requests did not settle"
+    },
+    {
+      "name": "24-tenant-denied-qsl-etl-operations",
+      "status": "passed",
+      "milliseconds": 3812
+    },
+    {
+      "name": "25-readonly-qsl-controls-and-etl-denial",
+      "status": "passed",
+      "milliseconds": 2587
+    },
+    {
+      "name": "26-browser-history-navigation",
+      "status": "failed",
+      "milliseconds": 45728,
+      "error": "Browser requests did not settle"
+    },
+    {
+      "name": "27-mobile-maintenance",
+      "status": "passed",
+      "milliseconds": 3404
+    },
+    {
+      "name": "28-logout-replay-denied",
+      "status": "passed",
+      "milliseconds": 423,
+      "detail": {
+        "mode": "real logout navigation plus supplementary browser-context replay"
+      }
+    },
+    {
+      "name": "29-no-external-effects-or-page-errors",
+      "status": "failed",
+      "milliseconds": 198,
+      "error": "Unexpected browser console errors\n+ actual - expected\n\n+ [\n+   {\n+     path: '/_dash-component-suites/dash/dcc/async-plotlyjs.js',\n+     text: 'Static fixture fetch failed: CalledProcessError'\n+   }\n+ ]\n- []\n"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Static fixture fetch failed: CalledProcessError",
+      "path": "/_dash-component-suites/dash/dcc/async-plotlyjs.js"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/login",
+      "expectedAuthorizationDenial": true
+    }
+  ],
+  "pageErrors": [],
+  "networkFailures": [
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "blockedExternalOrigins": [],
+  "staticTransport": "fixture loopback HTTP fetch; identical static bytes fulfilled to browser; native static delivery not certified",
+  "callbackStatuses": {
+    "200": 309,
+    "204": 38,
+    "401": 3
+  },
+  "serverStopped": true,
+  "packages": {
+    "dash": "2.9.1",
+    "Flask": "2.2.3",
+    "Werkzeug": "2.2.3",
+    "dash-bootstrap-components": "1.4.1",
+    "dash-mantine-components": "0.12.0"
+  },
+  "syntheticStateRemoved": true
+}

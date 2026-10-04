@@ -1,0 +1,6 @@
+# Recorded evidence is hashed byte-for-byte, including original CRLF and CSV BOM.
+benchmarks/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/optimization/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/optimization/V9_CHECKPOINT.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Captured DOM has intentional layout whitespace; keep it unchanged as evidence.
+docs/optimization/evidence/browser/*.dom.txt -whitespace

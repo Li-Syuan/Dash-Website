@@ -1,0 +1,102 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+QA Portal · QSL 維護
+離線合成資料。無 Oracle、LDAP、SMTP 或背景排程。正式環境請替換 adapter。
+
+回報表目錄 · 登出 · 使用主站登入身分：demo-admin 可維護，demo-user-a 唯讀，其他組織拒絕
+
+QSL 供應商資料
+篩選供應商名稱（字面包含）
+Create
+Read
+Update
+Delete
+匯出篩選 CSV
+Download data
+Download template
+Upload CSV
+操作完成（合成資料）。
+id
+	
+version
+	
+Material_Type
+	
+Vendor_Code
+	
+Vendor_Name
+	
+Country
+	
+City
+	
+Rev
+	
+Supplier_Level
+
+1	1	IC	SYN001	Synthetic Vendor 1	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+2	1	IC	SYN002	Synthetic Vendor 2	TW	Kaohsiung	A	LEVEL 1(KEY SUPPLIER)
+3	1	IC	BROWSER003	Browser synthetic vendor 03	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+4	1	IC	BROWSER004	Browser synthetic vendor 04	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+5	1	IC	BROWSER005	Browser synthetic vendor 05	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+6	1	IC	BROWSER006	Browser synthetic vendor 06	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+7	1	IC	BROWSER007	Browser synthetic vendor 07	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+8	1	IC	BROWSER008	Browser synthetic vendor 08	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+9	1	IC	BROWSER009	Browser synthetic vendor 09	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+10	1	IC	BROWSER010	Browser synthetic vendor 10	TW	Taipei	A	LEVEL 1(KEY SUPPLIER)
+1
+ / 2
+歷史版本 / 安全還原
+只顯示目前資料表的授權歷史。還原會新增版本，保留舊版本與操作人紀錄。歷史查看及還原需要維護權限。
+查詢歷史的資料 ID（包含已刪除資料）
+載入歷史版本
+版本
+	
+操作
+	
+操作人
+	
+時間 UTC
+	
+變更欄位
+	
+還原來源版本
+選取要還原的歷史版本
+預覽還原差異
+確認還原為新版本
+取消還原
+報表建立精靈
+選擇核准的合成資料來源，逐步設定欄位、條件及分組。定義只包含設定，不接受 SQL 或 Python。
+步驟 1 / 4：資料来源
+資料來源
+上一步
+下一步
+列出我的已存報表
+載入所選定義
+已保存的報表定義
+模擬報表與寄信流程
+手動執行 ETL → 產生報表 → mock mailbox；不會寄出真實郵件。
+模擬週期
+執行時刻 HH:MM
+時區
+每週星期（0=一、6=日）
+排程設定啟用（僅預覽，不啟動背景排程）
+模擬寄信結果
+模擬來源資料成功
+模擬報表產生成功
+模擬收件人（僅允許 .invalid）
+冪等執行鍵（相同鍵避免重複寄送）
+儲存模擬設定
+執行一次
+刷新紀錄
+Reporting foundation · Company integration and browser validation pending

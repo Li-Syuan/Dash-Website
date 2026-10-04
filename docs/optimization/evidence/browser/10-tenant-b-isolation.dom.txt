@@ -1,0 +1,60 @@
+Report workspace
+Reports
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Report definitions
+
+Maintain shared definitions with version-checked saves and reversible archiving.
+
+Legacy sample metadata. Admin-maintained report access and delivery settings are configured in Administration.
+
+Cadence and enabled are metadata only. Saving a definition does not schedule or run a report.
+
+Search definitions
+Include archived
+Refresh list
+	
+Name
+	
+Cadence
+	
+Enabled
+	
+Status
+	
+Version
+	
+Access
+Previous
+No matching definitions
+Next
+New report definition
+New definition
+
+Not saved yet
+
+Name
+Description
+Cadence (metadata only)
+Manual
+Daily
+Weekly
+Monthly
+Enabled (metadata only)
+
+Save creates a definition in your organization with you as its owner.
+
+Save definition
+Archive
+Restore
+Reload selected
+Choosing a row, New definition or Reload selected replaces unsaved form changes. Archiving is reversible; definitions are never permanently deleted here.
+Reporting foundation · Company integration and browser validation pending

@@ -1,0 +1,85 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Report definitions
+
+Maintain shared definitions with version-checked saves and reversible archiving.
+
+Legacy sample metadata. Admin-maintained report access and delivery settings are configured in Administration.
+
+Cadence and enabled are metadata only. Saving a definition does not schedule or run a report.
+
+Search definitions
+Include archived
+Refresh list
+	
+Name
+	
+Cadence
+	
+Enabled
+	
+Status
+	
+Version
+	
+Access
+
+	Browser owned definition	manual	Yes	Active	1	Editable
+	Browser seed A 24	manual	Yes	Active	1	Editable
+	Browser seed A 23	manual	Yes	Active	1	Editable
+	Browser seed A 22	manual	Yes	Active	1	Editable
+	Browser seed A 21	manual	Yes	Active	1	Editable
+	Browser seed A 20	manual	Yes	Active	1	Editable
+	Browser seed A 19	manual	Yes	Active	1	Editable
+	Browser seed A 18	manual	Yes	Active	1	Editable
+	Browser seed A 17	manual	Yes	Active	1	Editable
+	Browser seed A 16	manual	Yes	Active	1	Editable
+	Browser seed A 15	manual	Yes	Active	1	Editable
+	Browser seed A 14	manual	Yes	Active	1	Editable
+	Browser seed A 13	manual	Yes	Active	1	Editable
+	Browser seed A 12	manual	Yes	Active	1	Editable
+	Browser seed A 11	manual	Yes	Active	1	Editable
+	Browser seed A 10	manual	Yes	Active	1	Editable
+	Browser seed A 09	manual	Yes	Active	1	Editable
+	Browser seed A 08	manual	Yes	Active	1	Editable
+	Browser seed A 07	manual	Yes	Active	1	Editable
+	Browser seed A 06	manual	Yes	Active	1	Editable
+Previous
+1–20 of 26 · Page 1
+Next
+Selected report definition
+New definition
+
+Version 1 · Active · Editable by you
+
+Name
+Description
+Cadence (metadata only)
+Manual
+Daily
+Weekly
+Monthly
+Enabled (metadata only)
+
+Save checks the displayed version. If another editor saves first, reload before trying again.
+
+Save definition
+Archive
+Restore
+Reload selected
+Choosing a row, New definition or Reload selected replaces unsaved form changes. Archiving is reversible; definitions are never permanently deleted here.
+Reporting foundation · Company integration and browser validation pending
+Record created
+The maintenance record was created successfully.

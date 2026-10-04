@@ -7,3 +7,7 @@ __pycache__/
 test-artifacts/
 # Private local demo/maintenance data and backups.
 instance/
+
+# Local browser captures, probe output and private scratch data.
+output/
+.pytest_cache/

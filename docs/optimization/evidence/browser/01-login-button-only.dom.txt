@@ -1,0 +1,89 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Report catalog
+
+Find the report you need. Keep favorites close and pick up where you left off.
+
+Find a report
+Category
+All categories (4)
+All reports
+Favorites
+Recently opened
+
+1–4 of 4 reports
+
+All reports
+☆
+
+ACCESS FIXTURES
+
+Page 2
+
+Organization A permission fixture. This placeholder contains no business report.
+
+fixture
+organization
+Open report
+→
+☆
+
+SQE
+
+QSL 維護與報表精靈
+
+供應商維護、CSV/XLSX 匯入匯出、差異確認、版本還原及報表精靈。
+
+QSL
+維護表
+版本
+報表
+Open report
+→
+☆
+
+QA
+
+報表營運中心
+
+改動影響、報表差異、需求去重、品質攔截與使用統計。
+
+品質
+差異
+維護表
+TODO
+Open report
+→
+☆
+
+QA
+
+ETL 調度中心
+
+多工作排程、批次步驟、失敗重試與日期補跑。
+
+ETL
+排程
+重試
+補跑
+Open report
+→
+Previous
+Page 1 of 1
+Next
+
+Favorites and recently opened reports are saved in this browser for this account. Only report IDs are stored; report data is never saved here.
+
+Reporting foundation · Company integration and browser validation pending

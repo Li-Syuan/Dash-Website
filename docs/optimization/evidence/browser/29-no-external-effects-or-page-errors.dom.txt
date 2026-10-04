@@ -1,0 +1,85 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Monthly performance
+
+Synthetic data, ready to explore.
+
+REVENUE
+
+1,305,000
+Demo units · 6 periods
+
+COST
+
+778,800
+Demo units · 6 periods
+
+PROFIT
+
+526,200
+Demo units · 6 periods
+Revenue and cost
+2 departments
+2026-01
+2026-02
+2026-03
+2026-04
+2026-05
+2026-06
+0
+50k
+100k
+150k
+200k
+Revenue
+Cost
+Demo units
+Report details
+Refresh
+Export CSV
+		
+PERIOD
+	
+DEPARTMENT
+	
+REVENUE
+	
+COST
+	
+PROFIT
+
+		
+	
+	
+	
+	
+
+×		2026-01	Demo Sales	102500	61400	41100
+×		2026-01	Demo Operations	102500	61400	41100
+×		2026-02	Demo Sales	105000	62800	42200
+×		2026-02	Demo Operations	105000	62800	42200
+×		2026-03	Demo Sales	107500	64200	43300
+×		2026-03	Demo Operations	107500	64200	43300
+×		2026-04	Demo Sales	110000	65600	44400
+×		2026-04	Demo Operations	110000	65600	44400
+×		2026-05	Demo Sales	112500	67000	45500
+×		2026-05	Demo Operations	112500	67000	45500
+1
+ / 2
+
+CSV exports the original fixture, not unsaved edits or the current filter.
+
+Reporting foundation · Company integration and browser validation pending

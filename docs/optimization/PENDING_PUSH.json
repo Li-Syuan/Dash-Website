@@ -1,0 +1,526 @@
+{
+  "snapshot": "Pre-commit change manifest after the user explicitly approved this round's main push and GitHub CI verification.",
+  "base_commit": "a35898344c752e6c41fab0afdfd81d7d6ebdb617",
+  "branch": "codex/recovery-concurrency-performance",
+  "main_push_authorized": true,
+  "force_push_authorized": false,
+  "deployment_authorized": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "status": "added",
+      "bytes": 520,
+      "sha256": "92569de333938a0a70e211bf967d47fd9abe5f7369835e17071669f4d96206fb"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified",
+      "bytes": 216,
+      "sha256": "6b2461b0195f17475cfce433792af589f1816b29d574b0bffb62a9aa009ef86b"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "added",
+      "bytes": 6304,
+      "sha256": "e5929d13f8bd09610035121d50ef3db9d291f34240b93ac8a3f82f2713cab8c4"
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "bytes": 17107,
+      "sha256": "2555021f733b3bf55af73cabd01a7a0f30f3b7175dc20540ab0cb8a0301682c6"
+    },
+    {
+      "path": "benchmarks/compare_latency.py",
+      "status": "added",
+      "bytes": 3449,
+      "sha256": "d9f994fd73d2f5322531313c8324cb926efe890b7768f049b6e338bca6551239"
+    },
+    {
+      "path": "benchmarks/evidence/baseline-v9.json",
+      "status": "added",
+      "bytes": 71795,
+      "sha256": "226c2e256402ddc546ed1200f817e57d6ba399d9dac5eadcc8f837c5e9b378e7"
+    },
+    {
+      "path": "benchmarks/evidence/candidate-v10.json",
+      "status": "added",
+      "bytes": 71677,
+      "sha256": "ffd518401b34a878451672a4c0af0196752c242fedba596ac8a026b6b467f0ab"
+    },
+    {
+      "path": "benchmarks/evidence/comparison-v10.json",
+      "status": "added",
+      "bytes": 5713,
+      "sha256": "d30dec6f731237bb40f3f8d97c1871b9c5741be2491d533c7cbc92d985f14175"
+    },
+    {
+      "path": "benchmarks/portal_latency.py",
+      "status": "added",
+      "bytes": 13002,
+      "sha256": "1a24a9434d7bbf8a7b6034347226acee4c01953a64b616c4fe11321b9e86ecdd"
+    },
+    {
+      "path": "docs/AGENT_HANDOFF.md",
+      "status": "added",
+      "bytes": 6623,
+      "sha256": "d8436f9e4ddf03a1fa1ab734bbe84fe21e52b24da1d497704c6dad16d5d2d150"
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "status": "added",
+      "bytes": 6055,
+      "sha256": "3b181bd61e0a5c540e1e53784bdbd4c35025a02cd43b8d02b4999ef6a14b6bb2"
+    },
+    {
+      "path": "docs/optimization/CHANGES_AND_MIGRATION.md",
+      "status": "added",
+      "bytes": 3108,
+      "sha256": "04b122a49135eaeb9fde2d690495e331116ced76df6ec58d2c19d7c678a319cf"
+    },
+    {
+      "path": "docs/optimization/CI_ACCEPTANCE.md",
+      "status": "added",
+      "bytes": 2738,
+      "sha256": "4d2b1234281e345fadeec9b1a27159eb7a2dd776e03e71d9d0f84d04f9285585"
+    },
+    {
+      "path": "docs/optimization/CONCURRENCY.md",
+      "status": "added",
+      "bytes": 5708,
+      "sha256": "57d9de084de173b4ef5bf16659c1f1f5521f2dc91983e8a0881e82c2a07cd4b3"
+    },
+    {
+      "path": "docs/optimization/PENDING_PUSH.md",
+      "status": "added",
+      "bytes": 2538,
+      "sha256": "2ada2394f96301aad954c2c0912d5be164f162045d1aa02185dac1684e7a95f6"
+    },
+    {
+      "path": "docs/optimization/PERFORMANCE.md",
+      "status": "added",
+      "bytes": 9714,
+      "sha256": "9dcba47f92eb7fdd464080a4243e0f9e2734a9e25fbdc70707a58746d1cbaed0"
+    },
+    {
+      "path": "docs/optimization/RECOVERY.md",
+      "status": "added",
+      "bytes": 6678,
+      "sha256": "e47b8e7597738c12c5afa4f90f2866dfa79e182b1a6b9b55150169d03fb7b9d7"
+    },
+    {
+      "path": "docs/optimization/V9_CHECKPOINT.json",
+      "status": "added",
+      "bytes": 731,
+      "sha256": "bfc1e2282205b265dc531743e357b1f650392a2b8678fb9f5d5ec338b7411344"
+    },
+    {
+      "path": "docs/optimization/VALIDATION_V10.md",
+      "status": "added",
+      "bytes": 5288,
+      "sha256": "4514ffb142d88905d4c1f8d4289601d69ac611df4b62045bfe44ffa361015dfa"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/01-login-button-only.dom.txt",
+      "status": "added",
+      "bytes": 1261,
+      "sha256": "df1c44ae5de3e467d3cf80a19bba69d425d4b4668bcb3fa10c8499ad4c052cd1"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/02-maintenance-pagination.dom.txt",
+      "status": "added",
+      "bytes": 2109,
+      "sha256": "4362e8b973e7d8a0b77caa1cbded323570a20c409ffa91effe5571eec50fed4d"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/03-maintenance-create-double-click.dom.txt",
+      "status": "added",
+      "bytes": 2234,
+      "sha256": "89092bf1afe5009c5b6d5c6509316a47a4e23dc9469de0e9fbdce79ec66c6471"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/04-maintenance-replay-supplementary.dom.txt",
+      "status": "added",
+      "bytes": 2234,
+      "sha256": "89092bf1afe5009c5b6d5c6509316a47a4e23dc9469de0e9fbdce79ec66c6471"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/05-same-organization-peer-readonly.dom.txt",
+      "status": "added",
+      "bytes": 1246,
+      "sha256": "b9f7a4943f357436f9171266f6d4e542c50b15bdb5fadfa08f746749c14a91ca"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/06-owner-update-version.dom.txt",
+      "status": "added",
+      "bytes": 1320,
+      "sha256": "0fda7d43bc26353cd162d64ab6bde7c0a9f1f593b5f8ff90086ba539a895df61"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/07-version-conflict-retains-draft.dom.txt",
+      "status": "added",
+      "bytes": 1346,
+      "sha256": "193b7f1cbd301848d6b16e83fc55499daac0e296c4170552292a721025c20cb7"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/08-archive-restore.dom.txt",
+      "status": "added",
+      "bytes": 1478,
+      "sha256": "61d11feb60c0062b2a7b980977e7c4e4db5df02a19258dab465fc8db178507e5"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/08-archived-definition.dom.txt",
+      "status": "added",
+      "bytes": 1316,
+      "sha256": "6fcd881dbdda109e9372f986cbd4e339bd3154685b28cdb62875787ed29b3818"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/09-new-clears-unsaved-form.dom.txt",
+      "status": "added",
+      "bytes": 1424,
+      "sha256": "283b269d5c802bb11e334f2cfd52b7afee56978903cee390709725caacd1796a"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/10-tenant-b-isolation.dom.txt",
+      "status": "added",
+      "bytes": 1104,
+      "sha256": "97a7008715bcb14d32d5a0c32957fd745a710a0e3e7f891fd6abffa42abc8442"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/11-tampered-cross-tenant-id-ui-submit.dom.txt",
+      "status": "added",
+      "bytes": 1376,
+      "sha256": "a14ab7774a11d68f59527aaf37be115052fceeac48e6dd8743715d133c594054"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/12-tampered-owner-ui-submit.dom.txt",
+      "status": "added",
+      "bytes": 1323,
+      "sha256": "6c47e7c18639d1d391702f6c86010f467b8cd63d207fd1723053769d57628189"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/13-identity-revocation-ui-submit.dom.txt",
+      "status": "added",
+      "bytes": 1323,
+      "sha256": "6c47e7c18639d1d391702f6c86010f467b8cd63d207fd1723053769d57628189"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/13-revoked-session.dom.txt",
+      "status": "added",
+      "bytes": 2136,
+      "sha256": "ef9a51c80b31f81b2ec5eb7682676d332c57cb372eb9115f1df872073f2a4c55"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/14-qsl-read-pagination.dom.txt",
+      "status": "added",
+      "bytes": 2696,
+      "sha256": "22a5ade1e06b6ffe6ffbe88460fa01d65836b61ca192a40a6cc47678a07ee5fe"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-cancel-create.dom.txt",
+      "status": "added",
+      "bytes": 2696,
+      "sha256": "22a5ade1e06b6ffe6ffbe88460fa01d65836b61ca192a40a6cc47678a07ee5fe"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-cancel-delete.dom.txt",
+      "status": "added",
+      "bytes": 2696,
+      "sha256": "22a5ade1e06b6ffe6ffbe88460fa01d65836b61ca192a40a6cc47678a07ee5fe"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-cancel-update.dom.txt",
+      "status": "added",
+      "bytes": 2696,
+      "sha256": "22a5ade1e06b6ffe6ffbe88460fa01d65836b61ca192a40a6cc47678a07ee5fe"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-cancel-upload.dom.txt",
+      "status": "added",
+      "bytes": 2696,
+      "sha256": "22a5ade1e06b6ffe6ffbe88460fa01d65836b61ca192a40a6cc47678a07ee5fe"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-open-create.dom.txt",
+      "status": "added",
+      "bytes": 2811,
+      "sha256": "d582e2813d8211f452586535c75c662228122ce8f966a1b111f43bd6f74733c8"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-open-delete.dom.txt",
+      "status": "added",
+      "bytes": 2903,
+      "sha256": "6eca4e3391889de43991e2ecf481388a715e72e579dd5a85a90b1871f7b8fcb7"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-open-update.dom.txt",
+      "status": "added",
+      "bytes": 2971,
+      "sha256": "9425f2fa13eda3e32db30d3779b5a252678f1f88dfac7124ebc0b27df2cb9e6a"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/15-open-upload.dom.txt",
+      "status": "added",
+      "bytes": 4490,
+      "sha256": "28fd65f6dcc68ca1179b64b252681cdcc55020c20f93f0a6476ed3c123e62c16"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/16-qsl-create-double-click.dom.txt",
+      "status": "added",
+      "bytes": 2783,
+      "sha256": "f8b0c8022f4b532db20548c3f549335df065b182307125a136db909125cfc080"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/17-qsl-query-update-id-tamper.dom.txt",
+      "status": "added",
+      "bytes": 2783,
+      "sha256": "156a87444dcbe04e21556c5c43fe6d2e7203c63691a29a9301dbd831d0a72ca2"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/18-qsl-delete-query-and-submit.dom.txt",
+      "status": "added",
+      "bytes": 3065,
+      "sha256": "106098998b4b31fcdb71e396d13cdfe83693b8b5ca488318edbc2b9447fead61"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/19-qsl-upload-submit.dom.txt",
+      "status": "added",
+      "bytes": 3127,
+      "sha256": "80e6dc433ea717cb53c877d10928e634682c04e3f5d062463d6c4a8e945d969f"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/20-qsl-wizard-next-previous.dom.txt",
+      "status": "added",
+      "bytes": 3743,
+      "sha256": "8ba61b90b6d3ec135dfd8bc23b5382bd113373aa6449fc8c7999cc504fe29c3d"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/21-qsl-export-csv-xlsx.dom.txt",
+      "status": "added",
+      "bytes": 3594,
+      "sha256": "01e85331eed5c6ac37673ec1079c28e1f658d3d32c87f2f906fe632e8a80b9a3"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/22-report-refresh-export.dom.txt",
+      "status": "added",
+      "bytes": 1320,
+      "sha256": "38f9eeae0ce075b257a05a7d0dcc7a6bcb27e33ab7d9b800a4926e8ab1f3eaa3"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/23-etl-and-operations-render.dom.txt",
+      "status": "added",
+      "bytes": 2101,
+      "sha256": "0d0f22ce5e9b5937cf6d29c44ec94e69e8539fe6207c0ae8c90ad1afb590adb9"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/23-etl.dom.txt",
+      "status": "added",
+      "bytes": 2802,
+      "sha256": "09992f1cad9e4c407d881139c419d1344edaf16a02ac356fdbb6e9bd40aa2283"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/24-denied-etl.dom.txt",
+      "status": "added",
+      "bytes": 269,
+      "sha256": "0268589344af519eaf9508db468bd0237f924108635fb47de9cb028e2551a746"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/24-denied-maintenance.dom.txt",
+      "status": "added",
+      "bytes": 269,
+      "sha256": "0268589344af519eaf9508db468bd0237f924108635fb47de9cb028e2551a746"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/24-denied-operations.dom.txt",
+      "status": "added",
+      "bytes": 269,
+      "sha256": "0268589344af519eaf9508db468bd0237f924108635fb47de9cb028e2551a746"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/24-tenant-denied-qsl-etl-operations.dom.txt",
+      "status": "added",
+      "bytes": 269,
+      "sha256": "0268589344af519eaf9508db468bd0237f924108635fb47de9cb028e2551a746"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/25-readonly-qsl-controls-and-etl-denial.dom.txt",
+      "status": "added",
+      "bytes": 2911,
+      "sha256": "3bdc2987f4188d39d68fb06f2ecaec44bc1ed4884a463bed665856027390ea25"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/26-browser-history-navigation.dom.txt",
+      "status": "added",
+      "bytes": 1267,
+      "sha256": "be9c1942906e83713e1c171018d513db3693f059570adec23a30435da48b1079"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/27-mobile-maintenance.dom.txt",
+      "status": "added",
+      "bytes": 2116,
+      "sha256": "17577ed00aed7bfc6234c48fc0e627042d752985dd31e88e35fa88a6b4d7082b"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/28-logout-replay-denied.dom.txt",
+      "status": "added",
+      "bytes": 353,
+      "sha256": "0ee8ec8af81cfc8c5a04db6c7fa9d36a29b01d22f32f058fa65f454290f7d0e3"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/29-no-external-effects-or-page-errors.dom.txt",
+      "status": "added",
+      "bytes": 1212,
+      "sha256": "e908156511dbd6de2736803bbc3b196d25ed4f4a34257c0b83da56b480770d99"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/evidence-hashes.json",
+      "status": "added",
+      "bytes": 13702,
+      "sha256": "3a0f50d4d5542c409c4b5b80502f8fce1baaaf41795f86546b1cc7e8d3d3471b"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/fixture.json",
+      "status": "added",
+      "bytes": 63,
+      "sha256": "475ff83d49dbe49c3b7e96cb64df796cbf04f5bdbbfada52f5c755ab84907498"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/progress.json",
+      "status": "added",
+      "bytes": 5889,
+      "sha256": "4c153e8f962cb48ef94d9ef485f6a8de7bd7028e2c7933f142f3042d294813a5"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/qsl.csv",
+      "status": "added",
+      "bytes": 1274,
+      "sha256": "62bde2d7290231600c92e0dbeb81419f80905b3b0c6164b0984e4c5f8329ccc9"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/report.csv",
+      "status": "added",
+      "bytes": 537,
+      "sha256": "6c1f9d721264654c0fceb37909b285fcb6d29efe0e0e3f62b85834e0eb03d546"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/results.json",
+      "status": "added",
+      "bytes": 11567,
+      "sha256": "41ad84f713c85ea5479677b0eec5ff556dbca09ca388c20d1dd489bbe918116c"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/run-provenance.json",
+      "status": "added",
+      "bytes": 657,
+      "sha256": "33fbd0a3bc03253415af8c9b7060b1eff87bd58756872b1209fcf9ede09a44b2"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/server.log",
+      "status": "added",
+      "bytes": 121593,
+      "sha256": "48e0f92e274f4c8833aa41903b0726b4702c215c1a47c746e96105a090b9a234"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/source-hashes.json",
+      "status": "added",
+      "bytes": 5898,
+      "sha256": "10b5e62082dbed84403c79b27d9f76145adab301d93914c90a25189e64f289f0"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/static-delivery.json",
+      "status": "added",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "docs/optimization/evidence/browser/summary.json",
+      "status": "added",
+      "bytes": 2099,
+      "sha256": "0acdad68cb7e0b674fc6dd02d1b48d0f61cd6020c826225464954c3f0fe8dc29"
+    },
+    {
+      "path": "docs/optimization/evidence/final-integrity.json",
+      "status": "added",
+      "bytes": 1335,
+      "sha256": "7de9affa4db29bf1feee824e734c15bf2d21866f40d06560a360cadb1bbfa2ae"
+    },
+    {
+      "path": "docs/optimization/evidence/windows-python310-final.json",
+      "status": "added",
+      "bytes": 494,
+      "sha256": "8b12b86981e2cbca01675ad33ce1bf04cd3b8fd393d83eff3a41cac16352e6e5"
+    },
+    {
+      "path": "docs/optimization/evidence/windows-python310-final.txt",
+      "status": "added",
+      "bytes": 98766,
+      "sha256": "4ac560b4da0923035061bd8902205598d52dbabbb1790c9be797e66e55a7590b"
+    },
+    {
+      "path": "docs/optimization/evidence/windows-source-hashes.json",
+      "status": "added",
+      "bytes": 11638,
+      "sha256": "4de19d3ccb25043353be1f75c2ed201dd0dc6baf0cbc0620a1262f91860bdcae"
+    },
+    {
+      "path": "docs/optimization/evidence/wsl-python38-final-clock.jsonl",
+      "status": "added",
+      "bytes": 2196,
+      "sha256": "69c0f3af5bff8c6e9fd3ee114ba74b3b4b15dda670cf4277b618924946d43f14"
+    },
+    {
+      "path": "docs/optimization/evidence/wsl-python38-final.json",
+      "status": "added",
+      "bytes": 1028,
+      "sha256": "772f95e6973383ba33c0e48ca675dcd6781d562d09e17144f81c6d646a882871"
+    },
+    {
+      "path": "docs/optimization/evidence/wsl-python38-final.txt",
+      "status": "added",
+      "bytes": 97811,
+      "sha256": "d19ff8f319929a300173d00385811b1a535b02ad8f6306ec4269ef9a245631a7"
+    },
+    {
+      "path": "docs/optimization/evidence/wsl-source-hashes.json",
+      "status": "added",
+      "bytes": 11638,
+      "sha256": "6f75757b97effe9ec40062c99e620ef8d3cf86efc21c504baa283c97ee6a84e6"
+    },
+    {
+      "path": "reporting_workspace/legacy_crud.py",
+      "status": "modified",
+      "bytes": 46032,
+      "sha256": "829bac888f66b3fec70894675c82f42c510e59417f1a69e72ce686e3b620e8ae"
+    },
+    {
+      "path": "tests/probes/clock_guard.py",
+      "status": "added",
+      "bytes": 4875,
+      "sha256": "b1557c504e3bd517a2030515c4985fb5ff3e2939cd59c2990fcd0f222dd11cde"
+    },
+    {
+      "path": "tests/test_concurrency_consistency.py",
+      "status": "added",
+      "bytes": 17185,
+      "sha256": "cac02926bb91a4454a0ccda92d27e0fab03b5c72cc961c0762f4ab2173ebf0f7"
+    },
+    {
+      "path": "tests/test_etl_recovery_faults.py",
+      "status": "added",
+      "bytes": 19005,
+      "sha256": "ddc768bde960e47437ac170877c54e1692ee42ee9d58377a728c4446dd945e73"
+    },
+    {
+      "path": "tests/test_legacy_performance_contracts.py",
+      "status": "added",
+      "bytes": 6669,
+      "sha256": "79b62822ebf5873f25ee2acc31b4f00cdf3471337d57fc2304f198ad63e87a08"
+    }
+  ],
+  "self_manifest_path": "docs/optimization/PENDING_PUSH.json",
+  "self_hash": "Excluded to avoid a self-referential hash; included by the delivery manifest.",
+  "ci_configuration": ".github/workflows/reporting-tests.yml",
+  "ci_expected_cases_per_linux_job": 901,
+  "python38_local_gate": "INVALID_ENVIRONMENT: 901 unittest cases reported OK; clock gate exit 86 with three backsteps. Preserve the record; no WSL retry or time-service change.",
+  "ci_status_at_snapshot": "Not run until this approved commit is pushed; final results are delivered separately."
+}

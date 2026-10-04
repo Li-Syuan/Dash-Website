@@ -178,6 +178,8 @@ class LegacyCrudService:
           CREATE UNIQUE INDEX IF NOT EXISTS legacy_qsl_unique_active ON
             legacy_qsl_records(target, Material_Type, Vendor_Code, Vendor_Name,
               Country, City) WHERE deleted=0;
+          CREATE INDEX IF NOT EXISTS legacy_qsl_active_order ON
+            legacy_qsl_records(target, id) WHERE deleted=0;
           CREATE TABLE IF NOT EXISTS legacy_qsl_audit (
             id INTEGER PRIMARY KEY AUTOINCREMENT, target TEXT NOT NULL,
             actor TEXT NOT NULL, action TEXT NOT NULL, record_id INTEGER NOT NULL,

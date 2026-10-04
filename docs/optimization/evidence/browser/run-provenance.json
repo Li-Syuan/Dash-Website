@@ -1,0 +1,13 @@
+{
+  "harnessHashes": {
+    "tests/browser/acceptance.cjs": "c1870f64b3a19be197a151a098dc982de6edbb08bf0bc68d3aef1a9c3c528af2",
+    "tests/browser/fixture_server.py": "db7223d29b394bec7d6a1b04d770f0d5bcd7fd5db53c8611646782e4595eeb61",
+    "tests/browser/README.md": "3ad316f99562fdb375766b54b9396347be8e9da710cbcb2a9ac68f009bf3bcd7"
+  },
+  "http10Override": false,
+  "automaticSuiteReruns": 0,
+  "baseCommit": "a35898344c752e6c41fab0afdfd81d7d6ebdb617",
+  "sourceState": "Frozen optimization-v10 working tree; local uncommitted changes above base commit",
+  "scope": "Synthetic owned-loopback browser acceptance only",
+  "staticBridge": false
+}

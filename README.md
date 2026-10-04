@@ -1,3 +1,7 @@
+> 系統 agent 接手：先讀 [AGENTS.md](AGENTS.md)、[專案需求與歷史決策](docs/PROJECT_CONTEXT.md) 及 [可執行交接指南](docs/AGENT_HANDOFF.md)。第 9 版 main 已完成；本輪復原／併發／效能與交接文件已另獲批准推 main，並以 GitHub CI 驗證 Python 3.8／3.10；未批准部署或新增範圍。
+
+> 本機候選 v10：[完整驗證與 WSL 限制](docs/optimization/VALIDATION_V10.md)、[修改與遷移](docs/optimization/CHANGES_AND_MIGRATION.md)、[待推清單](docs/optimization/PENDING_PUSH.md)、[下一輪 CI 驗收配置](docs/optimization/CI_ACCEPTANCE.md)。Windows 900 PASS／1 SKIP；真實 Chrome 32 PASS；Python 3.8 尚缺正常時鐘環境的合格驗證。
+
 > 2026-10-04 全站授權與資料隔離更新：見 [修改／遷移](docs/authorization/CHANGES_AND_MIGRATION.md)、[入口 coverage](docs/authorization/COVERAGE.md) 與 [第 9 版完整驗收](docs/authorization/VALIDATION_V9.md)。原生 Chrome 32/32；Python 回歸與 HTTP 證據分別記錄。
 
 > CRUD 架構升級：`/maintenance` 已完成共用授權、請求隔離與 service/repository 分層。見 [架構與遷移說明](docs/architecture/MAINTENANCE_SLICE.md)。既有 QSL 彈窗與 ETL 保留。

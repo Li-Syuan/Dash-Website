@@ -1,0 +1,11 @@
+Report workspace
+Reports
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+403: Forbidden — role or organization not permitted.
+Reporting foundation · Company integration and browser validation pending

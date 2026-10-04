@@ -1,0 +1,66 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Report definitions
+
+Maintain shared definitions with version-checked saves and reversible archiving.
+
+Legacy sample metadata. Admin-maintained report access and delivery settings are configured in Administration.
+
+Cadence and enabled are metadata only. Saving a definition does not schedule or run a report.
+
+Search definitions
+Include archived
+Refresh list
+	
+Name
+	
+Cadence
+	
+Enabled
+	
+Status
+	
+Version
+	
+Access
+
+	Browser owned definition	manual	Yes	Active	5	Read only
+Previous
+1–1 of 1 · Page 1
+Next
+New report definition
+New definition
+
+Not saved yet
+
+Name
+Description
+Cadence (metadata only)
+Manual
+Daily
+Weekly
+Monthly
+Enabled (metadata only)
+
+Save creates a definition in your organization with you as its owner.
+
+Save definition
+Archive
+Restore
+Reload selected
+Choosing a row, New definition or Reload selected replaces unsaved form changes. Archiving is reversible; definitions are never permanently deleted here.
+Reporting foundation · Company integration and browser validation pending
+Action unavailable
+You do not have permission to perform this maintenance action. Request ID: a18eb655474014e8f5003ebb.

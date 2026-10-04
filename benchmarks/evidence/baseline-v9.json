@@ -1,0 +1,2331 @@
+{
+  "schema": 1,
+  "label": "v9-baseline",
+  "python": "3.10.22",
+  "platform": "Windows 10",
+  "machine": "AMD64",
+  "sqlite": "3.53.4",
+  "packages": {
+    "dash": "2.9.1",
+    "Flask": "2.2.3",
+    "Werkzeug": "2.2.3",
+    "Flask-Login": "0.6.2",
+    "plotly": "5.13.1",
+    "openpyxl": "3.1.5",
+    "dash-bootstrap-components": "1.4.1",
+    "dash-mantine-components": "0.12.0",
+    "setuptools": "57.5.0"
+  },
+  "samples": 15,
+  "warmups": 3,
+  "timer": "time.perf_counter_ns; monotonic elapsed, milliseconds",
+  "p95_method": "nearest rank; no interpolation",
+  "measurement_scope": "synchronous service calls and real Flask test-client Dash HTTP dispatch; not browser/network latency",
+  "seed_method": "authorized synthetic stage_rows + submit_stage; setup outside timings",
+  "harness_sha256": "1a24a9434d7bbf8a7b6034347226acee4c01953a64b616c4fe11321b9e86ecdd",
+  "source_hashes": {
+    "reporting_workspace/__init__.py": "83999a4b8a9b5c6e79a30430ac86586eff4c2b65715f12881bd9dc842cac0364",
+    "reporting_workspace/admin_schema.py": "296647307a8f63da629d91f0a9bf8667a7c69f0c75ae5b780e4e5abf212f88f8",
+    "reporting_workspace/application.py": "073034abdd5c060ef1bc028fe65d2bf61ba21784a141e1d6da1109f011f3e17d",
+    "reporting_workspace/authorization.py": "f87804717d3b403e3d199754795859dbb8888e693391235ba42874025b5e6823",
+    "reporting_workspace/config.py": "c88a65f74c41eed17eb3a37a8c37a1603f0abadf51c15f4ad8c3d3a3642433d4",
+    "reporting_workspace/crud.py": "99f845289f1e60496e24f8fca28e827e1ee5b77af48e6a6a1babeccebe117c44",
+    "reporting_workspace/definition_domain.py": "e0d9fd6ad40a407158d08be28aaeaa5a4d2edc849509bed617240773c9e84cd4",
+    "reporting_workspace/definition_policy.py": "ec3e1482cd0862cef5e815cf561c87f96012c150a8b5a2f764c73c88b271b1f0",
+    "reporting_workspace/definition_repository.py": "a4e8b3f1acc88b1b1116cb4f3c8dd1aea6eab3240e2b4254d45d2c40117c601b",
+    "reporting_workspace/errors.py": "22ff869e0712ca491689e30d9ac7e95b0911fb1b3241b6ac33043576dc036d59",
+    "reporting_workspace/etl_adapters.py": "a93d4f79fc49b21d562edeeee42ea972f8c39b41135029d9b2e3c1a109a06a42",
+    "reporting_workspace/etl_dispatch.py": "ec4a41861c3c2a930b9b72614e3a7b338685fae1526ca73d79486e59e24381a9",
+    "reporting_workspace/governance.py": "00a0d36aaa7f42feca33c741272772777527bd10d342c08db8b5062c4c129835",
+    "reporting_workspace/job_monitor.py": "09ce422ada4d5e571279b17568beac21d4499d6f690604ce54d63bfffb7e91e5",
+    "reporting_workspace/launcher.py": "99e8ecd0b8ebd712b8545d0c4fcab18dca80060707eec65010e0d9d9fc2b3729",
+    "reporting_workspace/legacy_crud.py": "71bf7108fdd05172fb9f099b8fd1f894860f4b9b1a7bd6a71b985ff57a11ec14",
+    "reporting_workspace/legacy_demo_ui.py": "d56760e37eaf12017010ca36cb1c00c5cf3932ce889c691d23c23c686dbc3812",
+    "reporting_workspace/legacy_jobs.py": "d181132f26548c62a1086a44249668635c67b507ef80fd29edba84388d4b70d1",
+    "reporting_workspace/legacy_policy.py": "0d26c982c1a7abf23f4433903b22ad91cac634887d979a69e1e3f3f89fc8d7d9",
+    "reporting_workspace/lifecycle.py": "ebd4c9923fe9e36c7345df2f2c539ad6dec413da7f361802759c1800d1f7392f",
+    "reporting_workspace/maintenance_registry.py": "fe85550ed22ba62d2b6c19a8f9a1211400f1c082ff258f5b5e24149e558cdddd",
+    "reporting_workspace/notifications.py": "14cf3659175c8e12b4e2580d0defe50289f47604b442efc4b07fcc0a9755ce10",
+    "reporting_workspace/operations.py": "e4c80ec5f0ee4dc6f59ad4c70889119845c4ed594691b30b136e52c08a8ddf69",
+    "reporting_workspace/providers.py": "7beaf640e39af493fc7a08f687805c500f951923abd713d36b3a2786aa898df1",
+    "reporting_workspace/qa_enhancements_ui.py": "a952795487d5072c7b63078c02c505a13dc88450f09a8f6b680a55eaa0bc4e72",
+    "reporting_workspace/registry.py": "12f555c0ae949166ab840754b5f39d6f27a9321d5a97e493dfa651ed35fd9467",
+    "reporting_workspace/report_builder.py": "999ea875eb4b1ecd09ae6e8a9a5e6e7b9e66fac87e7a2adeffc322bec0eadbfa",
+    "reporting_workspace/state.py": "2e6f5d4afe67f7d2acf2ab6dce92a3f3a5ad26c5bd93da68c0515c59024b10b7",
+    "reporting_workspace/static_transport.py": "a97eafac4bc43bbd8954627f075da67573c71d9d2e1ff8c07a52709c5e455755",
+    "reporting_workspace/theme.py": "715ca8df2c5467a5deed0fd87b8eb68480e84dd33d443f639d3febecfb5f221b",
+    "reporting_workspace/ui_pages/__init__.py": "f6c9d768000531cfde490c842172cff2b95f8382eeda84e8e5306ad5da0171c8",
+    "reporting_workspace/ui_pages/admin_console.py": "40206c17a023af07eee4a9e57c05774ae15a132cf26002a9bcf673126ca5f5f0",
+    "reporting_workspace/ui_pages/administration.py": "f69a98041087ba21e496d712aee0ce483b08ec75d4b14e414e94d1cd03a72c5d",
+    "reporting_workspace/ui_pages/authentication.py": "6ff621e4faf7a41afc3ebaace88ebddb4e5d5179cebf0ddddfbcf2a1c87c87ce",
+    "reporting_workspace/ui_pages/compatibility.py": "a6ee111f17272e74401e8a6d31a5ed228a02244004954b63cef9e2d2fe0694cc",
+    "reporting_workspace/ui_pages/etl_dispatch.py": "f1570f449edd13ebf5e274660095323c0828fbc71ae83e111a53432d3deec6fd",
+    "reporting_workspace/ui_pages/maintenance.py": "0f8029795bd0f3e26e73884cd8b6f9c0624603960ca2a0d92a0d4516c207eee4",
+    "reporting_workspace/ui_pages/managed_reports.py": "d328cd2bc5c0ba57b3a3bdc7ea4ff97f91a62e8b1e6058f688df77adb84df645",
+    "reporting_workspace/ui_pages/operations.py": "dd62d101aa1cbac539cb4f0e091744fc8c6c5296a63cd479188b91115a705680",
+    "reporting_workspace/ui_pages/overview.py": "92c1da40f8d922431237a5d2f6b50ff28077083454aac7f5d029a2b87ffa74ee",
+    "reporting_workspace/ui_pages/qa_maintenance.py": "0d157a5e294c5ab0d48ad0cd9e824be765ceff1b8cd03fe6eea870e5e81d4227",
+    "reporting_workspace/ui_pages/reports.py": "9976ae14b007423e3e5d818f451be6b7e70cdb343b37e62708559810de65f6d4",
+    "reporting_workspace/ui_pages/shared.py": "f552af29ef7f6ef7ff3d1a8b485560c749bb40ee12ce227f0b1debab8659d6a7",
+    "reporting_workspace/web.py": "97d1a3f9cffb41982a20e12482f9ade27f5975d237a2c89b4e59940c00f15b0c"
+  },
+  "datasets": [
+    {
+      "active_rows": 5000,
+      "deleted_seed_rows": 2,
+      "fixture_sha256": "71efd98f7adf21ac10869da21dd75e380a1ddc26a981fe4d947b2a97dda2dc92",
+      "normalized_rows_sha256": "eb218fae940d1a232c379548325f6f66ef2046eedd2f1d8f16eafa26b91cc0b0",
+      "filtered_rows": 50,
+      "database_bytes": 3928064,
+      "setup_import": {
+        "batch_rows": 500,
+        "samples_ms": [
+          26.7305,
+          26.2295,
+          27.1697,
+          28.8963,
+          26.854,
+          28.2023,
+          28.0389,
+          25.8335,
+          25.5461,
+          27.2731
+        ],
+        "total_ms": 270.7739,
+        "median_batch_ms": 27.01185,
+        "scope": "one growing dataset setup, not steady-state write throughput"
+      },
+      "query_plan": [
+        "SEARCH legacy_qsl_records USING INDEX legacy_qsl_unique_active (target=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "measurements": {
+        "service_query_page": {
+          "samples_ms": [
+            2.8281,
+            3.0023,
+            2.9769,
+            2.9054,
+            2.8337,
+            2.8326,
+            2.8349,
+            2.8013,
+            2.9194,
+            3.1282,
+            12.6648,
+            3.2263,
+            2.9246,
+            2.7947,
+            2.8905
+          ],
+          "median_ms": 2.9054,
+          "p95_ms": 12.6648,
+          "min_ms": 2.7947,
+          "max_ms": 12.6648,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 147,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.0121,
+              "cumulative_ms": 2.8688
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 1,
+              "self_ms": 0.0109,
+              "cumulative_ms": 2.8567
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 1,
+              "self_ms": 1.2359,
+              "cumulative_ms": 1.2359
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 1,
+              "self_ms": 0.9504,
+              "cumulative_ms": 0.9504
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 1,
+              "self_ms": 0.6186,
+              "cumulative_ms": 0.6186
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 230,
+              "function": "_authorize",
+              "calls": 1,
+              "self_ms": 0.0047,
+              "cumulative_ms": 0.0386
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 94,
+              "function": "authorize",
+              "calls": 1,
+              "self_ms": 0.0005,
+              "cumulative_ms": 0.0264
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 81,
+              "function": "scope",
+              "calls": 1,
+              "self_ms": 0.0028,
+              "cumulative_ms": 0.0259
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 59,
+              "function": "denied",
+              "calls": 1,
+              "self_ms": 0.0033,
+              "cumulative_ms": 0.0214
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 20,
+              "function": "identity_id",
+              "calls": 2,
+              "self_ms": 0.0017,
+              "cumulative_ms": 0.0131
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 11,
+              "function": "identity_text",
+              "calls": 2,
+              "self_ms": 0.0034,
+              "cumulative_ms": 0.0111
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "calls": 7,
+              "self_ms": 0.0031,
+              "cumulative_ms": 0.0107
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 27,
+              "function": "_strings",
+              "calls": 3,
+              "self_ms": 0.0037,
+              "cumulative_ms": 0.0062
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 15,
+              "function": "<genexpr>",
+              "calls": 22,
+              "self_ms": 0.0039,
+              "cumulative_ms": 0.0051
+            },
+            {
+              "file": "<frozen importlib._bootstrap>",
+              "line": 404,
+              "function": "parent",
+              "calls": 1,
+              "self_ms": 0.0025,
+              "cumulative_ms": 0.0029
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 50,
+              "function": "has_role",
+              "calls": 2,
+              "self_ms": 0.0017,
+              "cumulative_ms": 0.0029
+            }
+          ]
+        },
+        "service_query_filter": {
+          "samples_ms": [
+            0.6969,
+            0.6974,
+            0.7004,
+            0.6962,
+            0.6875,
+            0.725,
+            0.6969,
+            0.7138,
+            0.7102,
+            0.6938,
+            0.7338,
+            0.7649,
+            0.7445,
+            0.6966,
+            0.9204
+          ],
+          "median_ms": 0.7004,
+          "p95_ms": 0.9204,
+          "min_ms": 0.6875,
+          "max_ms": 0.9204,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 148,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.0019,
+              "cumulative_ms": 0.8419
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 1,
+              "self_ms": 0.0124,
+              "cumulative_ms": 0.84
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 1,
+              "self_ms": 0.6788,
+              "cumulative_ms": 0.6788
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 1,
+              "self_ms": 0.0668,
+              "cumulative_ms": 0.0668
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 230,
+              "function": "_authorize",
+              "calls": 1,
+              "self_ms": 0.006,
+              "cumulative_ms": 0.0451
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 1,
+              "self_ms": 0.0326,
+              "cumulative_ms": 0.0326
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 94,
+              "function": "authorize",
+              "calls": 1,
+              "self_ms": 0.0006,
+              "cumulative_ms": 0.0307
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 81,
+              "function": "scope",
+              "calls": 1,
+              "self_ms": 0.0029,
+              "cumulative_ms": 0.0301
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 59,
+              "function": "denied",
+              "calls": 1,
+              "self_ms": 0.004,
+              "cumulative_ms": 0.0251
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 20,
+              "function": "identity_id",
+              "calls": 2,
+              "self_ms": 0.0019,
+              "cumulative_ms": 0.0155
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 11,
+              "function": "identity_text",
+              "calls": 2,
+              "self_ms": 0.0039,
+              "cumulative_ms": 0.0132
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "calls": 7,
+              "self_ms": 0.0044,
+              "cumulative_ms": 0.0131
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 27,
+              "function": "_strings",
+              "calls": 3,
+              "self_ms": 0.0038,
+              "cumulative_ms": 0.0068
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 15,
+              "function": "<genexpr>",
+              "calls": 22,
+              "self_ms": 0.0045,
+              "cumulative_ms": 0.006
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 50,
+              "function": "has_role",
+              "calls": 2,
+              "self_ms": 0.0021,
+              "cumulative_ms": 0.0036
+            },
+            {
+              "file": "<frozen importlib._bootstrap>",
+              "line": 404,
+              "function": "parent",
+              "calls": 1,
+              "self_ms": 0.0026,
+              "cumulative_ms": 0.0031
+            }
+          ]
+        },
+        "service_export_csv": {
+          "samples_ms": [
+            38.8876,
+            48.674,
+            39.7835,
+            38.9519,
+            39.2798,
+            38.2073,
+            38.526,
+            47.8025,
+            38.6372,
+            38.6498,
+            38.7355,
+            39.2266,
+            47.9948,
+            38.9613,
+            38.4813
+          ],
+          "median_ms": 38.9519,
+          "p95_ms": 48.674,
+          "min_ms": 38.2073,
+          "max_ms": 48.674,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 150,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.2076,
+              "cumulative_ms": 66.3305
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 595,
+              "function": "export_csv",
+              "calls": 1,
+              "self_ms": 1.8533,
+              "cumulative_ms": 66.1229
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 606,
+              "function": "<dictcomp>",
+              "calls": 5000,
+              "self_ms": 6.3332,
+              "cumulative_ms": 28.7611
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 117,
+              "function": "_spreadsheet_safe",
+              "calls": 45000,
+              "self_ms": 13.7696,
+              "cumulative_ms": 22.4279
+            },
+            {
+              "file": "csv.py",
+              "line": 153,
+              "function": "writerow",
+              "calls": 5001,
+              "self_ms": 1.6961,
+              "cumulative_ms": 20.7311
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'writerow' of '_csv.writer' objects>",
+              "calls": 5001,
+              "self_ms": 7.7908,
+              "cumulative_ms": 15.9507
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 2,
+              "self_ms": 0.0186,
+              "cumulative_ms": 14.346
+            },
+            {
+              "file": "csv.py",
+              "line": 151,
+              "function": "<genexpr>",
+              "calls": 50010,
+              "self_ms": 6.0136,
+              "cumulative_ms": 8.1599
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'startswith' of 'str' objects>",
+              "calls": 90009,
+              "self_ms": 6.8281,
+              "cumulative_ms": 6.8281
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 2,
+              "self_ms": 6.2293,
+              "cumulative_ms": 6.2293
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 4,
+              "self_ms": 5.0772,
+              "cumulative_ms": 5.0772
+            },
+            {
+              "file": "csv.py",
+              "line": 145,
+              "function": "_dict_to_list",
+              "calls": 5001,
+              "self_ms": 2.8031,
+              "cumulative_ms": 3.0843
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 2,
+              "self_ms": 3.0773,
+              "cumulative_ms": 3.0773
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "calls": 45009,
+              "self_ms": 2.1463,
+              "cumulative_ms": 2.1463
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'lstrip' of 'str' objects>",
+              "calls": 45000,
+              "self_ms": 1.8328,
+              "cumulative_ms": 1.8328
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'keys' of 'dict' objects>",
+              "calls": 5001,
+              "self_ms": 0.2812,
+              "cumulative_ms": 0.2812
+            }
+          ],
+          "response_bytes": 478984
+        },
+        "service_export_xlsx": {
+          "samples_ms": [
+            501.728,
+            502.5554,
+            495.3613,
+            499.0347,
+            496.8911,
+            507.7213,
+            496.1294,
+            502.3541,
+            528.7684,
+            498.9884,
+            501.4712,
+            505.762,
+            497.0023,
+            505.8802,
+            496.2167
+          ],
+          "median_ms": 501.4712,
+          "p95_ms": 528.7684,
+          "min_ms": 495.3613,
+          "max_ms": 528.7684,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 151,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.2703,
+              "cumulative_ms": 1084.9019
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 707,
+              "function": "export_xlsx",
+              "calls": 1,
+              "self_ms": 21.5439,
+              "cumulative_ms": 1084.6316
+            },
+            {
+              "file": "_write_only.py",
+              "line": 103,
+              "function": "append",
+              "calls": 5001,
+              "self_ms": 4.8516,
+              "cumulative_ms": 891.4606
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'send' of 'generator' objects>",
+              "calls": 5008,
+              "self_ms": 1.1536,
+              "cumulative_ms": 883.1315
+            },
+            {
+              "file": "_write_only.py",
+              "line": 57,
+              "function": "_write_rows",
+              "calls": 5003,
+              "self_ms": 3.1014,
+              "cumulative_ms": 881.9341
+            },
+            {
+              "file": "_writer.py",
+              "line": 130,
+              "function": "write_row",
+              "calls": 5001,
+              "self_ms": 36.4191,
+              "cumulative_ms": 878.8233
+            },
+            {
+              "file": "_writer.py",
+              "line": 45,
+              "function": "etree_write_cell",
+              "calls": 45009,
+              "self_ms": 57.0788,
+              "cumulative_ms": 581.1475
+            },
+            {
+              "file": "xmlfile.py",
+              "line": 95,
+              "function": "write",
+              "calls": 45013,
+              "self_ms": 24.8695,
+              "cumulative_ms": 457.6206
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 566,
+              "function": "_serialize_ns_xml",
+              "calls": 125035,
+              "self_ms": 84.8216,
+              "cumulative_ms": 429.6725
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 372,
+              "function": "write_elem_start",
+              "calls": 130038,
+              "self_ms": 174.0746,
+              "cumulative_ms": 358.554
+            },
+            {
+              "file": "cell.py",
+              "line": 215,
+              "function": "value",
+              "calls": 90009,
+              "self_ms": 17.0134,
+              "cumulative_ms": 224.043
+            },
+            {
+              "file": "_write_only.py",
+              "line": 123,
+              "function": "_values_to_row",
+              "calls": 50010,
+              "self_ms": 49.604,
+              "cumulative_ms": 209.817
+            },
+            {
+              "file": "cell.py",
+              "line": 176,
+              "function": "_bind_value",
+              "calls": 90009,
+              "self_ms": 63.5735,
+              "cumulative_ms": 207.0296
+            },
+            {
+              "file": "cell.py",
+              "line": 331,
+              "function": "WriteOnlyCell",
+              "calls": 50001,
+              "self_ms": 18.7723,
+              "cumulative_ms": 137.1516
+            },
+            {
+              "file": "cell.py",
+              "line": 108,
+              "function": "__init__",
+              "calls": 50001,
+              "self_ms": 30.0891,
+              "cumulative_ms": 118.3793
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 279,
+              "function": "process_attribs",
+              "calls": 50016,
+              "self_ms": 65.0492,
+              "cumulative_ms": 83.3629
+            }
+          ],
+          "response_bytes": 206943
+        },
+        "callback_query_page": {
+          "samples_ms": [
+            5.4582,
+            5.4397,
+            5.3829,
+            6.4456,
+            5.5898,
+            5.4147,
+            5.2521,
+            5.3072,
+            5.3171,
+            5.2267,
+            5.3906,
+            5.3171,
+            5.2763,
+            5.219,
+            5.2654
+          ],
+          "median_ms": 5.3171,
+          "p95_ms": 6.4456,
+          "min_ms": 5.219,
+          "max_ms": 6.4456,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0011,
+              "cumulative_ms": 6.8024
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.0018,
+              "cumulative_ms": 6.8013
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.005,
+              "cumulative_ms": 6.7995
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0026,
+              "cumulative_ms": 6.4856
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0029,
+              "cumulative_ms": 6.4717
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0042,
+              "cumulative_ms": 6.2596
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0009,
+              "cumulative_ms": 6.2278
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0102,
+              "cumulative_ms": 6.2269
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0033,
+              "cumulative_ms": 6.2166
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0021,
+              "cumulative_ms": 5.9109
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0058,
+              "cumulative_ms": 5.1574
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0294,
+              "cumulative_ms": 5.1479
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.0397,
+              "cumulative_ms": 4.7143
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0155,
+              "cumulative_ms": 4.6746
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.0022,
+              "cumulative_ms": 3.4655
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0154,
+              "cumulative_ms": 3.429
+            }
+          ],
+          "response_bytes": 209042
+        },
+        "callback_export_csv": {
+          "samples_ms": [
+            47.8018,
+            47.5958,
+            48.3662,
+            47.0904,
+            57.1494,
+            48.8205,
+            46.9944,
+            47.7388,
+            46.8863,
+            56.5823,
+            47.1947,
+            47.0781,
+            48.1438,
+            47.0187,
+            55.9488
+          ],
+          "median_ms": 47.7388,
+          "p95_ms": 57.1494,
+          "min_ms": 46.8863,
+          "max_ms": 57.1494,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0021,
+              "cumulative_ms": 75.5048
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.0025,
+              "cumulative_ms": 75.5027
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0076,
+              "cumulative_ms": 75.5002
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0029,
+              "cumulative_ms": 75.1174
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0031,
+              "cumulative_ms": 75.1035
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0046,
+              "cumulative_ms": 74.8878
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0012,
+              "cumulative_ms": 74.8595
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0102,
+              "cumulative_ms": 74.8583
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0038,
+              "cumulative_ms": 74.848
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0024,
+              "cumulative_ms": 74.5167
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0095,
+              "cumulative_ms": 73.7981
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0897,
+              "cumulative_ms": 73.7847
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.0402,
+              "cumulative_ms": 73.2818
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0187,
+              "cumulative_ms": 73.2416
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.0036,
+              "cumulative_ms": 70.9215
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0174,
+              "cumulative_ms": 70.8837
+            }
+          ],
+          "response_bytes": 847794
+        },
+        "callback_export_xlsx": {
+          "samples_ms": [
+            515.1543,
+            510.7127,
+            509.4235,
+            511.2021,
+            505.0147,
+            512.788,
+            515.6854,
+            509.3385,
+            507.0889,
+            513.8981,
+            510.1864,
+            510.1078,
+            502.4214,
+            511.657,
+            510.0146
+          ],
+          "median_ms": 510.1864,
+          "p95_ms": 515.6854,
+          "min_ms": 502.4214,
+          "max_ms": 515.6854,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0028,
+              "cumulative_ms": 1102.3805
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.0048,
+              "cumulative_ms": 1102.3777
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.013,
+              "cumulative_ms": 1102.3729
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0054,
+              "cumulative_ms": 1101.4922
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0048,
+              "cumulative_ms": 1101.4731
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0074,
+              "cumulative_ms": 1101.2328
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.002,
+              "cumulative_ms": 1101.1996
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0141,
+              "cumulative_ms": 1101.1976
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0063,
+              "cumulative_ms": 1101.1833
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0053,
+              "cumulative_ms": 1100.5374
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0161,
+              "cumulative_ms": 1099.5041
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0743,
+              "cumulative_ms": 1099.4797
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.0523,
+              "cumulative_ms": 1098.4883
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0228,
+              "cumulative_ms": 1098.436
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.0049,
+              "cumulative_ms": 1096.4512
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0237,
+              "cumulative_ms": 1096.3743
+            }
+          ],
+          "response_bytes": 485071
+        }
+      }
+    },
+    {
+      "active_rows": 25000,
+      "deleted_seed_rows": 2,
+      "fixture_sha256": "34f5c5faf2d6122f6725d5ee288e594ee57e738f1201ed947bd4b9b7fe8f9fbd",
+      "normalized_rows_sha256": "821065eddb28b4b9c8d6a66855fb1622b8edf17f0a0e86658dc7053fcf8c3c8a",
+      "filtered_rows": 250,
+      "database_bytes": 19202048,
+      "setup_import": {
+        "batch_rows": 500,
+        "samples_ms": [
+          29.9054,
+          27.5653,
+          27.7037,
+          26.956,
+          26.8649,
+          26.4381,
+          37.3667,
+          25.2507,
+          25.7402,
+          27.9903,
+          29.7813,
+          31.0008,
+          26.8367,
+          29.0955,
+          26.8578,
+          26.8395,
+          26.8323,
+          26.7313,
+          26.8493,
+          26.7831,
+          27.9658,
+          26.3561,
+          28.3677,
+          26.1147,
+          27.1358,
+          25.9293,
+          28.1288,
+          27.8956,
+          26.3097,
+          26.6153,
+          27.4287,
+          26.374,
+          27.3371,
+          26.908,
+          25.6436,
+          26.1651,
+          25.994,
+          26.8832,
+          28.2448,
+          30.5811,
+          25.8856,
+          27.3659,
+          27.1815,
+          29.897,
+          27.4285,
+          25.6331,
+          27.3131,
+          26.7074,
+          26.6575,
+          26.5581
+        ],
+        "total_ms": 1372.395,
+        "median_batch_ms": 26.874049999999997,
+        "scope": "one growing dataset setup, not steady-state write throughput"
+      },
+      "query_plan": [
+        "SEARCH legacy_qsl_records USING INDEX legacy_qsl_unique_active (target=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "measurements": {
+        "service_query_page": {
+          "samples_ms": [
+            5.6299,
+            5.6916,
+            5.679,
+            5.6425,
+            5.6912,
+            5.7184,
+            5.8242,
+            16.8983,
+            6.1143,
+            5.895,
+            5.7763,
+            5.8616,
+            5.9306,
+            5.8102,
+            5.8226
+          ],
+          "median_ms": 5.8102,
+          "p95_ms": 16.8983,
+          "min_ms": 5.6299,
+          "max_ms": 16.8983,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 147,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.0123,
+              "cumulative_ms": 5.8354
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 1,
+              "self_ms": 0.0129,
+              "cumulative_ms": 5.8231
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 1,
+              "self_ms": 3.8882,
+              "cumulative_ms": 3.8882
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 1,
+              "self_ms": 1.2614,
+              "cumulative_ms": 1.2614
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 1,
+              "self_ms": 0.6188,
+              "cumulative_ms": 0.6188
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 230,
+              "function": "_authorize",
+              "calls": 1,
+              "self_ms": 0.0048,
+              "cumulative_ms": 0.0393
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 94,
+              "function": "authorize",
+              "calls": 1,
+              "self_ms": 0.0006,
+              "cumulative_ms": 0.0269
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 81,
+              "function": "scope",
+              "calls": 1,
+              "self_ms": 0.0028,
+              "cumulative_ms": 0.0263
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 59,
+              "function": "denied",
+              "calls": 1,
+              "self_ms": 0.0034,
+              "cumulative_ms": 0.0217
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 20,
+              "function": "identity_id",
+              "calls": 2,
+              "self_ms": 0.0015,
+              "cumulative_ms": 0.0137
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 11,
+              "function": "identity_text",
+              "calls": 2,
+              "self_ms": 0.0036,
+              "cumulative_ms": 0.0117
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "calls": 7,
+              "self_ms": 0.0042,
+              "cumulative_ms": 0.0116
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 27,
+              "function": "_strings",
+              "calls": 3,
+              "self_ms": 0.0032,
+              "cumulative_ms": 0.0059
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 15,
+              "function": "<genexpr>",
+              "calls": 22,
+              "self_ms": 0.0041,
+              "cumulative_ms": 0.0051
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 50,
+              "function": "has_role",
+              "calls": 2,
+              "self_ms": 0.0019,
+              "cumulative_ms": 0.0029
+            },
+            {
+              "file": "<frozen importlib._bootstrap>",
+              "line": 404,
+              "function": "parent",
+              "calls": 1,
+              "self_ms": 0.0024,
+              "cumulative_ms": 0.0027
+            }
+          ]
+        },
+        "service_query_filter": {
+          "samples_ms": [
+            5.1601,
+            5.1862,
+            5.2282,
+            5.1793,
+            5.1707,
+            5.1732,
+            5.1595,
+            5.1369,
+            5.424,
+            5.1394,
+            5.1014,
+            5.1665,
+            5.1046,
+            5.1231,
+            5.2266
+          ],
+          "median_ms": 5.1665,
+          "p95_ms": 5.424,
+          "min_ms": 5.1014,
+          "max_ms": 5.424,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 148,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 0.0042,
+              "cumulative_ms": 5.1787
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 1,
+              "self_ms": 0.0153,
+              "cumulative_ms": 5.1745
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 1,
+              "self_ms": 4.6467,
+              "cumulative_ms": 4.6467
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 1,
+              "self_ms": 0.3156,
+              "cumulative_ms": 0.3156
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 1,
+              "self_ms": 0.1527,
+              "cumulative_ms": 0.1527
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 230,
+              "function": "_authorize",
+              "calls": 1,
+              "self_ms": 0.0045,
+              "cumulative_ms": 0.0405
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 94,
+              "function": "authorize",
+              "calls": 1,
+              "self_ms": 0.0006,
+              "cumulative_ms": 0.0278
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 81,
+              "function": "scope",
+              "calls": 1,
+              "self_ms": 0.0029,
+              "cumulative_ms": 0.0272
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 59,
+              "function": "denied",
+              "calls": 1,
+              "self_ms": 0.0036,
+              "cumulative_ms": 0.0226
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 20,
+              "function": "identity_id",
+              "calls": 2,
+              "self_ms": 0.0016,
+              "cumulative_ms": 0.0142
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 11,
+              "function": "identity_text",
+              "calls": 2,
+              "self_ms": 0.0038,
+              "cumulative_ms": 0.0121
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "calls": 7,
+              "self_ms": 0.0036,
+              "cumulative_ms": 0.0119
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 27,
+              "function": "_strings",
+              "calls": 3,
+              "self_ms": 0.0034,
+              "cumulative_ms": 0.0063
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 15,
+              "function": "<genexpr>",
+              "calls": 22,
+              "self_ms": 0.0041,
+              "cumulative_ms": 0.0056
+            },
+            {
+              "file": "legacy_policy.py",
+              "line": 50,
+              "function": "has_role",
+              "calls": 2,
+              "self_ms": 0.0019,
+              "cumulative_ms": 0.0033
+            },
+            {
+              "file": "<frozen importlib._bootstrap>",
+              "line": 404,
+              "function": "parent",
+              "calls": 1,
+              "self_ms": 0.0025,
+              "cumulative_ms": 0.0028
+            }
+          ]
+        },
+        "service_export_csv": {
+          "samples_ms": [
+            222.5144,
+            223.244,
+            224.5603,
+            224.5702,
+            225.4559,
+            226.261,
+            221.7766,
+            223.5906,
+            221.5717,
+            223.7635,
+            213.8095,
+            221.4551,
+            221.4647,
+            221.8946,
+            218.8583
+          ],
+          "median_ms": 222.5144,
+          "p95_ms": 226.261,
+          "min_ms": 213.8095,
+          "max_ms": 226.261,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 150,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 1.9247,
+              "cumulative_ms": 362.7556
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 595,
+              "function": "export_csv",
+              "calls": 1,
+              "self_ms": 8.8569,
+              "cumulative_ms": 360.8309
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 606,
+              "function": "<dictcomp>",
+              "calls": 25000,
+              "self_ms": 32.4348,
+              "cumulative_ms": 148.2335
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 117,
+              "function": "_spreadsheet_safe",
+              "calls": 225000,
+              "self_ms": 71.3015,
+              "cumulative_ms": 115.7987
+            },
+            {
+              "file": "csv.py",
+              "line": 153,
+              "function": "writerow",
+              "calls": 25001,
+              "self_ms": 8.5433,
+              "cumulative_ms": 103.9761
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 577,
+              "function": "query",
+              "calls": 2,
+              "self_ms": 0.0421,
+              "cumulative_ms": 98.1238
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'writerow' of '_csv.writer' objects>",
+              "calls": 25001,
+              "self_ms": 39.6274,
+              "cumulative_ms": 78.572
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'fetchall' of 'sqlite3.Cursor' objects>",
+              "calls": 2,
+              "self_ms": 43.6417,
+              "cumulative_ms": 43.6417
+            },
+            {
+              "file": "csv.py",
+              "line": 151,
+              "function": "<genexpr>",
+              "calls": 250010,
+              "self_ms": 28.4813,
+              "cumulative_ms": 38.9446
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'execute' of 'sqlite3.Connection' objects>",
+              "calls": 4,
+              "self_ms": 38.8636,
+              "cumulative_ms": 38.8636
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'startswith' of 'str' objects>",
+              "calls": 450009,
+              "self_ms": 35.5146,
+              "cumulative_ms": 35.5146
+            },
+            {
+              "file": "csv.py",
+              "line": 145,
+              "function": "_dict_to_list",
+              "calls": 25001,
+              "self_ms": 15.4246,
+              "cumulative_ms": 16.8608
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 593,
+              "function": "<listcomp>",
+              "calls": 2,
+              "self_ms": 15.6599,
+              "cumulative_ms": 15.6599
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "calls": 225009,
+              "self_ms": 10.4633,
+              "cumulative_ms": 10.4633
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'lstrip' of 'str' objects>",
+              "calls": 225000,
+              "self_ms": 8.9866,
+              "cumulative_ms": 8.9866
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'keys' of 'dict' objects>",
+              "calls": 25001,
+              "self_ms": 1.4362,
+              "cumulative_ms": 1.4362
+            }
+          ],
+          "response_bytes": 2413987
+        },
+        "service_export_xlsx": {
+          "samples_ms": [
+            2536.2709,
+            2524.5902,
+            2524.4086,
+            2513.2477,
+            2533.0527,
+            2533.2598,
+            2531.8203,
+            2551.4066,
+            2527.7831,
+            2530.2032,
+            2532.0706,
+            2536.6123,
+            2543.2173,
+            2530.1767,
+            2542.5235
+          ],
+          "median_ms": 2532.0706,
+          "p95_ms": 2551.4066,
+          "min_ms": 2513.2477,
+          "max_ms": 2551.4066,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 151,
+              "function": "<lambda>",
+              "calls": 1,
+              "self_ms": 1.4824,
+              "cumulative_ms": 5529.6303
+            },
+            {
+              "file": "legacy_crud.py",
+              "line": 707,
+              "function": "export_xlsx",
+              "calls": 1,
+              "self_ms": 108.9064,
+              "cumulative_ms": 5528.1479
+            },
+            {
+              "file": "_write_only.py",
+              "line": 103,
+              "function": "append",
+              "calls": 25001,
+              "self_ms": 25.105,
+              "cumulative_ms": 4560.8268
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'send' of 'generator' objects>",
+              "calls": 25008,
+              "self_ms": 5.8697,
+              "cumulative_ms": 4519.4457
+            },
+            {
+              "file": "_write_only.py",
+              "line": 57,
+              "function": "_write_rows",
+              "calls": 25003,
+              "self_ms": 15.6639,
+              "cumulative_ms": 4513.5315
+            },
+            {
+              "file": "_writer.py",
+              "line": 130,
+              "function": "write_row",
+              "calls": 25001,
+              "self_ms": 187.0903,
+              "cumulative_ms": 4497.8578
+            },
+            {
+              "file": "_writer.py",
+              "line": 45,
+              "function": "etree_write_cell",
+              "calls": 225009,
+              "self_ms": 288.6635,
+              "cumulative_ms": 2973.6447
+            },
+            {
+              "file": "xmlfile.py",
+              "line": 95,
+              "function": "write",
+              "calls": 225013,
+              "self_ms": 126.6772,
+              "cumulative_ms": 2349.2037
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 566,
+              "function": "_serialize_ns_xml",
+              "calls": 625035,
+              "self_ms": 436.0069,
+              "cumulative_ms": 2207.1081
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 372,
+              "function": "write_elem_start",
+              "calls": 650038,
+              "self_ms": 889.3567,
+              "cumulative_ms": 1846.3542
+            },
+            {
+              "file": "cell.py",
+              "line": 215,
+              "function": "value",
+              "calls": 450009,
+              "self_ms": 85.5783,
+              "cumulative_ms": 1144.3423
+            },
+            {
+              "file": "_write_only.py",
+              "line": 123,
+              "function": "_values_to_row",
+              "calls": 250010,
+              "self_ms": 254.9485,
+              "cumulative_ms": 1075.0891
+            },
+            {
+              "file": "cell.py",
+              "line": 176,
+              "function": "_bind_value",
+              "calls": 450009,
+              "self_ms": 322.9133,
+              "cumulative_ms": 1058.764
+            },
+            {
+              "file": "cell.py",
+              "line": 331,
+              "function": "WriteOnlyCell",
+              "calls": 250001,
+              "self_ms": 93.2635,
+              "cumulative_ms": 692.3111
+            },
+            {
+              "file": "cell.py",
+              "line": 108,
+              "function": "__init__",
+              "calls": 250001,
+              "self_ms": 151.386,
+              "cumulative_ms": 599.0476
+            },
+            {
+              "file": "incremental_tree.py",
+              "line": 279,
+              "function": "process_attribs",
+              "calls": 250016,
+              "self_ms": 338.6225,
+              "cumulative_ms": 433.5184
+            }
+          ],
+          "response_bytes": 1018371
+        },
+        "callback_query_page": {
+          "samples_ms": [
+            12.5758,
+            11.488,
+            10.2683,
+            9.6243,
+            9.6583,
+            9.6191,
+            9.4919,
+            10.0217,
+            10.7016,
+            10.6796,
+            10.1353,
+            10.7092,
+            9.3821,
+            9.3598,
+            9.8602
+          ],
+          "median_ms": 10.0217,
+          "p95_ms": 12.5758,
+          "min_ms": 9.3598,
+          "max_ms": 12.5758,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.001,
+              "cumulative_ms": 11.7122
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.002,
+              "cumulative_ms": 11.7112
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0054,
+              "cumulative_ms": 11.7092
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0034,
+              "cumulative_ms": 11.381
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0025,
+              "cumulative_ms": 11.3674
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0043,
+              "cumulative_ms": 11.1662
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0008,
+              "cumulative_ms": 11.1375
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0082,
+              "cumulative_ms": 11.1367
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0029,
+              "cumulative_ms": 11.1284
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0024,
+              "cumulative_ms": 10.8299
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0071,
+              "cumulative_ms": 10.1496
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.032,
+              "cumulative_ms": 10.1389
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.046,
+              "cumulative_ms": 9.7019
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0163,
+              "cumulative_ms": 9.6559
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.0023,
+              "cumulative_ms": 8.3338
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0155,
+              "cumulative_ms": 8.2958
+            }
+          ],
+          "response_bytes": 209042
+        },
+        "callback_export_csv": {
+          "samples_ms": [
+            246.1556,
+            247.24,
+            245.0672,
+            245.9199,
+            250.7137,
+            249.2934,
+            248.1503,
+            247.2648,
+            245.2314,
+            245.7949,
+            247.4645,
+            245.9786,
+            247.9947,
+            246.869,
+            232.0596
+          ],
+          "median_ms": 246.869,
+          "p95_ms": 250.7137,
+          "min_ms": 232.0596,
+          "max_ms": 250.7137,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0046,
+              "cumulative_ms": 387.4207
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.0062,
+              "cumulative_ms": 387.4161
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0126,
+              "cumulative_ms": 387.4099
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0034,
+              "cumulative_ms": 386.9404
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0041,
+              "cumulative_ms": 386.9258
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0058,
+              "cumulative_ms": 386.6899
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.002,
+              "cumulative_ms": 386.6591
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0138,
+              "cumulative_ms": 386.6571
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.0043,
+              "cumulative_ms": 386.6432
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0037,
+              "cumulative_ms": 386.2476
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0137,
+              "cumulative_ms": 385.4753
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.1083,
+              "cumulative_ms": 385.4577
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.1317,
+              "cumulative_ms": 384.5947
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0232,
+              "cumulative_ms": 384.463
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.004,
+              "cumulative_ms": 377.8812
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.021,
+              "cumulative_ms": 377.8391
+            }
+          ],
+          "response_bytes": 3427798
+        },
+        "callback_export_xlsx": {
+          "samples_ms": [
+            2601.8491,
+            2605.9514,
+            2560.0364,
+            2571.0864,
+            2562.1108,
+            2556.6782,
+            2576.1422,
+            2575.2626,
+            2547.4459,
+            2563.1391,
+            2588.8287,
+            2561.0706,
+            2577.6385,
+            2554.0929,
+            2583.5298
+          ],
+          "median_ms": 2571.0864,
+          "p95_ms": 2605.9514,
+          "min_ms": 2547.4459,
+          "max_ms": 2605.9514,
+          "profile": [
+            {
+              "file": "portal_latency.py",
+              "line": 173,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.002,
+              "cumulative_ms": 5510.5916
+            },
+            {
+              "file": "test.py",
+              "line": 1143,
+              "function": "post",
+              "calls": 1,
+              "self_ms": 0.0027,
+              "cumulative_ms": 5510.5896
+            },
+            {
+              "file": "testing.py",
+              "line": 192,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0069,
+              "cumulative_ms": 5510.5869
+            },
+            {
+              "file": "test.py",
+              "line": 1032,
+              "function": "open",
+              "calls": 1,
+              "self_ms": 0.0032,
+              "cumulative_ms": 5510.2074
+            },
+            {
+              "file": "test.py",
+              "line": 952,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.004,
+              "cumulative_ms": 5510.1927
+            },
+            {
+              "file": "test.py",
+              "line": 1205,
+              "function": "run_wsgi_app",
+              "calls": 1,
+              "self_ms": 0.005,
+              "cumulative_ms": 5509.956
+            },
+            {
+              "file": "app.py",
+              "line": 2546,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0019,
+              "cumulative_ms": 5509.9272
+            },
+            {
+              "file": "static_transport.py",
+              "line": 63,
+              "function": "__call__",
+              "calls": 1,
+              "self_ms": 0.0117,
+              "cumulative_ms": 5509.9253
+            },
+            {
+              "file": "app.py",
+              "line": 2498,
+              "function": "wsgi_app",
+              "calls": 1,
+              "self_ms": 0.004,
+              "cumulative_ms": 5509.9136
+            },
+            {
+              "file": "app.py",
+              "line": 1801,
+              "function": "full_dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0031,
+              "cumulative_ms": 5509.5714
+            },
+            {
+              "file": "app.py",
+              "line": 1776,
+              "function": "dispatch_request",
+              "calls": 1,
+              "self_ms": 0.0151,
+              "cumulative_ms": 5508.813
+            },
+            {
+              "file": "dash.py",
+              "line": 1196,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0691,
+              "cumulative_ms": 5508.794
+            },
+            {
+              "file": "~",
+              "line": 0,
+              "function": "<method 'run' of '_contextvars.Context' objects>",
+              "calls": 1,
+              "self_ms": 0.0869,
+              "cumulative_ms": 5508.0898
+            },
+            {
+              "file": "_callback.py",
+              "line": 321,
+              "function": "add_context",
+              "calls": 1,
+              "self_ms": 0.0205,
+              "cumulative_ms": 5508.0029
+            },
+            {
+              "file": "registry.py",
+              "line": 389,
+              "function": "guarded",
+              "calls": 1,
+              "self_ms": 0.0035,
+              "cumulative_ms": 5504.0722
+            },
+            {
+              "file": "qa_maintenance.py",
+              "line": 102,
+              "function": "dispatch",
+              "calls": 1,
+              "self_ms": 0.0181,
+              "cumulative_ms": 5504.0353
+            }
+          ],
+          "response_bytes": 1566975
+        }
+      }
+    }
+  ],
+  "git_head": "a35898344c752e6c41fab0afdfd81d7d6ebdb617"
+}

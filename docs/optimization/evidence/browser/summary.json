@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "directory": "2026-10-04T10-22-38-021Z",
+  "mode": "full acceptance",
+  "passed": 32,
+  "failed": 0,
+  "unrun": 0,
+  "staticTransport": "native browser",
+  "staticBridgeUsed": false,
+  "http10Override": false,
+  "automaticSuiteReruns": 0,
+  "pageErrors": 0,
+  "expectedAuthorizationConsoleMessages": 5,
+  "unexpectedConsoleErrors": 0,
+  "failedRequestCount": 45,
+  "failedRequestCategories": {
+    "net::ERR_ABORTED": 45
+  },
+  "blockedExternalOrigins": [],
+  "callbackStatuses": {
+    "200": 287,
+    "204": 40,
+    "401": 3
+  },
+  "report": {
+    "tableVisible": true,
+    "renderedSvgBars": 12,
+    "downloadedCsvContainsRevenue": true
+  },
+  "exportValidation": {
+    "reportCsvRows": 12,
+    "qslCsvRows": 15,
+    "xlsxZipIntegrity": true
+  },
+  "sourceVerification": {
+    "runtimeAndAssetFiles": 55,
+    "currentFilesMatchStartupHashes": true,
+    "manifest": "2026-10-04T10-22-38-021Z/source-hashes.json",
+    "provenance": "2026-10-04T10-22-38-021Z/run-provenance.json"
+  },
+  "versions": {
+    "python": "3.10.22",
+    "node": "v24.21.0",
+    "browser": "154.0.8037.95",
+    "packages": {
+      "dash": "2.9.1",
+      "Flask": "2.2.3",
+      "Werkzeug": "2.2.3",
+      "dash-bootstrap-components": "1.4.1",
+      "dash-mantine-components": "0.12.0"
+    }
+  },
+  "isolation": {
+    "syntheticOnly": true,
+    "productEntry": "app.py",
+    "workersOrSchedulersStarted": false,
+    "serverStopped": true,
+    "syntheticStateRemoved": true
+  },
+  "interpretation": [
+    "All 32 existing acceptance scenarios passed in one native Chrome run against the frozen optimization-v10 working tree.",
+    "The existing network aggregate excludes net::ERR_ABORTED browser navigation cancellations. Raw failures remain in results.json; no error classification was changed.",
+    "Real native callback HTTP 401 and expected sanitized authorization console messages remain visible.",
+    "No Oracle, LDAP, SMTP, production data, external APIs, deployment, clock changes or company integrations were exercised."
+  ]
+}

@@ -1,0 +1,103 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+OPERATIONS / ETL
+ETL 調度中心
+
+管理多工作排程、批次追蹤、失敗重試與日期補跑。
+
+返回營運中心
+合成離線工作；無公司資料庫或外部郵件連線。排程只由 app.py 主啟動流程啟動。
+REGISTERED JOB
+手動 / 排程停用
+Synthetic daily sales / 每日合成銷售
+
+Validate four offline sales rows and publish one local daily summary.
+
+synthetic-sales-daily
+排程 v1 · 300.0 秒 · 3 個步驟
+REGISTERED JOB
+手動 / 排程停用
+Synthetic inventory health / 合成庫存檢查
+
+Validate three offline stock rows and publish a local reorder summary.
+
+synthetic-inventory-health
+排程 v1 · 300.0 秒 · 3 個步驟
+選擇已註冊工作
+Synthetic daily sales / 每日合成銷售
+更新狀態
+Synthetic daily sales / 每日合成銷售
+
+Validate four offline sales rows and publish one local daily summary.
+
+工作 ID
+synthetic-sales-daily
+排程版本
+1
+排程狀態
+停用
+背景執行緒
+尚未啟動
+背景安全錯誤
+—
+下次排程（台北）
+—
+執行間隔
+300.0 秒
+最近發布批次
+—
+發布筆數
+—
+
+排程時區 Asia/Taipei。停用排程不會強制終止正在運行的程式；發布前仍會檢查設定與權限。
+
+已註冊流程與依賴
+source ← 來源 / 無上游
+validate ← source
+summary ← validate
+排程設定
+
+儲存時檢查版本，避免覆蓋其他管理者的變更。
+
+啟用自動排程
+執行間隔（秒，60–86400）
+儲存排程
+重新載入設定
+手動執行
+業務日期
+
+Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+
+立即執行
+按日期補跑
+
+每次最多 31 個業務日期，不可選未來日期。重疊日期會保留已建立批次，失敗日期需另行重試。
+
+補跑範圍（含首尾日期）
+
+Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+
+Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+
+預覽補跑範圍
+建立新請求
+同一表單重複點擊會使用原請求。只有更改該表單輸入或建立新請求才允許另一次操作。
+批次紀錄與步驟
+
+每個工作顯示最近 100 筆；未選批次時顯示最近一次。時間皆為 Asia/Taipei。
+
+選擇批次
+選擇批次查看步驟、檢查與來源
+尚無批次。管理者可先選日期執行，或啟用排程。
+重試所選失敗批次
+Reporting foundation · Company integration and browser validation pending

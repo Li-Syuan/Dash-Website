@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "conditions_match": true,
+  "before_file": "baseline-v9.json",
+  "after_file": "candidate-v10.json",
+  "before_sha256": "226c2e256402ddc546ed1200f817e57d6ba399d9dac5eadcc8f837c5e9b378e7",
+  "after_sha256": "ffd518401b34a878451672a4c0af0196752c242fedba596ac8a026b6b467f0ab",
+  "source_changes": [
+    "reporting_workspace/legacy_crud.py"
+  ],
+  "comparisons": [
+    {
+      "active_rows": 5000,
+      "scenario": "service_query_page",
+      "before_median_ms": 2.9054,
+      "after_median_ms": 2.122,
+      "median_ms_reduction_percent": 26.963585048530337,
+      "before_p95_ms": 12.6648,
+      "after_p95_ms": 11.1719,
+      "p95_ms_reduction_percent": 11.787789779546454
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "service_query_filter",
+      "before_median_ms": 0.7004,
+      "after_median_ms": 0.7455,
+      "median_ms_reduction_percent": -6.43917761279269,
+      "before_p95_ms": 0.9204,
+      "after_p95_ms": 0.8755,
+      "p95_ms_reduction_percent": 4.87831377661887
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "service_export_csv",
+      "before_median_ms": 38.9519,
+      "after_median_ms": 34.7536,
+      "median_ms_reduction_percent": 10.778164864871808,
+      "before_p95_ms": 48.674,
+      "after_p95_ms": 48.2171,
+      "p95_ms_reduction_percent": 0.9386941693717343
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "service_export_xlsx",
+      "before_median_ms": 501.4712,
+      "after_median_ms": 494.8255,
+      "median_ms_reduction_percent": 1.325240612023193,
+      "before_p95_ms": 528.7684,
+      "after_p95_ms": 506.7697,
+      "p95_ms_reduction_percent": 4.160365861500049
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "callback_query_page",
+      "before_median_ms": 5.3171,
+      "after_median_ms": 4.418,
+      "median_ms_reduction_percent": 16.909593575445257,
+      "before_p95_ms": 6.4456,
+      "after_p95_ms": 5.005,
+      "p95_ms_reduction_percent": 22.350130321459606
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "callback_export_csv",
+      "before_median_ms": 47.7388,
+      "after_median_ms": 42.8588,
+      "median_ms_reduction_percent": 10.222292977619873,
+      "before_p95_ms": 57.1494,
+      "after_p95_ms": 55.5523,
+      "p95_ms_reduction_percent": 2.794605017725471
+    },
+    {
+      "active_rows": 5000,
+      "scenario": "callback_export_xlsx",
+      "before_median_ms": 510.1864,
+      "after_median_ms": 506.1663,
+      "median_ms_reduction_percent": 0.7879669077811569,
+      "before_p95_ms": 515.6854,
+      "after_p95_ms": 518.0851,
+      "p95_ms_reduction_percent": -0.4653418537736487
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "service_query_page",
+      "before_median_ms": 5.8102,
+      "after_median_ms": 2.0972,
+      "median_ms_reduction_percent": 63.904856975663485,
+      "before_p95_ms": 16.8983,
+      "after_p95_ms": 10.7355,
+      "p95_ms_reduction_percent": 36.46994076327205
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "service_query_filter",
+      "before_median_ms": 5.1665,
+      "after_median_ms": 5.4514,
+      "median_ms_reduction_percent": -5.514371431336484,
+      "before_p95_ms": 5.424,
+      "after_p95_ms": 5.8297,
+      "p95_ms_reduction_percent": -7.479719764011783
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "service_export_csv",
+      "before_median_ms": 222.5144,
+      "after_median_ms": 187.4834,
+      "median_ms_reduction_percent": 15.743250773882501,
+      "before_p95_ms": 226.261,
+      "after_p95_ms": 190.5581,
+      "p95_ms_reduction_percent": 15.779520111729372
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "service_export_xlsx",
+      "before_median_ms": 2532.0706,
+      "after_median_ms": 2542.9785,
+      "median_ms_reduction_percent": -0.4307897260052762,
+      "before_p95_ms": 2551.4066,
+      "after_p95_ms": 2577.4936,
+      "p95_ms_reduction_percent": -1.0224556133075824
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "callback_query_page",
+      "before_median_ms": 10.0217,
+      "after_median_ms": 4.4606,
+      "median_ms_reduction_percent": 55.490585429617724,
+      "before_p95_ms": 12.5758,
+      "after_p95_ms": 4.6993,
+      "p95_ms_reduction_percent": 62.63219834921039
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "callback_export_csv",
+      "before_median_ms": 246.869,
+      "after_median_ms": 210.5903,
+      "median_ms_reduction_percent": 14.695526777359646,
+      "before_p95_ms": 250.7137,
+      "after_p95_ms": 222.5919,
+      "p95_ms_reduction_percent": 11.21669856892542
+    },
+    {
+      "active_rows": 25000,
+      "scenario": "callback_export_xlsx",
+      "before_median_ms": 2571.0864,
+      "after_median_ms": 2568.0578,
+      "median_ms_reduction_percent": 0.1177945634187938,
+      "before_p95_ms": 2605.9514,
+      "after_p95_ms": 2635.7706,
+      "p95_ms_reduction_percent": -1.1442730666427536
+    }
+  ],
+  "storage_and_setup": [
+    {
+      "active_rows": 5000,
+      "before_database_bytes": 3928064,
+      "after_database_bytes": 4067328,
+      "before_import_setup_total_ms": 270.7739,
+      "after_import_setup_total_ms": 276.1459,
+      "scope": "one growing dataset setup, not steady-state write throughput"
+    },
+    {
+      "active_rows": 25000,
+      "before_database_bytes": 19202048,
+      "after_database_bytes": 19898368,
+      "before_import_setup_total_ms": 1372.395,
+      "after_import_setup_total_ms": 1451.5889000000004,
+      "scope": "one growing dataset setup, not steady-state write throughput"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "label": "wsl-python38-final",
+  "python": "3.8.20",
+  "platform": "MSI WSL Ubuntu native temporary filesystem",
+  "node": "v22.14.0",
+  "node_archive_sha256": "69b09dba5c8dcb05c4e4273a4340db1005abeafe3927efda2bc5b249e80437ec",
+  "command": "python -B -m unittest discover -s tests -v",
+  "elapsed_seconds": 101.977,
+  "suite_exit_code": 0,
+  "exit_code": 86,
+  "clock_guard_valid": false,
+  "clock_backsteps": 3,
+  "clock_monitor_errors": [],
+  "system_time_service_modified": false,
+  "system_clock_network_security_configuration_modified": false,
+  "time_service_before": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "time_service_after": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "session_or_signer_modified": false,
+  "automatic_suite_retries": 0,
+  "summary_lines": [
+    "Ran 901 tests in 101.297s",
+    "OK"
+  ],
+  "skipped": [],
+  "unraisable_count": 0,
+  "shutdown_tracebacks": 0,
+  "source_unchanged": true
+}

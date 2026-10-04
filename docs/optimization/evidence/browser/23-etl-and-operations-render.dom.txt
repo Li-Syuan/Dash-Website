@@ -1,0 +1,76 @@
+Report workspace
+Reports
+QSL 維護 / 精靈
+營運中心 / TODO
+ETL 調度
+Admin
+Maintenance
+Demo info
+☾
+Assistant
+Sign out
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+報表營運中心
+開啟多工作 ETL 調度中心
+合成 SQLite 驗證環境。Oracle 僅介面契約，郵件只寫本機 mock 紀錄。既有 QSL 彈窗保留於原入口。
+功能 TODO / DONE 與驗收證據
+1 · 改動影響預覽
+來源或報表 ID
+source
+預覽受影響報表 / 匯出 / API / 排程
+2 · 報表版本差異
+比較版本
+查看來源紀錄
+3 · 新需求先找既有報表
+找相似報表
+4 · 資料品質與寄信攔截
+失敗 / 缺欄 / 重複鍵快照
+檢查快照測試 mock 寄送（管理者）
+5 · 使用與成果統計
+
+只記固定事件與必要歸屬，不記查詢文字或資料列，也不宣稱省下多少工時。
+
+更新統計
+自動 ETL 排程 / Job 監控
+
+固定安全範例：來源快照 → 清理與品質檢查 → SQLite 結果發布。正式 app 啟動後可開啟定時執行；不寄外部信件。
+
+啟用自動排程
+儲存排程（管理者）立即執行範例（管理者）更新監控
+job_id：example-report-summary
+name：Synthetic report summary / 合成報表摘要
+org：A
+已啟用：False
+interval_seconds：300.0
+minimum_interval_seconds：60.0
+maximum_interval_seconds：86400
+timezone：Asia/Taipei
+下次執行：—
+next_run_at：—
+排程執行緒運行中：False
+worker_error_code：—
+last_run：—
+執行紀錄：
+最近成功：—
+last_success_at：—
+資料距今秒數：—
+最近成功發布結果：—
+synthetic：True
+real_delivery：False
+notification_config：
+已啟用：False
+owner_email：—
+notification_error_code：—
+notification_logs：
+logs：
+下載去識別診斷 ZIP
+Job owner 失敗通知（mock）
+啟用失敗通知模擬
+儲存 owner 通知（管理者）
+多維護表 / 多 bind 目錄
+
+100 個合成定義按需分頁；Oracle 未接線不會宣稱可用。
+
+查詢維護表目錄
+讀取所選維護表（前 20 筆）
+Reporting foundation · Company integration and browser validation pending

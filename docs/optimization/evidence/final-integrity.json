@@ -1,0 +1,39 @@
+{
+  "base_commit": "a35898344c752e6c41fab0afdfd81d7d6ebdb617",
+  "product_diff_files": [
+    "reporting_workspace/legacy_crud.py"
+  ],
+  "tested_source_maps": [
+    {
+      "manifest": "windows-source-hashes.json",
+      "verified_files": 111
+    },
+    {
+      "manifest": "wsl-source-hashes.json",
+      "verified_files": 111
+    },
+    {
+      "manifest": "source-hashes.json",
+      "verified_files": 55
+    }
+  ],
+  "browser_harness_unchanged": true,
+  "browser_original_evidence_files_verified": 94,
+  "browser_text_files_copied": 52,
+  "browser_text_sanitizations": [],
+  "python38_ast_files": 104,
+  "original_checkout_unchanged": true,
+  "requirements_and_existing_ci_unchanged": true,
+  "git_diff_check": "PASS",
+  "private_paths_in_pending_files": [],
+  "forbidden_state_or_binary_files_in_pending_files": [],
+  "benchmark_raw_hashes_preserved": {
+    "baseline-v9.json": "226c2e256402ddc546ed1200f817e57d6ba399d9dac5eadcc8f837c5e9b378e7",
+    "candidate-v10.json": "ffd518401b34a878451672a4c0af0196752c242fedba596ac8a026b6b467f0ab"
+  },
+  "source_frozen": true,
+  "post_suite_additions": "Prose, collected evidence and the exact read-only guard used by the recorded WSL run. No tested application, test case, browser harness or benchmark edits.",
+  "v10_commit_created": false,
+  "v10_pushed": false,
+  "deployed": false
+}

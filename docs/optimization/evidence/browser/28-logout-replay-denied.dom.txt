@@ -1,0 +1,18 @@
+Report workspace
+Demo info
+☾
+Assistant
+Sign in
+TEST ENVIRONMENT · Synthetic data and simulated services only.
+
+REPORT WORKSPACE
+
+Welcome back
+
+Sign in with an isolated demo identity.
+
+Username
+Password
+Sign in
+Users: demo-admin, demo-user-a, demo-user-b. Password: demo-only.
+Reporting foundation · Company integration and browser validation pending

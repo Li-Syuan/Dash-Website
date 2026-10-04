@@ -1,0 +1,3019 @@
+{
+  "pages": [
+    {
+      "id": "overview",
+      "path": "/",
+      "policy": {
+        "authenticated": true,
+        "roles": null,
+        "org": null
+      }
+    },
+    {
+      "id": "login",
+      "path": "/login",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      }
+    },
+    {
+      "id": "logout",
+      "path": "/logout",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      }
+    },
+    {
+      "id": "page1",
+      "path": "/page1",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      }
+    },
+    {
+      "id": "page2",
+      "path": "/page2",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      }
+    },
+    {
+      "id": "reports",
+      "path": "/page3",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      }
+    },
+    {
+      "id": "administration",
+      "path": "/admin",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      }
+    },
+    {
+      "id": "maintenance",
+      "path": "/maintenance",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      }
+    },
+    {
+      "id": "managed-reports",
+      "path": "/reports",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      }
+    },
+    {
+      "id": "qa-maintenance",
+      "path": "/QA_portal/maintenance",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      }
+    },
+    {
+      "id": "operations",
+      "path": "/QA_portal/operations",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      }
+    },
+    {
+      "id": "etl-dispatch",
+      "path": "/QA_portal/etl",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      }
+    }
+  ],
+  "callbacks": [
+    {
+      "callback_id": "shell.route",
+      "output_key": ".._pages_content.children..._pages_store.data..",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "server"
+    },
+    {
+      "callback_id": "shell.info",
+      "output_key": "popover.is_open",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "server"
+    },
+    {
+      "callback_id": "shell.sidebar",
+      "output_key": "..sidebar.style...page-content.style...side_click.data..",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "server"
+    },
+    {
+      "callback_id": "shell.sidebar_accessibility",
+      "output_key": "..btn_sidebar.aria-expanded...sidebar.aria-hidden...btn_sidebar.aria-label..",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "server"
+    },
+    {
+      "callback_id": "shell.notifications",
+      "output_key": "..workspace-notifications.children...workspace-notification-seen.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "server"
+    },
+    {
+      "callback_id": "catalog.preferences",
+      "output_key": "catalog-preferences.data",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": "overview",
+      "kind": "client"
+    },
+    {
+      "callback_id": "catalog.render",
+      "output_key": "..catalog-results.children...catalog-summary.children...catalog-page-label.children...catalog-prev.disabled...catalog-next.disabled...catalog-page.data...catalog-category.options..",
+      "policy": {
+        "authenticated": true,
+        "roles": null,
+        "org": null
+      },
+      "page_id": "overview",
+      "kind": "server"
+    },
+    {
+      "callback_id": "login.submit",
+      "output_key": "..redirectHome.pathname...login-alert.is_open..",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": "login",
+      "kind": "server"
+    },
+    {
+      "callback_id": "reports.refresh",
+      "output_key": "..table.data...{\"action\":\"7265706f7274732e72656672657368\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "reports",
+      "kind": "server"
+    },
+    {
+      "callback_id": "reports.export",
+      "output_key": "..report-download.data...{\"action\":\"7265706f7274732e6578706f7274\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "reports",
+      "kind": "server"
+    },
+    {
+      "callback_id": "admin.list",
+      "output_key": "..admin-report-picker.options...admin-list-status.children...{\"action\":\"61646d696e2e6c697374\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "administration",
+      "kind": "server"
+    },
+    {
+      "callback_id": "admin.select",
+      "output_key": "..admin-details.children...admin-record.data...admin-draft.data...admin-report-picker.value...{\"action\":\"61646d696e2e73656c656374\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "administration",
+      "kind": "server"
+    },
+    {
+      "callback_id": "admin.schedule",
+      "output_key": "..admin-schedule-editor.children...admin-schedule-record.data...admin-schedule-draft.data...{\"action\":\"61646d696e2e7363686564756c65\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "administration",
+      "kind": "server"
+    },
+    {
+      "callback_id": "admin.mutate",
+      "output_key": "..{\"action\":\"61646d696e2e6d7574617465\",\"type\":\"workspace-notify\"}.data...admin-change.data...admin-action-status.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "administration",
+      "kind": "server"
+    },
+    {
+      "callback_id": "admin.simulate",
+      "output_key": "..adapter-result.children...{\"action\":\"61646d696e2e73696d756c617465\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": null
+      },
+      "page_id": "administration",
+      "kind": "server"
+    },
+    {
+      "callback_id": "maintenance.feedback",
+      "output_key": "..maintenance-name.invalid...maintenance-name-feedback.children...maintenance-description.invalid...maintenance-description-feedback.children...maintenance-cadence.invalid...maintenance-cadence-feedback.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "maintenance.list",
+      "output_key": "..maintenance-table.data...maintenance-table.selected_rows...maintenance-page.data...maintenance-page-label.children...maintenance-prev.disabled...maintenance-next.disabled...{\"action\":\"6d61696e74656e616e63652e6c697374\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "maintenance.select",
+      "output_key": "..maintenance-record.data...maintenance-name.value...maintenance-description.value...maintenance-cadence.value...maintenance-enabled.value...maintenance-editor-title.children...maintenance-record-meta.children...maintenance-form-hint.children...maintenance-name.disabled...maintenance-description.disabled...maintenance-cadence.disabled...maintenance-enabled.disabled...maintenance-save.disabled...maintenance-archive.disabled...maintenance-restore.disabled...maintenance-reload.disabled...maintenance-draft.data...{\"action\":\"6d61696e74656e616e63652e73656c656374\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "maintenance.mutate",
+      "output_key": "..{\"action\":\"6d61696e74656e616e63652e6d7574617465\",\"type\":\"workspace-notify\"}.data...maintenance-mutation.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "managed.load",
+      "output_key": "..managed-catalog.children...managed-view.children...managed-record.data...managed-refresh.disabled...managed-export.disabled...{\"action\":\"6d616e616765642e6c6f6164\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "managed-reports",
+      "kind": "server"
+    },
+    {
+      "callback_id": "managed.save",
+      "output_key": "..{\"action\":\"6d616e616765642e73617665\",\"type\":\"workspace-notify\"}.data...managed-change.data...managed-status.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "managed-reports",
+      "kind": "server"
+    },
+    {
+      "callback_id": "managed.export",
+      "output_key": "..managed-download.data...{\"action\":\"6d616e616765642e6578706f7274\",\"type\":\"workspace-notify\"}.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": null
+      },
+      "page_id": "managed-reports",
+      "kind": "server"
+    },
+    {
+      "callback_id": "qa-maintenance.action-1",
+      "output_key": "..qa-mail-result.children...qa-mail-version.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "qa-maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "qa-maintenance.action-2",
+      "output_key": "..qa-status.children...qa-table.data...qa-download.data...qa-stage-token.data...qa-preview.children...qa-change-token.data...qa-change-preview.children...qa-modal-create.is_open...qa-modal-update.is_open...qa-modal-delete.is_open...qa-modal-upload.is_open...qa-create-status.children...qa-update-status.children...qa-delete-status.children...qa-upload-status.children...qa-create-field-Material_Type.value...qa-create-field-Vendor_Code.value...qa-create-field-Vendor_Name.value...qa-create-field-Country.value...qa-create-field-City.value...qa-create-field-Rev.value...qa-create-field-Supplier_Level.value...qa-record-id.value...qa-loaded-update.data...qa-record-version.value...qa-field-Material_Type.value...qa-field-Vendor_Code.value...qa-field-Vendor_Name.value...qa-field-Country.value...qa-field-City.value...qa-field-Rev.value...qa-field-Supplier_Level.value...qa-load-status.children...qa-update-fields.style...qa-delete-id.value...qa-loaded-delete.data...qa-delete-record.children...qa-delete-confirm.checked...qa-upload.contents...qa-upload.filename..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "qa-maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "qa-maintenance.action-3",
+      "output_key": "..qa-history-status.children...qa-history-table.data...qa-history-version.data...qa-history-current.data...qa-restore-token.data...qa-restore-diff.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "qa-maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "qa-maintenance.action-4",
+      "output_key": "..qb-step.data...qb-step-label.children...qb-source-panel.style...qb-columns-panel.style...qb-options-panel.style...qb-preview-panel.style...qb-nav-status.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "qa-maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "qa-maintenance.action-5",
+      "output_key": "..qb-source.value...qb-columns.value...qb-filter-field.value...qb-filter-op.value...qb-filter-value.value...qb-group.value...qb-limit.value...qb-name.value...qb-saved-version.data...qb-preview-definition.data...qb-save-status.children...qb-table.data...qb-table.columns...qb-preview-status.children...qb-saved-id.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "qa-maintenance",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.impact",
+      "output_key": "ops-impact-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.diff",
+      "output_key": "ops-diff-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.source",
+      "output_key": "ops-source-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.search",
+      "output_key": "ops-search-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.quality",
+      "output_key": "ops-quality-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.usage",
+      "output_key": "ops-usage-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.tables",
+      "output_key": "ops-tables-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.table-read",
+      "output_key": "ops-table-data.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.jobs",
+      "output_key": "ops-job-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.job-notify",
+      "output_key": "ops-job-notify-result.children",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "operations.job-export",
+      "output_key": "..ops-job-download.data...ops-job-export-status.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "operations",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.select",
+      "output_key": "..etl-enabled.value...etl-interval.value...etl-version.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.refresh",
+      "output_key": "..etl-status.children...etl-job-cards.children...etl-run-id.options..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.requests",
+      "output_key": "..etl-run-request.data...etl-backfill-request.data...etl-retry-request.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.run",
+      "output_key": "..etl-run-result.children...etl-run-event.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.configure",
+      "output_key": "..etl-save-result.children...etl-save-event.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.backfill-preview",
+      "output_key": "..etl-backfill-modal.is_open...etl-backfill-summary.children...etl-backfill-proof.data...etl-backfill-preview-result.children..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.backfill",
+      "output_key": "..etl-backfill-result.children...etl-backfill-event.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.detail",
+      "output_key": "..etl-detail.children...etl-retry.disabled..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin",
+          "user"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "etl.retry",
+      "output_key": "..etl-retry-result.children...etl-retry-event.data..",
+      "policy": {
+        "authenticated": true,
+        "roles": [
+          "admin"
+        ],
+        "org": "A"
+      },
+      "page_id": "etl-dispatch",
+      "kind": "server"
+    },
+    {
+      "callback_id": "shell.theme",
+      "output_key": "..workspace-mantine-provider.theme...workspace-theme-state.data...workspace-theme-toggle.children...workspace-theme-toggle.aria-label...workspace-theme-toggle.aria-pressed...workspace-theme-toggle.title..",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "client"
+    },
+    {
+      "callback_id": "shell.theme_chart",
+      "output_key": "performance-chart.figure",
+      "policy": {
+        "authenticated": false,
+        "roles": null,
+        "org": null
+      },
+      "page_id": null,
+      "kind": "client"
+    }
+  ],
+  "http_routes": [
+    {
+      "path": "/static/<path:filename>",
+      "endpoint": "static",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/demo-api/report.csv",
+      "endpoint": "export_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/api/reports/export.csv",
+      "endpoint": "export_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/api/managed-reports/<identifier>/export.csv",
+      "endpoint": "export_managed_report",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/healthz",
+      "endpoint": "health",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/readyz",
+      "endpoint": "ready",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/assets/<path:filename>",
+      "endpoint": "_dash_assets.static",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/_dash-component-suites/<string:package_name>/<path:fingerprinted_path>",
+      "endpoint": "/_dash-component-suites/<string:package_name>/<path:fingerprinted_path>",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/_dash-layout",
+      "endpoint": "/_dash-layout",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/_dash-dependencies",
+      "endpoint": "/_dash-dependencies",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/_dash-update-component",
+      "endpoint": "/_dash-update-component",
+      "methods": [
+        "OPTIONS",
+        "POST"
+      ]
+    },
+    {
+      "path": "/_reload-hash",
+      "endpoint": "/_reload-hash",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/_favicon.ico",
+      "endpoint": "/_favicon.ico",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/",
+      "endpoint": "/",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/<path:path>",
+      "endpoint": "/<path:path>",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/QA_portal/source/<report_id>/<int:version>/<record_id>",
+      "endpoint": "source_link",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    {
+      "path": "/QA_portal/feature-todo",
+      "endpoint": "feature_todo",
+      "methods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page1",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page2",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page3",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/admin",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/maintenance",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/reports",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/maintenance",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/operations",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/etl",
+      "actor": "anonymous",
+      "passed": true,
+      "status": "login redirect"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page1",
+      "actor": "demo-user-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page3",
+      "actor": "demo-user-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/admin",
+      "actor": "demo-user-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page1",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page2",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page3",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/admin",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/maintenance",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/operations",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/etl",
+      "actor": "demo-user-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page2",
+      "actor": "matrix-admin-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/maintenance",
+      "actor": "matrix-admin-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/operations",
+      "actor": "matrix-admin-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/etl",
+      "actor": "matrix-admin-b",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page1",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page2",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/page3",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/admin",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/maintenance",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/reports",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/maintenance",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/operations",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "rendered_page_denial",
+      "entry": "/QA_portal/etl",
+      "actor": "matrix-guest-a",
+      "passed": true,
+      "status": "forbidden view"
+    },
+    {
+      "kind": "api_denial",
+      "entry": "/api/reports/export.csv",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "api_denial",
+      "entry": "/demo-api/report.csv",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "api_denial",
+      "entry": "/api/managed-reports/forged-id/export.csv",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "api_denial",
+      "entry": "/QA_portal/source/forged-id/1/forged-record",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "api_denial",
+      "entry": "/QA_portal/feature-todo",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/api/reports/export.csv",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/demo-api/report.csv",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/api/reports/export.csv",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/demo-api/report.csv",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/api/reports/export.csv",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "export_denial",
+      "entry": "/demo-api/report.csv",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/source/forged-id/1/forged-record",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/feature-todo",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/source/forged-id/1/forged-record",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/feature-todo",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/source/forged-id/1/forged-record",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "tenant_api_denial",
+      "entry": "/QA_portal/feature-todo",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "anonymous",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "anonymous",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "anonymous",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "anonymous",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "demo-admin",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "demo-admin",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "demo-admin",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "demo-admin",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "catalog.preferences",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "shell.theme_chart",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "nonserver_denial",
+      "entry": "unregistered-output",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "shell.notifications",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "catalog.render",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.refresh",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.export",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.list",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.select",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.schedule",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.mutate",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.simulate",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.feedback",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.list",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.select",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.mutate",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.load",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.save",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.export",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-1",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-2",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-3",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-4",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-5",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.impact",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.diff",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.source",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.search",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.quality",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.usage",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.tables",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.table-read",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.jobs",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-notify",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-export",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.select",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.refresh",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.requests",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.run",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.configure",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill-preview",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.detail",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.retry",
+      "actor": "anonymous",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.refresh",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.export",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.list",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.select",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.schedule",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.mutate",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.simulate",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.run",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.configure",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.retry",
+      "actor": "demo-user-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.refresh",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.export",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.list",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.select",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.schedule",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.mutate",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.simulate",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-1",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-2",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-3",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-4",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-5",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.impact",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.diff",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.source",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.search",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.quality",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.usage",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.tables",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.table-read",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.jobs",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-notify",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-export",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.select",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.refresh",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.requests",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.run",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.configure",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill-preview",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.detail",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.retry",
+      "actor": "demo-user-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-1",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-2",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-3",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-4",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-5",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.impact",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.diff",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.source",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.search",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.quality",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.usage",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.tables",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.table-read",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.jobs",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-notify",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-export",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.select",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.refresh",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.requests",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.run",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.configure",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill-preview",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.detail",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.retry",
+      "actor": "matrix-admin-b",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.refresh",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "reports.export",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.list",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.select",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.schedule",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.mutate",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "admin.simulate",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.feedback",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.list",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.select",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "maintenance.mutate",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.load",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.save",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "managed.export",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-1",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-2",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-3",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-4",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "qa-maintenance.action-5",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.impact",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.diff",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.source",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.search",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.quality",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.usage",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.tables",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.table-read",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.jobs",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-notify",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "operations.job-export",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.select",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.refresh",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.requests",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.run",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.configure",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill-preview",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.backfill",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.detail",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "callback_denial",
+      "entry": "etl.retry",
+      "actor": "matrix-guest-a",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "shell.notifications",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "catalog.render",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "reports.refresh",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "reports.export",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "admin.list",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "admin.select",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "admin.schedule",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "admin.mutate",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "admin.simulate",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "maintenance.feedback",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "maintenance.list",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "maintenance.select",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "maintenance.mutate",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "managed.load",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "managed.save",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "managed.export",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "qa-maintenance.action-1",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "qa-maintenance.action-2",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "qa-maintenance.action-3",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "qa-maintenance.action-4",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "qa-maintenance.action-5",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.impact",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.diff",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.source",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.search",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.quality",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.usage",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.tables",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.table-read",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.jobs",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.job-notify",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "operations.job-export",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.select",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.refresh",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.requests",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.run",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.configure",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.backfill-preview",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.backfill",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.detail",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "kind": "revoked_session_denial",
+      "entry": "etl.retry",
+      "actor": "matrix-revoked",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    }
+  ],
+  "report_template_enabled": false,
+  "summary": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "checks": 263,
+    "passed": 263,
+    "browser_test": false
+  }
+}

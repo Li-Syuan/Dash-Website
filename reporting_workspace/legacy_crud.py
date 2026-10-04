@@ -9,12 +9,14 @@ import csv
 import hashlib
 import io
 import json
+import os
 import secrets
 import re
 import zipfile
 import xml.etree.ElementTree as ET
 import sqlite3
 import threading
+import tempfile
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -581,6 +583,13 @@ class LegacyCrudService:
         limit = _positive_int(limit)
         if limit > self.max_export_rows or isinstance(offset, bool) or not isinstance(offset, int) or not 0 <= offset <= 1000000:
             raise InvalidInput('Invalid query bounds.')
+        statement, values = self._query_statement(filters)
+        with self._lock:
+            rows = self._db.execute(statement + ' LIMIT ? OFFSET ?', values + [limit, offset]).fetchall()
+        return [dict(row) for row in rows]
+
+    def _query_statement(self, filters):
+        """One allowlisted predicate/order contract for pages and export snapshots."""
         filters = {} if filters is None else filters
         if not isinstance(filters, dict) or not set(filters).issubset(QSL_FIELDS):
             raise InvalidInput('Invalid filter fields.')
@@ -589,10 +598,8 @@ class LegacyCrudService:
             # Literal substring matching, not user-controlled regex/LIKE patterns.
             clauses.append('instr(' + name + ',?)>0')
             values.append(_text(value, 200))
-        with self._lock:
-            rows = self._db.execute('SELECT id,version,' + ','.join(QSL_FIELDS) + ' FROM legacy_qsl_records WHERE ' +
-                                    ' AND '.join(clauses) + ' ORDER BY id LIMIT ? OFFSET ?', values + [limit, offset]).fetchall()
-        return [dict(row) for row in rows]
+        return ('SELECT id,version,' + ','.join(QSL_FIELDS) + ' FROM legacy_qsl_records WHERE ' +
+                ' AND '.join(clauses) + ' ORDER BY id'), values
 
     def export_csv(self, user, filters=None):
         self._authorize(user, 'export')
@@ -706,32 +713,102 @@ class LegacyCrudService:
             raise InvalidInput('Invalid XLSX file.') from None
         return self.stage_rows(user, rows)
 
+    def _check_export_actor(self, user, actor):
+        if self._authorize(user, 'export') != actor:
+            raise PermissionDenied('Operation denied.')
+
+    @contextmanager
+    def _xlsx_snapshot(self, user, filters, actor):
+        """Spool a consistent bounded read before the slower XML serialization.
+
+        A private auto-deleting file replaces the all-row Python list. The
+        source write transaction/lock is released before yielding the snapshot;
+        another request can mutate the source without altering these rows.
+        """
+        # Preserve the existing export's offset-bound validation, which rejects
+        # a configured cap beyond the supported query offset range.
+        if self.max_export_rows > 1000000:
+            raise InvalidInput('Invalid query bounds.')
+        statement, values = self._query_statement(filters)
+        with tempfile.TemporaryFile(mode='w+t', encoding='utf-8', newline='\n') as snapshot:
+            with self._transaction():
+                if self._authorize(user, 'read') != actor:
+                    raise PermissionDenied('Operation denied.')
+                cursor = self._db.execute(statement + ' LIMIT ?', values + [self.max_export_rows + 1])
+                count = 0
+                try:
+                    while True:
+                        self._check_export_actor(user, actor)
+                        batch = cursor.fetchmany(1024)
+                        if not batch:
+                            break
+                        count += len(batch)
+                        if count > self.max_export_rows:
+                            raise InvalidInput('Export limit exceeded; narrow the filters.')
+                        for row in batch:
+                            snapshot.write(json.dumps(tuple(row), ensure_ascii=False,
+                                                      separators=(',', ':')) + '\n')
+                finally:
+                    cursor.close()
+            snapshot.seek(0)
+            yield snapshot
+
+    @staticmethod
+    def _close_xlsx_workbook(workbook):
+        # openpyxl 3.1.5 Workbook.close does not remove unsaved write-only XML.
+        # Close worksheet generators and remove only their library-owned files,
+        # including on revocation or archive/disk failure before Workbook.save.
+        for sheet in workbook.worksheets:
+            writer = getattr(sheet, '_writer', None)
+            if writer is None:
+                continue  # Closing an unused sheet would create a new XML file.
+            try:
+                if not sheet.closed:
+                    sheet.close()
+            finally:
+                if writer is not None:
+                    writer.close()
+                    if os.path.exists(writer.out):
+                        writer.cleanup()
+        workbook.close()
+
     def export_xlsx(self, user, filters=None):
-        self._authorize(user, 'export')
+        actor = self._authorize(user, 'export')
         try:
             import openpyxl
             from openpyxl.cell import WriteOnlyCell
         except ImportError:
             raise AdapterUnavailable('XLSX adapter is not installed.') from None
-        with self._transaction():
-            rows = self.query(user, filters, self.max_export_rows)
-            if self.query(user, filters, 1, self.max_export_rows):
-                raise InvalidInput('Export limit exceeded; narrow the filters.')
-        workbook = openpyxl.Workbook(write_only=True)
-        sheet = workbook.create_sheet('QSL')
-        sheet.append(CSV_FIELDS)
-        for row in rows:
-            cells = []
-            for name in CSV_FIELDS:
-                cell = WriteOnlyCell(sheet, value=row[name])
-                if name in QSL_FIELDS:
-                    cell.data_type = 's'  # Literal text, even when starting '='.
-                cells.append(cell)
-            sheet.append(cells)
-        output = io.BytesIO()
-        workbook.save(output)
-        workbook.close()
-        return output.getvalue()
+        try:
+            with self._xlsx_snapshot(user, filters, actor) as snapshot:
+                workbook = openpyxl.Workbook(write_only=True)
+                try:
+                    sheet = workbook.create_sheet('QSL')
+                    self._check_export_actor(user, actor)
+                    sheet.append(CSV_FIELDS)
+                    for index, line in enumerate(snapshot):
+                        if index % 1024 == 0:
+                            self._check_export_actor(user, actor)
+                        values = json.loads(line)
+                        cells = []
+                        for name, value in zip(CSV_FIELDS, values):
+                            cell = WriteOnlyCell(sheet, value=value)
+                            if name in QSL_FIELDS:
+                                cell.data_type = 's'  # Literal text, including '=' and error tokens.
+                            cells.append(cell)
+                        sheet.append(cells)
+                    self._check_export_actor(user, actor)
+                    with tempfile.TemporaryFile(mode='w+b') as output:
+                        workbook.save(output)
+                        self._check_export_actor(user, actor)
+                        output.seek(0)
+                        content = output.read()
+                        self._check_export_actor(user, actor)
+                        return content
+                finally:
+                    self._close_xlsx_workbook(workbook)
+        except OSError:
+            raise StorageUnavailable('Export storage unavailable.') from None
 
     def stage_rows(self, user, rows):
         actor = self._authorize(user, 'upload')

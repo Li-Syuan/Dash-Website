@@ -31,6 +31,45 @@ listing the other 30 scenarios as unrun. The fixture request-settle allowance is
 Action and authorization assertions are unchanged.
 The default run executes the full suite.
 
+## Opt-in report-template acceptance
+
+The original 32 scenarios retain their existing interactions and assertions.
+Set `QA_REPORT_TEMPLATE=1` to add eight real browser scenarios for the synthetic
+read-only quality report. The private fixture then explicitly enables
+`REPORTING_ENABLE_REPORT_TEMPLATE=true` before importing the same `app.py`.
+Only the literal values `0` and `1` are accepted for the fixture switch; inherited
+`REPORTING_*` settings are cleared. The normal product remains opt-in.
+
+```powershell
+$env:QA_REPORT_TEMPLATE = '1'
+$env:QA_STATIC_BRIDGE = '0'
+$env:QA_HTTP10 = '0'
+node tests/browser/acceptance.cjs
+```
+
+This mode runs 40 scenarios and writes only beneath
+`output/playwright/v11/<UTC timestamp>/`, with its own `v11/latest.json` index.
+It uses the template's 32 synthetic rows per organization; large-export
+benchmarks are separate and do not enlarge the browser fixture.
+
+The additional cases exercise anonymous redirect and the real Quality catalog card,
+search and department controls, pagination and stable sorting, a real filtered
+CSV download containing all matches beyond one page, same-organization shared
+reads, and organization-B user/admin isolation. Negative cases modify actual
+browser callback submissions with invalid offset/limit/filter values, attempt
+tenant claims through the URL, and alter visible client table text before a
+fresh server CSV export. The file must contain only authorized server rows.
+Invalid export inputs must produce no download. A separately revoked synthetic
+identity clicks both Apply filters and Export; each must receive HTTP 401 and
+produce no download. No callback payload, password or session token is saved.
+
+The original final browser-error aggregate runs after these cases with the same
+classifications. Results identify opt-in coverage and any unrun template cases;
+`source-hashes.json` includes the new runtime modules, and `harness-hashes.json`
+records the exact fixture, browser script and instructions used at startup.
+No suite is automatically rerun. Coordinate source freeze and an idle benchmark
+window before launching the browser on a shared measurement machine.
+
 Each run writes `output/playwright/<UTC timestamp>/` with screenshots, readable
 DOM text, sanitized server logs, downloaded synthetic exports, and `results.json`.
 `output/playwright/latest.json` points to the latest run and labels its mode.

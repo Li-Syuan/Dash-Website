@@ -124,23 +124,27 @@ class _RegisteredCallbacks:
 
 
 def register_callbacks(callbacks, runtime):
+    from ..authorization import current_identity, lookup_identity
     from ..legacy_demo_ui import _register_services_and_callbacks
     from ..legacy_policy import Policy
     server = current_app._get_current_object()
     if not runtime.is_demo:
         raise ValueError('Synthetic QSL integration is demo-only')
 
-    def user_resolver():
-        # runtime.identity reloads the signed session's user through the main
-        # identity provider each request. Never trust a Store, role input, or
-        # standalone demo identity cookie. Map demo roles explicitly only here.
-        identity = runtime.identity()
+    def legacy_identity(identity):
         if not POLICY.allows(identity):
             return SimpleNamespace(id='', orgcode='', is_authenticated=False)
         return SimpleNamespace(
             id=identity['id'], orgcode='ORG_QA01', is_authenticated=True,
             is_dev=identity['role'] == 'admin', is_admin=False,
         )
+
+    def user_resolver():
+        # Flask-Login caches its user within a request. Long exports must also
+        # recheck the provider within that request, not only on the next one.
+        identity = runtime.identity()
+        return legacy_identity(current_identity(runtime.identities, identity)
+                               if identity is not None else None)
 
     server.extensions['qa_user_resolver'] = user_resolver
     directory = None
@@ -149,10 +153,27 @@ def register_callbacks(callbacks, runtime):
         # instances sharing QSL records merely because they share a parent.
         directory = runtime.settings.state_path + '.qa'
     registrar = _RegisteredCallbacks(callbacks)
+    policy = Policy(orgcode=['ORG_QA'], crud_roles=['dev'])
     _register_services_and_callbacks(
         registrar, server, directory, user_resolver=user_resolver,
-        policy=Policy(orgcode=['ORG_QA'], crud_roles=['dev'])
+        policy=policy,
     )
+
+    def fresh_policy(user):
+        # The trusted synthetic seed above precedes this integration boundary.
+        # All subsequent service checks use an exact current main-app identity,
+        # including checks while XLSX generation is already in progress.
+        expected = legacy_identity(lookup_identity(runtime.identities,
+                                                   getattr(user, 'id', None)))
+        for name in ('id', 'orgcode', 'is_authenticated', 'is_dev', 'is_admin'):
+            value, fresh = getattr(user, name, None), getattr(expected, name, None)
+            if type(value) is not type(fresh) or value != fresh:
+                raise PermissionError('Access denied')
+        if expected.is_authenticated is not True:
+            raise PermissionError('Access denied')
+        return policy
+
+    server.extensions['qa_demo_crud'].policy_resolver = fresh_policy
     registrar.flush()
 
 

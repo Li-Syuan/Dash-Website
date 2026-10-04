@@ -241,7 +241,7 @@ def _register_crud(app, server, policy, directory, user_resolver=None):
     user_resolver = user_resolver or current_demo_user
     import os
     from dataclasses import asdict
-    from .legacy_crud import LegacyCrudService, LegacyCrudError, InvalidPreview, InvalidStage
+    from .legacy_crud import LegacyCrudService, LegacyCrudError, InvalidPreview, InvalidStage, PermissionDenied
     from .legacy_policy import require, authorize
     new_database = not os.path.exists(os.path.join(directory, 'qsl.sqlite'))
     service = LegacyCrudService(os.path.join(directory, 'qsl.sqlite'), lambda user: policy, allow_upload=True)
@@ -458,6 +458,10 @@ def _register_crud(app, server, policy, directory, user_resolver=None):
             status = ('執行結果：' + json.dumps(asdict(result), ensure_ascii=False)) if result else '操作完成（合成資料）。'
             try:
                 rows = service.query(user, filters)
+            except PermissionDenied:
+                # A completed export must not be published after revocation
+                # detected by the final refresh of this same request.
+                raise
             except LegacyCrudError:
                 return status + '；畫面重新讀取失敗，請重試查詢。', no_update, download, stage, preview, change, changes
             return status, rows, download, stage, preview, change, changes

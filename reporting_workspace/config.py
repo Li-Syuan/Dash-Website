@@ -68,6 +68,7 @@ class Settings:
     session_cookie_secure: Optional[bool] = None
     max_content_length: int = DEFAULT_MAX_CONTENT_LENGTH
     session_lifetime: timedelta = DEFAULT_SESSION_LIFETIME
+    enable_report_template: bool = False
 
     def __post_init__(self):
         if self.mode not in ('demo', 'production'):
@@ -100,6 +101,8 @@ class Settings:
             max_content_length=_environment_integer(
                 source, 'REPORTING_MAX_CONTENT_LENGTH', DEFAULT_MAX_CONTENT_LENGTH),
             session_lifetime=session_lifetime,
+            enable_report_template=_environment_boolean(
+                source, 'REPORTING_ENABLE_REPORT_TEMPLATE') or False,
         )
 
     def validate(self):
@@ -137,4 +140,8 @@ class Settings:
         if (not isinstance(self.session_lifetime, timedelta) or
                 self.session_lifetime <= timedelta(0)):
             raise ValueError('session_lifetime must be a positive timedelta')
+        if type(self.enable_report_template) is not bool:
+            raise ValueError('enable_report_template must be a boolean')
+        if self.mode == 'production' and self.enable_report_template:
+            raise ValueError('the synthetic report template is available only in demo mode')
         return self

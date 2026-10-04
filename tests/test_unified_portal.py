@@ -13,6 +13,7 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from reporting_workspace.application import create_app
 from reporting_workspace.lifecycle import dispose_app
@@ -125,6 +126,36 @@ class UnifiedPortalTransportTests(unittest.TestCase):
 
     def row(self, record_id=1):
         return self.server.extensions['qa_demo_crud'].get(self.editor, record_id)
+
+    def test_revocation_after_export_prevents_download_publication(self):
+        service = self.server.extensions['qa_demo_crud']
+        account = dict(self.identities.user_db['demo-admin'])
+        for action, method in (('qa-export', 'export_csv'),
+                               ('qa-export-xlsx', 'export_xlsx'),
+                               ('qa-template', 'template_csv')):
+            for change in ('account_removed', 'organization_changed', 'role_changed'):
+                with self.subTest(action=action, change=change):
+                    self.identities.user_db['demo-admin'] = dict(account)
+                    self.login()
+                    original = getattr(service, method)
+
+                    def export_then_revoke(*args, **kwargs):
+                        content = original(*args, **kwargs)
+                        self.assertTrue(content)
+                        if change == 'account_removed':
+                            del self.identities.user_db['demo-admin']
+                        elif change == 'organization_changed':
+                            self.identities.user_db['demo-admin']['org'] = 'B'
+                        else:
+                            self.identities.user_db['demo-admin']['role'] = 'user'
+                        return content
+
+                    with patch.object(service, method, export_then_revoke):
+                        response = self.crud(action)
+                    self.assertNotIn('qa-download', response)
+                    self.assertEqual(response['qa-table']['data'], [])
+                    self.assertTrue(response['qa-status']['children'].startswith('操作未完成'))
+        self.identities.user_db['demo-admin'] = account
 
     def prepare_update(self, extra=None):
         result = self.crud('qa-update', extra)
@@ -322,7 +353,16 @@ class UnifiedPortalTransportTests(unittest.TestCase):
         self.crud('qa-read', expected=403)
         self.identities.user_db.pop('demo-admin')
         self.confirm_update(token, expected=401)
-        self.assertEqual((self.row()['Rev'], self.row()['version']), ('A', 1))
+        # The revoked actor also loses direct service access. An independent
+        # same-organization reader verifies that no pending change committed.
+        from reporting_workspace.legacy_crud import PermissionDenied
+        with self.assertRaises(PermissionDenied):
+            self.row()
+        reader = SimpleNamespace(id='demo-user-a', orgcode='ORG_QA01',
+                                 is_authenticated=True, is_dev=False,
+                                 is_admin=False)
+        row = self.server.extensions['qa_demo_crud'].get(reader, 1)
+        self.assertEqual((row['Rev'], row['version']), ('A', 1))
 
     def test_both_main_logout_transports_revoke_portal_access(self):
         for transport in ('get', 'callback'):

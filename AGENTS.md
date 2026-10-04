@@ -1,3 +1,24 @@
+## Current publication authorization (2026-10-04)
+
+The owner explicitly confirmed publishing the cumulative v11, v12, ETL/
+performance follow-up and one-page acceptance report to
+`Li-Syuan/Dash-Website` branch `main`, using a normal fast-forward push,
+then checking that exact commit in the existing Python 3.8/3.10 CI.
+Use the clean publication commit based on `e4a9681`; local restore
+checkpoints containing raw evidence must not be published. Preserve the
+original checkout and prior evidence. No force push or deployment.
+
+See [publication scope and validation](docs/acceptance/PUBLICATION.md). The 15% time / 10%
+RSS policy remains unapproved and disabled; overall acceptance remains
+INCOMPLETE. This authorization does not cover future rounds, dependency
+changes, company integrations or system-clock changes.
+
+The prior-round instructions and results below are historical snapshots.
+Their publication holds are superseded only for this confirmed cumulative
+release; their technical and safety constraints still apply.
+
+---
+
 # Dash QA Portal agent instructions
 
 Read this file, `.github/copilot-instructions.md`, `docs/PROJECT_CONTEXT.md`,
@@ -89,6 +110,22 @@ publication, company-system access, dependency upgrades or deployment.
   normal main push and Python 3.8/3.10 GitHub CI verification. Never force-push
   or overwrite others' changes. This approval does not cover deployment,
   new scope, or future rounds.
+- The current v11 round starts from published main e4a9681. Its approved scope
+  is measured large-XLSX export improvement, isolated deployment/backup/restore
+  and rollback drills, and a runnable governed report template. Do not push,
+  merge or deploy this round until separately authorized. Benchmark runs must
+  have an exclusive quiet window; other agents may only read/edit during it.
+- Preserve the default QSL 50,000-row export cap. Larger synthetic benchmarks
+  use an explicit server-owned constructor limit; do not imply the normal UI
+  now exports 100,000 rows or silently relax limits for a faster result.
+- The report template is an explicit demo-only opt-in through Settings and
+  the existing factory/app.py. It is a developer example, not a dynamic report
+  designer, arbitrary query system or production-company adapter.
+- Deployment utilities only create new backup/restore destinations. Exercise
+  them on isolated synthetic stores and owned processes. Preserve all sibling
+  stores, uncertain outcomes and fencing state. Restored or partial sets must
+  not start the app before offline reconciliation. A matching local snapshot
+  does not establish arbitrary schema downgrade or external exactly-once safety.
 - Publish source, necessary tests and sanitized docs only. Exclude databases,
   instance state, credentials, private paths, logs containing payloads, caches,
   downloaded runtimes and large screenshot/export bundles. Preserve complete
@@ -96,3 +133,58 @@ publication, company-system access, dependency upgrades or deployment.
 - Update the handoff and validation records when behavior or known limits
   change. Record user-provided project facts as confirmed, historical, or
   awaiting verification. Never include unrelated private memories or secrets.
+
+## Current v12 local acceptance round
+
+Use the fixed [acceptance tool](docs/acceptance/README.md) for the approved agent
+acceptance work. The isolated restore checkpoint is `1e7983962a19438d37d1d97f173ec0fe643249c9`;
+preserve the original v11 worktree and its uncommitted changes. This round has
+NO push, merge or deployment authorization. Historical v10/v11 approval does
+not authorize v12 publication.
+
+Record fresh full/focused profile evidence, source/runtime hashes, real command
+results, skipped/unrun checks and before/after performance/RSS. Never execute
+commands from report JSON or accept a public digest as a signed attestation.
+Partial profiles, platform skips, missing tools/budgets, changed source and
+expired or inconsistent evidence cannot become whole-project PASSED. Preserve
+failed runs; repair the demonstrated cause before a justified new invocation.
+Use approved local runtimes and synthetic fixtures only; no LLM/API calls,
+company adapters or automatic installation. See the tool contract for exit
+codes, fixed scope, ownership/cleanup and freshness limits.
+
+## Approved v12 follow-up: ETL diagnosis and performance gate
+
+The user approved both the bounded ETL restart diagnosis/repair and configurable
+performance tolerances. Work only in the separate follow-up checkout based on
+local restore checkpoint `50e6d185c616ef14d331289f894c7e52222fb3fd`. Preserve
+the completed v12 checkout, archives and every initial failure. No push, merge,
+deployment, dependency installation or system-clock change is authorized.
+
+Read [the follow-up contract](docs/acceptance/FOLLOWUP.md). Fix the demonstrated
+test fixture assumption without changing durable lease policy or retrying
+unknown operations. The historical WSL run remains INVALID; only a separately
+approved clean Python 3.8 environment can supply new compatibility evidence.
+
+Performance evidence requires at least three comparable baseline invocations,
+15 latency or seven XLSX samples per invocation, explicit approved limits and
+approval before the candidate capture. Missing data/limits and environment
+mismatch are INCOMPLETE. Excessive calibration noise never widens a tolerance.
+Do not select limits from candidate outcomes or claim one candidate is stable.
+Old numeric CLI budgets are descriptive only; use `assess-performance` for the
+separate calibrated gate. That result never certifies the whole project.
+
+## Current local one-page acceptance report round
+
+The user selected a one-page acceptance report showing failure causes,
+reproduction commands, measured performance differences and unverified scope.
+Use the existing isolated follow-up checkout; its prior dirty files were saved
+before editing. Read [REPORT.md](docs/acceptance/REPORT.md). Keep report evidence
+inert, escape HTML, mask common credential forms and never embed arbitrary raw
+logs or execute stored command metadata. Preserve current/historical separation.
+Missing, stale, skipped or invalid evidence cannot become a passing result.
+
+The 15% time / 10% RSS policy is not approved and must not be enabled. This
+round authorizes local implementation, tests, report viewing and reviewable
+changes only. The parent conversation is resolving publication authorization;
+do not push, upload, merge or deploy based on historical approvals. No runtime
+installation or host/guest clock changes are authorized.

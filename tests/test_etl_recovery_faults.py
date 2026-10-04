@@ -196,13 +196,20 @@ class ETLRecoveryFaultTests(unittest.TestCase):
         self.assertEqual(self._rows('PRAGMA foreign_key_check'), [])
 
     def _expire_naturally(self):
-        # Wait for the stored lease, not a guessed fixed sleep; never patch clocks
-        # or rewrite durable lease values to manufacture recovery.
+        # Observe real wall-clock expiry without changing durable lease state.
+        # Sleep completion alone does not prove expiry if clock progress differs.
         expires = max(row['expires_at'] for row in self._rows('SELECT expires_at FROM etl_leases'))
         remaining = expires - time.time()
         self.assertLess(remaining, 5)
-        if remaining > 0:
-            time.sleep(remaining + .03)
+        deadline = time.monotonic() + 5
+        while remaining > 0:
+            budget = deadline - time.monotonic()
+            self.assertGreater(budget, 0,
+                'Stored ETL lease did not expire within the 5-second monotonic wait '
+                'budget (wall remaining: {:.6f}s).'.format(remaining))
+            time.sleep(min(remaining + .03, .05, budget))
+            # Check expiry before considering an exhausted monotonic deadline.
+            remaining = expires - time.time()
 
     def test_kill_before_claim_commit_rolls_back_receipt_and_run(self):
         self.assertEqual(self._crash(phase='before_claim_commit'), [])

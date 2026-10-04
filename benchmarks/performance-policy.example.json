@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "provisional",
+  "approved_at": null,
+  "wall_percent": 10,
+  "rss_percent": 5,
+  "rationale": "Candidate for user review, selected before any new candidate measurement. Baseline-only latency relative MAD was 0.79-6.11 percent in one invocation; XLSX wall/RSS had only three samples and do not establish stability.",
+  "activation": "Requires explicit numeric-policy agreement plus at least three independent comparable baseline invocations. Latency needs at least 15 measured samples per run; XLSX at least seven. Excessive between-run noise remains INCOMPLETE; tolerances are never automatically widened.",
+  "alternative_for_review": {"wall_percent": 15, "rss_percent": 10},
+  "not_a_calibrated_or_approved_policy": true
+}

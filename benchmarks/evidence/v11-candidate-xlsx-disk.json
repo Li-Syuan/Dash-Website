@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "diagnostic": "separate untimed temp-disk observation",
+  "harness_sha256": "015cd327e7611f7ecfe9fb915e1639e3d38ce0034f64897630f128f02ca0ab14",
+  "source_hashes": {
+    "reporting_workspace/__init__.py": "83999a4b8a9b5c6e79a30430ac86586eff4c2b65715f12881bd9dc842cac0364",
+    "reporting_workspace/admin_schema.py": "296647307a8f63da629d91f0a9bf8667a7c69f0c75ae5b780e4e5abf212f88f8",
+    "reporting_workspace/application.py": "4f507d9a2e3a1519dfb8b5fc591c48e94a0b4bc3fdba229bf0821e3067af3160",
+    "reporting_workspace/authorization.py": "f87804717d3b403e3d199754795859dbb8888e693391235ba42874025b5e6823",
+    "reporting_workspace/config.py": "7eb92de61873144c72cac3628e2d3263f977b916bd18c5a6cfcdb226ef69bb87",
+    "reporting_workspace/crud.py": "99f845289f1e60496e24f8fca28e827e1ee5b77af48e6a6a1babeccebe117c44",
+    "reporting_workspace/definition_domain.py": "e0d9fd6ad40a407158d08be28aaeaa5a4d2edc849509bed617240773c9e84cd4",
+    "reporting_workspace/definition_policy.py": "ec3e1482cd0862cef5e815cf561c87f96012c150a8b5a2f764c73c88b271b1f0",
+    "reporting_workspace/definition_repository.py": "a4e8b3f1acc88b1b1116cb4f3c8dd1aea6eab3240e2b4254d45d2c40117c601b",
+    "reporting_workspace/deployment.py": "e3968cfc7c50aad6f5e0e423870e5745ea40b4dcecc4ecc538d3b2b17203dcfd",
+    "reporting_workspace/errors.py": "22ff869e0712ca491689e30d9ac7e95b0911fb1b3241b6ac33043576dc036d59",
+    "reporting_workspace/etl_adapters.py": "a93d4f79fc49b21d562edeeee42ea972f8c39b41135029d9b2e3c1a109a06a42",
+    "reporting_workspace/etl_dispatch.py": "ec4a41861c3c2a930b9b72614e3a7b338685fae1526ca73d79486e59e24381a9",
+    "reporting_workspace/governance.py": "00a0d36aaa7f42feca33c741272772777527bd10d342c08db8b5062c4c129835",
+    "reporting_workspace/job_monitor.py": "09ce422ada4d5e571279b17568beac21d4499d6f690604ce54d63bfffb7e91e5",
+    "reporting_workspace/launcher.py": "99e8ecd0b8ebd712b8545d0c4fcab18dca80060707eec65010e0d9d9fc2b3729",
+    "reporting_workspace/legacy_crud.py": "a12ee66c5c737e57a7be44a24b16a5c005b2c2567e2cb73669cd96d4ca7a39e2",
+    "reporting_workspace/legacy_demo_ui.py": "a922d28bef764fddf612bda09c6f5a6defb04a2cbf395032e1f9b46de4803da7",
+    "reporting_workspace/legacy_jobs.py": "d181132f26548c62a1086a44249668635c67b507ef80fd29edba84388d4b70d1",
+    "reporting_workspace/legacy_policy.py": "0d26c982c1a7abf23f4433903b22ad91cac634887d979a69e1e3f3f89fc8d7d9",
+    "reporting_workspace/lifecycle.py": "ebd4c9923fe9e36c7345df2f2c539ad6dec413da7f361802759c1800d1f7392f",
+    "reporting_workspace/maintenance_registry.py": "fe85550ed22ba62d2b6c19a8f9a1211400f1c082ff258f5b5e24149e558cdddd",
+    "reporting_workspace/notifications.py": "14cf3659175c8e12b4e2580d0defe50289f47604b442efc4b07fcc0a9755ce10",
+    "reporting_workspace/operations.py": "e4c80ec5f0ee4dc6f59ad4c70889119845c4ed594691b30b136e52c08a8ddf69",
+    "reporting_workspace/providers.py": "7beaf640e39af493fc7a08f687805c500f951923abd713d36b3a2786aa898df1",
+    "reporting_workspace/qa_enhancements_ui.py": "a952795487d5072c7b63078c02c505a13dc88450f09a8f6b680a55eaa0bc4e72",
+    "reporting_workspace/registry.py": "12f555c0ae949166ab840754b5f39d6f27a9321d5a97e493dfa651ed35fd9467",
+    "reporting_workspace/report_builder.py": "999ea875eb4b1ecd09ae6e8a9a5e6e7b9e66fac87e7a2adeffc322bec0eadbfa",
+    "reporting_workspace/report_templates/__init__.py": "6c412290f5e244088c65e471f8074b72ea927890fac9e778586a744896cb54f3",
+    "reporting_workspace/report_templates/contract.py": "d1934c0821a910cafd8b41aae53049ded99fca4a969c5590c5832a72bb74e6c5",
+    "reporting_workspace/report_templates/repository.py": "e3efa5155fb2f56104b15df23d632af2bf2c28ffe568371df832f147b427eed0",
+    "reporting_workspace/report_templates/service.py": "fb2d673efb175e0ec6b9decb4c56a0e72daee27c86c4f5d52b1f37164ce321cb",
+    "reporting_workspace/state.py": "2e6f5d4afe67f7d2acf2ab6dce92a3f3a5ad26c5bd93da68c0515c59024b10b7",
+    "reporting_workspace/static_transport.py": "a97eafac4bc43bbd8954627f075da67573c71d9d2e1ff8c07a52709c5e455755",
+    "reporting_workspace/theme.py": "715ca8df2c5467a5deed0fd87b8eb68480e84dd33d443f639d3febecfb5f221b",
+    "reporting_workspace/ui_pages/__init__.py": "f6c9d768000531cfde490c842172cff2b95f8382eeda84e8e5306ad5da0171c8",
+    "reporting_workspace/ui_pages/admin_console.py": "40206c17a023af07eee4a9e57c05774ae15a132cf26002a9bcf673126ca5f5f0",
+    "reporting_workspace/ui_pages/administration.py": "f69a98041087ba21e496d712aee0ce483b08ec75d4b14e414e94d1cd03a72c5d",
+    "reporting_workspace/ui_pages/authentication.py": "6ff621e4faf7a41afc3ebaace88ebddb4e5d5179cebf0ddddfbcf2a1c87c87ce",
+    "reporting_workspace/ui_pages/compatibility.py": "a6ee111f17272e74401e8a6d31a5ed228a02244004954b63cef9e2d2fe0694cc",
+    "reporting_workspace/ui_pages/etl_dispatch.py": "f1570f449edd13ebf5e274660095323c0828fbc71ae83e111a53432d3deec6fd",
+    "reporting_workspace/ui_pages/maintenance.py": "0f8029795bd0f3e26e73884cd8b6f9c0624603960ca2a0d92a0d4516c207eee4",
+    "reporting_workspace/ui_pages/managed_reports.py": "d328cd2bc5c0ba57b3a3bdc7ea4ff97f91a62e8b1e6058f688df77adb84df645",
+    "reporting_workspace/ui_pages/operations.py": "dd62d101aa1cbac539cb4f0e091744fc8c6c5296a63cd479188b91115a705680",
+    "reporting_workspace/ui_pages/overview.py": "92c1da40f8d922431237a5d2f6b50ff28077083454aac7f5d029a2b87ffa74ee",
+    "reporting_workspace/ui_pages/qa_maintenance.py": "09c7b45e723ede388c9c53b87f22f4ab9e8ff32b2f6706afcac904f225c7014d",
+    "reporting_workspace/ui_pages/report_template.py": "e35e322555088fd19fe282a5307415da9073af72c38d43e387bc3a95b4f37829",
+    "reporting_workspace/ui_pages/reports.py": "9976ae14b007423e3e5d818f451be6b7e70cdb343b37e62708559810de65f6d4",
+    "reporting_workspace/ui_pages/shared.py": "f552af29ef7f6ef7ff3d1a8b485560c749bb40ee12ce227f0b1debab8659d6a7",
+    "reporting_workspace/web.py": "97d1a3f9cffb41982a20e12482f9ade27f5975d237a2c89b4e59940c00f15b0c"
+  },
+  "datasets": [
+    {
+      "rows": 100000,
+      "xlsx_bytes": 4317288,
+      "owned_files": [
+        {
+          "role": "snapshot",
+          "bytes": 13452531,
+          "closed": true
+        },
+        {
+          "role": "archive",
+          "bytes": 4317288,
+          "closed": true
+        }
+      ],
+      "worksheet_xml_bytes": [
+        52833357
+      ],
+      "observed_phases": [
+        {
+          "phase": "before_worksheet_cleanup",
+          "owned_file_bytes": [
+            13452531,
+            4314910
+          ],
+          "worksheet_xml_bytes": 52833357,
+          "total_observed_bytes": 70600798
+        },
+        {
+          "phase": "before_owned_file_close",
+          "owned_file_bytes": [
+            13452531,
+            4317288
+          ],
+          "worksheet_xml_bytes": 0,
+          "total_observed_bytes": 17769819
+        },
+        {
+          "phase": "before_owned_file_close",
+          "owned_file_bytes": [
+            13452531,
+            0
+          ],
+          "worksheet_xml_bytes": 0,
+          "total_observed_bytes": 13452531
+        }
+      ],
+      "peak_observed_temp_bytes": 70600798,
+      "cleanup": "all owned handles closed and openpyxl temporary-file registry unchanged",
+      "scope": "untimed phase observations; not an OS-wide disk high-water counter; final returned bytes are RAM",
+      "normalized_fixture_sha256": "737d538c4d039aa48945e7a9cfff4a649f39687eb9239bd46cdab5d348e7af3e"
+    },
+    {
+      "rows": 200000,
+      "xlsx_bytes": 8653625,
+      "owned_files": [
+        {
+          "role": "snapshot",
+          "bytes": 27016164,
+          "closed": true
+        },
+        {
+          "role": "archive",
+          "bytes": 8653625,
+          "closed": true
+        }
+      ],
+      "worksheet_xml_bytes": [
+        106887900
+      ],
+      "observed_phases": [
+        {
+          "phase": "before_worksheet_cleanup",
+          "owned_file_bytes": [
+            27016164,
+            8651247
+          ],
+          "worksheet_xml_bytes": 106887900,
+          "total_observed_bytes": 142555311
+        },
+        {
+          "phase": "before_owned_file_close",
+          "owned_file_bytes": [
+            27016164,
+            8653625
+          ],
+          "worksheet_xml_bytes": 0,
+          "total_observed_bytes": 35669789
+        },
+        {
+          "phase": "before_owned_file_close",
+          "owned_file_bytes": [
+            27016164,
+            0
+          ],
+          "worksheet_xml_bytes": 0,
+          "total_observed_bytes": 27016164
+        }
+      ],
+      "peak_observed_temp_bytes": 142555311,
+      "cleanup": "all owned handles closed and openpyxl temporary-file registry unchanged",
+      "scope": "untimed phase observations; not an OS-wide disk high-water counter; final returned bytes are RAM",
+      "normalized_fixture_sha256": "01aea0271d07eca6f74245bb1ce30f182f9ec9160490f0fb1a2f77006dbd131a"
+    }
+  ]
+}

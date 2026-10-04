@@ -219,6 +219,11 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
     """
     settings = settings or Settings.from_env()
     settings.validate()
+    from .deployment import assert_restore_reviewed
+    assert_restore_reviewed(settings.state_path)
+    if settings.enable_report_template:
+        from .ui_pages.report_template import SPEC as REPORT_TEMPLATE
+        extra_pages = tuple(extra_pages) + (REPORT_TEMPLATE,)
     identities, report_provider = validate_providers(settings, identity_provider, report_provider)
     state = None
     if settings.state_path:
@@ -350,16 +355,15 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
 
     @server.route('/healthz')
     def health():
-        return jsonify(status='ok', mode='offline-demo' if runtime.is_demo else 'configured')
+        from .deployment import liveness_status
+        payload, status = liveness_status(server)
+        return jsonify(payload), status
 
     @server.route('/readyz')
     def ready():
-        if state is not None:
-            try:
-                state.list_uncertain_jobs(limit=1)
-            except Exception:
-                return jsonify(status='unavailable'), 503
-        return jsonify(status='ready', storage='sqlite-local' if state else 'process-memory', scheduler='not-started')
+        from .deployment import readiness_status
+        payload, status = readiness_status(server)
+        return jsonify(payload), status
 
     from .web import create_dash_app
     try:

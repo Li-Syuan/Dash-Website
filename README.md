@@ -1,4 +1,34 @@
-> 系統 agent 接手：先讀 [AGENTS.md](AGENTS.md)、[專案需求與歷史決策](docs/PROJECT_CONTEXT.md) 及 [可執行交接指南](docs/AGENT_HANDOFF.md)。第 9 版 main 已完成；本輪復原／併發／效能與交接文件已另獲批准推 main，並以 GitHub CI 驗證 Python 3.8／3.10；未批准部署或新增範圍。
+## Current cumulative release (2026-10-04)
+
+The owner explicitly confirmed publishing the cumulative v11, v12, ETL/
+performance follow-up and one-page acceptance report to
+`Li-Syuan/Dash-Website` branch `main`, using a normal fast-forward push,
+then checking that exact commit in the existing Python 3.8/3.10 CI.
+Use the clean publication commit based on `e4a9681`; local restore
+checkpoints containing raw evidence must not be published. Preserve the
+original checkout and prior evidence. No force push or deployment.
+
+See [publication scope and validation](docs/acceptance/PUBLICATION.md). The 15% time / 10%
+RSS policy remains unapproved and disabled; overall acceptance remains
+INCOMPLETE. This authorization does not cover future rounds, dependency
+changes, company integrations or system-clock changes.
+
+The prior-round instructions and results below are historical snapshots.
+Their publication holds are superseded only for this confirmed cumulative
+release; their technical and safety constraints still apply.
+
+---
+
+> 本機 v11 續作：大型 XLSX 量測與改善、隔離部署／回滾演練、可執行報表範本。基線為已發布 `e4a9681`；本輪尚未批准推送或部署。系統 agent 先讀 [AGENTS.md](AGENTS.md)、[完整專案脈絡](docs/PROJECT_CONTEXT.md)、[接手指南](docs/AGENT_HANDOFF.md) 與 [本輪驗證](docs/v11/VALIDATION.md)。
+
+Local agent acceptance: [profiles, one-command runs and evidence verification](docs/acceptance/README.md).
+The v12 tooling round is local and unpushed; partial/skip/unrun results are never whole-project success.
+
+Current follow-up: [ETL diagnosis and calibrated performance gate](docs/acceptance/FOLLOWUP.md).
+The completed v12 delivery is preserved; the follow-up has no push, merge or deployment authorization.
+
+New local review view: [generate and inspect a one-page acceptance report](docs/acceptance/REPORT.md).
+
 
 > 本機候選 v10：[完整驗證與 WSL 限制](docs/optimization/VALIDATION_V10.md)、[修改與遷移](docs/optimization/CHANGES_AND_MIGRATION.md)、[待推清單](docs/optimization/PENDING_PUSH.md)、[下一輪 CI 驗收配置](docs/optimization/CI_ACCEPTANCE.md)。Windows 900 PASS／1 SKIP；真實 Chrome 32 PASS；Python 3.8 尚缺正常時鐘環境的合格驗證。
 

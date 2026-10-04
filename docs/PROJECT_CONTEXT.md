@@ -1,4 +1,51 @@
+## Current publication authorization (2026-10-04)
+
+The owner explicitly confirmed publishing the cumulative v11, v12, ETL/
+performance follow-up and one-page acceptance report to
+`Li-Syuan/Dash-Website` branch `main`, using a normal fast-forward push,
+then checking that exact commit in the existing Python 3.8/3.10 CI.
+Use the clean publication commit based on `e4a9681`; local restore
+checkpoints containing raw evidence must not be published. Preserve the
+original checkout and prior evidence. No force push or deployment.
+
+See [publication scope and validation](acceptance/PUBLICATION.md). The 15% time / 10%
+RSS policy remains unapproved and disabled; overall acceptance remains
+INCOMPLETE. This authorization does not cover future rounds, dependency
+changes, company integrations or system-clock changes.
+
+The prior-round instructions and results below are historical snapshots.
+Their publication holds are superseded only for this confirmed cumulative
+release; their technical and safety constraints still apply.
+
+---
+
 # 專案脈絡與使用者已提供資訊
+
+## Current local report round
+
+The selected addition is an offline one-page acceptance report, with verified
+current results, separately labeled history, reproduction commands and measured
+performance differences. Read [REPORT.md](acceptance/REPORT.md). The current
+authorization covers local implementation, regression and browser rendering
+checks only. No push/upload/deployment or 15%/10% policy activation is allowed.
+
+## Completed v12 ETL/performance follow-up
+
+The user approved ETL restart diagnosis/fixture repair and calibrated performance
+tolerances. See [FOLLOWUP.md](acceptance/FOLLOWUP.md). Numeric policy remains
+provisional until explicit agreement; inadequate calibration stays INCOMPLETE.
+The old WSL run remains INVALID. No publication, installation or system changes
+are authorized. Completed v12 sources and archives remain intact.
+
+## v12: completed local acceptance tooling
+
+The original v11 worktree remains intact. The isolated candidate uses local
+restore checkpoint `1e7983962a19438d37d1d97f173ec0fe643249c9`. This round adds
+fixed, executable acceptance profiles and fresh evidence verification only.
+No push/merge/deploy is authorized. Read [the tool contract](acceptance/README.md)
+for one-command usage, exact exit codes, evidence and environment limitations.
+Historical v11 results below remain historical and must not be reused as v12 acceptance.
+
 
 本文件只整理 Dash QA Portal 相關需求、環境、既有功能、限制與決策。
 不包含私人生活、其他專案、帳密、token、公司連線字串或私人記憶原文。
@@ -61,13 +108,23 @@
    已完成且成功。沒有 force push 或部署。
 3. 第 9 版本機完整 ZIP 與四份證據各低於 10 MB；Library 批次回存在開始
    寫入前因功能不可用受阻。不可把 Git 推送說成 Library 已更新第 9 版。
-4. 本輪另行批准故障復原、多人併發、量測效能與實測瓶頸改善，以及完整
+4. 第 10 版另行批准故障復原、多人併發、量測效能與實測瓶頸改善，以及完整
    專案交接。先完成本機成果與待推清單後，使用者已明確批准本輪正常推
    main，並以 GitHub CI 完成 Python 3.8/3.10 驗證。不批准 force push、部署
    或擴大範圍；保留 WSL 環境無效紀錄，不再調整時間服務或反覆重跑。
 5. 保護使用者原 checkout；使用獨立 worktree。所有帳號、資料、郵件都
    為隔離合成 fixture；不接公司 Oracle/LDAP/SMTP，不送通知、不改正式
    資料、不啟用外部副作用、不部署。
+6. 第 10 版已發布 main `e4a9681137f4762e4fcdcfee356351b7786a9420`，
+   [CI 37196698298](https://github.com/Li-Syuan/Dash-Website/actions/runs/37196698298)
+   首次執行成功：Python 3.8.18／3.10.21 各901項，無skip。原MSI WSL仍保留
+   時鐘倒退的環境無效紀錄，GitHub結果沒有改寫那次紀錄。
+7. 目前第 11 輪獲准：先量測100,000及更大合成XLSX的時間／峰值記憶體，
+   再採最簡有效改造；隔離的設定／健康檢查、整組SQLite備份還原與版本回滾
+   演練；沿用既有分層／授權的新報表範本與agent操作步驟。**本輪尚未批准
+   GitHub推送或部署**，不改OS／網路／安全／時間服務，也不擴大到其他系統。
+8. Library正常批次回存仍在任何上傳前受阻；不改道或自行外傳。本輪保留
+   sanitized完整主ZIP與證據分包，各小於10MB，並提供SHA256。
 
 ## 尚待公司資訊
 

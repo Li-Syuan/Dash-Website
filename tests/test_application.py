@@ -745,8 +745,11 @@ class HttpAndStorageTests(AppTestCase):
     def test_broken_state_fails_readiness_without_exposing_error(self):
         server = self.app(self.settings('production'))
         runtime = server.extensions['workspace']
-        with patch.object(runtime.state, 'list_uncertain_jobs', side_effect=RuntimeError(PROVIDER_DETAIL)):
-            response = server.test_client().get('/readyz')
+        # Corrupt this test's isolated file at the real read-only storage
+        # boundary; readiness no longer calls the old job-list transaction.
+        Path(runtime.settings.state_path).write_bytes(
+            ('not a SQLite database ' + PROVIDER_DETAIL).encode('utf-8'))
+        response = server.test_client().get('/readyz')
         self.assertEqual(response.status_code, 503)
         self.assertEqual(response.get_json(), {'status': 'unavailable'})
         self.assertNotIn(PROVIDER_DETAIL, response.get_data(as_text=True))

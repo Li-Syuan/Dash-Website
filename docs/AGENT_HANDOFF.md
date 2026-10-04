@@ -1,4 +1,73 @@
+## Current publication handoff (2026-10-04)
+
+The owner explicitly confirmed publishing the cumulative v11, v12, ETL/
+performance follow-up and one-page acceptance report to
+`Li-Syuan/Dash-Website` branch `main`, using a normal fast-forward push,
+then checking that exact commit in the existing Python 3.8/3.10 CI.
+Use the clean publication commit based on `e4a9681`; local restore
+checkpoints containing raw evidence must not be published. Preserve the
+original checkout and prior evidence. No force push or deployment.
+
+See [publication scope and validation](acceptance/PUBLICATION.md). The 15% time / 10%
+RSS policy remains unapproved and disabled; overall acceptance remains
+INCOMPLETE. This authorization does not cover future rounds, dependency
+changes, company integrations or system-clock changes.
+
+The prior-round instructions and results below are historical snapshots.
+Their publication holds are superseded only for this confirmed cumulative
+release; their technical and safety constraints still apply.
+
+---
+
 # 系統 agent 接手與本機執行指南
+
+## Current local report round
+
+The user selected the one-page acceptance report. This round authorizes only
+local changes, tests and review preparation. Read [REPORT.md](acceptance/REPORT.md)
+and its validation record. Publication is pending the parent conversation's
+explicit destination and authorization; do not push, upload or deploy.
+15%/10% performance limits remain unapproved. Prior follow-up source/archives
+were preserved before the report edits; do not remove historical failed runs.
+
+## Completed v12 ETL/performance follow-up
+
+The approved scope is ETL restart diagnosis/fixture repair and a configurable
+performance gate, in a separate checkout on restore point
+`50e6d185c616ef14d331289f894c7e52222fb3fd`. Read
+[FOLLOWUP.md](acceptance/FOLLOWUP.md) for executable commands, required evidence,
+provisional policy and exact limitations. Preserve completed v12 artifacts.
+No push, merge, deployment, installation or system modification is authorized.
+
+## v12: completed local acceptance tooling
+
+The original v11 worktree remains intact. The isolated candidate uses local
+restore checkpoint `1e7983962a19438d37d1d97f173ec0fe643249c9`. This round adds
+fixed, executable acceptance profiles and fresh evidence verification only.
+No push/merge/deploy is authorized. Read [the tool contract](acceptance/README.md)
+for one-command usage, exact exit codes, evidence and environment limitations.
+Historical v11 results below remain historical and must not be reused as v12 acceptance.
+
+
+## 第 11 版本機工作範圍
+
+基線為 main `e4a9681137f4762e4fcdcfee356351b7786a9420`（第 10 版，CI 37196698298）。
+本輪尚未取得 push 授權；工作留在獨立 worktree，不部署、不呼叫公司系統。
+完整結果見 [v11 驗證](v11/VALIDATION.md)。
+
+- 大型 XLSX：先以獨立 v10 基線量測 100,000／200,000 筆，再同條件量測候選；
+  預設匯出上限仍為 50,000，量測採伺服器端明確設定。見 [量測與限制](large-export/XLSX_EXPORT.md)。
+- 部署前檢查／備份／隔離還原：[操作指引](deployment/OPERATIONS.md)。還原標記必須由
+  維運核對後處理；不能宣稱任意 schema downgrade 安全，不能套用到正式資料做演練。
+- 新報表可複製範本：[範本指引](report-template/README.md)。透過
+  `REPORTING_ENABLE_REPORT_TEMPLATE=true` 在 demo 模式明確啟用；正式 provider 仍需公司提供。
+- 權限 coverage 另以 `tests/test_entrypoint_coverage.py --report-template --write-coverage <path>`
+  覆蓋 opt-in 頁面；預設頁面 coverage 另保留。HTTP 測試與真實 Chrome 證據分列。
+- benchmark 獨佔機器測量時段；Python／瀏覽器最終回歸均在程式凍結後進行。
+  WSL 發生 clock backstep 就判該次環境無效；不可調整 host/guest 時鐘或 cookie 來通過。
+- Library 現有 helper 在 prepare 階段不支援；不反覆重試或替代外傳。保存 sanitized
+  主 ZIP、每份低於 10 MB 的證據分包與 SHA256，由主對話負責附件交付。
+
 
 先讀 [專案脈絡](PROJECT_CONTEXT.md)、[AGENTS.md](../AGENTS.md) 與
 [既有 repository 指引](../.github/copilot-instructions.md)。這是完整可執行
@@ -93,9 +162,10 @@ owner/admin 規則；效能修正仍要跑原完整回歸。
 SQLite 中的 idempotency 不能證明外部郵件或資料庫 exactly-once。
 歷史 ETL/寄信時刻只作待核對資訊，不寫回現有排程。
 
-第 9 版 main checkpoint 已完成；本輪變更留在獨立本機 worktree，交付完整專案、
-測試/benchmark 證據、變更與遷移說明及變更清單。本輪已另獲批准正常推 main
-並完成 GitHub CI 驗證；不得 force push、部署或擴大到下一輪。
+第 9、10 版 main checkpoint 均已完成；第 10 版正常推 main 與 GitHub CI
+曾另獲批准。本第 11 版的變更仍留在獨立本機 worktree，交付完整專案、
+測試/benchmark 證據、變更與遷移說明及變更清單；尚未批准 push 或部署。
+既有批准不延伸到下一輪；不得 force push。
 完整資料庫、憑證、私人路徑、套件/runtime、快取及大型截圖不納入程式包或 Git；
 需要完整證據時另包，保留 hash 與來源鏈，不刪除舊失敗紀錄。
 

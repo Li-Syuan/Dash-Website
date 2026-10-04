@@ -1,0 +1,696 @@
+{
+  "generatedAt": "2026-10-04T11:52:08.550Z",
+  "mode": "full acceptance",
+  "platform": "win32",
+  "node": "v24.21.0",
+  "python": "3.10.22",
+  "browser": "154.0.8037.95",
+  "browserChannel": "chrome",
+  "fixture": {
+    "pid": 33784,
+    "port": 50266,
+    "importedEntry": "app.py",
+    "schedulerStarted": false,
+    "syntheticOnly": true
+  },
+  "passed": 40,
+  "failed": 0,
+  "results": [
+    {
+      "name": "01-login-button-only",
+      "status": "passed",
+      "milliseconds": 6351
+    },
+    {
+      "name": "02-maintenance-pagination",
+      "status": "passed",
+      "milliseconds": 2722
+    },
+    {
+      "name": "03-maintenance-create-double-click",
+      "status": "passed",
+      "milliseconds": 3353,
+      "detail": {
+        "matchingDatabaseRows": 1,
+        "version": 1,
+        "interaction": "real double click"
+      }
+    },
+    {
+      "name": "04-maintenance-replay-supplementary",
+      "status": "passed",
+      "milliseconds": 208,
+      "detail": {
+        "matchingDatabaseRows": 1,
+        "mode": "browser-context transport replay supplement; create exercised by real double click"
+      }
+    },
+    {
+      "name": "05-same-organization-peer-readonly",
+      "status": "passed",
+      "milliseconds": 6651
+    },
+    {
+      "name": "06-owner-update-version",
+      "status": "passed",
+      "milliseconds": 3699
+    },
+    {
+      "name": "07-version-conflict-retains-draft",
+      "status": "passed",
+      "milliseconds": 10512
+    },
+    {
+      "name": "08-archive-restore",
+      "status": "passed",
+      "milliseconds": 2122
+    },
+    {
+      "name": "09-new-clears-unsaved-form",
+      "status": "passed",
+      "milliseconds": 1821
+    },
+    {
+      "name": "10-tenant-b-isolation",
+      "status": "passed",
+      "milliseconds": 6009
+    },
+    {
+      "name": "11-tampered-cross-tenant-id-ui-submit",
+      "status": "passed",
+      "milliseconds": 2344,
+      "detail": {
+        "foreignTenantRecordUnchanged": true
+      }
+    },
+    {
+      "name": "12-tampered-owner-ui-submit",
+      "status": "passed",
+      "milliseconds": 2483,
+      "detail": {
+        "targetVersionUnchanged": 5,
+        "unauthorizedCreateCount": 0
+      }
+    },
+    {
+      "name": "13-identity-revocation-ui-submit",
+      "status": "passed",
+      "milliseconds": 6613,
+      "detail": {
+        "callbackStatus": 401,
+        "unauthorizedCreateCount": 0
+      }
+    },
+    {
+      "name": "14-qsl-read-pagination",
+      "status": "passed",
+      "milliseconds": 2969
+    },
+    {
+      "name": "15-cancel-create",
+      "status": "passed",
+      "milliseconds": 3981,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-update",
+      "status": "passed",
+      "milliseconds": 5048,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-delete",
+      "status": "passed",
+      "milliseconds": 4683,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "15-cancel-upload",
+      "status": "passed",
+      "milliseconds": 4463,
+      "detail": {
+        "databaseRowsUnchanged": true
+      }
+    },
+    {
+      "name": "16-qsl-create-double-click",
+      "status": "passed",
+      "milliseconds": 4026
+    },
+    {
+      "name": "17-qsl-query-update-id-tamper",
+      "status": "passed",
+      "milliseconds": 5895
+    },
+    {
+      "name": "18-qsl-delete-query-and-submit",
+      "status": "passed",
+      "milliseconds": 4072
+    },
+    {
+      "name": "19-qsl-upload-submit",
+      "status": "passed",
+      "milliseconds": 2605
+    },
+    {
+      "name": "20-qsl-wizard-next-previous",
+      "status": "passed",
+      "milliseconds": 5064
+    },
+    {
+      "name": "21-qsl-export-csv-xlsx",
+      "status": "passed",
+      "milliseconds": 1990
+    },
+    {
+      "name": "22-report-refresh-export",
+      "status": "passed",
+      "milliseconds": 2901,
+      "detail": {
+        "tableVisible": true,
+        "renderedSvgBars": 12,
+        "downloadedCsvContainsRevenue": true
+      }
+    },
+    {
+      "name": "23-etl-and-operations-render",
+      "status": "passed",
+      "milliseconds": 4012
+    },
+    {
+      "name": "24-tenant-denied-qsl-etl-operations",
+      "status": "passed",
+      "milliseconds": 3346
+    },
+    {
+      "name": "25-readonly-qsl-controls-and-etl-denial",
+      "status": "passed",
+      "milliseconds": 2438
+    },
+    {
+      "name": "26-browser-history-navigation",
+      "status": "passed",
+      "milliseconds": 4145
+    },
+    {
+      "name": "27-mobile-maintenance",
+      "status": "passed",
+      "milliseconds": 3490
+    },
+    {
+      "name": "28-logout-replay-denied",
+      "status": "passed",
+      "milliseconds": 580,
+      "detail": {
+        "mode": "real logout navigation plus supplementary browser-context replay"
+      }
+    },
+    {
+      "name": "30-template-login-and-query",
+      "status": "passed",
+      "milliseconds": 5676,
+      "detail": {
+        "anonymousRedirect": "/login",
+        "visibleRows": 20,
+        "totalRows": 32
+      }
+    },
+    {
+      "name": "31-template-search-department",
+      "status": "passed",
+      "milliseconds": 1783,
+      "detail": {
+        "matchingRows": 4,
+        "department": "Laboratory"
+      }
+    },
+    {
+      "name": "32-template-pagination-and-sort",
+      "status": "passed",
+      "milliseconds": 7615,
+      "detail": {
+        "pageSize": 10,
+        "lastPageRows": 2,
+        "sort": "rejected descending with ascending sample-ID ties"
+      }
+    },
+    {
+      "name": "33-template-filtered-csv-download",
+      "status": "passed",
+      "milliseconds": 2416,
+      "detail": {
+        "visibleRows": 10,
+        "downloadedRows": 16,
+        "currentFiltersAndSortPreserved": true
+      }
+    },
+    {
+      "name": "34-template-same-organization-peer",
+      "status": "passed",
+      "milliseconds": 1097,
+      "detail": {
+        "sameOrganizationRowsIdentical": true,
+        "readOnlyTable": true
+      }
+    },
+    {
+      "name": "35-template-foreign-tenant-own-rows",
+      "status": "passed",
+      "milliseconds": 8770,
+      "detail": {
+        "foreignAdminOwnRowsOnly": true,
+        "ordinaryForeignUserOwnRowsOnly": true,
+        "foreignSearchRows": 0,
+        "exportRows": 32
+      }
+    },
+    {
+      "name": "36-template-tampered-browser-state",
+      "status": "passed",
+      "milliseconds": 7409,
+      "detail": {
+        "invalidStateSubmissions": 5,
+        "invalidStatesReturnEmptyTable": true,
+        "invalidExportDownloads": 0,
+        "urlTenantClaimsIgnored": true,
+        "forgedDomRowsAbsentFromServerCsv": true
+      }
+    },
+    {
+      "name": "37-template-revocation-query-export",
+      "status": "passed",
+      "milliseconds": 6096,
+      "detail": {
+        "queryHttpStatus": 401,
+        "exportHttpStatus": 401,
+        "unauthorizedDownloads": 0
+      }
+    },
+    {
+      "name": "29-no-external-effects-or-page-errors",
+      "status": "passed",
+      "milliseconds": 214,
+      "detail": {
+        "networkBoundary": "All browser requests constrained to owned loopback origin; scheduler lifecycle never started"
+      }
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..{\"action\":\"6d61696e74656…space-notify\"}.data...maintenance-mutation.data.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..maintenance-name.invalid…invalid...maintenance-cadence-feedback.children.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/maintenance",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/login",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/QA_portal/report-template",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..template-quality-table.d…652e7175657279\",\"type\":\"workspace-notify\"}.data.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/QA_portal/report-template",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 401 (UNAUTHORIZED)",
+      "path": "/QA_portal/report-template",
+      "expectedAuthorizationDenial": true
+    },
+    {
+      "text": "{message: Callback error updating ..template-quality-downloa…2e6578706f7274\",\"type\":\"workspace-notify\"}.data.., html: {\"error\":\"Login required\"}\n}",
+      "path": "/QA_portal/report-template",
+      "expectedAuthorizationDenial": true
+    }
+  ],
+  "pageErrors": [],
+  "networkFailures": [
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "path": "/_dash-update-component",
+      "method": "POST",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "blockedExternalOrigins": [],
+  "staticTransport": "native browser",
+  "callbackStatuses": {
+    "200": 396,
+    "204": 56,
+    "401": 5
+  },
+  "serverStopped": true,
+  "packages": {
+    "dash": "2.9.1",
+    "Flask": "2.2.3",
+    "Werkzeug": "2.2.3",
+    "dash-bootstrap-components": "1.4.1",
+    "dash-mantine-components": "0.12.0"
+  },
+  "reportTemplate": {
+    "enabled": true,
+    "plannedScenarios": 8,
+    "unrunScenarios": []
+  },
+  "unrunCount": 0,
+  "syntheticStateRemoved": true
+}

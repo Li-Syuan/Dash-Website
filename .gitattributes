@@ -4,3 +4,5 @@ docs/optimization/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-b
 docs/optimization/V9_CHECKPOINT.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # Captured DOM has intentional layout whitespace; keep it unchanged as evidence.
 docs/optimization/evidence/browser/*.dom.txt -whitespace
+# Required historical browser validator fixture; preserve its original bytes.
+docs/v11/evidence/browser/results.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

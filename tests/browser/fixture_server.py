@@ -26,6 +26,11 @@ for key in tuple(os.environ):
         del os.environ[key]
 os.environ.update(REPORTING_MODE='demo', REPORTING_STATE_PATH=str(STATE / 'workspace.sqlite'),
                   REPORTING_MAX_CONTENT_LENGTH=str(15 * 1024 * 1024))
+template_flag = os.environ.get('QA_REPORT_TEMPLATE', '0')
+if template_flag not in ('0', '1'):
+    raise ValueError('QA_REPORT_TEMPLATE must be 0 or 1')
+if template_flag == '1':
+    os.environ['REPORTING_ENABLE_REPORT_TEMPLATE'] = 'true'
 
 from app import server, runtime
 import dash
@@ -38,6 +43,8 @@ accounts = {
     'browser-admin-b': dict(password='demo-only', role='admin', org='B'),
     'browser-revoked': dict(password='demo-only', role='user', org='A'),
 }
+if template_flag == '1':
+    accounts['browser-template-revoked'] = dict(password='demo-only', role='user', org='A')
 runtime.identities.user_db.update(accounts)
 owner = runtime.identities.get_user('browser-owner-a')
 tenant_b = runtime.identities.get_user('browser-admin-b')
@@ -63,11 +70,15 @@ httpd = make_server('127.0.0.1', 0, server, threaded=True,
 worker = threading.Thread(target=httpd.serve_forever, daemon=True)
 worker.start()
 print(json.dumps(dict(event='ready', port=httpd.server_port, pid=os.getpid(),
+    report_template_enabled=template_flag == '1',
     seed_id=records[0]['id'], foreign_id=foreign['id'], python=sys.version.split()[0],
     packages={name: version(name) for name in ('dash', 'Flask', 'Werkzeug', 'dash-bootstrap-components', 'dash-mantine-components')},
     plotly_asset=dict(path='/_dash-component-suites/dash/dcc/async-plotlyjs.js',
         size=(Path(dash.__file__).parent / 'dcc' / 'async-plotlyjs.js').stat().st_size,
         sha256=hashlib.sha256((Path(dash.__file__).parent / 'dcc' / 'async-plotlyjs.js').read_bytes()).hexdigest()),
+    harness_hashes={str(item.relative_to(ROOT)).replace('\\', '/'): hashlib.sha256(item.read_bytes()).hexdigest()
+        for item in (ROOT / 'tests' / 'browser' / name
+                     for name in ('acceptance.cjs', 'fixture_server.py', 'README.md'))},
     source_hashes={str(item.relative_to(ROOT)).replace('\\', '/'): hashlib.sha256(item.read_bytes()).hexdigest()
         for item in [ROOT / 'app.py'] + sorted((ROOT / 'reporting_workspace').rglob('*.py')) +
         sorted((ROOT / 'assets').glob('*.js')) + sorted((ROOT / 'assets').glob('*.css'))})), flush=True)

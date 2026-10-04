@@ -6,13 +6,20 @@ const assert = require('node:assert/strict');
 const {spawn} = require('node:child_process');
 const readline = require('node:readline');
 const root = path.resolve(__dirname, '../..');
-const out = path.join(root, 'output/playwright', new Date().toISOString().replace(/[:.]/g, '-'));
+if(!['0','1'].includes(process.env.QA_REPORT_TEMPLATE||'0')) throw new Error('QA_REPORT_TEMPLATE must be 0 or 1');
+const templateEnabled=process.env.QA_REPORT_TEMPLATE==='1';
+const evidenceRoot=path.join(root,'output/playwright',templateEnabled?'v11':'');
+const out = path.join(evidenceRoot, new Date().toISOString().replace(/[:.]/g, '-'));
 fs.mkdirSync(out, {recursive:true});
 const {chromium} = require(process.env.QA_PLAYWRIGHT_MODULE || 'playwright');
 const results = [], consoleErrors = [], pageErrors = [], network = [], networkFailures = [], blocked = [], staticDelivery=[];
 const assetCache=new Map();
 const activity=new WeakMap();
 const rawPayloads = new Map(); // Ephemeral callback payloads; never written to evidence.
+const templateCaseNames=['30-template-login-and-query','31-template-search-department',
+  '32-template-pagination-and-sort','33-template-filtered-csv-download',
+  '34-template-same-organization-peer','35-template-foreign-tenant-own-rows',
+  '36-template-tampered-browser-state','37-template-revocation-query-export'];
 const child = spawn(process.env.QA_PYTHON || 'python', ['-B', path.join(__dirname, 'fixture_server.py'), path.join(out, 'state')],
   {cwd:root, windowsHide:true, stdio:['pipe','pipe','pipe']});
 const serverLog = fs.createWriteStream(path.join(out, 'server.log'));
@@ -132,6 +139,144 @@ async function reportExport(page) {
   const [download]=await Promise.all([page.waitForEvent('download'),click(page,'report-export')]);await download.saveAs(path.join(out,'report.csv'));
   assert.match(fs.readFileSync(path.join(out,'report.csv'),'utf8'),/revenue/);
   return {tableVisible:true,renderedSvgBars:await page.locator('#performance-chart .main-svg .barlayer .point path').count(),downloadedCsvContainsRevenue:true};
+}
+
+const templatePrefix='template-quality-',templateRoute='/QA_portal/report-template';
+const templateId=name=>templatePrefix+name;
+async function templateDropdown(page,name,label) {
+  const select=page.locator('#'+templateId(name));
+  await select.locator('.Select-control').click();
+  await select.locator('.VirtualizedSelectOption').filter({hasText:new RegExp('^'+label+'$')}).click();
+  await settle(page);
+}
+async function templateCells(page,column) {
+  return (await page.locator('#'+templateId('table')+' td[data-dash-column="'+column+'"]').allTextContents()).map(value=>value.trim());
+}
+async function templateTenantRows(page,organization,count) {
+  const products=await templateCells(page,'product');assert.equal(products.length,count);
+  assert(products.every(value=>value.startsWith(organization+' synthetic product ')),'Every visible row must belong to the current tenant');
+  return products;
+}
+async function templateDownload(page,name) {
+  const [download]=await Promise.all([page.waitForEvent('download'),click(page,templateId('export'))]);
+  assert.equal(download.suggestedFilename(),'synthetic-quality-inspections.csv');
+  await download.saveAs(path.join(out,name));
+  // This fixed synthetic fixture has no commas, quotes or line breaks in cells.
+  // Assert its real downloaded CSV schema and rows without substituting UI data.
+  const lines=fs.readFileSync(path.join(out,name),'utf8').trim().split(/\r?\n/);
+  assert.equal(lines.shift(),'sample_id,inspection_date,department,product,inspected,rejected');
+  const rows=lines.map(line=>line.split(','));assert(rows.every(row=>row.length===6));return rows;
+}
+async function templateAcceptance(peer,tenant) {
+  const page=await newPage();let sharedProducts;
+  await test(templateCaseNames[0],page,async()=>{
+    assert.equal(fixture.report_template_enabled,true);
+    await goto(page,templateRoute);await until(()=>new URL(page.url()).pathname==='/login','Anonymous report-template request must reach login');
+    assert.equal(await page.locator('#'+templateId('table')).count(),0);
+    await login(page,'browser-owner-a');
+    const card=page.locator('a.catalog-card-link[data-report-id="report_template"]');
+    assert.equal(await card.locator('h3').innerText(),'Quality inspection template');
+    assert.equal(await card.getAttribute('href'),templateRoute);
+    await card.click();await settle(page);
+    assert.equal(new URL(page.url()).pathname,templateRoute);
+    assert.equal(await page.locator('#'+templateId('status')).innerText(),'1-20 of 32 matching rows');
+    sharedProducts=await templateTenantRows(page,'A',20);
+    assert(await page.locator('#'+templateId('prev')).isDisabled());assert(!(await page.locator('#'+templateId('next')).isDisabled()));
+    return {anonymousRedirect:'/login',visibleRows:20,totalRows:32};
+  });
+  await test(templateCaseNames[1],page,async()=>{
+    await fill(page,templateId('search'),'product 0');await templateDropdown(page,'department','Laboratory');
+    await click(page,templateId('refresh'));
+    assert.deepEqual(await templateCells(page,'sample_id'),['sample-0002','sample-0004','sample-0006','sample-0008']);
+    await templateTenantRows(page,'A',4);
+    assert.equal(await page.locator('#'+templateId('status')).innerText(),'1-4 of 4 matching rows');
+    return {matchingRows:4,department:'Laboratory'};
+  });
+  await test(templateCaseNames[2],page,async()=>{
+    await fill(page,templateId('search'),'');await templateDropdown(page,'department','All departments');
+    await templateDropdown(page,'order','Sample ID');await templateDropdown(page,'direction','Descending');await templateDropdown(page,'limit','10');
+    await click(page,templateId('refresh'));
+    const first=Array.from({length:10},(_,index)=>'sample-'+String(32-index).padStart(4,'0'));
+    assert.deepEqual(await templateCells(page,'sample_id'),first);
+    await click(page,templateId('next'));assert.equal((await templateCells(page,'sample_id'))[0],'sample-0022');
+    await click(page,templateId('prev'));assert.deepEqual(await templateCells(page,'sample_id'),first);
+    await click(page,templateId('next'));await click(page,templateId('next'));await click(page,templateId('next'));
+    assert.deepEqual(await templateCells(page,'sample_id'),['sample-0002','sample-0001']);
+    assert.equal(await page.locator('#'+templateId('status')).innerText(),'31-32 of 32 matching rows');assert(await page.locator('#'+templateId('next')).isDisabled());
+    await templateDropdown(page,'order','Rejected count');await click(page,templateId('refresh'));
+    assert.deepEqual(await templateCells(page,'sample_id'),[4,9,14,19,24,29,3,8,13,18].map(value=>'sample-'+String(value).padStart(4,'0')));
+    return {pageSize:10,lastPageRows:2,sort:'rejected descending with ascending sample-ID ties'};
+  });
+  await test(templateCaseNames[3],page,async()=>{
+    await templateDropdown(page,'department','Laboratory');await templateDropdown(page,'order','Sample ID');await click(page,templateId('refresh'));
+    await templateTenantRows(page,'A',10);assert.equal(await page.locator('#'+templateId('status')).innerText(),'1-10 of 16 matching rows');
+    const rows=await templateDownload(page,'template-filtered.csv');assert.equal(rows.length,16);
+    assert(rows.every(row=>row[2]==='Laboratory'&&row[3].startsWith('A synthetic product ')));
+    assert.deepEqual(rows.map(row=>row[0]),Array.from({length:16},(_,index)=>'sample-'+String(32-index*2).padStart(4,'0')));
+    return {visibleRows:10,downloadedRows:16,currentFiltersAndSortPreserved:true};
+  });
+  await test(templateCaseNames[4],peer,async()=>{
+    await goto(peer,templateRoute);const products=await templateTenantRows(peer,'A',20);
+    assert.deepEqual(products,sharedProducts);assert.equal(await peer.locator('#'+templateId('table')+' input').count(),0);
+    return {sameOrganizationRowsIdentical:true,readOnlyTable:true};
+  });
+  await test(templateCaseNames[5],tenant,async()=>{
+    await goto(tenant,templateRoute);await templateTenantRows(tenant,'B',20);
+    await fill(tenant,templateId('search'),'A synthetic product');await click(tenant,templateId('refresh'));
+    assert.deepEqual(await templateCells(tenant,'sample_id'),[]);assert.equal(await tenant.locator('#'+templateId('status')).innerText(),'0-0 of 0 matching rows');
+    await fill(tenant,templateId('search'),'');await click(tenant,templateId('refresh'));
+    const rows=await templateDownload(tenant,'template-tenant-b.csv');assert.equal(rows.length,32);assert(rows.every(row=>row[3].startsWith('B synthetic product ')));
+    const ordinary=await newPage();await login(ordinary,'demo-user-b');await goto(ordinary,templateRoute);await templateTenantRows(ordinary,'B',20);
+    await snapshot(ordinary,'35-template-ordinary-user-b');await ordinary.context().close();
+    return {foreignAdminOwnRowsOnly:true,ordinaryForeignUserOwnRowsOnly:true,foreignSearchRows:0,exportRows:32};
+  });
+  await test(templateCaseNames[6],page,async()=>{
+    await goto(page,templateRoute+'?org=B&role=admin');await templateTenantRows(page,'A',20);
+    const attacks=[['offset',true],['limit',101],['order','org'],['department','B'],['search',{org:'B',role:'admin'}]];
+    for(const [field,value] of attacks) {
+      await tamperOnce(page,templateId('refresh')+'.n_clicks',body=>{
+        const state=body.state.find(item=>item.id===templateId(field));assert(state);state.value=value;
+      },()=>click(page,templateId('refresh')));
+      assert.deepEqual(await templateCells(page,'sample_id'),[]);
+      assert.equal(await page.locator('#'+templateId('status')).innerText(),'Check the report filters and try again.');
+    }
+    await click(page,templateId('refresh'));await templateTenantRows(page,'A',20);
+    let invalidDownloads=0;const downloaded=()=>invalidDownloads++;page.on('download',downloaded);
+    try {
+      await tamperOnce(page,templateId('export')+'.n_clicks',body=>{
+        body.state.find(item=>item.id===templateId('limit')).value=101;
+      },()=>click(page,templateId('export')));
+      assert.equal(invalidDownloads,0);
+    } finally {page.off('download',downloaded);}
+    const forgedCell=page.locator('#'+templateId('table')+' td[data-dash-column="product"]').first();
+    const originalText=await forgedCell.evaluate(cell=>{
+      const text=document.createTreeWalker(cell,NodeFilter.SHOW_TEXT).nextNode();
+      if(!text) throw new Error('Expected a rendered product text node');
+      const original=text.nodeValue;text.nodeValue='B forged client row';return original;
+    });
+    try {
+      const rows=await templateDownload(page,'template-after-client-tamper.csv');assert.equal(rows.length,32);
+      assert(rows.every(row=>row[3].startsWith('A synthetic product ')));assert(!rows.some(row=>row.join(',').includes('forged')));
+    } finally {
+      await forgedCell.evaluate((cell,original)=>{document.createTreeWalker(cell,NodeFilter.SHOW_TEXT).nextNode().nodeValue=original;},originalText);
+    }
+    await templateTenantRows(page,'A',20);
+    return {invalidStateSubmissions:attacks.length,invalidStatesReturnEmptyTable:true,invalidExportDownloads:invalidDownloads,
+      urlTenantClaimsIgnored:true,forgedDomRowsAbsentFromServerCsv:true};
+  });
+  const revoked=await newPage();
+  await test(templateCaseNames[7],revoked,async()=>{
+    await login(revoked,'browser-template-revoked');await goto(revoked,templateRoute);await templateTenantRows(revoked,'A',20);
+    await command('revoke',{user:'browser-template-revoked'});activity.get(revoked).expectDenied=true;
+    let downloads=0;const downloaded=()=>downloads++;revoked.on('download',downloaded);
+    for(const action of ['refresh','export']) {
+      const response=revoked.waitForResponse(response=>response.url().endsWith('_dash-update-component')&&response.status()===401);
+      await revoked.locator('#'+templateId(action)).click();assert.equal((await response).status(),401);await settle(revoked);
+    }
+    revoked.off('download',downloaded);assert.equal(downloads,0);
+    return {queryHttpStatus:401,exportHttpStatus:401,unauthorizedDownloads:0};
+  });
+  await revoked.context().close();await page.context().close();
 }
 
 (async()=>{
@@ -328,6 +473,7 @@ try {
     activity.get(owner).expectDenied=true;
     const response=await replay(owner,createPayload);assert.equal(response.status,401);return {mode:'real logout navigation plus supplementary browser-context replay'};
   });
+  if(templateEnabled) await templateAcceptance(peer,tenant);
   await test('29-no-external-effects-or-page-errors',admin,async()=>{
     assert.deepEqual(blocked,[],'Unexpected external network was blocked');assert.deepEqual(pageErrors,[],'Uncaught browser errors');
     assert.deepEqual(consoleErrors.filter(item=>!item.expectedAuthorizationDenial),[],'Unexpected browser console errors');
@@ -348,14 +494,18 @@ finally {
     callbackStatuses:network.reduce((a,n)=>(a[n.status]=(a[n.status]||0)+1,a),{}),serverStopped:child.exitCode!==null};
   fs.writeFileSync(path.join(out,'static-delivery.json'),JSON.stringify(staticDelivery,null,2));
   fs.writeFileSync(path.join(out,'source-hashes.json'),JSON.stringify(fixture?.source_hashes||{},null,2));
+  fs.writeFileSync(path.join(out,'harness-hashes.json'),JSON.stringify(fixture?.harness_hashes||{},null,2));
   summary.packages=fixture?.packages;
-  if(mode==='focused report acceptance') summary.unrun={count:30,reason:'Explicit focused report mode; other full-suite scenarios were not executed',caseGroups:['02','03','04','05','06','07','08','09','10','11','12','13','14','15-create','15-update','15-delete','15-upload','16','17','18','19','20','21','23','24','25','26','27','28','29']};
+  summary.reportTemplate={enabled:templateEnabled,plannedScenarios:templateEnabled?templateCaseNames.length:0,
+    unrunScenarios:templateEnabled?templateCaseNames.filter(name=>!results.some(result=>result.name===name)):[]};
+  if(mode==='full acceptance') summary.unrunCount=Math.max(0,32+(templateEnabled?templateCaseNames.length:0)-results.filter(result=>result.name!=='harness').length);
+  if(mode==='focused report acceptance') summary.unrun={count:30+(templateEnabled?templateCaseNames.length:0),reason:'Explicit focused report mode; other full-suite scenarios were not executed',caseGroups:['02','03','04','05','06','07','08','09','10','11','12','13','14','15-create','15-update','15-delete','15-upload','16','17','18','19','20','21','23','24','25','26','27','28','29'].concat(templateEnabled?templateCaseNames:[])};
   const statePath=path.resolve(out,'state');
   if(summary.serverStopped && path.dirname(statePath)===out && path.relative(root,out).startsWith(path.join('output','playwright')+path.sep)) {
     fs.rmSync(statePath,{recursive:true,force:true});summary.syntheticStateRemoved=true;
   }
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(summary,null,2));
-  fs.writeFileSync(path.join(root,'output/playwright/latest.json'),JSON.stringify({directory:path.basename(out),mode,passed:summary.passed,failed:summary.failed},null,2));
+  fs.writeFileSync(path.join(evidenceRoot,'latest.json'),JSON.stringify({directory:path.basename(out),mode,passed:summary.passed,failed:summary.failed},null,2));
   console.log(JSON.stringify({directory:path.relative(root,out),passed:summary.passed,failed:summary.failed}));process.exitCode=summary.failed?1:0;
 }
 })();

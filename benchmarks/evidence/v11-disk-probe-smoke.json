@@ -1,0 +1,51 @@
+{
+  "rows": 12,
+  "xlsx_bytes": 5643,
+  "owned_files": [
+    {
+      "role": "snapshot",
+      "bytes": 1566,
+      "closed": true
+    },
+    {
+      "role": "archive",
+      "bytes": 5643,
+      "closed": true
+    }
+  ],
+  "worksheet_xml_bytes": [
+    6790
+  ],
+  "observed_phases": [
+    {
+      "phase": "before_worksheet_cleanup",
+      "owned_file_bytes": [
+        1566,
+        3265
+      ],
+      "worksheet_xml_bytes": 6790,
+      "total_observed_bytes": 11621
+    },
+    {
+      "phase": "before_owned_file_close",
+      "owned_file_bytes": [
+        1566,
+        5643
+      ],
+      "worksheet_xml_bytes": 0,
+      "total_observed_bytes": 7209
+    },
+    {
+      "phase": "before_owned_file_close",
+      "owned_file_bytes": [
+        1566,
+        0
+      ],
+      "worksheet_xml_bytes": 0,
+      "total_observed_bytes": 1566
+    }
+  ],
+  "peak_observed_temp_bytes": 11621,
+  "cleanup": "all owned handles closed and openpyxl temporary-file registry unchanged",
+  "scope": "untimed phase observations; not an OS-wide disk high-water counter; final returned bytes are RAM"
+}

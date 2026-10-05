@@ -1,3 +1,19 @@
+## 上手包發布驗證（2026-10-05）
+
+使用者已批准把上手包新增程式、測試與中文文件推到 GitHub main。
+本次先經 validation 分支的完整 Python 3.8／3.10 與 50 個瀏覽器情境，
+再正常 fast-forward main 並核對該 SHA 的 CI。
+[發布狀態與驗證連結](docs/quickstart/PUBLICATION.md)；沒有部署或公司環境接線。
+以下「本地交付、未推送」敘述保留為原 ZIP 交付當時的歷史狀態。
+
+## 明天上手包（2026-10-05，本地交付）
+
+先讀 [一頁入門](START_HERE_TOMORROW.md)，再依 [Windows 完整操作流程](docs/quickstart/README.md)
+完成設定檢查、合成報表、整組備份與隔離回滾演練。公司接線另見
+[待核對清單](docs/quickstart/company-checklist.md)。本輪沒有新的 GitHub 推送或部署，
+未改 app.py、產品相依版本或公司設定；[驗證範圍](docs/quickstart/VALIDATION.md)
+分開列出本包、既有 CI 與未實測項目。
+
 ## 2026-10-05 release candidate
 
 Start with [use, migration and validation status](docs/releases/2026-10-05.md).

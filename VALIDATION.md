@@ -1,3 +1,17 @@
+# Quickstart publication gate (2026-10-05)
+
+Quickstart publication is now explicitly authorized. See
+[the exact-SHA publication status](docs/quickstart/PUBLICATION.md).
+The local-only statements below record the earlier ZIP delivery, not a current
+push restriction. The published candidate must pass its own remote CI.
+
+# Quickstart bundle (2026-10-05, local artifact only)
+
+See [the source-bound quickstart validation](docs/quickstart/VALIDATION.md):
+clean-copy Python 3.8.20 and 3.10.21 each ran 1233 tests, with 1227 passing
+and six Windows-only skips. No new GitHub push, deployment or browser/Windows
+certification is included. Historical evidence below remains source-specific.
+
 # Current release candidate (2026-10-05)
 
 The change-impact increment's local Python 3.8.20 and 3.10.21 runs each report

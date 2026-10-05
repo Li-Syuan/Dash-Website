@@ -1,0 +1,808 @@
+{
+  "baseline_ci": {
+    "conclusion": "success",
+    "is_new_bundle_ci": false,
+    "url": "https://github.com/Li-Syuan/Dash-Website/actions/runs/37261836522"
+  },
+  "baseline_commit": "7bb9b264482179a1b31ca32c9ed6737c9b8f51a0",
+  "clean_copy_drills": [
+    {
+      "drill": {
+        "all_restored_logical_digests_equal": true,
+        "as_of": "2026-10-05",
+        "browser": "not-run",
+        "external_integrations": "not-contacted",
+        "listener": "not-started",
+        "logical_sha256": {
+          "workspace.sqlite": "791e302eaf3b000dc64fca7bcae8ab9fd11c0cb303ad304d081dd6a49ef3e2b3",
+          "workspace.sqlite.etl.sqlite": "46f2eddd462e897569dab79f215ba1b91ae8043f7f0f2dedbcabc2f5dde7da5c",
+          "workspace.sqlite.operations/job_monitor.sqlite": "0c406ba6d9fbf262983e52da8fac1a66056c627aade770610cc0913d92ae8364",
+          "workspace.sqlite.operations/job_monitor.sqlite.leases.sqlite": "1fe12294a0e8cb7e45757d548b1da584025b9d261ee74a6c8a45fd1796b1ec88",
+          "workspace.sqlite.operations/operations.sqlite": "722d117dc532114f5549faaa83a39e2fadb3bf3db9aa7816ee5a2ca355cd64ae",
+          "workspace.sqlite.qa/jobs.sqlite": "d03899ed8bb1d4c39bea866c1173ea54b410e0f3f88a7bd25bdf92ea56db35b1",
+          "workspace.sqlite.qa/qsl.sqlite": "d20f103c8c4b0d31096b7b04fc4afca71f7f9fd7b201c69c10b01a1bf4c804df",
+          "workspace.sqlite.qa/report_builder.sqlite": "8f502fc043d23527949df88f4cad0546c3ec9f33fa5011c0f3bb27994c8853a5"
+        },
+        "members": 8,
+        "python": "3.8.20",
+        "release": "quickstart-synthetic-v1",
+        "report_rows": 36,
+        "report_summary": {
+          "closed": 11,
+          "open": 25,
+          "overdue": 25
+        },
+        "restore_marker": "retained",
+        "restore_startup_guard": "blocked-as-required",
+        "restored_claim_fence_schedule_preserved": true,
+        "source_after_snapshot_receipt_preserved": true,
+        "source_future_schema_preserved": true,
+        "status": "passed-synthetic-offline-drill",
+        "transport": "flask-test-client-only",
+        "windows": "not-certified"
+      },
+      "existing_destination_refused": {
+        "code": "destination_exists",
+        "status": "failed"
+      },
+      "existing_preflight": {
+        "checks": {
+          "configuration": {
+            "mode": "demo",
+            "quality_actions": "enabled",
+            "status": "passed"
+          },
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.8.20"
+          },
+          "state": {
+            "intent": "existing-demo",
+            "live_readiness": "not-certified",
+            "quiescence": "operator-asserted",
+            "status": "passed",
+            "stores_checked": 8
+          }
+        },
+        "code": "local_demo_preflight_passed",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "passed"
+      },
+      "new_preflight": {
+        "checks": {
+          "configuration": {
+            "mode": "demo",
+            "quality_actions": "enabled",
+            "status": "passed"
+          },
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.8.20"
+          },
+          "state": {
+            "intent": "new-demo",
+            "quiescence": "not-applicable",
+            "status": "passed",
+            "stores_created": 0
+          }
+        },
+        "code": "local_demo_preflight_passed",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "passed"
+      },
+      "restore_preflight": {
+        "checks": {
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.8.20"
+          }
+        },
+        "code": "configuration_or_restore_review_invalid",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "blocked"
+      },
+      "source": "clean-copy-without-git-or-runtime-or-state"
+    },
+    {
+      "drill": {
+        "all_restored_logical_digests_equal": true,
+        "as_of": "2026-10-05",
+        "browser": "not-run",
+        "external_integrations": "not-contacted",
+        "listener": "not-started",
+        "logical_sha256": {
+          "workspace.sqlite": "b786541f0fcb1f04521d3f57a68af8209fec493b987a73cf540c419c8d5975a5",
+          "workspace.sqlite.etl.sqlite": "edfe86a797a27c5bc0ec3b8161173401967b3c21584e9c149bc15adb433cc66a",
+          "workspace.sqlite.operations/job_monitor.sqlite": "fb9509d44936e6f5dc42c484ba8f224f4d218e07370ac274bc3aa858e2102062",
+          "workspace.sqlite.operations/job_monitor.sqlite.leases.sqlite": "d43d934e44e7a021722719d91a6988653536426783dd922b9cdf2bdd839ca89b",
+          "workspace.sqlite.operations/operations.sqlite": "4d9c69579667d64265b384afb6309245fe4c77c888cf6920f5487f1b9589389e",
+          "workspace.sqlite.qa/jobs.sqlite": "a94c8688e43bd6e30f6d5fb82f66e1e319c345464148aa02d54768339dadb999",
+          "workspace.sqlite.qa/qsl.sqlite": "fd75b98829c8d772c1d2af4182001a3a88faa0f6ad37cb7046428734cac79417",
+          "workspace.sqlite.qa/report_builder.sqlite": "8f502fc043d23527949df88f4cad0546c3ec9f33fa5011c0f3bb27994c8853a5"
+        },
+        "members": 8,
+        "python": "3.10.21",
+        "release": "quickstart-synthetic-v1",
+        "report_rows": 36,
+        "report_summary": {
+          "closed": 11,
+          "open": 25,
+          "overdue": 25
+        },
+        "restore_marker": "retained",
+        "restore_startup_guard": "blocked-as-required",
+        "restored_claim_fence_schedule_preserved": true,
+        "source_after_snapshot_receipt_preserved": true,
+        "source_future_schema_preserved": true,
+        "status": "passed-synthetic-offline-drill",
+        "transport": "flask-test-client-only",
+        "windows": "not-certified"
+      },
+      "existing_destination_refused": {
+        "code": "destination_exists",
+        "status": "failed"
+      },
+      "existing_preflight": {
+        "checks": {
+          "configuration": {
+            "mode": "demo",
+            "quality_actions": "enabled",
+            "status": "passed"
+          },
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.10.21"
+          },
+          "state": {
+            "intent": "existing-demo",
+            "live_readiness": "not-certified",
+            "quiescence": "operator-asserted",
+            "status": "passed",
+            "stores_checked": 8
+          }
+        },
+        "code": "local_demo_preflight_passed",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "passed"
+      },
+      "new_preflight": {
+        "checks": {
+          "configuration": {
+            "mode": "demo",
+            "quality_actions": "enabled",
+            "status": "passed"
+          },
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.10.21"
+          },
+          "state": {
+            "intent": "new-demo",
+            "quiescence": "not-applicable",
+            "status": "passed",
+            "stores_created": 0
+          }
+        },
+        "code": "local_demo_preflight_passed",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "passed"
+      },
+      "restore_preflight": {
+        "checks": {
+          "dependencies": [
+            {
+              "distribution": "Flask",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "Flask-Login",
+              "expected": "0.6.2",
+              "status": "passed"
+            },
+            {
+              "distribution": "Werkzeug",
+              "expected": "2.2.3",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash",
+              "expected": "2.9.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-bootstrap-components",
+              "expected": "1.4.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "dash-mantine-components",
+              "expected": "0.12.0",
+              "status": "passed"
+            },
+            {
+              "distribution": "openpyxl",
+              "expected": "3.1.5",
+              "status": "passed"
+            },
+            {
+              "distribution": "plotly",
+              "expected": "5.13.1",
+              "status": "passed"
+            },
+            {
+              "distribution": "setuptools",
+              "expected": "57.5.0",
+              "status": "passed"
+            }
+          ],
+          "python": {
+            "status": "passed",
+            "version": "3.10.21"
+          }
+        },
+        "code": "configuration_or_restore_review_invalid",
+        "limitations": [
+          "Local demo preflight only; no app, worker, browser or provider was started.",
+          "Permission checks are conservative metadata/access checks, not a write probe or Windows ACL review.",
+          "Local path syntax does not certify filesystem locality, durability, free space or exclusive ownership.",
+          "Existing-state quiescence is operator-asserted, not proven by this check.",
+          "Exact target OS/Python patches, transitive dependencies and company integration remain unverified."
+        ],
+        "profile": "demo",
+        "read_only": true,
+        "schema_version": 1,
+        "scope": "local-demo-preflight-only",
+        "status": "blocked"
+      },
+      "source": "clean-copy-without-git-or-runtime-or-state"
+    }
+  ],
+  "entrypoint_additional_run": {
+    "browser_test": false,
+    "checks": 279,
+    "errors": 0,
+    "failures": 0,
+    "passed": 279,
+    "tests": 5
+  },
+  "focused_new_tests_included_in_full": 41,
+  "full_regression": [
+    {
+      "backsteps": 0,
+      "clock_valid": true,
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "passed": 1227,
+      "runtime": {
+        "dependencies": {
+          "Flask": "2.2.3",
+          "Flask-Login": "0.6.2",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "2.1.5",
+          "Werkzeug": "2.2.3",
+          "click": "8.1.8",
+          "dash": "2.9.1",
+          "dash-bootstrap-components": "1.4.1",
+          "dash-core-components": "2.0.0",
+          "dash-html-components": "2.0.0",
+          "dash-mantine-components": "0.12.0",
+          "dash-table": "5.0.0",
+          "et_xmlfile": "2.0.0",
+          "importlib_metadata": "8.5.0",
+          "itsdangerous": "2.2.0",
+          "openpyxl": "3.1.5",
+          "plotly": "5.13.1",
+          "setuptools": "57.5.0",
+          "tenacity": "9.0.0",
+          "zipp": "3.20.2"
+        },
+        "machine": "x86_64",
+        "python": "3.8.20",
+        "system": "Linux"
+      },
+      "seconds": 95.717,
+      "skipped": 6,
+      "source": "clean-copy-no-git-runtime-state-or-raw-logs",
+      "tests": 1233
+    },
+    {
+      "backsteps": 0,
+      "clock_valid": true,
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "passed": 1227,
+      "runtime": {
+        "dependencies": {
+          "Flask": "2.2.3",
+          "Flask-Login": "0.6.2",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "3.0.3",
+          "Werkzeug": "2.2.3",
+          "click": "8.5.0",
+          "dash": "2.9.1",
+          "dash-bootstrap-components": "1.4.1",
+          "dash-core-components": "2.0.0",
+          "dash-html-components": "2.0.0",
+          "dash-mantine-components": "0.12.0",
+          "dash-table": "5.0.0",
+          "et_xmlfile": "2.0.0",
+          "itsdangerous": "2.2.0",
+          "openpyxl": "3.1.5",
+          "plotly": "5.13.1",
+          "setuptools": "57.5.0",
+          "tenacity": "9.1.4"
+        },
+        "machine": "x86_64",
+        "python": "3.10.21",
+        "system": "Linux"
+      },
+      "seconds": 90.824,
+      "skipped": 6,
+      "source": "clean-copy-no-git-runtime-state-or-raw-logs",
+      "tests": 1233
+    }
+  ],
+  "limits": [
+    "Windows not run in this round; six Windows-only tests skipped on Linux.",
+    "No new socket listener or real browser run; HTTP checks use Flask test-client only.",
+    "Baseline Chrome50/50 belongs to baseline commit, not a new bundle browser certification.",
+    "CJK font issue remains an explicit target-browser acceptance check.",
+    "Exact company OS/Python patches, Oracle/LDAP/SMTP/RESTX/binds and production deployment not certified.",
+    "No performance benchmark or unapproved15% time/10% RSS gate enabled."
+  ],
+  "packaging": {
+    "exclude": "Historical raw text/log/DOM captures and diagnostic scripts; database/state/env/caches/runtimes never included.",
+    "retained": "Application, current tools, tests, docs, synthetic examples and required historical JSON test fixtures."
+  },
+  "product_files_byte_identical_to_baseline": 70,
+  "publication": "local-artifact-only-no-new-push-or-deployment",
+  "recorded_utc": "2026-10-05T09:40:33.358871+00:00",
+  "schema_version": 1,
+  "source_sha256": {
+    "app.py": "2509b5c51704f53675ba5aa69318194d79bc3e35454e75e8ae11fa4debb2a6cf",
+    "assets/00_dash_error_response.js": "0805223749a881a7ba5269e7d74714e147907044eba601dd046825c4949c5370",
+    "assets/admin.css": "d496597599d5b7b91431ef7d0b82d223e903ca0d16fce816e97b360aba4de860",
+    "assets/assistant.js": "c08719d17f9f39b6b6be44a709dd832b7375fb1148507c8047e99bea6c9ed520",
+    "assets/catalog.js": "00c8eceafd9b02c479c8a2d63a7db9c1b03c9103041cf8e81afc37737922b6f8",
+    "assets/crud_modals.css": "b23396e9b3276b05de6288563839333ba3b9059cffb2346cbc7f995508a2bbd1",
+    "assets/etl_dispatch.css": "a6b20511f2617437d474d9c19b035adffde43b9af15899e9a93b3968a555ed4d",
+    "assets/theme.css": "280e3446ead85969a881d3d4aeead1fc400367ebc3ca52e32c3b9f3d58c6cb91",
+    "assets/theme.js": "f65ee13d9e780746af4abb8dc63d9e2fbf8014734e65d76176f751d9ba0a3d8a",
+    "assets/workspace.css": "90ee193607bf38d8ba186b7de6b2c39f8b1024df721e6b6342e83fa89357f6b3",
+    "assets/z_layout.css": "4467aa7e7c538d50e18589bdb6efc79c98d625dc4e118816d4f89ce9cfe841e7",
+    "benchmarks/compare_large_xlsx.py": "0f16a193c725a17bca3dcd97ab42ebff8d9d193f467e61e620e0964ddbc69e0b",
+    "benchmarks/compare_latency.py": "d9f994fd73d2f5322531313c8324cb926efe890b7768f049b6e338bca6551239",
+    "benchmarks/large_xlsx.py": "f2ebb865967a2623fe2a8f0734417175338186e3ee748ed4710dff86218c68ff",
+    "benchmarks/portal_latency.py": "1a24a9434d7bbf8a7b6034347226acee4c01953a64b616c4fe11321b9e86ecdd",
+    "benchmarks/xlsx_disk_probe.py": "015cd327e7611f7ecfe9fb915e1639e3d38ce0034f64897630f128f02ca0ab14",
+    "demo_services.py": "65568ed35b28c5b670097c39ae307764bcab36d242a07cfc3ed24783edc69350",
+    "examples/__init__.py": "65b6c5197e0a735aac3dabe998e4ef13fd3c412c64fb0572082d5a20327e3882",
+    "examples/etl_registry.py": "316ec89df01a413d40c95d7f7623df4d251eaf598bd8413556202caea013e21e",
+    "examples/registry_fixture.py": "8b6bd5aa69ddab732500513a0069eafc1a6c17fb260bf7f1745501871f3a9120",
+    "reporting_workspace/__init__.py": "83999a4b8a9b5c6e79a30430ac86586eff4c2b65715f12881bd9dc842cac0364",
+    "reporting_workspace/admin_schema.py": "296647307a8f63da629d91f0a9bf8667a7c69f0c75ae5b780e4e5abf212f88f8",
+    "reporting_workspace/application.py": "ef12139a1741c7646602e1625bf4a0c83aadf8da666933985527519484aa324f",
+    "reporting_workspace/authorization.py": "f87804717d3b403e3d199754795859dbb8888e693391235ba42874025b5e6823",
+    "reporting_workspace/config.py": "525318e05a78c6ad89d71ad14518b1895b8b0e7d3bfa5c4397facf4fde0d3b38",
+    "reporting_workspace/crud.py": "99f845289f1e60496e24f8fca28e827e1ee5b77af48e6a6a1babeccebe117c44",
+    "reporting_workspace/definition_domain.py": "e0d9fd6ad40a407158d08be28aaeaa5a4d2edc849509bed617240773c9e84cd4",
+    "reporting_workspace/definition_policy.py": "ec3e1482cd0862cef5e815cf561c87f96012c150a8b5a2f764c73c88b271b1f0",
+    "reporting_workspace/definition_repository.py": "a4e8b3f1acc88b1b1116cb4f3c8dd1aea6eab3240e2b4254d45d2c40117c601b",
+    "reporting_workspace/deployment.py": "e3968cfc7c50aad6f5e0e423870e5745ea40b4dcecc4ecc538d3b2b17203dcfd",
+    "reporting_workspace/errors.py": "22ff869e0712ca491689e30d9ac7e95b0911fb1b3241b6ac33043576dc036d59",
+    "reporting_workspace/etl_adapters.py": "a93d4f79fc49b21d562edeeee42ea972f8c39b41135029d9b2e3c1a109a06a42",
+    "reporting_workspace/etl_dispatch.py": "ec4a41861c3c2a930b9b72614e3a7b338685fae1526ca73d79486e59e24381a9",
+    "reporting_workspace/governance.py": "00a0d36aaa7f42feca33c741272772777527bd10d342c08db8b5062c4c129835",
+    "reporting_workspace/job_monitor.py": "09ce422ada4d5e571279b17568beac21d4499d6f690604ce54d63bfffb7e91e5",
+    "reporting_workspace/launcher.py": "99e8ecd0b8ebd712b8545d0c4fcab18dca80060707eec65010e0d9d9fc2b3729",
+    "reporting_workspace/legacy_crud.py": "420dbbba0182d7b19a47370ea68ef925af3726654e2d88ca524d75998c4fbc2f",
+    "reporting_workspace/legacy_demo_ui.py": "a922d28bef764fddf612bda09c6f5a6defb04a2cbf395032e1f9b46de4803da7",
+    "reporting_workspace/legacy_jobs.py": "d181132f26548c62a1086a44249668635c67b507ef80fd29edba84388d4b70d1",
+    "reporting_workspace/legacy_policy.py": "0d26c982c1a7abf23f4433903b22ad91cac634887d979a69e1e3f3f89fc8d7d9",
+    "reporting_workspace/lifecycle.py": "ebd4c9923fe9e36c7345df2f2c539ad6dec413da7f361802759c1800d1f7392f",
+    "reporting_workspace/maintenance_registry.py": "fe85550ed22ba62d2b6c19a8f9a1211400f1c082ff258f5b5e24149e558cdddd",
+    "reporting_workspace/notifications.py": "14cf3659175c8e12b4e2580d0defe50289f47604b442efc4b07fcc0a9755ce10",
+    "reporting_workspace/operations.py": "e4c80ec5f0ee4dc6f59ad4c70889119845c4ed594691b30b136e52c08a8ddf69",
+    "reporting_workspace/providers.py": "7beaf640e39af493fc7a08f687805c500f951923abd713d36b3a2786aa898df1",
+    "reporting_workspace/qa_enhancements_ui.py": "a952795487d5072c7b63078c02c505a13dc88450f09a8f6b680a55eaa0bc4e72",
+    "reporting_workspace/quality_actions/__init__.py": "435b9defda17fec42c797bce101337e8f6b7505c6ec5d921e6c67ba2b68777c0",
+    "reporting_workspace/quality_actions/contract.py": "b5057d0cd619d827584db6a74e647f4721f09e64ad7e338216300d1b5e7a4ab4",
+    "reporting_workspace/quality_actions/repository.py": "01e0fb9f819a213b78bbaca13f58fd532700722df9d9d435d020929b65d93d29",
+    "reporting_workspace/quality_actions/service.py": "fe96bd162fe02c12431dd5db7c4b8f065de18c66297e3a0829a12bc758002d3f",
+    "reporting_workspace/registry.py": "12f555c0ae949166ab840754b5f39d6f27a9321d5a97e493dfa651ed35fd9467",
+    "reporting_workspace/report_builder.py": "999ea875eb4b1ecd09ae6e8a9a5e6e7b9e66fac87e7a2adeffc322bec0eadbfa",
+    "reporting_workspace/report_templates/__init__.py": "6c412290f5e244088c65e471f8074b72ea927890fac9e778586a744896cb54f3",
+    "reporting_workspace/report_templates/contract.py": "d1934c0821a910cafd8b41aae53049ded99fca4a969c5590c5832a72bb74e6c5",
+    "reporting_workspace/report_templates/repository.py": "e3efa5155fb2f56104b15df23d632af2bf2c28ffe568371df832f147b427eed0",
+    "reporting_workspace/report_templates/service.py": "fb2d673efb175e0ec6b9decb4c56a0e72daee27c86c4f5d52b1f37164ce321cb",
+    "reporting_workspace/state.py": "2e6f5d4afe67f7d2acf2ab6dce92a3f3a5ad26c5bd93da68c0515c59024b10b7",
+    "reporting_workspace/static_transport.py": "a97eafac4bc43bbd8954627f075da67573c71d9d2e1ff8c07a52709c5e455755",
+    "reporting_workspace/theme.py": "715ca8df2c5467a5deed0fd87b8eb68480e84dd33d443f639d3febecfb5f221b",
+    "reporting_workspace/ui_pages/__init__.py": "f6c9d768000531cfde490c842172cff2b95f8382eeda84e8e5306ad5da0171c8",
+    "reporting_workspace/ui_pages/admin_console.py": "40206c17a023af07eee4a9e57c05774ae15a132cf26002a9bcf673126ca5f5f0",
+    "reporting_workspace/ui_pages/administration.py": "f69a98041087ba21e496d712aee0ce483b08ec75d4b14e414e94d1cd03a72c5d",
+    "reporting_workspace/ui_pages/authentication.py": "6ff621e4faf7a41afc3ebaace88ebddb4e5d5179cebf0ddddfbcf2a1c87c87ce",
+    "reporting_workspace/ui_pages/compatibility.py": "a6ee111f17272e74401e8a6d31a5ed228a02244004954b63cef9e2d2fe0694cc",
+    "reporting_workspace/ui_pages/etl_dispatch.py": "f1570f449edd13ebf5e274660095323c0828fbc71ae83e111a53432d3deec6fd",
+    "reporting_workspace/ui_pages/maintenance.py": "0f8029795bd0f3e26e73884cd8b6f9c0624603960ca2a0d92a0d4516c207eee4",
+    "reporting_workspace/ui_pages/managed_reports.py": "d328cd2bc5c0ba57b3a3bdc7ea4ff97f91a62e8b1e6058f688df77adb84df645",
+    "reporting_workspace/ui_pages/operations.py": "dd62d101aa1cbac539cb4f0e091744fc8c6c5296a63cd479188b91115a705680",
+    "reporting_workspace/ui_pages/overview.py": "92c1da40f8d922431237a5d2f6b50ff28077083454aac7f5d029a2b87ffa74ee",
+    "reporting_workspace/ui_pages/qa_maintenance.py": "09c7b45e723ede388c9c53b87f22f4ab9e8ff32b2f6706afcac904f225c7014d",
+    "reporting_workspace/ui_pages/quality_actions.py": "bbee345a431ccbd4aa92b28c138ae4a587ec24b639e30b0a68e0727104560161",
+    "reporting_workspace/ui_pages/report_template.py": "e35e322555088fd19fe282a5307415da9073af72c38d43e387bc3a95b4f37829",
+    "reporting_workspace/ui_pages/reports.py": "9976ae14b007423e3e5d818f451be6b7e70cdb343b37e62708559810de65f6d4",
+    "reporting_workspace/ui_pages/shared.py": "f552af29ef7f6ef7ff3d1a8b485560c749bb40ee12ce227f0b1debab8659d6a7",
+    "reporting_workspace/web.py": "97d1a3f9cffb41982a20e12482f9ade27f5975d237a2c89b4e59940c00f15b0c",
+    "requirements-demo.txt": "ec31a1f34a729fdf9038f74febdb96d7b170657eaa0db13aa8bf929ce10ce6c7",
+    "requirements-qa-portal.txt": "d3c9349dddec06017d2ad9b54b8a4b7e47b404d5245454898bbade1e7a232580",
+    "requirements.txt": "89592358caf100ab9ae52840b27c1655cf2a4f6247610dff4b4999da143fe72d",
+    "tests/browser/diagnose_native_server.py": "0532aa96219c505f1c48d397808b38895805f939758a2cfc310493dbf83aefd8",
+    "tests/browser/fixture_server.py": "43838831bc538dfac9f197b9c428263e812f424c5afade6612aa4cbd8aa5e97b",
+    "tests/probes/clock_guard.py": "fd97c91424dc378d01fc7043cb1cf2ce25b3df3fc1c8267d3c149dea6c02fe89",
+    "tests/probes/flask_composition.py": "2186498b9e91c18a0226d47c4b369db0744bebb560c56200f5d008400ce4daa0",
+    "tests/test_acceptance_core.py": "4b0f729791b3c152e68c946f2bc813537f9517f02290c4217032910ba41cea03",
+    "tests/test_acceptance_evidence.py": "f8bccbbc46c159127184b1401ec3ad01b36402231e5a5fc28508d3607516054e",
+    "tests/test_acceptance_report.py": "769f2850bb8d31a9925f10e1a1eb55a0be59a2410e74c1cee1d5a5ca31122b2c",
+    "tests/test_acceptance_tolerance.py": "7449bce728025d56765890d8fe578e20f5eb012f34370c47d50d5b166132e88a",
+    "tests/test_admin_ui.py": "5fca6a64d2a60e0d10b2b2f3272f5db627d15c30e63aa6d44c71f0899551b303",
+    "tests/test_agent_acceptance.py": "66ca12ea88e43dc75956e487aa06b002f7660991abb844b1468fb8a352c36dca",
+    "tests/test_application.py": "7de382c51d4357475221495cd359e542821aca20895e68d0e294648ca8055d14",
+    "tests/test_assistant.py": "bfe0d2ccae5932cbb5ce54354d12d9606d0471377442e9c00e3d26c9fecb5e21",
+    "tests/test_authorization_boundaries.py": "a867a81c3b79c047e4dd7285cc1d529def85d262a7efe551b85efb25987ac95c",
+    "tests/test_catalog.py": "15cac65653deb47537a5af4a08822c4e6973d056421a4296931a1fb606e671b9",
+    "tests/test_change_impact.py": "a199197a7cf744aebf61c5e263c2f5eb0a8f07b3668001622b97219aa8afd0ae",
+    "tests/test_clock_guard.py": "806023687f33f1867db10f60867f956eb7863367ec04b7a6363dcec9dd58bd48",
+    "tests/test_concurrency_consistency.py": "cac02926bb91a4454a0ccda92d27e0fab03b5c72cc961c0762f4ab2173ebf0f7",
+    "tests/test_config_providers.py": "8cc17372e27fd6f1f5c11bfc2357b2b74948ba33e6321203ea249b5d39e9c395",
+    "tests/test_crud_service.py": "be7db719a4eff5a4cfe01692b9fea6ee8df8d22aaf91ec0c575fa1c6b73bd2e7",
+    "tests/test_dash_error_response.py": "46c44123d179d9d2f66f19c3cd7df87dc57f4a2a1becb1bf840165a2228680d8",
+    "tests/test_definition_architecture.py": "5ea98524d5a8952ffaa8f23c601315b108c151ae75c4d49489274c804f307737",
+    "tests/test_definition_repository.py": "248db70a04fdecb9656fcbe90c03f2013b652bdeac96131ee17cfe6b1ebe2305",
+    "tests/test_demo.py": "80e1294649fc75a14d4d6f13c0ca3932c09ef1f5f263a9ef01859461a5069ebd",
+    "tests/test_deployment.py": "26cffe5e755781a3d6e671ef82bdba71abd33752e0ac5a22a2c0a5156ed415d8",
+    "tests/test_entrypoint_coverage.py": "a9796daf19b370909c96a533dd91dee1fb1920719456639abd7fa589dae8fc3e",
+    "tests/test_etl_dispatch_acceptance.py": "209d1f90539b451e2119baeda97adcb5c1a3be9763065b394f2aa2085eec566c",
+    "tests/test_etl_dispatch_engine.py": "c4d77d2cf9629729e3297256f1ee4ceb32cb290388b55a510832f92691301079",
+    "tests/test_etl_dispatch_ui.py": "070bad9577b32b77a5622cd1ab240c256351725e28ec5cc824209fc8b2bd80f2",
+    "tests/test_etl_integration_example.py": "b6cd0d6761ab67ea12bca1059939e9d0d0b0e4bdbf4532145baa870726fffaea",
+    "tests/test_etl_lease_wait.py": "dcba3d5294ad3565f833c9049e694f88788b61c3f32002d0c64b9aaf18ead5fb",
+    "tests/test_etl_recovery_faults.py": "312225a3e4e58bee995bb321d57349d57d3f53c94dec81417c53206fb639c2e2",
+    "tests/test_governance.py": "5e82a53ab5e94db928e44bbaa63d4c29175a899d37c7b60215fa47f11d00e47b",
+    "tests/test_job_monitor.py": "6dcb3eb48238cae6f2919992589c196c4a455e7d44a9a52c438e15bbbbf080cd",
+    "tests/test_large_xlsx.py": "1350986ce6289ff996dc0b7ef2af01e9ea591f59a04ff023c8a78efe4214cf84",
+    "tests/test_launcher.py": "7b7cc97f292c6ceb22a0ff2e4779ea48363620717adf2239bb9e0d06588c2db9",
+    "tests/test_legacy_crud.py": "19bd0a7e099be3284aa2246e11a15e3db6cb27d84aaf32a9802851e98578cc0a",
+    "tests/test_legacy_demo_ui.py": "267879ac5dad899fba7c4e2264c97d52e11533aca06cf8cabf0e27672b22eba1",
+    "tests/test_legacy_jobs.py": "2db1a6371abb76b816f548336c05b6599efb04809512a900a863f9070a2f5fbd",
+    "tests/test_legacy_performance_contracts.py": "79b62822ebf5873f25ee2acc31b4f00cdf3471337d57fc2304f198ad63e87a08",
+    "tests/test_legacy_policy.py": "d8e9f04f11d144cb4c246727dc9596f8fb3c50f74b33d207502159e63cebe2a4",
+    "tests/test_legacy_revisions.py": "7c66da553f195732590170851a67e38ade6e23040b8542e8ff348ab1c6cfd6e6",
+    "tests/test_lifecycle.py": "830d46e8082bd1846f87cba6479b051136e9c9108204ad68ebb9e49e913f0b00",
+    "tests/test_maintenance.py": "ea96dc2b9fd6d39ccbe6a1f3dc5393399774bc57e36d6377d85fb80aadfc9db6",
+    "tests/test_maintenance_registry.py": "7d80d1641c8048c64b66a42fcf9da50f8aeec10e2a7f8e1a3d5b7b4d4e96c8b0",
+    "tests/test_notifications.py": "38310eca19be4f8f60b4edc73249723f76f23f88cf1e9f27fe90bd18af39e65a",
+    "tests/test_operations.py": "977318c49e9c2ba58b4f643b64abcac9027f7480b3338aa81ddc99822cad660c",
+    "tests/test_operations_ui.py": "fa271833467c8b9f39e4f063d41be5cd48289c1432760a13c7d522387cf037d5",
+    "tests/test_original_modal_workflow.py": "1a7ed06a16eacda6178b7c0c4c260cfd53fa2e077e3b89ce7e7c0826b1a6ab8e",
+    "tests/test_page_integration.py": "ded2d0fc6879f4c83048bb02913b3a1d84f40d298a8f92bd07adc84411b4bbfb",
+    "tests/test_performance_binding.py": "b9ed493190801e53aa0219117588862b4c0e26c1864d1943a40daaca94a44bd8",
+    "tests/test_qa_enhancements_ui.py": "32cf3d27e32aff5b86dd972dc1ce76013dfc8e01090928c8575b3dc4384c05cc",
+    "tests/test_quality_actions.py": "746b38647f54d9593d0e531a77ea989fdc022b1889767c027ea9f5b5e95dcd2e",
+    "tests/test_quickstart_check.py": "8b0fde773a47bdbffe6d011df07a0f98a39962dfa4ebc4e8c659754f752bd67a",
+    "tests/test_quickstart_demo.py": "ef2a2cb9a1f9b175c65475b2400107b897ac9dd4249fe26626bf22cd58899d15",
+    "tests/test_registry.py": "e9ef7cc50e92380d00b29e229be9ee134cfbd996b2f9240cad895f47163cc0ab",
+    "tests/test_registry_identity_boundary.py": "b1184d70bbe1e64ae4b7b2243af05f7c7e5dfa5ae5667e3087f72702eec8e78b",
+    "tests/test_report_builder.py": "27c36948db04475acce23aa57055b821be04a03c4733ea1e54156dcccd4309a0",
+    "tests/test_report_template.py": "e231851ffba29b8ddb69052c0db168d9fd352528571d415469e0577c641a8204",
+    "tests/test_service_isolation.py": "9f4d772e280e6e904a81b7146f0965055b33d45954d84913cb358631b5a54b97",
+    "tests/test_state.py": "de45dc12a7034269d4478e0319e4718002b339cd645a9a5f7b5d82033ae9dcd5",
+    "tests/test_static_transport.py": "30b2832504a65e830130f20626760b2280a771ea057e20258a564f5a1d046250",
+    "tests/test_theme.py": "c51d6be6ed0fbdef0d12e65d8e022afbaa56dff5b8bb828668d9831569ef0912",
+    "tests/test_unified_portal.py": "3d1da2ec09398e756cb4bf7a3981442673b6ff70e4bd14c81fb4ae92025f3e15",
+    "tests/test_v11_integration.py": "0922be3a5ab96347ae276e6e6c55bc12a75f7704a11a996941c93d8ea80a4eea",
+    "tools/_acceptance_process.py": "273a40c108066cbcb98e259a0e4716b577feb9b0c4703c483623106ab8614850",
+    "tools/acceptance_binding.py": "f3552df4c0c071a4ddc26eed5a63d8cd4d38252b834dc7869f77aea872a2ae42",
+    "tools/acceptance_core.py": "8a2b2cce1e81a2609e7ed1c53ed8f3a16017f6ebf7abed50af0015585cf2def0",
+    "tools/acceptance_evidence.py": "e8999a8e3230915f7a49f067573d47a840e0bd361e0a34abbc3e7b978ceb9ca8",
+    "tools/acceptance_performance.py": "d66b194b7eba90ecfc1ca2cf6b5df9c530d2a8b05d33d34b0b22a5158f6b7d14",
+    "tools/acceptance_report.py": "e9f404c97fed5fc9c3eaf42421b3dba1a7ab844303cc770a235a4c23c27094f6",
+    "tools/acceptance_tolerance.py": "cb2c25ab0f30ef0b7cc37b7a39a8538d6b1c235b92e7c79976e35d10936ceddc",
+    "tools/acceptance_worker.py": "b37cffa49d4592ea51c4bd7d414d366ff1bc0cb87c9730eada415904f2d58e91",
+    "tools/agent_acceptance.py": "4397223f51a4c69f936f38c3f9a5ae569ed3058b95eeae08867ac19cdd99874e",
+    "tools/change_impact.py": "b93e80390297a6d52184619b8d36bac4bbfe5955dc6f32a02ef0c376a7c2b079",
+    "tools/deployment_check.py": "7bebdd4a130d8b667e8a52fb250aa35beb115620614378a8b67b2d66a3973c23",
+    "tools/fault_drills.py": "f5ea8122ef90d29f27e67bf455a6176dc85a533db5e774f410bd4218224fcd77",
+    "tools/quickstart_check.py": "a8af267887084123d2ff62d6f39948c027139cefd3c8fa61c137ef647b634616",
+    "tools/quickstart_demo.py": "b07833d6db6fadbe33034756e279ce17952aa1ba277a623d5d3347a88454eb25",
+    "wsgi.py": "97ae532c9c63cca4d893c7b9f76d16b5907819cb1b01aa66c1c5ea500aabb5d3"
+  }
+}

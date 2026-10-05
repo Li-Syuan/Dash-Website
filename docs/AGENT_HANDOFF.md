@@ -1,3 +1,20 @@
+## Quickstart publication handoff (2026-10-05)
+
+The owner has now requested main publication of the completed quickstart
+increment. Follow [publication status and gates](quickstart/PUBLICATION.md):
+validation-branch exact-SHA CI, then normal fast-forward main and exact-SHA CI.
+Earlier local/artifact-only statements below remain historical delivery records.
+No deployment, force push, new dependency, company access or 15%/10% gate.
+
+## Quickstart bundle handoff (2026-10-05)
+
+Start with [the one-page Chinese guide](../START_HERE_TOMORROW.md) and
+[quickstart validation](quickstart/VALIDATION.md). New tools are offline-only:
+quickstart_check.py reads configuration, dependencies and quiesced local stores;
+quickstart_demo.py creates a NEW synthetic drill directory and retains restored
+state in quarantine. Neither is another product launcher. This increment is
+local/artifact-only; no new GitHub push, deployment or company access is approved.
+
 ## Current release handoff (2026-10-05)
 
 The owner now authorizes the completed report, export/fault-drill fixes,

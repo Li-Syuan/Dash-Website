@@ -6,3 +6,5 @@ docs/optimization/V9_CHECKPOINT.json -text whitespace=blank-at-eol,blank-at-eof,
 docs/optimization/evidence/browser/*.dom.txt -whitespace
 # Required historical browser validator fixture; preserve its original bytes.
 docs/v11/evidence/browser/results.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve the sample's real CSV export bytes, including its standard CRLF endings.
+examples/quickstart/synthetic-corrective-actions.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

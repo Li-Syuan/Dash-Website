@@ -1,3 +1,24 @@
+## Current quickstart publication authorization (2026-10-05)
+
+The owner explicitly requested pushing the completed quickstart source, tests
+and Chinese documentation to Li-Syuan/Dash-Website main. Publish through a new
+validation/dash-handoff-* branch, require exact-candidate Python 3.8/3.10 and
+all 50 existing native browser scenarios, then normally fast-forward main and
+verify its exact-SHA CI. No force push, deployment, dependency change, company
+integration or performance-policy activation. The local-artifact statements
+below describe the earlier completed delivery and do not block this approved
+publication. See [publication status](docs/quickstart/PUBLICATION.md).
+
+## Current quickstart artifact round (2026-10-05)
+
+Build the Chinese next-day quickstart guide, read-only preflight and isolated
+synthetic backup/restore drill. The current round authorizes local source, tests,
+a local commit and a sanitized downloadable bundle only. It does NOT authorize
+a new GitHub push, deployment, company integration, dependency change or work on
+the user's computer. Earlier release publication permission below is historical
+and does not cover this increment. Preserve app.py and all existing pins.
+See [quickstart instructions](START_HERE_TOMORROW.md).
+
 ## Current release authorization (2026-10-05)
 
 The owner now explicitly requests publication of the completed report,

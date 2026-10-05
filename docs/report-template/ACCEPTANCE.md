@@ -57,3 +57,15 @@ Full regression, strict flag tests and native-browser outcomes are recorded
 separately by the integration owner. Python 3.8 grammar acceptance alone does
 not certify execution on the target Python 3.8.13 or company Linux kernel.
 No company adapter or production deployment is certified.
+
+## Acceptance for a copied report
+
+Replace the targeted test filename with the new report's suite. The original
+40-case browser run and `--report-template` transport matrix certify only the
+original report. The browser fixture clears inherited `REPORTING_*` values;
+add a dedicated validated `QA_*` opt-in, reinstate the corresponding setting
+before importing `app.py`, and implement named cases using the new route, card,
+component IDs, CSV filename/schema and semantics. Preserve the old cases.
+Extend entrypoint coverage to register the new SPEC and verify its page and
+query/export callback IDs appear in the emitted evidence. See
+[quality-actions/README.md](../quality-actions/README.md) for runnable commands.

@@ -1,3 +1,33 @@
+## Current release handoff (2026-10-05)
+
+The owner now authorizes the completed report, export/fault-drill fixes,
+change-impact CLI and CI configuration through a dedicated validation branch,
+full Python 3.8/3.10 regression and 50 native browser scenarios, then normal
+fast-forward main publication and exact-SHA CI verification. This supersedes
+the historical local-only holds below for this release only. See
+[release use and migration](releases/2026-10-05.md). Do not deploy, force-push,
+change product pins or activate the unapproved 15%/10% performance policy.
+
+## Local change-impact CLI (2026-10-05)
+
+Use [change-impact instructions](change-impact/README.md) to turn changed files
+into source-evidenced page/API/callback/schedule candidates and test suggestions.
+It is analysis-only, not a test runner or acceptance result. Unknown/core changes
+fall back to full regression, and full regression remains mandatory before
+publication. Current work authorizes no push, upload or deployment.
+
+## Independent report handoff exercise (2026-10-05)
+
+A second, distinct synthetic report is available through the same `app.py`:
+[Corrective action aging](quality-actions/README.md). It remains default-off, with its own
+configuration, authorization, query/export, tests and browser acceptance.
+The linked handoff review records missing instructions before implementation.
+This exercise authorizes local work only; historical publication permissions
+below do not authorize publishing this or any future increment. Validation is
+specific to the recorded runtime; MSI/Windows and company integrations remain
+unverified. See the [final integrated validation](quality-actions/INTEGRATED_VALIDATION.md)
+for this report plus fault-drill repair and the remaining browser blocker.
+
 ## Current publication handoff (2026-10-04)
 
 The owner explicitly confirmed publishing the cumulative v11, v12, ETL/
@@ -179,3 +209,19 @@ SQLite 中的 idempotency 不能證明外部郵件或資料庫 exactly-once。
 python -c "from pathlib import Path; Path('output').mkdir(exist_ok=True)"
 python -B tests/probes/clock_guard.py --output output/clock-check.jsonl -- python -B -m unittest discover -s tests -v
 ```
+
+## 2026-10-05 四情境故障演練接手（本機未發布）
+
+閱讀 [故障演練／復原步驟](fault-drills/README.md) 及
+[結果摘要](fault-drills/RESULTS.json)。入口是 `python -B tools/fault_drills.py`，
+`--list` 列出固定 19 個測試方法；只使用臨時合成 DB 與自己建立的子程序。
+
+QSL `query()` 新增交付前的現時權限／原 actor 檢查，修正最後匯出 refresh
+期間撤權仍交付下載的已重現缺陷。整合時保留此檢查與新增 HTTP regression。
+不要清空未知 ETL claim/receipt，也不要把本機去重當作外部 exactly-once。
+
+Python 3.8.20／3.10.21 的完整回歸各 1125 項，0 failure/error、6 Windows-only
+skip。真實 browser preflight 被 cloud executor 的 process socket 限制阻塞；
+不得以改安全設定或 HTTP 測試代替。整合後重跑最終來源的可用完整回歸，
+Windows／公司整合及真實 browser 仍需補驗。這一輪不授權 push、deploy、upload，
+也未批准或啟用 15%／10% 效能門檻。

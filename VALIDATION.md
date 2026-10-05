@@ -1,3 +1,20 @@
+# Current release candidate (2026-10-05)
+
+The change-impact increment's local Python 3.8.20 and 3.10.21 runs each report
+1192 total tests: 1186 passed, 6 Windows-only skips, no failures or errors.
+See [that source-specific evidence](docs/change-impact/VALIDATION.md).
+The exact publication candidate still requires fresh regression and 50 native
+browser cases in GitHub CI; see [release status](docs/releases/2026-10-05.md).
+Older blocked/failed/unrun records below remain historical and unchanged.
+
+# Previous local integration (2026-10-05)
+
+See [report handoff + fault-drill final integration](docs/quality-actions/INTEGRATED_VALIDATION.md):
+Python 3.8.20 and 3.10.21 each ran 1162 tests (1156 passed, 6 Windows-only skips),
+with 19 fault methods passing under a valid clock guard. Real browser execution
+remains blocked; 50 planned scenarios are unrun. No publication or deployment.
+Historical records below retain their own source and scope.
+
 # Validation history
 
 The current 2026-10-04 authorization/isolation and real-browser results are in
@@ -381,3 +398,21 @@ See [architecture/migration notes](docs/architecture/MAINTENANCE_SLICE.md) and
 [full validation evidence](docs/architecture/VALIDATION.md). This is server and
 HTTP evidence; actual browser rendering, exact company runtimes and production
 integrations remain unverified. No remote publication or deployment occurred.
+
+## 2026-10-05 四情境故障演練（本機未發布）
+
+基於 `45918b243af32cf8d4db966e82bfc6b634bf3771` 的隔離合成演練，詳見
+[故障／復原指引](docs/fault-drills/README.md) 與 [結果摘要](docs/fault-drills/RESULTS.json)。
+ETL 中斷、兩個獨立程序重複排程、SQLite 鎖及匯出中撤權的一鍵入口為
+`python -B tools/fault_drills.py`。重用有效案例，新增同 due-slot 雙程序競爭、
+XLSX archive 期間的真實 HTTP 撤權，以及最終 refresh 撤權 regression。
+
+實際找出並修正 QSL 查詢只在 SQL 前驗權的缺口：最後 refresh 期間撤權原會
+交付 CSV／XLSX／template download；修正後 query 交付前重驗現時權限與原 actor。
+Python 3.8.20／3.10.21 各 19 項故障測試全過；完整 suite 各 1125 項，
+1119 通過、6 項 Windows 原生功能 skip、0 failure/error。clock guard 有效。
+
+真實 Chromium preflight 在啟動時受 `socket() Operation not permitted` 阻塞，
+兩次原始結果保留；未 render、未通過任何 browser scenario。HTTP 結果不充當
+browser QA。Windows、公司精確版本及 Oracle／LDAP／SMTP／RESTX 仍未測。
+沒有 push/deploy/upload；沒有啟用未批准的 15% 時間／10% RSS 門檻。

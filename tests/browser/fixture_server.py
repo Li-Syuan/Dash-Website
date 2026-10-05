@@ -31,6 +31,11 @@ if template_flag not in ('0', '1'):
     raise ValueError('QA_REPORT_TEMPLATE must be 0 or 1')
 if template_flag == '1':
     os.environ['REPORTING_ENABLE_REPORT_TEMPLATE'] = 'true'
+quality_actions_flag = os.environ.get('QA_QUALITY_ACTIONS', '0')
+if quality_actions_flag not in ('0', '1'):
+    raise ValueError('QA_QUALITY_ACTIONS must be 0 or 1')
+if quality_actions_flag == '1':
+    os.environ['REPORTING_ENABLE_QUALITY_ACTIONS'] = 'true'
 
 from app import server, runtime
 import dash
@@ -45,6 +50,9 @@ accounts = {
 }
 if template_flag == '1':
     accounts['browser-template-revoked'] = dict(password='demo-only', role='user', org='A')
+if quality_actions_flag == '1':
+    accounts['browser-actions-revoked'] = dict(password='demo-only', role='user', org='A')
+    accounts['browser-actions-guest'] = dict(password='demo-only', role='guest', org='A')
 runtime.identities.user_db.update(accounts)
 owner = runtime.identities.get_user('browser-owner-a')
 tenant_b = runtime.identities.get_user('browser-admin-b')
@@ -70,15 +78,19 @@ httpd = make_server('127.0.0.1', 0, server, threaded=True,
 worker = threading.Thread(target=httpd.serve_forever, daemon=True)
 worker.start()
 print(json.dumps(dict(event='ready', port=httpd.server_port, pid=os.getpid(),
-    report_template_enabled=template_flag == '1',
+    report_template_enabled=template_flag == '1', quality_actions_enabled=quality_actions_flag == '1',
     seed_id=records[0]['id'], foreign_id=foreign['id'], python=sys.version.split()[0],
-    packages={name: version(name) for name in ('dash', 'Flask', 'Werkzeug', 'dash-bootstrap-components', 'dash-mantine-components')},
+    packages={name: version(name) for name in ('dash', 'Flask', 'Werkzeug', 'dash-bootstrap-components', 'dash-mantine-components',
+                                             'Flask-Login', 'plotly', 'setuptools', 'openpyxl')},
     plotly_asset=dict(path='/_dash-component-suites/dash/dcc/async-plotlyjs.js',
         size=(Path(dash.__file__).parent / 'dcc' / 'async-plotlyjs.js').stat().st_size,
         sha256=hashlib.sha256((Path(dash.__file__).parent / 'dcc' / 'async-plotlyjs.js').read_bytes()).hexdigest()),
+    runtime_hashes=dict(python_executable=hashlib.sha256(Path(sys.executable).resolve().read_bytes()).hexdigest(),
+        **{name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+           for name in ('requirements-demo.txt', 'requirements-qa-portal.txt')}),
     harness_hashes={str(item.relative_to(ROOT)).replace('\\', '/'): hashlib.sha256(item.read_bytes()).hexdigest()
         for item in (ROOT / 'tests' / 'browser' / name
-                     for name in ('acceptance.cjs', 'fixture_server.py', 'README.md'))},
+                     for name in ('acceptance.cjs', 'acceptance_quality_actions.cjs', 'fixture_server.py', 'README.md'))},
     source_hashes={str(item.relative_to(ROOT)).replace('\\', '/'): hashlib.sha256(item.read_bytes()).hexdigest()
         for item in [ROOT / 'app.py'] + sorted((ROOT / 'reporting_workspace').rglob('*.py')) +
         sorted((ROOT / 'assets').glob('*.js')) + sorted((ROOT / 'assets').glob('*.css'))})), flush=True)

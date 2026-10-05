@@ -14,7 +14,8 @@ child.on('error',readyReject);
 const results=[],failures=[],pageErrors=[],consoleErrors=[];let browser,fixture,error,bars=0;
 (async()=>{try{
   fixture=await ready;
-  browser=await chromium.launch({channel:process.env.QA_BROWSER_CHANNEL||'chrome',headless:true});
+  const browserSelection=process.env.QA_BROWSER_EXECUTABLE ? {executablePath:process.env.QA_BROWSER_EXECUTABLE} : {channel:process.env.QA_BROWSER_CHANNEL||'chrome'};
+  browser=await chromium.launch({...browserSelection,headless:true});
   const context=await browser.newContext({viewport:{width:1440,height:1080}}),page=await context.newPage();
   page.on('requestfailed',request=>failures.push({path:new URL(request.url()).pathname,error:request.failure()?.errorText}));
   page.on('pageerror',error=>pageErrors.push(error.message));
@@ -49,8 +50,10 @@ finally{
   fs.rmSync(state,{recursive:true,force:true});
   fs.writeFileSync(path.join(out,'source-hashes.json'),JSON.stringify(fixture?.source_hashes||{},null,2));
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({status:error?'failed':'passed',error,results,renderedSvgBars:bars,failures,pageErrors,consoleErrors,
-    expectedAsset:fixture?.plotly_asset,versions:{node:process.version,python:fixture?.python,browser:browser?.version(),packages:fixture?.packages},
-    delivery:'native Chrome; no request interception; 20 uncached same-origin GETs',serverStopped:true,isolatedStateRemoved:true},null,2));
+    expectedAsset:fixture?.plotly_asset,versions:{node:process.version,python:fixture?.python,browser:browser?.version(),packages:fixture?.packages,
+      browserChannel:process.env.QA_BROWSER_EXECUTABLE?null:process.env.QA_BROWSER_CHANNEL||'chrome',
+      browserExecutable:process.env.QA_BROWSER_EXECUTABLE?path.basename(process.env.QA_BROWSER_EXECUTABLE):null},
+    delivery:'native Chromium-family browser; no request interception; 20 uncached same-origin GETs',serverStopped:true,isolatedStateRemoved:true},null,2));
   console.log(path.relative(root,out));
 }
 })();

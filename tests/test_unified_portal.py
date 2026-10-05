@@ -157,6 +157,68 @@ class UnifiedPortalTransportTests(unittest.TestCase):
                     self.assertTrue(response['qa-status']['children'].startswith('操作未完成'))
         self.identities.user_db['demo-admin'] = account
 
+    def test_revocation_during_xlsx_archive_prevents_http_download(self):
+        import openpyxl
+        from openpyxl.worksheet._writer import ALL_TEMP_FILES
+        service = self.server.extensions['qa_demo_crud']
+        account = dict(self.identities.user_db['demo-admin'])
+        before = service.query(self.editor)
+        audit = service.audit(self.editor)
+        temporary = set(ALL_TEMP_FILES)
+        self.login()
+        original = openpyxl.Workbook.save
+
+        def save_then_revoke(workbook, destination):
+            result = original(workbook, destination)
+            del self.identities.user_db['demo-admin']
+            return result
+
+        try:
+            with patch.object(openpyxl.Workbook, 'save', save_then_revoke):
+                response = self.crud('qa-export-xlsx')
+            self.assertFalse('qa-download' in response,
+                             'Revoked archive generation published a download.')
+            self.assertEqual(response['qa-table']['data'], [])
+            self.assertTrue(response['qa-status']['children'].startswith('操作未完成'))
+            self.assertEqual(set(ALL_TEMP_FILES), temporary)
+        finally:
+            self.identities.user_db['demo-admin'] = account
+        self.assertEqual(service.query(self.editor), before)
+        self.assertEqual(service.audit(self.editor), audit)
+
+    def test_revocation_during_final_export_refresh_prevents_download(self):
+        service = self.server.extensions['qa_demo_crud']
+        account = dict(self.identities.user_db['demo-admin'])
+        before = service.query(self.editor)
+        audit = service.audit(self.editor)
+        for action in ('qa-export', 'qa-export-xlsx', 'qa-template'):
+            with self.subTest(action=action):
+                self.identities.user_db['demo-admin'] = dict(account)
+                self.login()
+                revoked = []
+
+                def revoke_during_read(statement):
+                    # Observe the real final SELECT after its initial access
+                    # check. Export snapshot/overflow SELECTs use other limits.
+                    if (not revoked and statement.startswith('SELECT id,version,')
+                            and statement.endswith('LIMIT 1000 OFFSET 0')):
+                        del self.identities.user_db['demo-admin']
+                        revoked.append(True)
+
+                service._db.set_trace_callback(revoke_during_read)
+                try:
+                    response = self.crud(action)
+                finally:
+                    service._db.set_trace_callback(None)
+                    self.identities.user_db['demo-admin'] = dict(account)
+                self.assertEqual(revoked, [True])
+                self.assertFalse('qa-download' in response,
+                                 'Revoked final refresh published a prepared download.')
+                self.assertEqual(response['qa-table']['data'], [])
+                self.assertTrue(response['qa-status']['children'].startswith('操作未完成'))
+                self.assertEqual(service.query(self.editor), before)
+                self.assertEqual(service.audit(self.editor), audit)
+
     def prepare_update(self, extra=None):
         result = self.crud('qa-update', extra)
         self.assertNotIn('未完成', result['qa-status']['children'])

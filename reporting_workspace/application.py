@@ -224,6 +224,9 @@ def create_app(settings=None, identity_provider=None, report_provider=None, extr
     if settings.enable_report_template:
         from .ui_pages.report_template import SPEC as REPORT_TEMPLATE
         extra_pages = tuple(extra_pages) + (REPORT_TEMPLATE,)
+    if settings.enable_quality_actions:
+        from .ui_pages.quality_actions import SPEC as QUALITY_ACTIONS
+        extra_pages = tuple(extra_pages) + (QUALITY_ACTIONS,)
     identities, report_provider = validate_providers(settings, identity_provider, report_provider)
     state = None
     if settings.state_path:

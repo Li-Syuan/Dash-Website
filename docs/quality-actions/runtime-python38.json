@@ -1,0 +1,26 @@
+{
+  "python": "3.8.20 (default, Oct  2 2024, 16:34:12) \n[Clang 18.1.8 ]",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.2.5",
+  "packages": {
+    "dash-table": "5.0.0",
+    "tenacity": "9.0.0",
+    "Werkzeug": "2.2.3",
+    "et_xmlfile": "2.0.0",
+    "MarkupSafe": "2.1.5",
+    "Flask-Login": "0.6.2",
+    "click": "8.1.8",
+    "Flask": "2.2.3",
+    "dash-bootstrap-components": "1.4.1",
+    "openpyxl": "3.1.5",
+    "itsdangerous": "2.2.0",
+    "importlib_metadata": "8.5.0",
+    "Jinja2": "3.1.6",
+    "dash-core-components": "2.0.0",
+    "plotly": "5.13.1",
+    "dash-mantine-components": "0.12.0",
+    "dash-html-components": "2.0.0",
+    "dash": "2.9.1",
+    "setuptools": "57.5.0",
+    "zipp": "3.20.2"
+  }
+}

@@ -22,7 +22,8 @@ node tests/browser/acceptance.cjs
 If `playwright` resolves through normal Node module resolution, omit
 `QA_PLAYWRIGHT_MODULE`. If `python` resolves to the approved environment, omit
 `QA_PYTHON`. Optional variables: `QA_BROWSER_CHANNEL` (default `chrome`),
-`QA_HEADED=1` to show the browser, and `QA_LOGIN_ONLY=1` for a startup diagnostic.
+`QA_BROWSER_EXECUTABLE` to use an explicitly selected existing Chromium executable
+instead of the channel, `QA_HEADED=1` to show the browser, and `QA_LOGIN_ONLY=1` for a startup diagnostic.
 `QA_REVOKE_ONLY=1` runs a focused session-revocation diagnostic and captures the
 renderer error stack; it is not a full acceptance pass.
 `QA_REPORT_ONLY=1` runs login plus fresh-admin report refresh/export, explicitly
@@ -69,6 +70,55 @@ classifications. Results identify opt-in coverage and any unrun template cases;
 records the exact fixture, browser script and instructions used at startup.
 No suite is automatically rerun. Coordinate source freeze and an idle benchmark
 window before launching the browser on a shared measurement machine.
+
+## Opt-in corrective-action acceptance
+
+Set `QA_QUALITY_ACTIONS=1` independently of `QA_REPORT_TEMPLATE` to exercise the
+**Corrective action aging** report. The private fixture clears inherited
+`REPORTING_*` variables before enabling `REPORTING_ENABLE_QUALITY_ACTIONS=true`;
+only literal `0`/`1` fixture flags are accepted. It adds only synthetic guest and
+revoked-user accounts, and exposes no HTTP test-control route.
+
+```sh
+QA_PYTHON='<approved Python executable>' \
+QA_BROWSER_EXECUTABLE='<existing Chromium executable>' \
+QA_STATIC_BRIDGE=0 QA_HTTP10=0 QA_QUALITY_ACTIONS=1 \
+node tests/browser/acceptance.cjs
+```
+
+The unchanged original 32 scenarios plus ten explicitly named quality-action
+scenarios run in this mode (42 total). Set `QA_REPORT_TEMPLATE=1` as well for
+50 total scenarios, including the original eight template cases. Neither the
+original 32 nor the template-only 40 certify the quality-action page.
+The ten additional cases cover:
+
+- Anonymous redirect, allowed catalog discovery and initial 20-of-36 query
+- Status, priority, as-of date, case/finding search and historical closure semantics
+- Pagination, offset reset and deterministic case-ID ties for descending due dates
+- Real filtered server CSV downloads beyond the displayed page, including changed
+  controls not yet applied to the table; no client table rows supply the CSV
+- Same-organization peer/admin reads and foreign administrator/user row isolation
+- Empty results, disabled paging and a real header-only CSV download
+- Invalid UI date and tampered query/export controls, with no invalid downloads
+- Wrong-role catalog/route rejection plus supplementary browser-context callback
+  replay returning 403 (the forbidden route has no report controls)
+- Actual Apply filters/Export clicks after server-side identity revocation,
+  both returning 401 without a download
+
+Quality-action runs write to `output/playwright/quality-actions/<UTC timestamp>/`
+with a separate `quality-actions/latest.json`. The summary lists the actual
+named scenarios, enabled flags, planned count and unrun cases. Each run saves
+runtime versions, `runtime-hashes.json` (Python/Node executable and approved
+requirement files, plus an explicit browser entrypoint when selected), runtime
+source hashes and exact harness hashes, including the quality-action helper.
+A browser entrypoint can be a vendor launcher script; its hash alone is not a
+hash of every browser library. The recorded browser version identifies the
+running browser. All evidence remains ignored by Git.
+
+The new browser suite exercises only deterministic synthetic fixtures. It does
+not certify company adapters, exact target OS/Python patch versions, production
+connections, deployment, or performance. Failed runs remain separate; fix the
+demonstrated cause before starting a new invocation. No automatic replay is used.
 
 Each run writes `output/playwright/<UTC timestamp>/` with screenshots, readable
 DOM text, sanitized server logs, downloaded synthetic exports, and `results.json`.

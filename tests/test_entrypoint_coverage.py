@@ -20,12 +20,14 @@ ACTORS = (None, 'demo-admin', 'demo-user-a', 'demo-user-b', 'matrix-admin-b', 'm
 
 class EntrypointCoverageTests(unittest.TestCase):
     enable_report_template = False
+    enable_quality_actions = False
 
     @classmethod
     def setUpClass(cls):
         cls.directory = tempfile.TemporaryDirectory(prefix='entry-coverage-')
         cls.server = create_app(Settings(state_path=str(Path(cls.directory.name) / 'state.sqlite'),
-                                         enable_report_template=cls.enable_report_template))
+                                         enable_report_template=cls.enable_report_template,
+                                         enable_quality_actions=cls.enable_quality_actions))
         cls.server.config['TESTING'] = True
         cls.runtime = cls.server.extensions['workspace']
         cls.runtime.identities.user_db.update({
@@ -135,9 +137,13 @@ if __name__ == '__main__':
     parser.add_argument('--write-coverage', type=Path)
     parser.add_argument('--report-template', action='store_true',
                         help='Include the explicitly enabled synthetic report template.')
+    parser.add_argument('--quality-actions', action='store_true',
+                        help='Include the explicitly enabled synthetic corrective-action report.')
     args = parser.parse_args()
     EntrypointCoverageTests.enable_report_template = args.report_template
     EVIDENCE['report_template_enabled'] = args.report_template
+    EntrypointCoverageTests.enable_quality_actions = args.quality_actions
+    EVIDENCE['quality_actions_enabled'] = args.quality_actions
     result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(EntrypointCoverageTests))
     if args.write_coverage:
         args.write_coverage.parent.mkdir(parents=True, exist_ok=True)

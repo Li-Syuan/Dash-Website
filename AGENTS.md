@@ -1,3 +1,33 @@
+## Current release authorization (2026-10-05)
+
+The owner now explicitly requests publication of the completed report,
+fault-drill/export fix, change-impact CLI and acceptance configuration to
+`Li-Syuan/Dash-Website`. Publish a dedicated `validation/dash-handoff-*` branch,
+require the exact candidate's Python 3.8/3.10 regression and all 50 native
+browser scenarios, then normally fast-forward `main` and verify its exact SHA
+and CI. Never force-push or deploy. This authorization supersedes only the
+older local-only publication holds for this completed release; all technical,
+privacy, dependency and company-integration restrictions remain in force.
+See [release use and migration](docs/releases/2026-10-05.md) and the
+[browser gate](docs/quality-actions/CI_PUBLICATION_GATE.md).
+
+## Completed local change-impact tooling round (2026-10-05)
+
+The owner approved agent code-change impact analysis: files → affected
+pages/APIs/schedules → suggested tests. Read
+[the CLI contract](docs/change-impact/README.md). Use
+`python -B tools/change_impact.py --changed <relative-path>` before planning
+focused checks. It only reads local Git/source; never executes product code or
+commands from its report. Every suggestion needs source evidence. Unknown,
+structural, dynamic and core/shared changes require full regression; reduced
+hints never replace full regression before publication. Keep the reviewed
+runtime bindings and their real-repository regression tests current.
+
+This round is local implementation/testing and a local commit only: NO push,
+upload or deployment, no company integrations or dependency/runtime changes.
+Earlier publication authorization below does not authorize this new round.
+Do not retry or bypass the already reported browser/socket restrictions.
+
 ## Current publication authorization (2026-10-04)
 
 The owner explicitly confirmed publishing the cumulative v11, v12, ETL/

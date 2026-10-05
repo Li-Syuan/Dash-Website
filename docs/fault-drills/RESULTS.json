@@ -1,0 +1,190 @@
+{
+  "baseline": "45918b243af32cf8d4db966e82bfc6b634bf3771",
+  "browser": {
+    "attempts": 2,
+    "error": "Chromium process_singleton socket() failed: Operation not permitted",
+    "fixture_servers_stopped": true,
+    "fixture_states_removed": true,
+    "http_is_not_browser_evidence": true,
+    "local_attempt_results_sha256": {
+      "output/playwright/native-preflight-2026-10-05T02-02-24-797Z/results.json": "d9cbb1ee1701d5b65955be71e0c82bcbc9e2ec8718e25834e0ef390b7cf6a87e",
+      "output/playwright/native-preflight-2026-10-05T02-03-27-977Z/results.json": "d2eef4e61c5aed897f431ca21ed4100c390448cb2d68c1a92ad60898607fc099"
+    },
+    "status": "BLOCKED",
+    "successful_scenarios": 0,
+    "system_settings_changed": false
+  },
+  "date": "2026-10-05",
+  "local_evidence_sha256": {
+    "output/fault-drills/baseline-core-clock.jsonl": "c0984e370c5c620b6bb8c6f07b50cfcc85e5cabc5e31e6e84758116e8f56722c",
+    "output/fault-drills/baseline-core.txt": "d88257160a15134a5140ef8ddaae2873d57f2bb321ea3e1018a54db325cbe67f",
+    "output/fault-drills/baseline-xlsx.txt": "b8f51ed46b6a437bc7387baadd47f923d860d8347843848ca6c30e7d6b33c55a",
+    "output/fault-drills/browser-preflight-escalated.txt": "86a0eb3de0413b6ae9a50105848b2eb22fe7a137db0507727f50c988b3d1cbe2",
+    "output/fault-drills/browser-preflight-local.patch": "4bab88fc0e9e3a86aede4cbcf40ffa5d09567a0c7d8ec9693b2a4935d939f5af",
+    "output/fault-drills/browser-preflight.txt": "c02327d73966c4e8da441b813e1afa80c46831d333829e47c1a515f1d805d420",
+    "output/fault-drills/focused-core-clock.jsonl": "b7952e4a86f4a281c98e54f91a91083a4a28a185801dc43eac44882d5e78a872",
+    "output/fault-drills/focused-core.txt": "72f3f5831c05cc9387769cc3d12033f2d6499e4a81e3f71a9db0546fea982a7c",
+    "output/fault-drills/focused310-clock.jsonl": "dcb3ce992b221a991ec69a77cc55876ff33fa24145ac5ffcb387c6e2a7d09a6e",
+    "output/fault-drills/focused310.txt": "0c61cf9dca13edf6234f9d728bbef53de9cc3a0ac1006cd9439813f3f89e3f02",
+    "output/fault-drills/focused38-clock.jsonl": "061fe35b83a70d2e216d79b50407a3954a6fce8d6356acdf8d3fd1b73e922339",
+    "output/fault-drills/focused38.txt": "e1ddef6e8186412bc2f397c417c42013150d222664015093619da5479f16ce45",
+    "output/fault-drills/full310-clock.jsonl": "7f47542cf20d5d6a6b6f53ba4bfc377f96e8708a1693e4dcf42daca43e3100cd",
+    "output/fault-drills/full310.txt": "c702787be28623e5f0716c798633c8c10bb61d920222ed2d8f6b74785792c55e",
+    "output/fault-drills/full38-clock.jsonl": "7086337af16695c11ece2521227ee1aa0d62397e9d9986bc2d5f6578e4cff436",
+    "output/fault-drills/full38.txt": "a8d0915005f788b35553ae73565d058ad5b07f1c2f04a3c254343a69018d65dc",
+    "output/fault-drills/invalid-cli.txt": "010e96406ecd7e9d685a723f11cde59c7a795f078dd61df69bd6b73ff8892f6d",
+    "output/fault-drills/list.txt": "37ec0e7d06392a961373759abc25842569f6b829f344c31a618978c644ae37b3",
+    "output/fault-drills/post-fix-http38.txt": "944335ced01c366a7c5c5300bfc8ae2ae5b7e59c2c5576aaab058b07b0ddaff0",
+    "output/fault-drills/pre-fix-http38.txt": "66d066b0ec2ab36861df810b5b1b2e914dd6df42020b2d000c7eeed5dc9506f8",
+    "output/fault-drills/runtime-py310.json": "a9e731c2fda4eada367218b377b52907ea26c482b41df872e46e15e878ae94b9",
+    "output/fault-drills/runtime-py38.json": "5119bf176fd804417f482869618998839e6d05f49dd9b774c73ac356f29b68c2"
+  },
+  "performance_policy": {
+    "benchmarks_run": false,
+    "enabled": false,
+    "rss_percent_10_approved": false,
+    "time_percent_15_approved": false
+  },
+  "pre_fix_http": {
+    "failed_actions": [
+      "qa-export",
+      "qa-export-xlsx",
+      "qa-template"
+    ],
+    "failed_methods": 1,
+    "failure_events": 3,
+    "methods": 2,
+    "passed_methods": 1
+  },
+  "product_change": "Recheck current QSL read authorization and original actor after fetching/serializing query rows, before returning them.",
+  "publication": {
+    "deployed": false,
+    "pushed": false,
+    "uploaded": false
+  },
+  "runs": [
+    {
+      "clock_valid": true,
+      "command": "python -B tools/fault_drills.py",
+      "errors": 0,
+      "failures": 0,
+      "passed": 19,
+      "runtime": "py38",
+      "seconds": 30.778,
+      "skipped": 0,
+      "tests": 19
+    },
+    {
+      "clock_valid": true,
+      "command": "python -B tools/fault_drills.py",
+      "errors": 0,
+      "failures": 0,
+      "passed": 19,
+      "runtime": "py310",
+      "seconds": 38.838,
+      "skipped": 0,
+      "tests": 19
+    },
+    {
+      "clock_valid": true,
+      "command": "python -B -m unittest discover -s tests -v",
+      "errors": 0,
+      "failures": 0,
+      "passed": 1119,
+      "runtime": "py38",
+      "seconds": 106.341,
+      "skipped": 6,
+      "tests": 1125
+    },
+    {
+      "clock_valid": true,
+      "command": "python -B -m unittest discover -s tests -v",
+      "errors": 0,
+      "failures": 0,
+      "passed": 1119,
+      "runtime": "py310",
+      "seconds": 105.215,
+      "skipped": 6,
+      "tests": 1125
+    }
+  ],
+  "runtimes": {
+    "py310": {
+      "packages": {
+        "Flask": "2.2.3",
+        "Flask-Login": "0.6.2",
+        "Jinja2": "3.1.6",
+        "MarkupSafe": "3.0.4",
+        "Werkzeug": "2.2.3",
+        "click": "8.5.0",
+        "dash": "2.9.1",
+        "dash-bootstrap-components": "1.4.1",
+        "dash-core-components": "2.0.0",
+        "dash-html-components": "2.0.0",
+        "dash-mantine-components": "0.12.0",
+        "dash-table": "5.0.0",
+        "et_xmlfile": "2.0.0",
+        "itsdangerous": "2.2.0",
+        "openpyxl": "3.1.5",
+        "plotly": "5.13.1",
+        "setuptools": "57.5.0",
+        "tenacity": "9.1.4"
+      },
+      "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+      "python": "3.10.21 (main, Sep 24 2026, 17:54:40) [Clang 22.1.3 ]",
+      "sqlite": "3.53.1"
+    },
+    "py38": {
+      "packages": {
+        "Flask": "2.2.3",
+        "Flask-Login": "0.6.2",
+        "Jinja2": "3.1.6",
+        "MarkupSafe": "2.1.5",
+        "Werkzeug": "2.2.3",
+        "click": "8.1.8",
+        "dash": "2.9.1",
+        "dash-bootstrap-components": "1.4.1",
+        "dash-core-components": "2.0.0",
+        "dash-html-components": "2.0.0",
+        "dash-mantine-components": "0.12.0",
+        "dash-table": "5.0.0",
+        "et_xmlfile": "2.0.0",
+        "importlib_metadata": "8.5.0",
+        "itsdangerous": "2.2.0",
+        "openpyxl": "3.1.5",
+        "plotly": "5.13.1",
+        "setuptools": "57.5.0",
+        "tenacity": "9.0.0",
+        "zipp": "3.20.2"
+      },
+      "platform": "Linux-6.18.44-x86_64-with-glibc2.2.5",
+      "python": "3.8.20 (default, Oct  2 2024, 16:34:12) \n[Clang 18.1.8 ]",
+      "sqlite": "3.46.0"
+    }
+  },
+  "scenario_status": "PASSED",
+  "schema": 1,
+  "scope": "isolated synthetic single-host ETL, scheduling, SQLite and HTTP export boundaries",
+  "skipped_windows_only": [
+    "test_real_windows_junction_cannot_escape_artifact_or_source_checks (test_acceptance_core.AcceptanceFilesTests) ... skipped 'Windows directory junction fixture'",
+    "test_windows_assignment_failure_never_launches_target (test_acceptance_core.AcceptanceProcessTests) ... skipped 'Windows Job Object assignment contract'",
+    "test_windows_parent_exit_does_not_leave_owned_descendant_running (test_acceptance_core.AcceptanceProcessTests) ... skipped 'Windows Job Object descendant accounting'",
+    "test_windows_output_junction_cannot_authorize_external_writes (test_agent_acceptance.AgentAcceptanceEndToEndTests) ... skipped 'Windows junction boundary uses the native Windows API'",
+    "test_native_windows_guard_reports_precise_backend_without_false_backsteps (test_clock_guard.ClockGuardTests) ... skipped 'Native Windows precise-clock regression'",
+    "test_existing_junction_ancestor_is_rejected_before_missing_output_creation (test_clock_guard.SafeOutputPathTests) ... skipped 'Native Windows junction fixture'"
+  ],
+  "source_sha256": {
+    "reporting_workspace/legacy_crud.py": "420dbbba0182d7b19a47370ea68ef925af3726654e2d88ca524d75998c4fbc2f",
+    "tests/test_etl_recovery_faults.py": "312225a3e4e58bee995bb321d57349d57d3f53c94dec81417c53206fb639c2e2",
+    "tests/test_unified_portal.py": "3d1da2ec09398e756cb4bf7a3981442673b6ff70e4bd14c81fb4ae92025f3e15",
+    "tools/fault_drills.py": "f5ea8122ef90d29f27e67bf455a6176dc85a533db5e774f410bd4218224fcd77"
+  },
+  "unverified": [
+    "Windows/MSI",
+    "Linux kernel 3.10.0-1160 and Python 3.8.13",
+    "Windows Python 3.10.4",
+    "company Flask-RESTX, SQLALCHEMY_BINDS, Oracle, LDAP and SMTP",
+    "distributed/NFS or external exactly-once effects"
+  ],
+  "whole_project_acceptance": "INCOMPLETE"
+}

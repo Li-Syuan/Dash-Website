@@ -8,7 +8,10 @@ const readline = require('node:readline');
 const root = path.resolve(__dirname, '../..');
 if(!['0','1'].includes(process.env.QA_REPORT_TEMPLATE||'0')) throw new Error('QA_REPORT_TEMPLATE must be 0 or 1');
 const templateEnabled=process.env.QA_REPORT_TEMPLATE==='1';
-const evidenceRoot=path.join(root,'output/playwright',templateEnabled?'v11':'');
+if(!['0','1'].includes(process.env.QA_QUALITY_ACTIONS||'0')) throw new Error('QA_QUALITY_ACTIONS must be 0 or 1');
+const qualityActionsEnabled=process.env.QA_QUALITY_ACTIONS==='1';
+const {qualityActionCaseNames, qualityActionsAcceptance}=require('./acceptance_quality_actions.cjs');
+const evidenceRoot=path.join(root,'output/playwright',qualityActionsEnabled?'quality-actions':templateEnabled?'v11':'');
 const out = path.join(evidenceRoot, new Date().toISOString().replace(/[:.]/g, '-'));
 fs.mkdirSync(out, {recursive:true});
 const {chromium} = require(process.env.QA_PLAYWRIGHT_MODULE || 'playwright');
@@ -284,7 +287,8 @@ try {
   fixture=await Promise.race([ready,wait(30000).then(()=>{throw new Error('Fixture startup timeout');})]);
   fs.writeFileSync(path.join(out,'fixture.json'),JSON.stringify({pid:fixture.pid,port:fixture.port,importedEntry:'app.py'},null,2));
   base='http://127.0.0.1:'+fixture.port;
-  browser=await chromium.launch({channel:process.env.QA_BROWSER_CHANNEL||'chrome',headless:process.env.QA_HEADED!=='1'});
+  const browserSelection=process.env.QA_BROWSER_EXECUTABLE ? {executablePath:process.env.QA_BROWSER_EXECUTABLE} : {channel:process.env.QA_BROWSER_CHANNEL||'chrome'};
+  browser=await chromium.launch({...browserSelection,headless:process.env.QA_HEADED!=='1'});
   const owner=await newPage(), peer=await newPage(), admin=await newPage(), tenant=await newPage();
   await test('01-login-button-only',owner,async()=>{
     await goto(owner,'/login');await fill(owner,'username-box','browser-owner-a');await fill(owner,'password-box','demo-only');
@@ -474,6 +478,8 @@ try {
     const response=await replay(owner,createPayload);assert.equal(response.status,401);return {mode:'real logout navigation plus supplementary browser-context replay'};
   });
   if(templateEnabled) await templateAcceptance(peer,tenant);
+  if(qualityActionsEnabled) await qualityActionsAcceptance({peer,tenant,admin,fixture,out,activity,rawPayloads,
+    newPage,test,goto,until,login,fill,click,settle,snapshot,command,tamperOnce,replay});
   await test('29-no-external-effects-or-page-errors',admin,async()=>{
     assert.deepEqual(blocked,[],'Unexpected external network was blocked');assert.deepEqual(pageErrors,[],'Uncaught browser errors');
     assert.deepEqual(consoleErrors.filter(item=>!item.expectedAuthorizationDenial),[],'Unexpected browser console errors');
@@ -487,7 +493,8 @@ finally {
   if(child.exitCode===null) {child.stdin.write(JSON.stringify({action:'shutdown'})+'\n');child.stdin.end();await Promise.race([new Promise(resolve=>child.once('exit',resolve)),wait(10000)]);if(child.exitCode===null) child.kill();}
   serverLog.end();
   const mode=process.env.QA_LOGIN_ONLY==='1' ? 'login diagnostic' : process.env.QA_REVOKE_ONLY==='1' ? 'revocation diagnostic' : process.env.QA_REPORT_ONLY==='1' ? 'focused report acceptance' : 'full acceptance';
-  const summary={generatedAt:new Date().toISOString(),mode,platform:process.platform,node:process.version,python:fixture?.python,browser:browserVersion,browserChannel:process.env.QA_BROWSER_CHANNEL||'chrome',
+  const summary={generatedAt:new Date().toISOString(),mode,platform:process.platform,node:process.version,python:fixture?.python,browser:browserVersion,browserChannel:process.env.QA_BROWSER_EXECUTABLE?null:process.env.QA_BROWSER_CHANNEL||'chrome',
+    browserExecutable:process.env.QA_BROWSER_EXECUTABLE?path.basename(process.env.QA_BROWSER_EXECUTABLE):null,
     fixture:{pid:fixture?.pid,port:fixture?.port,importedEntry:'app.py',schedulerStarted:false,syntheticOnly:true},
     passed:results.filter(r=>r.status==='passed').length,failed:results.filter(r=>r.status==='failed').length,results,consoleErrors,pageErrors,networkFailures,blockedExternalOrigins:blocked,
     staticTransport:process.env.QA_STATIC_BRIDGE==='1' ? 'fixture loopback HTTP fetch; identical static bytes fulfilled to browser; native static delivery not certified' : 'native browser',
@@ -495,11 +502,18 @@ finally {
   fs.writeFileSync(path.join(out,'static-delivery.json'),JSON.stringify(staticDelivery,null,2));
   fs.writeFileSync(path.join(out,'source-hashes.json'),JSON.stringify(fixture?.source_hashes||{},null,2));
   fs.writeFileSync(path.join(out,'harness-hashes.json'),JSON.stringify(fixture?.harness_hashes||{},null,2));
+  const runtimeHashes={...(fixture?.runtime_hashes||{}),node_executable:require('node:crypto').createHash('sha256').update(fs.readFileSync(process.execPath)).digest('hex')};
+  if(process.env.QA_BROWSER_EXECUTABLE) runtimeHashes.browser_entry_executable=require('node:crypto').createHash('sha256').update(fs.readFileSync(process.env.QA_BROWSER_EXECUTABLE)).digest('hex');
+  fs.writeFileSync(path.join(out,'runtime-hashes.json'),JSON.stringify(runtimeHashes,null,2));
   summary.packages=fixture?.packages;
   summary.reportTemplate={enabled:templateEnabled,plannedScenarios:templateEnabled?templateCaseNames.length:0,
     unrunScenarios:templateEnabled?templateCaseNames.filter(name=>!results.some(result=>result.name===name)):[]};
-  if(mode==='full acceptance') summary.unrunCount=Math.max(0,32+(templateEnabled?templateCaseNames.length:0)-results.filter(result=>result.name!=='harness').length);
-  if(mode==='focused report acceptance') summary.unrun={count:30+(templateEnabled?templateCaseNames.length:0),reason:'Explicit focused report mode; other full-suite scenarios were not executed',caseGroups:['02','03','04','05','06','07','08','09','10','11','12','13','14','15-create','15-update','15-delete','15-upload','16','17','18','19','20','21','23','24','25','26','27','28','29'].concat(templateEnabled?templateCaseNames:[])};
+  summary.qualityActions={enabled:qualityActionsEnabled,fixtureEnabled:fixture?.quality_actions_enabled,
+    plannedScenarios:qualityActionsEnabled?qualityActionCaseNames.length:0,
+    unrunScenarios:qualityActionsEnabled?qualityActionCaseNames.filter(name=>!results.some(result=>result.name===name)):[]};
+  summary.plannedScenarios=32+(templateEnabled?templateCaseNames.length:0)+(qualityActionsEnabled?qualityActionCaseNames.length:0);
+  if(mode==='full acceptance') summary.unrunCount=Math.max(0,summary.plannedScenarios-results.filter(result=>result.name!=='harness').length);
+  if(mode==='focused report acceptance') summary.unrun={count:30+(templateEnabled?templateCaseNames.length:0)+(qualityActionsEnabled?qualityActionCaseNames.length:0),reason:'Explicit focused report mode; other full-suite scenarios were not executed',caseGroups:['02','03','04','05','06','07','08','09','10','11','12','13','14','15-create','15-update','15-delete','15-upload','16','17','18','19','20','21','23','24','25','26','27','28','29'].concat(templateEnabled?templateCaseNames:[],qualityActionsEnabled?qualityActionCaseNames:[])};
   const statePath=path.resolve(out,'state');
   if(summary.serverStopped && path.dirname(statePath)===out && path.relative(root,out).startsWith(path.join('output','playwright')+path.sep)) {
     fs.rmSync(statePath,{recursive:true,force:true});summary.syntheticStateRemoved=true;

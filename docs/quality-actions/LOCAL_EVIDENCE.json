@@ -1,0 +1,59 @@
+{
+  "baseline_commit": "45918b243af32cf8d4db966e82bfc6b634bf3771",
+  "scope": "report-only local checkpoint; no publish/deploy",
+  "changed_files": {
+    "README.md": "f2f2321b686efec885cb93496a118080044f008355edb847d1ad8934ed8ab278",
+    "docs/ADDING_PAGES.md": "6315c98e7250802306f9a1a5744ac4202e4997bef0f146d5ed8e7bc6a6d37aeb",
+    "docs/AGENT_HANDOFF.md": "f2b527e002d7b9300eebc8b00ba60e1944a105dbac20f9424bae204a7d2c54e1",
+    "docs/quality-actions/HANDOFF_REVIEW.md": "fdcbc813609b966d11bebb09bf451cc13c83004fc970a6048ad2a221b7fe171b",
+    "docs/quality-actions/README.md": "d6fc7b2b188d7c012ca15512f1c5ccb374d841fd97b2e5fbdc1bfc8a5d2a1849",
+    "docs/quality-actions/VALIDATION.md": "1b1f7fa70848c587a6d0505f9f494110636a36dab9f1a3084fb60d24ee4b2205",
+    "docs/quality-actions/runtime-python310.json": "b98186ce6001860f628325067936bf9e1ee493ae66033717425b6ead1ff442d3",
+    "docs/quality-actions/runtime-python38.json": "b3a87e746882dacb41d7b8b88be7eb331f46063393fdb9ab93e544ea9f4ad236",
+    "docs/report-template/ACCEPTANCE.md": "5c240190eceec4bfe91218ac4f9dfbd045ea816623fc33b29e997301ca453e3a",
+    "docs/report-template/README.md": "daa4725ce43d0d497ccf80f8a137330b85f1617c3515b0247cbd7627cd83639c",
+    "reporting_workspace/application.py": "ef12139a1741c7646602e1625bf4a0c83aadf8da666933985527519484aa324f",
+    "reporting_workspace/config.py": "525318e05a78c6ad89d71ad14518b1895b8b0e7d3bfa5c4397facf4fde0d3b38",
+    "reporting_workspace/quality_actions/__init__.py": "435b9defda17fec42c797bce101337e8f6b7505c6ec5d921e6c67ba2b68777c0",
+    "reporting_workspace/quality_actions/contract.py": "b5057d0cd619d827584db6a74e647f4721f09e64ad7e338216300d1b5e7a4ab4",
+    "reporting_workspace/quality_actions/repository.py": "01e0fb9f819a213b78bbaca13f58fd532700722df9d9d435d020929b65d93d29",
+    "reporting_workspace/quality_actions/service.py": "fe96bd162fe02c12431dd5db7c4b8f065de18c66297e3a0829a12bc758002d3f",
+    "reporting_workspace/ui_pages/quality_actions.py": "bbee345a431ccbd4aa92b28c138ae4a587ec24b639e30b0a68e0727104560161",
+    "tests/browser/README.md": "a9a973e8c6ac64f2021ba559a339037a735316c5ac2b79d2683bdec7e45d5287",
+    "tests/browser/acceptance.cjs": "415d2e85c278120721d5e20804f333b8b3565c4bf717633819c9ed5674b60ef3",
+    "tests/browser/acceptance_quality_actions.cjs": "388c3af6baaeeb86ae92bddf783a5280d06070cb3fcbf7c0f68fae30062b4cd2",
+    "tests/browser/fixture_server.py": "43838831bc538dfac9f197b9c428263e812f424c5afade6612aa4cbd8aa5e97b",
+    "tests/browser/native_preflight.cjs": "99bc6451945fdd5683c4f8f6517054a2aee100889033b7bae507194cabcd2816",
+    "tests/test_entrypoint_coverage.py": "a9796daf19b370909c96a533dd91dee1fb1920719456639abd7fa589dae8fc3e",
+    "tests/test_quality_actions.py": "746b38647f54d9593d0e531a77ea989fdc022b1889767c027ea9f5b5e95dcd2e"
+  },
+  "evidence": {
+    "output/handoff/coexistence-existing-python310.txt": "dcaf0daeaf66a124a5c540eb2823b0ea5657e0cfe4590c2ffdd4b1f8ae2c1bdd",
+    "output/handoff/entrypoints.json": "9042c717755fc75915ca9cf14a0299e486a9bb823963ad5bd308cf98fd1b39c0",
+    "output/handoff/entrypoints.txt": "b58f06e1c1aa7ae570c654f698e569522317daa42ec024268a469acb074496f6",
+    "output/handoff/focused-python310.txt": "c12f7b28577e63aca94a4ebb0a878ca2271baddba5e03e3f4ce85ab7d8602dc8",
+    "output/handoff/focused-python38.txt": "4ed0f599f82bc5a23f2a0a64d3bfdb20849f05fd9227378e9cc139c7e49810cd",
+    "output/handoff/regression-final-python310.txt": "533671caa5e7671000905517162c64e933a76d8bb299750467b53beb142c44bc",
+    "output/handoff/regression-final-python38.txt": "1d9770d25652dc4226680847de8e35b798017fb65eac6630c49b6846a214bf66",
+    "output/handoff/regression-initial-python38.txt": "c6a0692b6acbaab057a56906013012471d26272c66a66aa6b4c83f66c8b5597d",
+    "output/handoff/runtime-python310.json": "b98186ce6001860f628325067936bf9e1ee493ae66033717425b6ead1ff442d3",
+    "output/handoff/runtime-python38.json": "b3a87e746882dacb41d7b8b88be7eb331f46063393fdb9ab93e544ea9f4ad236"
+  },
+  "browser_status": "BLOCKED; 50 scenarios unrun; final corrected harness not run",
+  "unittest": {
+    "python38": {
+      "tests": 1159,
+      "passed": 1153,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    "python310": {
+      "tests": 1159,
+      "passed": 1153,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0
+    }
+  }
+}

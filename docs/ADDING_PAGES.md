@@ -30,9 +30,15 @@ contains:
 - `catalog_category`, `catalog_description`, `catalog_tags`: optional report-card metadata, filtered by the same policy
 - `register_callbacks(callbacks, runtime)`: optional explicit callback hook
 
-For a built-in page, put its module under `ui_pages/`, import its SPEC in
+For a normal built-in page, put its module under `ui_pages/`, import its SPEC in
 `ui_pages/__init__.py`, and add it to `default_pages()`. For an explicitly
-constructed app, pass `extra_pages=(SPEC,)` to `create_app`. There is no separate
+constructed app, pass `extra_pages=(SPEC,)` to `create_app`. Synthetic report copies must remain default-off. Do not add them to
+`default_pages()`; use a distinct strict boolean in `config.Settings` and
+`Settings.from_env()`, reject it in production, and append its trusted SPEC in
+`application.create_app()` only when enabled. See the complete second-report
+example in [quality-actions/README.md](quality-actions/README.md). Test default-off,
+enabled, production rejection and coexistence with existing opt-in pages.
+There is no separate
 sidebar list or ADMIN_CALLBACKS collection to edit. New metadata is frozen before
 requests are served. Duplicate page IDs/paths and infrastructure-path conflicts
 fail application construction.

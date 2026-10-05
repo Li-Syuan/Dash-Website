@@ -69,6 +69,7 @@ class Settings:
     max_content_length: int = DEFAULT_MAX_CONTENT_LENGTH
     session_lifetime: timedelta = DEFAULT_SESSION_LIFETIME
     enable_report_template: bool = False
+    enable_quality_actions: bool = False
 
     def __post_init__(self):
         if self.mode not in ('demo', 'production'):
@@ -103,6 +104,8 @@ class Settings:
             session_lifetime=session_lifetime,
             enable_report_template=_environment_boolean(
                 source, 'REPORTING_ENABLE_REPORT_TEMPLATE') or False,
+            enable_quality_actions=_environment_boolean(
+                source, 'REPORTING_ENABLE_QUALITY_ACTIONS') or False,
         )
 
     def validate(self):
@@ -144,4 +147,8 @@ class Settings:
             raise ValueError('enable_report_template must be a boolean')
         if self.mode == 'production' and self.enable_report_template:
             raise ValueError('the synthetic report template is available only in demo mode')
+        if type(self.enable_quality_actions) is not bool:
+            raise ValueError('enable_quality_actions must be a boolean')
+        if self.mode == 'production' and self.enable_quality_actions:
+            raise ValueError('the synthetic quality action report is available only in demo mode')
         return self

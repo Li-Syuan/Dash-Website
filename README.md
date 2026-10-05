@@ -1,3 +1,30 @@
+## 2026-10-05 release candidate
+
+Start with [use, migration and validation status](docs/releases/2026-10-05.md).
+This release includes corrective-action aging, an export revocation fix,
+fault-recovery exercises and offline change-impact hints. Publication is now
+authorized through a dedicated validation branch, full Python regression and
+all 50 native browser scenarios before main. The older local-only statements
+below describe historical work stages. No production deployment is included.
+
+## Local agent change-impact analysis
+
+[Analyze changed files → pages/APIs/schedules → suggested tests](docs/change-impact/README.md).
+Read-only Python 3.8 CLI with JSON/text evidence, conservative full-regression
+fallback and no automatic test execution. Local-only; no publication authorized.
+
+## Independent report handoff exercise (2026-10-05)
+
+A second, distinct synthetic report is available through the same `app.py`:
+[Corrective action aging](docs/quality-actions/README.md). It remains default-off, with its own
+configuration, authorization, query/export, tests and browser acceptance.
+The linked handoff review records missing instructions before implementation.
+This exercise authorizes local work only; historical publication permissions
+below do not authorize publishing this or any future increment. Validation is
+specific to the recorded runtime; MSI/Windows and company integrations remain
+unverified. The [final local integrated validation](docs/quality-actions/INTEGRATED_VALIDATION.md)
+covers this report plus the fault-drill repair.
+
 ## Current cumulative release (2026-10-04)
 
 The owner explicitly confirmed publishing the cumulative v11, v12, ETL/

@@ -1,0 +1,91 @@
+{
+  "base_commit": "a0b367f4fc4a471da0ffd35c36d05e3327a21704",
+  "browser": "NOT RUN: existing socket/access restriction was not retried or bypassed",
+  "clock_guards": [
+    {
+      "exit_code": 0,
+      "infrastructure_valid": true,
+      "path": "output/change-impact/clock-full38.jsonl",
+      "sha256": "a04e382bd24f6cac6612f18c46ccd524715d7b1c3727a575dadb964db520bd6c"
+    },
+    {
+      "exit_code": 0,
+      "infrastructure_valid": true,
+      "path": "output/change-impact/clock-full310-resumed.jsonl",
+      "sha256": "d6b243d35d5c94e205ccf49982a9b98a8e48331b4e0c0819bdbedaefc6431cc8"
+    }
+  ],
+  "date": "2026-10-05",
+  "incomplete_run": {
+    "logs": [
+      {
+        "path": "output/change-impact/full310.log",
+        "sha256": "a96abcf33fccdba74f8b64c8507a3cd2b05428f0fbbcbbb51d91b2ad541562f8"
+      },
+      {
+        "path": "output/change-impact/clock-full310.jsonl",
+        "sha256": "18fdc2b58a826a9c55ff5321b3b84eadca4ec280aec469de8f442b348a25a3e9"
+      }
+    ],
+    "python": "3.10.21",
+    "reason": "Execution session interrupted/expired; log stopped during ETL process-exit test; no test or clock completion footer. Exact termination cause unavailable. No Guardian denial received. Original logs preserved; unchanged source rerun separately.",
+    "status": "INCOMPLETE"
+  },
+  "platform": "Linux 6.18.44 x86_64",
+  "publication": "LOCAL ONLY: no push, upload or deployment",
+  "runs": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "log": "output/change-impact/focused38.log",
+      "passed": 30,
+      "python": "3.8.20",
+      "scope": "focused",
+      "seconds": 10.13,
+      "sha256": "c903141af28786b66f018ee28c98a0570e149068576b7fc6d0e418966c5ab8de",
+      "skipped": 0,
+      "total": 30
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log": "output/change-impact/focused310.log",
+      "passed": 30,
+      "python": "3.10.21",
+      "scope": "focused",
+      "seconds": 8.852,
+      "sha256": "431ce339edb314f8e7f8eaa76187b2b141a012a8aa64672d839a1ae8d94225fb",
+      "skipped": 0,
+      "total": 30
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log": "output/change-impact/full38.log",
+      "passed": 1186,
+      "python": "3.8.20",
+      "scope": "full",
+      "seconds": 106.335,
+      "sha256": "633997cfc4b21f39cc39cc4bef9cc4214a4bf6b7eff9278e51b1f29698419463",
+      "skipped": 6,
+      "total": 1192
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log": "output/change-impact/full310-resumed.log",
+      "passed": 1186,
+      "python": "3.10.21",
+      "scope": "full resumed",
+      "seconds": 101.552,
+      "sha256": "e66138b2705e5badfcccb784e038cadedc5345ed7f0ddc3f1286177a46d9b927",
+      "skipped": 6,
+      "total": 1192
+    }
+  ],
+  "schema_version": 1,
+  "source_sha256": {
+    "tests/test_change_impact.py": "a199197a7cf744aebf61c5e263c2f5eb0a8f07b3668001622b97219aa8afd0ae",
+    "tools/change_impact.py": "b93e80390297a6d52184619b8d36bac4bbfe5955dc6f32a02ef0c376a7c2b079"
+  }
+}

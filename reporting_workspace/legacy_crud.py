@@ -579,14 +579,19 @@ class LegacyCrudService:
         return {name: row[name] for name in CSV_FIELDS}
 
     def query(self, user, filters=None, limit=1000, offset=0):
-        self._authorize(user, 'read')
+        actor = self._authorize(user, 'read')
         limit = _positive_int(limit)
         if limit > self.max_export_rows or isinstance(offset, bool) or not isinstance(offset, int) or not 0 <= offset <= 1000000:
             raise InvalidInput('Invalid query bounds.')
         statement, values = self._query_statement(filters)
         with self._lock:
             rows = self._db.execute(statement + ' LIMIT ? OFFSET ?', values + [limit, offset]).fetchall()
-        return [dict(row) for row in rows]
+        result = [dict(row) for row in rows]
+        # A DB/lock wait can outlive the initial policy check. This refresh is
+        # also the callback's final gate before releasing a prepared download.
+        if self._authorize(user, 'read') != actor:
+            raise PermissionDenied('Operation denied.')
+        return result
 
     def _query_statement(self, filters):
         """One allowlisted predicate/order contract for pages and export snapshots."""

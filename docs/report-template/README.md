@@ -102,11 +102,20 @@ only, not UI values. CSV quoting preserves commas, quotes and Unicode.
    factory test, explicitly pass the copied `SPEC` through `extra_pages`.
    The main application's reviewed opt-in registration must import this exact
    SPEC from trusted Python code; it must not load a browser/environment-supplied
-   import string. Continue launching only `python -B app.py`.
+   import string. Add a distinct default-false boolean to `Settings`, parse its
+   dedicated environment flag in `Settings.from_env`, reject production mode,
+   and append the SPEC in `application.create_app` only when enabled. Do not add
+   a demo-only copy to `default_pages()`. Continue launching only `python -B app.py`.
+   Test default-off, enabled, production-denied and original-plus-copy coexistence.
+   [Corrective action aging](../quality-actions/README.md) is a complete second
+   synthetic report showing these exact wiring and acceptance changes.
 4. Agree on the new report's columns, units, allowed filters/order, output limits
    and actual business access matrix. Update the copied contract, fixture,
    service projection, UI and tests together. Do not assume this sample schema
    or the general admin role expresses private company rules.
+   For a synthetic-only task, document the demonstration access matrix, keep
+   synthetic data and the production guard, then proceed directly to step 7.
+   Steps 5–6 are an optional, separately authorized company integration.
 5. Replace only the copied repository with an explicit reviewed adapter using
    the actual existing bind and parameterized tenant predicate. Supply the
    private schema/bind names and representative sanitized fixtures first. Keep

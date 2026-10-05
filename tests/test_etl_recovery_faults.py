@@ -60,6 +60,13 @@ class _ObservedDispatch(ETLDispatch):
                 raise AssertionError('Parent did not release the synthetic fault barrier.')
             self.channel.recv()
 
+    def _claim(self, *args, **kwargs):
+        # Both independent schedulers must have observed the same due slot
+        # before either enters the real, serialized claim transaction.
+        if kwargs.get('due') is not None:
+            self.pause('before_timer_claim')
+        return super()._claim(*args, **kwargs)
+
     @contextmanager
     def _transaction(self, initialize=False):
         try:
@@ -109,7 +116,9 @@ def _child(path, channel, options):
             raise AssertionError('Parent did not start the synthetic operation.')
         channel.recv()
         operation = options.get('operation', 'run')
-        if operation == 'backfill':
+        if operation == 'tick':
+            result = dispatch.tick()
+        elif operation == 'backfill':
             result = dispatch.backfill(ADMIN, JOB, DAY, '2000-01-03', request_id='three-day-backfill')
         elif operation == 'retry':
             result = dispatch.retry(ADMIN, options['run_id'], request_id='unsafe-retry')
@@ -300,6 +309,46 @@ class ETLRecoveryFaultTests(unittest.TestCase):
         self.assertEqual(calls, [])
         self.assertEqual([r['run_id'] for r in repeated['runs']], [r['run_id'] for r in result['runs']])
         self.assertEqual(len(self._rows('SELECT * FROM etl_publications')), 2)
+        self._assert_integrity()
+
+    def test_two_scheduler_processes_claim_same_due_slot_once(self):
+        dispatch = ETLDispatch(self.path, DemoIdentityProvider(), registry=_registry())
+        dispatch.configure(ADMIN, JOB, True, 60)
+        # Make only this temporary fixture's schedule due. No host clock or
+        # deployed scheduler is changed, and no background worker is started.
+        due = time.time() - 1
+        with closing(sqlite3.connect(str(self.path))) as connection:
+            connection.execute('UPDATE etl_config SET next_run_at=? WHERE job_id=?', (due, JOB))
+            connection.commit()
+        children = [self._start(operation='tick', phase='before_timer_claim', ttl=30)
+                    for _ in range(2)]
+        self.assertEqual(len({process.pid for process, _, _ in children}), 2)
+        for _, channel, _ in children:
+            channel.send('start')
+        for _, channel, _ in children:
+            self._until(channel, 'paused')
+        for _, channel, _ in children:
+            channel.send('continue')
+        messages = []
+        results = []
+        for process, channel, _ in children:
+            observed = self._until(channel, 'result')
+            messages.extend(observed)
+            results.extend(observed[-1]['value'])
+            process.join(5)
+            self.assertEqual(process.exitcode, 0)
+        self.assertEqual(len(results), 1)
+        self.assertEqual((results[0]['status'], results[0]['trigger']), ('succeeded', 'timer'))
+        self.assertEqual([m['step'] for m in messages if m['kind'] == 'adapter'],
+                         ['source', 'publish'])
+        self.assertEqual(len(self._rows('SELECT * FROM etl_runs')), 1)
+        self.assertEqual(len(self._rows('SELECT * FROM etl_publications')), 1)
+        self.assertEqual(self._rows('SELECT fencing FROM etl_leases'), [{'fencing': 1}])
+        self.assertEqual(self._rows('SELECT next_run_at FROM etl_config'),
+                         [{'next_run_at': due + 60}])
+        repeated, calls = self._run(operation='tick', ttl=30)
+        self.assertEqual((repeated, calls), ([], []))
+        self.assertEqual(len(self._rows('SELECT * FROM etl_runs')), 1)
         self._assert_integrity()
 
     def test_writer_lock_timeout_creates_no_claim_then_same_request_succeeds(self):
